@@ -1,0 +1,87 @@
+<template>
+    <NavbarView/>
+    <div class="container mx-auto">
+        <div class="text-center h-[300px] flex flex-col justify-center items-center p-5">
+            <h1 class="font-bold text-3xl">Products from stores <br/>in your location</h1>
+        </div>
+
+        <!-- CATEGORIES AREA -->
+        <div class="p-3 flex flex-row overflow-x-auto gap-2 sticky top-0 z-20 items-start bg-white">
+            <span class="border p-3 rounded-md bg-app_light_green font-medium border-app_green text-app_green">All</span>
+            <span class="p-3 rounded-md bg-slate-200 font-medium text-slate-500" v-for="category in 6">Phones</span>
+        </div>
+
+        <!-- ADVERT SPACE -->
+        <div class="bg-app_green h-60 mt-8 flex justify-center items-center text-white text-xl">
+            <span>Advert Space</span>
+        </div>
+
+
+        <!-- TOP SELLING DIVIDER -->
+        <div class="p-3 flex flex-row items-center mt-8">
+            <div class="flex flex-row items-center gap-3">
+                <svg width="26" height="28" viewBox="0 0 26 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12.4731 2.499L11.1081 1.61816L10.8481 3.30866C10.4342 5.978 8.74098 8.45833 6.87331 10.2013C3.21707 13.615 2.41648 17.325 3.54857 20.3875C4.6319 23.3182 7.3814 25.3248 10.1721 25.6597L10.8177 25.7367C9.2209 24.6855 8.19606 22.2297 8.55356 20.3945C8.90673 18.5908 10.1114 16.9015 12.4254 15.3428L13.5921 14.5588L14.0276 15.9647C14.2844 16.7953 14.7286 17.4627 15.1803 18.1405C15.397 18.4672 15.6169 18.7973 15.8184 19.1485C16.515 20.3677 16.6991 21.7233 16.2496 23.0685C15.8401 24.2912 15.1651 25.2525 14.2346 25.7857L15.2854 25.6597C17.9049 25.3458 19.8278 24.381 21.0769 22.7675C22.3151 21.168 22.7496 19.1088 22.7496 16.9167C22.7496 14.875 21.9706 12.7703 21.052 11.0192C19.9751 8.96816 18.5701 7.26483 17.0361 5.614C16.7706 6.18566 16.7912 6.41666 16.2452 7.33483C15.5365 5.30692 14.2056 3.60071 12.4731 2.499Z" fill="black"/>
+                </svg>
+                <span class="text-xl font-bold">Top Selling</span>
+            </div>
+        </div>
+
+        <!-- PRODCUT DISPLAY AREA -->
+        <div class="p-3 flex flex-row flex-wrap justify-center md:justify-start gap-3 mx-auto">
+            <ProductCard v-for="product in 7"/>
+        </div>
+
+         <!-- NEAR YOU DIVIDER -->
+         <div class="p-3 flex flex-row items-center mt-8">
+            <div class="flex flex-row items-center gap-3">
+                <svg width="20" height="24" viewBox="0 0 20 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M10 0.25C12.5859 0.25 15.0658 1.27723 16.8943 3.10571C18.7228 4.93419 19.75 7.41414 19.75 10C19.75 14.12 16.855 18.61 11.14 23.518C10.8222 23.791 10.4171 23.9409 9.99813 23.9405C9.5792 23.9402 9.1743 23.7895 8.857 23.516L8.479 23.188C3.017 18.408 0.25 14.028 0.25 10C0.25 7.41414 1.27723 4.93419 3.10571 3.10571C4.93419 1.27723 7.41414 0.25 10 0.25ZM10 6.25C9.00544 6.25 8.05161 6.64509 7.34835 7.34835C6.64509 8.05161 6.25 9.00544 6.25 10C6.25 10.9946 6.64509 11.9484 7.34835 12.6517C8.05161 13.3549 9.00544 13.75 10 13.75C10.9946 13.75 11.9484 13.3549 12.6517 12.6517C13.3549 11.9484 13.75 10.9946 13.75 10C13.75 9.00544 13.3549 8.05161 12.6517 7.34835C11.9484 6.64509 10.9946 6.25 10 6.25Z" fill="black"/>
+                </svg>
+                <span class="text-xl font-bold">Near You</span>
+            </div>
+        </div>
+
+
+         <!-- SHOPS DISPLAY AREA -->
+         <div class="p-3 flex flex-row flex-wrap justify-center md:justify-start gap-3 mx-auto">
+            <ShopCard v-for="product in 5"/>
+        </div>
+
+         <!-- TOP SELLING DIVIDER -->
+         <div class="p-3 flex flex-row items-center mt-8">
+            <div class="flex flex-row items-center gap-3">
+                <svg width="26" height="28" viewBox="0 0 26 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12.4731 2.499L11.1081 1.61816L10.8481 3.30866C10.4342 5.978 8.74098 8.45833 6.87331 10.2013C3.21707 13.615 2.41648 17.325 3.54857 20.3875C4.6319 23.3182 7.3814 25.3248 10.1721 25.6597L10.8177 25.7367C9.2209 24.6855 8.19606 22.2297 8.55356 20.3945C8.90673 18.5908 10.1114 16.9015 12.4254 15.3428L13.5921 14.5588L14.0276 15.9647C14.2844 16.7953 14.7286 17.4627 15.1803 18.1405C15.397 18.4672 15.6169 18.7973 15.8184 19.1485C16.515 20.3677 16.6991 21.7233 16.2496 23.0685C15.8401 24.2912 15.1651 25.2525 14.2346 25.7857L15.2854 25.6597C17.9049 25.3458 19.8278 24.381 21.0769 22.7675C22.3151 21.168 22.7496 19.1088 22.7496 16.9167C22.7496 14.875 21.9706 12.7703 21.052 11.0192C19.9751 8.96816 18.5701 7.26483 17.0361 5.614C16.7706 6.18566 16.7912 6.41666 16.2452 7.33483C15.5365 5.30692 14.2056 3.60071 12.4731 2.499Z" fill="black"/>
+                </svg>
+                <span class="text-xl font-bold">More to buy</span>
+            </div>
+        </div>
+
+         <!-- PRODCUT DISPLAY AREA -->
+         <div class="p-3 flex flex-row flex-wrap justify-center md:justify-start gap-3 mx-auto">
+            <ProductCard v-for="product in 7"/>
+        </div>
+
+        
+    </div>
+</template>
+
+<script>
+import NavbarView from '../components/NavbarView.vue'
+import ProductCard from '../components/ProductCard'
+import ShopCard from '../components/ShopCard'
+
+    export default {
+        name: "MarketView",
+        components: {
+            NavbarView,
+            ProductCard,
+            ShopCard,
+        }
+    }
+</script>
+
+<style scoped>
+
+</style>

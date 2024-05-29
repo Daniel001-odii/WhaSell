@@ -15,7 +15,6 @@
         </div>
     </div>
 
-
     <!-- NAVBAR FOR AUTHENTICATED USERS -->
     <div v-if="authenticated" class="bg-gray-20 border-b ">
         <div class="container mx-auto flex flex-row p-3 items-center justify-between">

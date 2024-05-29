@@ -6,7 +6,7 @@
             </slot>
         </button>
 
-        <div class="z-50 absolute right-0 top-[100%] min-w-[180px] shadow-md" v-show="state">
+        <div class="z-50 bg-transparent absolute right-0 top-[100%] min-w-[180px] shadow-md" v-show="state">
                 <slot name="menu">
                     <p>Hello world</p>
                 </slot>

@@ -1,8 +1,9 @@
 <template>
-    <NavbarView/>
-    <div class="container mx-auto">
+    <div class="">
         <div class="text-center h-[300px] flex flex-col justify-center items-center p-5">
-            <h1 class="font-bold text-3xl">Products from stores <br/>in your location</h1>
+            <h1 class="font-bold text-3xl text-red-600">Products from stores <br/>in your current location</h1>
+            <img src="../assets/images/location_banner.png" class=" h-36"/>
+            <button class="underline">Select a different state</button>
         </div>
 
         <!-- CATEGORIES AREA -->
@@ -23,14 +24,92 @@
                 <svg width="26" height="28" viewBox="0 0 26 28" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M12.4731 2.499L11.1081 1.61816L10.8481 3.30866C10.4342 5.978 8.74098 8.45833 6.87331 10.2013C3.21707 13.615 2.41648 17.325 3.54857 20.3875C4.6319 23.3182 7.3814 25.3248 10.1721 25.6597L10.8177 25.7367C9.2209 24.6855 8.19606 22.2297 8.55356 20.3945C8.90673 18.5908 10.1114 16.9015 12.4254 15.3428L13.5921 14.5588L14.0276 15.9647C14.2844 16.7953 14.7286 17.4627 15.1803 18.1405C15.397 18.4672 15.6169 18.7973 15.8184 19.1485C16.515 20.3677 16.6991 21.7233 16.2496 23.0685C15.8401 24.2912 15.1651 25.2525 14.2346 25.7857L15.2854 25.6597C17.9049 25.3458 19.8278 24.381 21.0769 22.7675C22.3151 21.168 22.7496 19.1088 22.7496 16.9167C22.7496 14.875 21.9706 12.7703 21.052 11.0192C19.9751 8.96816 18.5701 7.26483 17.0361 5.614C16.7706 6.18566 16.7912 6.41666 16.2452 7.33483C15.5365 5.30692 14.2056 3.60071 12.4731 2.499Z" fill="black"/>
                 </svg>
-                <span class="text-xl font-bold">Top Selling</span>
+                <span class="text-xl font-bold">Top Selling </span>
             </div>
         </div>
 
         <!-- PRODCUT DISPLAY AREA -->
-        <div class="p-3 flex flex-row flex-wrap justify-center md:justify-start gap-3 mx-auto">
-            <ProductCard v-for="product in 7"/>
+        <div class="masonry">
+            <ProductCard>
+                <template #product_image>
+                    <div class=" h-40 w-full bg-green-300"></div>
+                </template>
+           </ProductCard>
+
+           <ProductCard>
+                <template #product_image>
+                    <div class=" h-52 w-full bg-orange-300"></div>
+                </template>
+           </ProductCard>
+
+           <ProductCard>
+                <template #product_image>
+                    <div class=" h-64 w-full bg-orange-300"></div>
+                </template>
+           </ProductCard>
+
+           <ProductCard>
+                <template #product_image>
+                    <div class="h-64 w-full bg-red-300"></div>
+                </template>
+           </ProductCard>
+
+           <ProductCard>
+                <template #product_image>
+                    <div class=" h-40 w-full bg-green-300"></div>
+                </template>
+           </ProductCard>
+
+           <ProductCard>
+                <template #product_image>
+                    <div class=" h-52 w-full bg-orange-300"></div>
+                </template>
+           </ProductCard>
+
+           <ProductCard>
+                <template #product_image>
+                    <div class=" h-64 w-full bg-orange-300"></div>
+                </template>
+           </ProductCard>
+
+           
+           <ProductCard>
+                <template #product_image>
+                    <div class=" h-96 w-full bg-orange-300"></div>
+                </template>
+           </ProductCard>
+
+           <ProductCard>
+                <template #product_image>
+                    <div class=" h-80 w-full bg-red-300"></div>
+                </template>
+           </ProductCard>
+
+           <ProductCard>
+                <template #product_image>
+                    <div class=" h-40 w-full bg-green-300"></div>
+                </template>
+           </ProductCard>
+
+           <ProductCard>
+                <template #product_image>
+                    <div class="h-64 w-full bg-red-300"></div>
+                </template>
+           </ProductCard>
+
+           <ProductCard>
+                <template #product_image>
+                    <div class=" h-40 w-full bg-green-300"></div>
+                </template>
+           </ProductCard>
+
+           <ProductCard>
+                <template #product_image>
+                    <div class=" h-52 w-full bg-orange-300"></div>
+                </template>
+           </ProductCard>
         </div>
+                    
 
          <!-- NEAR YOU DIVIDER -->
          <div class="p-3 flex flex-row items-center mt-8">
@@ -44,7 +123,7 @@
 
 
          <!-- SHOPS DISPLAY AREA -->
-         <div class="p-3 flex flex-row flex-wrap justify-center md:justify-start gap-3 mx-auto">
+         <div class="p-3 flex flex-row overflow-x-auto justify-start">
             <ShopCard v-for="product in 5"/>
         </div>
 
@@ -58,9 +137,86 @@
             </div>
         </div>
 
-         <!-- PRODCUT DISPLAY AREA -->
-         <div class="p-3 flex flex-row flex-wrap justify-center md:justify-start gap-3 mx-auto">
-            <ProductCard v-for="product in 7"/>
+          <!-- PRODCUT DISPLAY AREA -->
+        <div class="masonry">
+            <ProductCard>
+                <template #product_image>
+                    <div class=" h-40 w-full bg-green-300"></div>
+                </template>
+           </ProductCard>
+
+           <ProductCard>
+                <template #product_image>
+                    <div class=" h-52 w-full bg-orange-300"></div>
+                </template>
+           </ProductCard>
+
+           <ProductCard>
+                <template #product_image>
+                    <div class=" h-64 w-full bg-orange-300"></div>
+                </template>
+           </ProductCard>
+
+           <ProductCard>
+                <template #product_image>
+                    <div class="h-64 w-full bg-red-300"></div>
+                </template>
+           </ProductCard>
+
+           <ProductCard>
+                <template #product_image>
+                    <div class=" h-40 w-full bg-green-300"></div>
+                </template>
+           </ProductCard>
+
+           <ProductCard>
+                <template #product_image>
+                    <div class=" h-52 w-full bg-orange-300"></div>
+                </template>
+           </ProductCard>
+
+           <ProductCard>
+                <template #product_image>
+                    <div class=" h-64 w-full bg-orange-300"></div>
+                </template>
+           </ProductCard>
+
+           
+           <ProductCard>
+                <template #product_image>
+                    <div class=" h-96 w-full bg-orange-300"></div>
+                </template>
+           </ProductCard>
+
+           <ProductCard>
+                <template #product_image>
+                    <div class=" h-80 w-full bg-red-300"></div>
+                </template>
+           </ProductCard>
+
+           <ProductCard>
+                <template #product_image>
+                    <div class=" h-40 w-full bg-green-300"></div>
+                </template>
+           </ProductCard>
+
+           <ProductCard>
+                <template #product_image>
+                    <div class="h-64 w-full bg-red-300"></div>
+                </template>
+           </ProductCard>
+
+           <ProductCard>
+                <template #product_image>
+                    <div class=" h-40 w-full bg-green-300"></div>
+                </template>
+           </ProductCard>
+
+           <ProductCard>
+                <template #product_image>
+                    <div class=" h-52 w-full bg-orange-300"></div>
+                </template>
+           </ProductCard>
         </div>
 
         
@@ -71,6 +227,7 @@
 import NavbarView from '../components/NavbarView.vue'
 import ProductCard from '../components/ProductCard'
 import ShopCard from '../components/ShopCard'
+import PageTitle from '../components/PageTitle'
 
     export default {
         name: "MarketView",
@@ -78,7 +235,28 @@ import ShopCard from '../components/ShopCard'
             NavbarView,
             ProductCard,
             ShopCard,
-        }
+            PageTitle,
+        },
+        data() {
+            return {
+                height: 0,
+            }
+        },
+        methods:{
+            randomHeightInPx(){
+                this.height = Math.floor(Math.random(40, 100) * 100);
+            }
+        },
+        computed:{
+            randomHeight(){
+                const height = Math.floor(Math.random(40, 100) * 100);
+                return height
+            }
+        },
+
+        created() {
+            this.randomHeightInPx()
+        },
     }
 </script>
 

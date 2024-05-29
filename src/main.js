@@ -7,4 +7,14 @@ import store from './store'
 
 import '../src/assets/css/style.css'
 
+// BOOTSTRAP ICONS
+import 'bootstrap-icons/font/bootstrap-icons.css';
+
+// PRIMEVUE
+import PrimeVue from 'primevue/config';
+
 createApp(App).use(store).use(router).mount('#app')
+
+createApp(App).use(PrimeVue, {
+    // unstyed: true
+});

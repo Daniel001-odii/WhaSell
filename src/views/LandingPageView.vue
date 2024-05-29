@@ -6,11 +6,11 @@
         <div class="bg-app_light_gree">
             <div class="container text-center mx-auto h-[700px] bg-app_light_gree flex flex-row justify-center items-center">
                 <div class="">
-                    <h1 class="text-8xl font-bold">
+                    <h1 class="text-6xl font-bold">
                         <span class=" text-app_green">WhatsApp</span> Sales<br/>just got
                         <span class=" text-app_green">better!</span>
                     </h1>
-                    <p class=" pt-4 text-xl">...so basically, we stop you from posting products on your status, for good!</p>
+                    <p class=" pt-4 text-sm">...so basically, we stop you from posting products on your status, for good!</p>
                     <div class=" font-bold mt-5 flex flex-row gap-5 items-center justify-center">
                         <button class=" bg-gray-600 hover:bg-black text-white p-3 rounded-md px-8">Start Selling</button>
                         <button class="border-2 border-black hover:bg-app_green hover:text-white hover:border-transparent rounded-md text-black p-3 px-8">Start Selling</button>

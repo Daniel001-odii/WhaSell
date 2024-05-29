@@ -8,6 +8,11 @@ import RegisterView from '@/views/RegisterView.vue'
 import MarketView from '@/views/MarketView.vue'
 import ProductDetailView from '@/views/ProductDetailView.vue'
 
+import ShopListView from '@/views/ShopListView.vue'
+import LikesView from '@/views/LikesView.vue'
+import NewProductView from '@/views/NewProductView.vue'
+
+import TemplatePageView from '@/views/TemplatePageView.vue'
 
 const routes = [
   {
@@ -26,17 +31,38 @@ const routes = [
     component: RegisterView,
   },
 
-  {
-    path: '/market',
-    name: 'WhaSell - Market',
-    component: MarketView,
-  },
+
+
+
+  
+
 
   {
-    path: '/product/:name',
-    name: `WhaSell - product`,
-    component: ProductDetailView,
-  },
+    path: '/',
+    component: TemplatePageView,
+    children: [
+      {
+        path: 'shops',
+        name: `Shops`,
+        component: ShopListView,
+      },
+      {
+        path: 'market',
+        name: 'Market',
+        component: MarketView,
+      },
+     
+      {
+        path: '/product/:name',
+        name: `Product`,
+        component: ProductDetailView,
+      },
+      {path: 'likes', name: 'Your likes', component: LikesView},
+      {path: 'new-product', name: 'New Product', component: NewProductView},
+    ]
+  }
+
+
 ]
 
 const router = createRouter({

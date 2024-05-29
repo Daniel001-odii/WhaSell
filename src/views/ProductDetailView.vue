@@ -2,7 +2,7 @@
     <div class="container mx-auto">
 
         <!-- SHOP DETAIL BANNER -->
-        <div class=" md:mt-3 bg-black text-white p-5 flex flex-row items-end justify-between gap-5 flex-wrap">
+        <div class=" md:mt-3 bg-black text-white p-5 flex flex-row items-end justify-between gap-5 flex-wrap sticky top-0">
             <div class="flex flex-row gap-3">
                 <div class="rounded-full w-20 h-20 bg-white"></div>
                 <div class="flex flex-col">

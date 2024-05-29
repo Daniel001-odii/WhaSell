@@ -1,7 +1,7 @@
 <template>
     <div>
         <div>
-        <div class="w-sm p-4 hover:bg-gray-50 w-fit rounded-3xl flex flex-col gap-3">
+        <div class="w-[200px] p-4 hover:bg-gray-50 rounded-3xl flex flex-col gap-3">
             <div>
                 <span class="rounded-full status-tag bg-orange-400 text-white px-3 p-1 text-[12px] flex flex-row w-fit items-center">
                     <svg width="15" height="15" viewBox="0 0 26 28" fill="none" xmlns="http://www.w3.org/2000/svg">

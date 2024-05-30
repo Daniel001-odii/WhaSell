@@ -2,37 +2,32 @@
     <div class="container mx-auto">
 
         <!-- SHOP DETAIL BANNER -->
-        <div class=" md:mt-3 bg-app_gree border rounded-3xl p-5 flex flex-row items-end justify-between gap-5 flex-wrap ">
+        <div class=" m-3 bg-app_gree border rounded-3xl p-5 flex flex-row items-end justify-between gap-5 flex-wrap ">
             <div class="flex flex-row gap-3">
-                <div class="rounded-full w-20 h-20 bg-gray-100">
-                    <i class="bi bi-store"></i>
+                <div class="rounded-full w-20 h-20 bg-gray-100 flex justify-center items-center text-gray-200 text-3xl">
+                    <i class="bi bi-shop"></i>
                 </div>
-                <div class="flex flex-col">
-                    <span class="text-xl font-bold">SmellySheep Store</span>
-                    <span class="text-md">SmellySheep Store</span>
-                    <span class="text-sm">Joined 2yrs 4mnths ago | 2k+ followers</span>
+                <div class="flex flex-row flex-wrap gap-3 justify-between w-full border">
+                    <div class="flex flex-col">
+                        <span class="text-xl font-bold">SmellySheep Store</span>
+                        <span class="text-md">SmellySheep Store</span>
+                        <span class="text-sm">Joined 2yrs 4mnths ago | 2k+ followers</span>
+                    </div>
+                    <div class="flex flex-row gap-2 flex-wrap">
+                        <button class=" text-sm border hover:border-gray-300 hover:bg-slate-100 rounded-lg p-3 px-8 text-black font-medium"> &plus; Follow</button>
+                        
+                        <button class="rounded-full h-10 w-10 border">
+                            <i class="bi bi-whatsapp"></i>
+                        </button>
+
+                        <button class="rounded-full border h-10 w-10">
+                            <span>
+                                <i class="bi bi-telephone-fill"></i>
+                            </span>
+                        </button>
+                    </div>
                 </div>
             </div>
-
-            <div class="flex flex-row gap-2 flex-wrap">
-                <button class="bg-slate-100 border hover:border-gray-300 hover:bg-slate-200 rounded-lg p-3 px-8 text-black font-medium text-lg"> &plus; Follow</button>
-                
-                <button class="bg-app_light_green border hover:border-app_green rounded-lg p-3 md:px-8 text-app_green capitalize font-medium text-lg flex flex-row gap-2 justify-center items-center">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path fill-rule="evenodd" clip-rule="evenodd" d="M11.6667 0C5.22317 0 0 5.22317 0 11.6667C0 13.8717 0.6125 15.9367 1.67767 17.696L0.637 21.2333C0.577249 21.4364 0.573317 21.6519 0.625619 21.857C0.67792 22.0622 0.784522 22.2494 0.934219 22.3991C1.08392 22.5488 1.27118 22.6554 1.47632 22.7077C1.68146 22.76 1.8969 22.7561 2.1 22.6963L5.63733 21.6557C7.45579 22.7559 9.54126 23.3362 11.6667 23.3333C18.1102 23.3333 23.3333 18.1102 23.3333 11.6667C23.3333 5.22317 18.1102 0 11.6667 0ZM9.02767 14.3068C11.3878 16.6658 13.6407 16.9773 14.4363 17.0065C15.6462 17.0508 16.8245 16.1268 17.283 15.0547C17.3409 14.9213 17.3619 14.7748 17.3438 14.6305C17.3258 14.4863 17.2693 14.3495 17.1803 14.2345C16.541 13.4178 15.6765 12.831 14.8318 12.2477C14.6555 12.1257 14.4388 12.0768 14.2271 12.1112C14.0155 12.1455 13.8254 12.2605 13.6967 12.432L12.9967 13.4995C12.9599 13.5569 12.9025 13.598 12.8364 13.6145C12.7702 13.631 12.7003 13.6216 12.6408 13.5882C12.166 13.3163 11.4742 12.8543 10.9772 12.3573C10.4802 11.8603 10.0462 11.2 9.80233 10.7555C9.7721 10.699 9.76336 10.6335 9.77773 10.5711C9.79211 10.5087 9.82862 10.4536 9.8805 10.416L10.9585 9.61567C11.1123 9.4819 11.2116 9.29623 11.2374 9.09401C11.2633 8.89178 11.2138 8.68712 11.0985 8.519C10.5758 7.75367 9.96683 6.78067 9.08367 6.1355C8.96969 6.0529 8.83617 6.0014 8.69626 5.98606C8.55634 5.97072 8.41483 5.99207 8.28567 6.048C7.21233 6.50767 6.28367 7.686 6.328 8.89817C6.35717 9.69383 6.66867 11.9467 9.02767 14.3068Z" fill="#47C68F"/>
-                    </svg>
-                    <span class="hidden md:inline-block">message</span>
-                </button>
-
-                <button class="bg-black text-white rounded-lg p-2 font-medium text-lg px-4">
-                    <span>
-                        <svg width="18" height="18" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M23.2423 17.6183L19.644 17.2075C19.2209 17.1578 18.792 17.2046 18.3896 17.3445C17.9872 17.4844 17.6217 17.7136 17.3206 18.015L14.714 20.6217C10.6923 18.5763 7.4235 15.3075 5.37815 11.2858L7.99898 8.665C8.60815 8.05583 8.90565 7.20583 8.80648 6.34166L8.39565 2.77166C8.31533 2.08058 7.98367 1.44316 7.46381 0.980779C6.94396 0.518395 6.27222 0.263335 5.57648 0.264162H3.12565C1.52481 0.264162 0.193147 1.59583 0.292313 3.19666C1.04315 15.295 10.719 24.9567 22.8031 25.7075C24.404 25.8067 25.7356 24.475 25.7356 22.8742V20.4233C25.7498 18.9925 24.6731 17.7883 23.2423 17.6183Z" fill="white"/>
-                        </svg>
-                    </span>
-                </button>
-            </div>
-            
         </div>
 
         <!-- FULL PRODUCT DESRIPTION AND DETAILS -->

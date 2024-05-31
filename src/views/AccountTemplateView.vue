@@ -3,7 +3,7 @@
     <div class="container mx-auto">
         <PageTitle>Account</PageTitle>
         <div  class="flex flex-row gap-5">
-            <div class="p-3 flex flex-col gap-3 border rounded-xl w-64 min-w-64 h-fit">
+            <div class="p-3 md:flex flex-col gap-3 border rounded-xl w-64 min-w-64 h-fit hidden">
                 <RouterLink to="#" class="nav-items">Personal details</RouterLink>
                 <RouterLink to="#" class="nav-items">My Shop</RouterLink>
                 <RouterLink to="#" class="nav-items">Analytics & Insights</RouterLink>

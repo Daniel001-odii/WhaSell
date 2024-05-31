@@ -51,14 +51,17 @@
                         <template #menu>
                             <div class="text-black bg-white rounded-md p-1 border">
                                 <div class=" w-[200px] flex flex-col ">
-                                    <RouterLink class="user-menu-item" to="#">Account</RouterLink>
-                                    <RouterLink class="user-menu-item" to="#">Invoices</RouterLink>
+                                    <RouterLink class="user-menu-item" to="#">
+                                        <i class="bi bi-person mr-3"></i>Account</RouterLink>
+                                    <RouterLink class="user-menu-item" to="#">
+                                        <i class="bi bi-receipt mr-3"></i>Invoices</RouterLink>
                                     <!-- <RouterLink class="user-menu-item" to="#">Followed Stores</RouterLink> -->
-                                    <RouterLink class="user-menu-item" to="#">Help & Support</RouterLink>
+                                    <RouterLink class="user-menu-item" to="#">
+                                        <i class="bi bi-receipt mr-3"></i>Help & Support</RouterLink>
                                 </div>
-                                <div class="p-1 ">
-                                    <button  class=" text-left w-full border-t p-2 user-menu-item text-black bg-transparent">
-                                        Log out
+                                <div class=" border-t p-2">
+                                    <button  class=" text-left w-full  text-black bg-transparent hover:text-red-500 hover:font-bold">
+                                        <i class="bi bi-receipt mr-3"></i> Log out
                                     </button>
                                 </div>
                             </div>
@@ -131,6 +134,6 @@ import LogoBlack from './LogoBlack.vue';
 
 <style scoped>
     .user-menu-item{
-        @apply hover:bg-blue-500 hover:text-white p-2 pl-8 rounded-md
+        @apply hover:bg-blue-500 hover:text-white p-2 pl-2 rounded-md
     }
 </style>

@@ -137,7 +137,7 @@
             </div>
         </div>
 
-          <!-- PRODCUT DISPLAY AREA -->
+        <!-- PRODCUT DISPLAY AREA -->
         <div class="masonry">
             <ProductCard>
                 <template #product_image>

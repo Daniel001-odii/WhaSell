@@ -1,26 +1,26 @@
 <template>
     <div class="container mx-auto">
-
+    <div class="flex md:flex-col flex-col-reverse">
         <!-- SHOP DETAIL BANNER -->
         <div class=" m-3 bg-app_gree border rounded-3xl p-5 flex flex-row items-end justify-between gap-5 flex-wrap ">
-            <div class="flex flex-row gap-3">
-                <div class="rounded-full w-20 h-20 bg-gray-100 flex justify-center items-center text-gray-200 text-3xl">
+            <div class="flex flex-row justify-between gap-3 w-full">
+                <div class="rounded-full w-20 h-20 min-w-20 bg-gray-100 flex justify-center items-center text-gray-200 text-3xl">
                     <i class="bi bi-shop"></i>
                 </div>
-                <div class="flex flex-row flex-wrap gap-3 justify-between w-full border">
+                <div class="flex flex-row flex-wrap gap-3 justify-between border-green-30 w-full">
                     <div class="flex flex-col">
                         <span class="text-xl font-bold">SmellySheep Store</span>
                         <span class="text-md">SmellySheep Store</span>
                         <span class="text-sm">Joined 2yrs 4mnths ago | 2k+ followers</span>
                     </div>
-                    <div class="flex flex-row gap-2 flex-wrap">
+                    <div class="flex flex-row gap-2 flex-wrap border-red-30 items-center self-end">
                         <button class=" text-sm border hover:border-gray-300 hover:bg-slate-100 rounded-lg p-3 px-8 text-black font-medium"> &plus; Follow</button>
                         
-                        <button class="rounded-full h-10 w-10 border">
+                        <button class="rounded-full h-10 w-10 border hover:bg-slate-100">
                             <i class="bi bi-whatsapp"></i>
                         </button>
 
-                        <button class="rounded-full border h-10 w-10">
+                        <button class="rounded-full border h-10 w-10 hover:bg-slate-100">
                             <span>
                                 <i class="bi bi-telephone-fill"></i>
                             </span>
@@ -31,11 +31,11 @@
         </div>
 
         <!-- FULL PRODUCT DESRIPTION AND DETAILS -->
-        <div class="flex flex-col md:flex-row gap-5 mt-8 flex-wrap p-5">
-            <div class="flex-1 h-[400px] bg-gray-50"></div>
-            <div class="flex flex-col flex-1">
+        <div class="flex flex-col md:flex-row gap-5 mt-8 flex-wra p-5">
+            <div class="md:flex-1 w-full h-[400px] md:w-[400px] bg-red-300 rounded-md"></div>
+            <div class="flex flex-col md:flex-1">
                 <span class="bg-app_light_green px-3 text-green-700 text-2xl font-semibold">Faily Used Kitchen Spoon & Knife</span>
-                <span class="text-3xl font-bold mt-3">#15,000</span>
+                <span class="text-3xl font-bold mt-3">NGN 15,000</span>
 
                 <div class="flex flex-col gap-2 mt-5">
                     <span class="font-bold text-xl">Product Description</span>
@@ -58,7 +58,7 @@
                 </div>
             </div>
         </div>
-
+    </div>
         <!-- SIMILAR ITEMS YOU MAY LIKE -->
          <div class="p-3 flex flex-row items-center mt-8">
             <div class="flex flex-row items-center gap-3">
@@ -70,8 +70,86 @@
         </div>
 
         <!-- PRODUCT DISPLAY FOR SIMILAR ITEMS -->
-         <div class="p-3 flex flex-row flex-wrap justify-center md:justify-start gap-3 mx-auto">
-            <ProductCard v-for="product in 7"/>
+          <!-- PRODCUT DISPLAY AREA -->
+        <div class="masonry">
+            <ProductCard>
+                <template #product_image>
+                    <div class=" h-40 w-full bg-green-300"></div>
+                </template>
+           </ProductCard>
+
+           <ProductCard>
+                <template #product_image>
+                    <div class=" h-52 w-full bg-orange-300"></div>
+                </template>
+           </ProductCard>
+
+           <ProductCard>
+                <template #product_image>
+                    <div class=" h-64 w-full bg-orange-300"></div>
+                </template>
+           </ProductCard>
+
+           <ProductCard>
+                <template #product_image>
+                    <div class="h-64 w-full bg-red-300"></div>
+                </template>
+           </ProductCard>
+
+           <ProductCard>
+                <template #product_image>
+                    <div class=" h-40 w-full bg-green-300"></div>
+                </template>
+           </ProductCard>
+
+           <ProductCard>
+                <template #product_image>
+                    <div class=" h-52 w-full bg-orange-300"></div>
+                </template>
+           </ProductCard>
+
+           <ProductCard>
+                <template #product_image>
+                    <div class=" h-64 w-full bg-orange-300"></div>
+                </template>
+           </ProductCard>
+
+           
+           <ProductCard>
+                <template #product_image>
+                    <div class=" h-96 w-full bg-orange-300"></div>
+                </template>
+           </ProductCard>
+
+           <ProductCard>
+                <template #product_image>
+                    <div class=" h-80 w-full bg-red-300"></div>
+                </template>
+           </ProductCard>
+
+           <ProductCard>
+                <template #product_image>
+                    <div class=" h-40 w-full bg-green-300"></div>
+                </template>
+           </ProductCard>
+
+           <ProductCard>
+                <template #product_image>
+                    <div class="h-64 w-full bg-red-300"></div>
+                </template>
+           </ProductCard>
+
+           <ProductCard>
+                <template #product_image>
+                    <div class=" h-40 w-full bg-green-300"></div>
+                </template>
+           </ProductCard>
+
+           <ProductCard>
+                <template #product_image>
+                    <div class=" h-52 w-full bg-orange-300"></div>
+                </template>
+           </ProductCard>
         </div>
     </div>
 </template>

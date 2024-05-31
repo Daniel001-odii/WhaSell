@@ -12,7 +12,7 @@
                     </h1>
                     <p class=" pt-4 text-sm">...so basically, we stop you from posting products on your status, for good!</p>
                     <div class=" font-bold mt-5 flex flex-row gap-5 items-center justify-center">
-                        <button class=" bg-gray-600 hover:bg-black text-white p-3 rounded-md px-8">Start Selling</button>
+                        <button class=" btn">Start Selling</button>
                         <button class="border-2 border-black hover:bg-app_green hover:text-white hover:border-transparent rounded-md text-black p-3 px-8">Start Selling</button>
                     </div>
                 </div>
@@ -74,5 +74,13 @@ import LogoBlack from '../components/LogoBlack'
 </script>
 
 <style scoped>
-
+.btn{
+    background-color: #1b6df3;
+    height: 100%;
+    border-radius: 8px;
+    box-shadow: rgba(10, 10, 10, 0.05) 0px 2px 2px 0px, rgba(0, 0, 0, 0.02) 0px 2.76726px 2.21381px 0px, rgba(0, 0, 0, 0.027) 0px 6.6501px 5.32008px 0px, rgba(0, 0, 0, 0.035) 0px 12.5216px 10.0172px 0px, rgba(0, 0, 0, 0.043) 0px 22.3363px 17.869px 0px, rgba(0, 0, 0, 0.05) 0px 41.78px 33.4221px 0px, rgba(0, 0, 0, 0.07) 0px 100px 80px 0px, rgba(0, 0, 0, 0.15) 0px -2px 1px 0px inset, rgba(255, 255, 255, 0.15) 0px 2px 1px 0px inset;
+    opacity: 1;
+    padding: 12px 20px;
+    color: white;
+}
 </style>

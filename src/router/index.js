@@ -14,6 +14,10 @@ import NewProductView from '@/views/NewProductView.vue'
 
 import TemplatePageView from '@/views/TemplatePageView.vue'
 
+
+import AccountTemplateView from '@/views/AccountTemplateView.vue'
+import PersonalDetailsView from '@/views/PersonalDetailsView.vue'
+
 const routes = [
   {
     path: '/',
@@ -59,6 +63,15 @@ const routes = [
       },
       {path: 'likes', name: 'Your likes', component: LikesView},
       {path: 'new-product', name: 'New Product', component: NewProductView},
+    ]
+  },
+
+
+  {
+    path: '/account',
+    component: AccountTemplateView,
+    children: [
+      {path: 'profile', name: `Profile`, component: PersonalDetailsView},
     ]
   }
 

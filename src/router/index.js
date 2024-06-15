@@ -15,8 +15,16 @@ import NewProductView from '@/views/NewProductView.vue'
 import TemplatePageView from '@/views/TemplatePageView.vue'
 
 
+import ShopDetailView from '@/views/ShopDetailView.vue'
+
 import AccountTemplateView from '@/views/AccountTemplateView.vue'
 import PersonalDetailsView from '@/views/PersonalDetailsView.vue'
+import ShopView from '@/views/ShopView.vue'
+import AnalyticsView from '@/views/AnalyticsView.vue'
+import UpgradeView from '@/views/UpgradeView.vue'
+import NotificationsView from '@/views/NotificationsView.vue'
+import DangerZoneView from '@/views/DangerZoneView.vue'
+
 
 const routes = [
   {
@@ -61,6 +69,14 @@ const routes = [
         name: `Product`,
         component: ProductDetailView,
       },
+
+      {
+        path: '/shop/:name',
+        name: `Shop`,
+        component: ShopDetailView,
+      },
+
+
       {path: 'likes', name: 'Your likes', component: LikesView},
       {path: 'new-product', name: 'New Product', component: NewProductView},
     ]
@@ -71,7 +87,12 @@ const routes = [
     path: '/account',
     component: AccountTemplateView,
     children: [
-      {path: 'profile', name: `Profile`, component: PersonalDetailsView},
+      {path: '', name: `Account`, component: PersonalDetailsView},
+      {path: 'shop', name: `My Shop`, component: ShopView},
+      {path: 'analytics', name: `My Insights`, component: AnalyticsView},
+      {path: 'upgrade', name: `My Subscription`, component: UpgradeView},
+      {path: 'notifications', name: `My Notifications`, component: NotificationsView},
+      {path: 'delete', name: `Danger zone`, component: DangerZoneView},
     ]
   }
 

@@ -9,7 +9,7 @@
         </div>
 
         <div class="p-3 flex flex-row overflow-x-auto justify-start">
-            <ShopCard v-for="product in 5"/>
+                <ShopCard v-for="product in 5"/>
         </div>
 
         <!-- TOP SELLING DIVIDER -->

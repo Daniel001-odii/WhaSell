@@ -70,7 +70,7 @@
         </div>
 
         <!-- PRODUCT DISPLAY FOR SIMILAR ITEMS -->
-          <!-- PRODCUT DISPLAY AREA -->
+        <!-- PRODCUT DISPLAY AREA -->
         <div class="masonry">
             <ProductCard>
                 <template #product_image>

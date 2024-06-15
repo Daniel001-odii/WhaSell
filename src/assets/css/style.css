@@ -40,3 +40,7 @@
 .form-input{
   @apply w-full bg-slate-100 rounded-md p-3 outline-app_green hover:bg-app_light_green
 }
+
+.divider-tab{
+  @apply font-bold p-3 border rounded-lg mt-6 capitalize text-green-700
+}

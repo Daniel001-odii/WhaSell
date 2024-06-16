@@ -6,7 +6,7 @@
                     <i class="bi bi-shop text-gray-400 text-3xl"></i>
                 </div>
                 <div class="flex flex-col">
-                    <h1 class="text-2xl font-bold">SmellySheep Store</h1>
+                    <h1 class="text-2xl font-bold">{{ this.$route.params.name}}</h1>
                     <span class="text-gray-500">Faily used items</span>
                     <span class="text-sm">joined 2yrs 4mnths ago | 3k+ followers</span>
                     <div class="flex flex-row gap-2 items-center w-fit justify-center mt-4">

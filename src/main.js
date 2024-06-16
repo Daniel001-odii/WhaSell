@@ -10,6 +10,10 @@ import '../src/assets/css/style.css'
 // BOOTSTRAP ICONS
 import 'bootstrap-icons/font/bootstrap-icons.css';
 
+// PRIMEVUEW ICONS
+import 'primeicons/primeicons.css'
+
+
 // PRIMEVUE
 import PrimeVue from 'primevue/config';
 

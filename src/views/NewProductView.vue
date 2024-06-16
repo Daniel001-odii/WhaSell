@@ -32,7 +32,9 @@
                             <!-- <img src="../assets/images/image_3.png"> -->
                         </div>
                     </div>
-                    <button @click="tab += 1" class="bg-app_green rounded-lg p-3 text-white font-semibold hover:bg-opacity-90">Next</button>
+                    <button @click="tab += 1" class="bg-app_green rounded-lg p-3 text-white font-semibold hover:bg-opacity-90 flex flex-row items-center justify-center">Next
+                        <i class="pi pi-angle-right pl-3 mt-[2px]"></i>
+                    </button>
                 </div>
                 <div v-if="tab == 2" type="button" class="border rounded-2xl flex flex-col p-8 gap-4">
                     <div class="flex flex-col">
@@ -60,7 +62,13 @@
                         </select>
                     </div>
 
-                    <button class="bg-app_green rounded-lg p-3 text-white font-semibold hover:bg-opacity-90">Post</button>
+                    <div class="flex flex-row gap-5 justify-between items-center">
+                        <button @click="tab -= 1" class="bg-slate-500 rounded-lg p-3 text-white font-semibold hover:bg-opacity-90">
+                            <!-- <i class="bi bi-caret-fill-left"></i> -->
+                            <i class="pi pi-angle-left"></i>
+                        </button>
+                        <button class="bg-app_green rounded-lg p-3 text-white font-semibold hover:bg-opacity-90 w-full">Post</button>
+                    </div>
                 </div>
                 
             </form>

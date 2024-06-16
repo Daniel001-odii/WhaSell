@@ -52,7 +52,7 @@
                             <div class="text-black bg-white rounded-md p-1 border">
                                 <div class=" w-[200px] flex flex-col ">
                                     <RouterLink class="user-menu-item" to="/account">
-                                        <i class="bi bi-person mr-3"></i>Account</RouterLink>
+                                        <i class="bi bi-gear mr-3"></i>Settings</RouterLink>
                                     <RouterLink class="user-menu-item" to="#">
                                         <i class="bi bi-receipt mr-3"></i>Invoices</RouterLink>
                                     <!-- <RouterLink class="user-menu-item" to="#">Followed Stores</RouterLink> -->

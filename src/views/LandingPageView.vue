@@ -8,7 +8,7 @@
                 <div class="">
                     <h1 class="text-6xl font-bold">
                         <span class=" text-app_green">WhatsApp</span> Sales<br/>just got
-                        <span class=" text-app_green">better!</span>
+                        <span class=" text-app_green">beta!</span>
                     </h1>
                     <p class=" pt-4 text-sm">...so basically, we stop you from posting products on your status, for good!</p>
                     <div class=" font-bold mt-5 flex flex-row gap-5 items-center justify-center">

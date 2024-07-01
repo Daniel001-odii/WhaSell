@@ -36,9 +36,12 @@
   @apply flex flex-row items-center gap-3 text-xl font-bold
 }
 
-
+/*
 .form-input{
   @apply w-full bg-slate-100 rounded-md p-3 outline-app_green hover:bg-app_light_green
+} */
+.form-input{
+  @apply w-full  rounded-md p-3 shadow-md shadow-[#E0F6EA] hover:bg-app_light_green outline-none border
 }
 
 .divider-tab{

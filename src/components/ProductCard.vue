@@ -18,11 +18,11 @@
             </div>
             
             <div class="flex flex-col ">
-                <Routerlink to="/product/test">
+                <RouterLink to="/product/test">
                     <slot name="product-title">
                         <span>American Leather Shoe</span>
                     </slot>
-                </Routerlink>
+                </RouterLink>
                 <slot name="product-price">
                     <span class="font-bold text-md">#50,000</span>
                 </slot>

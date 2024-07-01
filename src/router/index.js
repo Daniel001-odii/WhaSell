@@ -26,6 +26,12 @@ import NotificationsView from '@/views/NotificationsView.vue'
 import DangerZoneView from '@/views/DangerZoneView.vue'
 
 
+import RegistrationDecideView from '@/views/Authentication/RegistrationDecideView.vue'
+import UserRegistrationView from '@/views/Authentication/UserRegistrationView.vue'
+import SellerRegistrationView from '@/views/Authentication/SellerRegistrationView.vue'
+
+
+
 const routes = [
   {
     path: '/',
@@ -37,10 +43,44 @@ const routes = [
     name: 'WhaSell - Login',
     component: LoginView,
   },
+
+  /*
   {
     path: '/register',
     name: 'WhaSell - Register',
     component: RegisterView,
+  }, 
+  */
+
+  /* AUTHENTICATION PAGES STARTS HERE ----- */
+  {
+    path: '/register',
+    name: 'Whasell - Register type',
+    component: RegistrationDecideView,
+  },
+
+
+  // http://localhost:8081/register/category?user-type=buyer
+  {
+    path: '/register/seller',
+    name: 'Whasell - Register Seller',
+    component: SellerRegistrationView,
+  },
+  // {
+  //   path: '/register/category?user-type=seller',
+  //   name: 'Whasell - Register Seller',
+  //   component: SellerRegistrationView,
+  // },
+  // {
+  //   path: '/register/category?user-type=buyer',
+  //   name: 'Whasell - Register Seller',
+  //   component: SellerRegistrationView,
+  // },
+
+  {
+    path: '/register/buyer',
+    name: 'Whasell - Register Buyer',
+    component: UserRegistrationView,
   },
 
 

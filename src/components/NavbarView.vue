@@ -9,8 +9,11 @@
             <RouterLink to="#">Use Cases</RouterLink>
             <RouterLink to="#">Contact</RouterLink>
         </div>
-        <div class="hidden md:flex flex-row gap-3 font-bold">
-            <button class="text-black hover:bg-slate-200 bg-opacity-20 px-8 rounded-md">Login</button>
+        <div class="hidden md:flex flex-row gap-3 font-bold justify-stretch items-stretch">
+            <RouterLink to="/login" class="text-black hover:bg-slate-200 bg-opacity-20 px-8 rounded-md flex justify-center items-center">Login
+                <!-- <button class="text-black hover:bg-slate-200 bg-opacity-20 px-8 rounded-md"></button> -->
+            </RouterLink>
+           
             <button class="text-white bg-black px-8 py-3 rounded-md">Sign Up</button>
         </div>
     </div>
@@ -60,7 +63,7 @@
                                         <i class="bi bi-info-circle mr-3"></i>Help & Support</RouterLink>
                                 </div>
                                 <div class=" border-t p-2">
-                                    <button  class=" text-left w-full  text-black bg-transparent hover:text-red-500 hover:font-bold">
+                                    <button @click="logout"  class=" text-left w-full  text-black bg-transparent hover:text-red-500 hover:font-bold">
                                         <i class="bi bi-box-arrow-right mr-3"></i> Log out
                                     </button>
                                 </div>
@@ -109,8 +112,10 @@
 <script>
 import CustomDropdown from './CustomDropdown.vue';
 import LogoBlack from './LogoBlack.vue';
+import axios from 'axios'
 
-    export default {
+
+export default {
         name: "NavbarView",
         components: {
             LogoBlack,
@@ -119,7 +124,28 @@ import LogoBlack from './LogoBlack.vue';
         data(){
             return{
                 authenticated: true,
+                premium: false,
             }
+        },
+
+        methods:{
+            async logout() {
+                try {
+                    const response = await axios.post('/logout');
+                    console.log(response.data);
+                    this.$router.push('/login');
+                } catch (error) {
+                    console.error(error);
+                }
+            },
+
+            checkAuthenticationState(){
+                this.authenticated = localStorage.getItem("is_authenticated");
+            }
+        },
+
+        mounted(){
+            this.checkAuthenticationState();
         }
     }
 </script>

@@ -1,0 +1,107 @@
+.p-toast {
+  @apply text-white;
+    position: fixed;
+    /* right: 2%; */
+    /* bottom: 20px; */
+    /* left: 70%; */
+    transform: translateX(25%);
+    /* background-color: #333 !important; */
+    color: #fff !important;
+    /* border-radius: 5px; */
+    /* padding: 10px 20px; */
+  }
+  
+  .p-toast-message{
+    color: #fff !important;
+  }
+  .p-toast-message-success {
+    @apply bg-[#0B7B69]
+  }
+  
+  .p-toast-message-error {
+   @apply bg-[#8C1823];
+  }
+  
+  .p-toast-message-warning {
+    background-color: #ffc107 !important;
+  }
+  
+  .p-toast{
+   @apply right-0
+  }
+  .p-toast-message {
+    /* padding: 10px 20px !important; */
+    @apply  text-white rounded-md text-sm font-bold shadow-none right-0 max-w-[300px]
+  }
+
+
+
+  /* TOAST ICONS CUSTOM */
+  /* .p-toast-message-icon {
+    background-image: url('../images/ballon.svg') !important;
+    background-size: contain;
+    background-repeat: no-repeat;
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+  } */
+  
+  /* .p-toast-icon-error {
+    background-image: url('../images/error.png') !important;
+    background-size: contain;
+    background-repeat: no-repeat;
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+  }
+   */
+
+  /*
+  .p-toast-icon-info {
+    background-image: url('/path/to/your/custom-info-icon.svg') !important;
+    background-size: contain;
+    background-repeat: no-repeat;
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+  }
+  
+  .p-toast-icon-warning {
+    background-image: url('/path/to/your/custom-warning-icon.svg') !important;
+    background-size: contain;
+    background-repeat: no-repeat;
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+  }
+  */
+  
+
+  .p-toast-icon-success::before {
+    content: '\e900'; /* Your custom icon code */
+    font-family: 'PrimeIcons';
+    font-size: 1.5em;
+    color: #28a745;
+  }
+  
+  .p-toast-icon-error::before {
+    content: '\e901'; /* Your custom icon code */
+    font-family: 'PrimeIcons';
+    font-size: 1.5em;
+    color: #dc3545;
+  }
+  
+  .p-toast-icon-info::before {
+    content: '\e902'; /* Your custom icon code */
+    font-family: 'PrimeIcons';
+    font-size: 1.5em;
+    color: #17a2b8;
+  }
+  
+  .p-toast-icon-warn::before {
+    content: '\e903'; /* Your custom icon code */
+    font-family: 'PrimeIcons';
+    font-size: 1.5em;
+    color: #ffc107;
+  }
+  

@@ -1,4 +1,5 @@
 <template>
+    <!-- <ToastBox/> -->
     <div class="min-h-screen flex flex-col md:flex-row">
         <div class="w-full md:w-[50%] min-h-screen flex justify-center items-center p-12 md:p-12">
             <div class="p-3 w-full">
@@ -36,6 +37,7 @@
                             
                         </div>
                     </div>
+                    
                     <button type="button" @click="login" :disabled="loading" class="bg-[#37B36E] text-white w-full rounded-md p-3 mt-6 hover:bg-opacity-80 font-bold disabled:cursor-not-allowed disabled:bg-gray-300">
                         <span v-if="loading">loading...</span>
                         <span v-else>Looogin</span>
@@ -53,10 +55,15 @@
 <script>
 import axios from 'axios'
 
+import ToastBox from '../components/ToastBox.vue'
 
-
+import Button from 'primevue/button'
     export default {
         name: "UserRegistrationView",
+        components: {
+            ToastBox,
+            Button,
+        },
         data(){
             return{
                 user_type: "",
@@ -86,19 +93,45 @@ import axios from 'axios'
         },
 
         methods:{
+            showSuccess() {
+            this.$toast.add({ severity: 'success', detail: 'Message Content', life: 3000 });
+        },
+        showInfo() {
+            this.$toast.add({ severity: 'info', summary: 'Info Message', detail: 'Message Content', life: 3000 });
+        },
+        showWarn() {
+            this.$toast.add({ severity: 'warn', summary: 'Warn Message', detail: 'Message Content', life: 3000 });
+        },
+        showError() {
+            this.$toast.add({ severity: 'error', detail: 'Message Content', life: 3000 });
+        },
+        showSecondary() {
+            this.$toast.add({ severity: 'secondary', summary: 'Secondary Message', detail: 'Message Content', life: 3000 });
+        },
+        showContrast() {
+            this.$toast.add({ severity: 'contrast', summary: 'Contrast Message', detail: 'Message Content', life: 3000 });
+        },
             
             async login() {
                 try {
                     this.loading = true;
                     const response = await axios.post('/login', this.form, { withCredentials: true });
                     console.log("login response: ", response);
-                    alert("login successful!");
+                    // show toast alert...
+                    this.$toast.add({ severity: 'success', detail: `${response.data.message}`, life: 3000 });
+
                     localStorage.setItem("is_authenticated", true);
-                    this.$router.push('/market');
+
+                    setTimeout(() => {
+                        this.$router.push('/market');
+                    }, 3000);
+
                     this.loading = false;
                 } catch (error) {
-                    console.log("error logining user: ", error);
+                    console.log("error in login user: ", error);
+                    this.$toast.add({ severity: 'error', detail: `${error.response.data.message}`, life: 3000 });
                     this.loading = false;
+
                 }
             }
 

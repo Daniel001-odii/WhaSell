@@ -16,10 +16,10 @@
                         <span class=" cursor-pointer flex items-center justify-center gap-3 ">Categories <i class="pi pi-chevron-down text-[14px]"></i></span>
 
                         <!-- CATEGORIES MENU -->
-                         <div class="group-hover:flex hidden absolute  font-light text-sm top-6 -left-20 p-2 rounded-lg z-50 ">
-                            <div class="shadow-sm p-2 mt-4 w-[500px] bg-white">
-                                 <div class="flex flex-row flex-wrap">
-                                    <span class="p-5 hover:bg-gray-100 rounded-md" v-for="category in shop_categories">{{ category }}</span>
+                         <div class="group-hover:flex hidden absolute  font-light text-sm top-6 -left-20 z-50 ">
+                            <div class="shadow-lg p-6 mt-4 w-[650px] bg-white rounded-lg">
+                                 <div class="flex flex-row flex-wrap gap-2">
+                                    <button class="p-5 hover:bg-gray-100 rounded-md border" v-for="category in shop_categories">{{ category }}</button>
                                 </div>
                             </div>
                            
@@ -44,12 +44,12 @@
                         
                         <CustomDropdown>
                             <template #trigger>
-                                <button class="relative" @click.prevent="toggleNotificationMenu">
+                                <button class="relative">
                                     <i class="bi bi-bell-fill text-2xl"></i>
                                 </button>
                             </template>
                             <template #menu>
-                                <div class="md:min-w-[450px] z-40 absolute shadow-md bg-white top-5 right-0 rounded-xl flex flex-col p-3">
+                                <div class="md:min-w-[450px] w-[400px] z-40 relative shadow-md bg-white top-5 right-0 rounded-xl flex flex-col p-3">
                                     <div class="flex flex-row justify-between">
                                         <span class="font-bold">Notifications</span>
                                         <div class="flex flex-row gap-3">
@@ -84,7 +84,7 @@
                             <img src="../assets/images/user_profile_img.png" class=" h-10">
                         </template>
                         <template #menu>
-                            <div class="text-black bg-white rounded-md p-1 border w-[350px]">
+                            <div class="text-black bg-white rounded-md p-1 relative top-5 border w-[350px]">
                                 <div class="flex flex-row items-center justify-between p-1">
                                     <div class="flex flex-row gap-3 items-center justify-start">
                                         <div>

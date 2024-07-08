@@ -1,5 +1,5 @@
 <template>
-    <span class="flex flex-col relative" :class="{shown: state}">
+    <span class="flex flex-col relative">
         <button href="#" @click.prevent="toggleDropdown" class="dropdown-toggle">
             <slot name="trigger">
                 ...

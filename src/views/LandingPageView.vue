@@ -2,11 +2,11 @@
     <div class="bg-app_light_green">
         <NavbarView class="container mx-auto"/>
     </div>
-    
+    <!-- <button @click="flip = !flip">change</button>{{ flip }} -->
     <div class="bg-app_light_green">
         <div class="container mx-auto h-[700px] bg-app_light_green flex flex-col justify-center items-center">
-            <div class="text-center">
-                <h1 class="text-8xl text-center font-bold">
+            <div class="text-center p-5">
+                <h1 class="md:text-8xl text-center font-bold text-5xl ">
                     <span class=" text-app_green">WhatsApp</span> Sales<br/>just got
                     <span class=" text-app_green">beta!</span>
                 </h1>
@@ -135,6 +135,11 @@ import TheFooter from '../components/TheFooter'
             NavbarView,
             TheFooter,
         },
+        data(){
+            return{
+                flip: false,
+            }
+        }
     }
 </script>
 

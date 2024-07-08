@@ -1,6 +1,6 @@
 <template>
     <NavbarView/>
-    <div class="container mx-auto">
+    <div class="mx-auto">
         <PageTitle>{{ this.$route.name }}</PageTitle>
         <RouterView></RouterView>
     </div>

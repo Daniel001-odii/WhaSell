@@ -1,16 +1,43 @@
 <template>
     <div class="">
-        <div class="text-center h-[300px] flex flex-col justify-center items-center p-5">
-            <h1 class="font-bold text-3xl text-red-600">Products from stores <br/>in your current location</h1>
-            <img src="../assets/images/location_banner.png" class=" h-36"/>
-            <button class="underline">Select a different state</button>
+        <div class="text-center h-[300px] flex flex-col justify-center items-center p-12 hero min-h-screen">
+            <h1 class="font-bold text-3xl text-white">
+                <span class="text-app_green">Discover </span>
+                new products from shops around <span class="text-app_green">you!</span></h1>
+            <div class="bg-[#E0F6EA80] rounded-full w-full mt-10 flex flex-row overflow-hidden relative max-w-[500px]">
+                <input type="text" placeholder="Search anything here..." class=" bg-transparent p-3 text-white outline-none w-full pl-10 placeholder-white">
+                <div class="flex flex-row gap-3 text-white absolute right-5 top-3">
+                    <button>
+                        <i class="bi bi-funnel"></i>
+                    </button>
+                    <button>
+                        <i class="bi bi-search"></i>
+                    </button>
+                </div>
+            </div>
+            
+            
         </div>
 
         <!-- CATEGORIES AREA -->
-        <div class="p-3 flex flex-row overflow-x-auto gap-2 sticky top-0 z-20 items-start bg-white">
-            <span class="border p-3 rounded-md bg-app_light_green font-medium border-app_green text-app_green">All</span>
-            <span class="p-3 rounded-md bg-slate-200 font-medium text-slate-500" v-for="category in 6">Phones</span>
-        </div>
+         <div class="flex flex-col md:flex-row gap-3 items-center justify-start md:justify-center sticky top-0 z-20 bg-white p-3">
+            <div class="p-3 flex flex-row overflow-x-auto gap-2  items-start bg-white w-full md:w-[50%] overflow-auto">
+                <button class="border p-2 rounded-md bg-app_light_green text-sm border-app_green text-app_green">All</button>
+                <button class="border p-2 py-2 rounded-md bg-gray-100 text-sm text-app_gree" v-for="category in 6">Phones</button>
+            </div>
+            <div class="border rounded-full w-full md:w-[50%] flex flex-row overflow-hidden relative md:max-w-[500px]">
+                <input type="text" placeholder="Search anything here..." class=" bg-transparent p-3 outline-none w-full pl-10">
+                <div class="flex flex-row gap-3 absolute right-5 top-3">
+                    <button>
+                        <i class="bi bi-funnel"></i>
+                    </button>
+                    <button>
+                        <i class="bi bi-search"></i>
+                    </button>
+                </div>
+            </div>
+         </div>
+      
 
         <!-- ADVERT SPACE -->
         <div class="bg-app_green h-60 mt-8 flex justify-center items-center text-white text-xl">
@@ -261,5 +288,9 @@ import PageTitle from '../components/PageTitle'
 </script>
 
 <style scoped>
-
+.hero{
+    background: url('../assets/images/market-hero.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+}
 </style>

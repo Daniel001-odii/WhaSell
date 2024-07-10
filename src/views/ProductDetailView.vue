@@ -1,17 +1,19 @@
 <template>
-    <div class="container mx-auto">
-    <div class="flex md:flex-col flex-col-reverse">
+    <div class="container mx-auto p-3">
+        <div v-if="loading">Loading product...</div>
+    <div v-else class="flex md:flex-col flex-col-reverse">
+        <!-- {{ product.shop }} -->
         <!-- SHOP DETAIL BANNER -->
         <div class=" m-3 bg-app_gree border rounded-3xl p-5 flex flex-row items-end justify-between gap-5 flex-wrap ">
-            <div class="flex flex-row justify-between gap-3 w-full">
+            <div v-if="product.shop" class="flex flex-row justify-between gap-3 w-full">
                 <div class="rounded-full w-20 h-20 min-w-20 bg-gray-100 flex justify-center items-center text-gray-200 text-3xl">
                     <i class="bi bi-shop"></i>
                 </div>
                 <div class="flex flex-row flex-wrap gap-3 justify-between border-green-30 w-full">
                     <div class="flex flex-col">
-                        <span class="text-xl font-bold">SmellySheep Store</span>
-                        <span class="text-md">SmellySheep Store</span>
-                        <span class="text-sm">Joined 2yrs 4mnths ago | 2k+ followers</span>
+                        <span class="text-xl font-bold">{{ product.shop.name }}</span>
+                        <span class="text-md">{{ product.shop.category }}</span>
+                        <span class="text-sm">Joined {{ formatDistanceToNow(product.shop.createdAt) }} ago | 2k+ followers</span>
                     </div>
                     <div class="flex flex-row gap-2 flex-wrap border-red-30 items-center self-end">
                         <button class=" text-sm border hover:border-gray-300 hover:bg-slate-100 rounded-lg p-3 px-8 text-black font-medium"> &plus; Follow</button>
@@ -30,21 +32,33 @@
             </div>
         </div>
 
+
+     
+
         <!-- FULL PRODUCT DESRIPTION AND DETAILS -->
-        <div class="flex flex-col md:flex-row gap-5 mt-8 flex-wra p-5">
-            <div class="md:flex-1 w-full h-[400px] md:w-[400px] bg-red-300 rounded-md"></div>
+        <div class="flex flex-col md:flex-row gap-5 mt-8 flex-wra p-5" v-if="product">
+               <!-- {{  main_image }} -->
+            <div :style="`background-image: url('${main_image}')`" class="full-image md:flex-1 w-full h-[400px] md:w-[400px] rounded-md flex justify-center items-center border">
+                <!-- <img :src="`http://localhost:8000/${product.images[0]}`" class="max-h-[400px]"> -->
+            </div>
             <div class="flex flex-col md:flex-1">
-                <span class="bg-app_light_green px-3 text-green-700 text-2xl font-semibold">Faily Used Kitchen Spoon & Knife</span>
-                <span class="text-3xl font-bold mt-3">NGN 15,000</span>
+                <span class="bg-app_light_green px-3 py-1 text-green-700 text-2xl font-semibold w-fit">{{ product.name }}</span>
+                <span class="px-3 py-2 mt-2 text-orange-600 bg-orange-100 w-fit rounded-md text-sm">
+                    <i class="bi bi-stars"></i>
+                    {{ product.condition }}
+                </span>
+                <span class="text-3xl font-bold mt-3">NGN {{ product.price.toLocaleString() }}</span>
 
                 <div class="flex flex-col gap-2 mt-5">
-                    <span class="font-bold text-xl">Product Description</span>
-                    <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex</span>
+                    <p class="font-bold text-xl">Product Description</p>
+                    <div>{{ product.description }}</div>
                     <div class="flex flex-row gap-3 my-4">
-                        <div class=" w-20 h-20 bg-gray-100" v-for="box in 3"></div>
+                        <div @click="viewImage(image)" class=" w-20 max-h-[100px] h-auto bg-gray-100 p-3 border-2 hover:border-app_green rounded-lg cursor-pointer" v-for="image in product.images"> 
+                            <img :src="`http://localhost:8000/${image}`">
+                        </div>
                     </div>
                 </div>
-                <div>
+                <div class="mt-3">
                     <button class="bg-app_green hover:bg-opacity-90 text-white w-full rounded-lg p-3 text-lg font-semibold">Buy now</button>
                     <div class="flex flex-row gap-2 mt-3">
                         <button class="border border-app_green p-3 flex-1 text-app_green bg-app_light_green rounded-lg">Share</button>
@@ -57,6 +71,23 @@
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
+
+<!-- SAFETY TIPS---- -->
+    <div class="flex flex-col justify-start items-start md:flex-row md:items-center md:justify-center gap-8 px-10 py-6 bg-blue-100 text-blue-600 w-fit mx-auto my-0 rounded-xl p">
+        <div class="bg-blue-600 text-white p-3 rounded-md font-bold">
+            <i class="bi bi-shield-check"></i>
+            Safety Tips
+        </div>
+        <div class="flex flex-col`">
+            <ol class=" ">
+                <li>Avoid paying in advance, even if it's delivery</li>
+                <li>Meet the seller at a safe public place</li>
+                <li>Inspect the item and ensure it’s exactly what you ordered</li>
+                <li>Make sure that the packed item is what you’ve inspected</li>
+                <li>Only pay if you’re satisfied!</li>
+            </ol>
         </div>
     </div>
         <!-- SIMILAR ITEMS YOU MAY LIKE -->
@@ -78,78 +109,6 @@
                 </template>
            </ProductCard>
 
-           <ProductCard>
-                <template #product_image>
-                    <div class=" h-52 w-full bg-orange-300"></div>
-                </template>
-           </ProductCard>
-
-           <ProductCard>
-                <template #product_image>
-                    <div class=" h-64 w-full bg-orange-300"></div>
-                </template>
-           </ProductCard>
-
-           <ProductCard>
-                <template #product_image>
-                    <div class="h-64 w-full bg-red-300"></div>
-                </template>
-           </ProductCard>
-
-           <ProductCard>
-                <template #product_image>
-                    <div class=" h-40 w-full bg-green-300"></div>
-                </template>
-           </ProductCard>
-
-           <ProductCard>
-                <template #product_image>
-                    <div class=" h-52 w-full bg-orange-300"></div>
-                </template>
-           </ProductCard>
-
-           <ProductCard>
-                <template #product_image>
-                    <div class=" h-64 w-full bg-orange-300"></div>
-                </template>
-           </ProductCard>
-
-           
-           <ProductCard>
-                <template #product_image>
-                    <div class=" h-96 w-full bg-orange-300"></div>
-                </template>
-           </ProductCard>
-
-           <ProductCard>
-                <template #product_image>
-                    <div class=" h-80 w-full bg-red-300"></div>
-                </template>
-           </ProductCard>
-
-           <ProductCard>
-                <template #product_image>
-                    <div class=" h-40 w-full bg-green-300"></div>
-                </template>
-           </ProductCard>
-
-           <ProductCard>
-                <template #product_image>
-                    <div class="h-64 w-full bg-red-300"></div>
-                </template>
-           </ProductCard>
-
-           <ProductCard>
-                <template #product_image>
-                    <div class=" h-40 w-full bg-green-300"></div>
-                </template>
-           </ProductCard>
-
-           <ProductCard>
-                <template #product_image>
-                    <div class=" h-52 w-full bg-orange-300"></div>
-                </template>
-           </ProductCard>
         </div>
     </div>
 </template>
@@ -157,14 +116,85 @@
 <script>
 import ProductCard from '../components/ProductCard'
 
+import axios from 'axios';
+
+import {  formatJoinedDate } from '../utils/dateUtil'
+
+import { formatDistanceToNow } from 'date-fns'
+
     export default {
         name: "ProductDetailView",
         components: {
             ProductCard,
         },
+        data(){
+            return{
+                product: '',
+                loading: false,
+                main_image: '',
+
+                formatDistanceToNow,
+                dateer: '',
+            }
+        },
+        methods:{
+
+            viewImage(image_url){
+                const url = image_url.replace(/\\/g, '/');
+                this.main_image = `http://localhost:8000/${url}`;
+            },
+
+
+            async getProduct(){
+                try{   
+                    this.loading = true;
+                    const response = await axios.get(`/products/${this.$route.params.product_id}`);
+                    this.product = response.data.product;
+                    this.main_image = `http://localhost:8000/${this.product.images[0].replace(/\\/g, '/')}`;
+                    this.loading = false;
+                    console.log(this.product)
+                }catch(error){
+                    console.log('error getting product details: ', error);
+                    this.loading = false;
+                }
+            }
+        },
+
+        mounted(){
+            this.getProduct();
+        }
     }
 </script>
 
 <style scoped>
+.full-image{
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-origin: inherit;
+}
+
+.full-image {
+  transition: background-image 0.5s ease-in-out;
+}
+
+@keyframes swipeAnimation {
+  0% {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  50% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+}
+
+.full-image.swipe {
+  animation: swipeAnimation 0.5s ease-in-out;
+}
 
 </style>

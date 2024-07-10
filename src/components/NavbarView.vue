@@ -1,5 +1,21 @@
 <template>
-  
+    <!-- NON AUTH NAVBAR -->
+    <div v-if="!authenticated" class="w-full text-white flex flex-row items-center justify-between px-5 py-3">
+        <LogoBlack/>
+        <div class="flex-row gap-4 text-black hidden md:flex">
+            <RouterLink to="#">About</RouterLink>
+            <RouterLink to="#">Features</RouterLink>
+            <RouterLink to="#">Pricing</RouterLink>
+            <RouterLink to="#">Use Cases</RouterLink>
+            <RouterLink to="#">Contact</RouterLink>
+        </div>
+        <div class="hidden md:flex flex-row gap-3 font-bold justify-stretch items-stretch">
+            <RouterLink to="/login" class="text-black hover:bg-slate-200 bg-opacity-20 px-8 rounded-md flex justify-center items-center">Login
+            </RouterLink>
+           
+            <button class="text-white bg-black px-8 py-3 rounded-md">Sign Up</button>
+        </div>
+    </div>
 
     <!-- NAVBAR FOR AUTHENTICATED USERS -->
     <div v-if="authenticated" class="bg-gray-20 border-b ">
@@ -225,8 +241,7 @@ export default {
 
     mounted(){
         document.addEventListener('click', this.close);
-        this.checkAuthenticationState();
-        
+        this.checkAuthenticationState();       
     },
     beforeDestroy () {
         document.removeEventListener('click',this.close)

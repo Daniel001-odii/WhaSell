@@ -3,7 +3,7 @@
     <div class="min-h-screen flex flex-col md:flex-row">
         <div class="w-full md:w-[50%] min-h-screen flex justify-center items-center p-12 md:p-12">
             <div class="p-3 w-full">
-                <form @submit.prevent="login">
+                <form @submit.prevent="login" class="m-3">
                     <h1 class="text-4xl font-bold text-app_green mb-3">Login</h1>
                     <p class="my-6">Welcome back!!, Oya let’s get back to it...</p>
 
@@ -11,12 +11,12 @@
 
                     <div class="flex flex-col gap-3">
                         <div>
-                            <input type="text" placeholder="username, email or phone" v-model="form.usernameOrEmailOrPhone" class="form-input" :class="errors.username ? 'border-red-400':''" required>
+                            <input type="email" name="email" placeholder="username, email or phone" v-model="form.usernameOrEmailOrPhone" class="form-input" :class="errors.username ? 'border-red-400':''" required>
                             <small v-if="errors.username || form.usernameOrEmailOrPhone == ''" class="text-red-500">{{ errors.username }}</small>
                         </div>
                         <div>
                             <div class="relative">
-                                <input :type="show_pass ? 'text':'password'" placeholder="password" v-model="form.password" class="form-input" :class="errors.password ? 'border-red-400':''" required>
+                                <input type="password" name="password" :type="show_pass ? 'text':'password'" placeholder="password" v-model="form.password" class="form-input" :class="errors.password ? 'border-red-400':''" required>
                                 
                                 <span @click="show_pass = !show_pass" class="bi absolute top-3 right-3">
                                     <svg v-if="show_pass" xmlns="http://www.w3.org/2000/svg" width="21" height="20" viewBox="0 0 21 20" fill="none">
@@ -93,32 +93,18 @@ import Button from 'primevue/button'
         },
 
         methods:{
-            showSuccess() {
-            this.$toast.add({ severity: 'success', detail: 'Message Content', life: 3000 });
-        },
-        showInfo() {
-            this.$toast.add({ severity: 'info', summary: 'Info Message', detail: 'Message Content', life: 3000 });
-        },
-        showWarn() {
-            this.$toast.add({ severity: 'warn', summary: 'Warn Message', detail: 'Message Content', life: 3000 });
-        },
-        showError() {
-            this.$toast.add({ severity: 'error', detail: 'Message Content', life: 3000 });
-        },
-        showSecondary() {
-            this.$toast.add({ severity: 'secondary', summary: 'Secondary Message', detail: 'Message Content', life: 3000 });
-        },
-        showContrast() {
-            this.$toast.add({ severity: 'contrast', summary: 'Contrast Message', detail: 'Message Content', life: 3000 });
-        },
             
             async login() {
                 try {
                     this.loading = true;
                     const response = await axios.post('/login', this.form, { withCredentials: true });
                     console.log("login response: ", response);
+
                     // show toast alert...
-                    this.$toast.add({ severity: 'success', detail: `${response.data.message}`, life: 3000 });
+                    this.$toast.open({
+                        message: 'login successful',
+                        type: 'success',
+                    });
 
                     localStorage.setItem("is_authenticated", true);
 
@@ -128,8 +114,12 @@ import Button from 'primevue/button'
 
                     this.loading = false;
                 } catch (error) {
-                    console.log("error in login user: ", error);
-                    this.$toast.add({ severity: 'error', detail: `${error.response.data.message}`, life: 3000 });
+                    // console.log("error in login user: ", error);
+                    this.$toast.open({
+                        message: `${error.response.data.message}`,
+                        type: 'error',
+                    });
+                    // this.$toast.add({ severity: 'error', detail: `${error.response.data.message}`, life: 3000 });
                     this.loading = false;
 
                 }

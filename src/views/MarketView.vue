@@ -1,7 +1,7 @@
 <template>
     <div class="">
         <div class="text-center h-[300px] flex flex-col justify-center items-center p-12 hero min-h-screen">
-            <h1 class="font-bold text-3xl text-white">
+            <h1 class="font-bold text-5xl text-white">
                 <span class="text-app_green">Discover </span>
                 new products from shops around <span class="text-app_green">you!</span></h1>
             <div class="bg-[#E0F6EA80] rounded-full w-full mt-10 flex flex-row overflow-hidden relative max-w-[500px]">
@@ -57,82 +57,16 @@
 
         <!-- PRODCUT DISPLAY AREA -->
         <div class="masonry">
-            <ProductCard>
+            <ProductCard v-for="(product, index) in products" :key="index"
+                :id="product._id"
+                :product_name="product.name"
+                :views="product.views"
+                :posted="product.createdAt"
+                :product_price="product.price.toLocaleString()"
+                :shop="product.shop.name"
+            >
                 <template #product_image>
-                    <div class=" h-40 w-full bg-green-300"></div>
-                </template>
-           </ProductCard>
-
-           <ProductCard>
-                <template #product_image>
-                    <div class=" h-52 w-full bg-orange-300"></div>
-                </template>
-           </ProductCard>
-
-           <ProductCard>
-                <template #product_image>
-                    <div class=" h-64 w-full bg-orange-300"></div>
-                </template>
-           </ProductCard>
-
-           <ProductCard>
-                <template #product_image>
-                    <div class="h-64 w-full bg-red-300"></div>
-                </template>
-           </ProductCard>
-
-           <ProductCard>
-                <template #product_image>
-                    <div class=" h-40 w-full bg-green-300"></div>
-                </template>
-           </ProductCard>
-
-           <ProductCard>
-                <template #product_image>
-                    <div class=" h-52 w-full bg-orange-300"></div>
-                </template>
-           </ProductCard>
-
-           <ProductCard>
-                <template #product_image>
-                    <div class=" h-64 w-full bg-orange-300"></div>
-                </template>
-           </ProductCard>
-
-           
-           <ProductCard>
-                <template #product_image>
-                    <div class=" h-96 w-full bg-orange-300"></div>
-                </template>
-           </ProductCard>
-
-           <ProductCard>
-                <template #product_image>
-                    <div class=" h-80 w-full bg-red-300"></div>
-                </template>
-           </ProductCard>
-
-           <ProductCard>
-                <template #product_image>
-                    <div class=" h-40 w-full bg-green-300"></div>
-                </template>
-           </ProductCard>
-
-           <ProductCard>
-                <template #product_image>
-                    <div class="h-64 w-full bg-red-300"></div>
-                </template>
-           </ProductCard>
-
-           <ProductCard>
-                <template #product_image>
-                    <div class=" h-40 w-full bg-green-300"></div>
-                </template>
-           </ProductCard>
-
-           <ProductCard>
-                <template #product_image>
-                    <div class=" h-52 w-full bg-orange-300"></div>
+                    <img :src="`http://localhost:8000/${product.images[0]}`" class="max-h-[300px] max-w-[200px]">
                 </template>
            </ProductCard>
         </div>
@@ -165,86 +99,19 @@
         </div>
 
         <!-- PRODCUT DISPLAY AREA -->
-        <div class="masonry">
-            <ProductCard>
+        <!-- <div class="masonry">
+            <ProductCard v-for="(product, index) in products" :key="index"
+                :id="product._id"
+                :product_name="product.name"
+                :views="product.views"
+                :product_price="product.price.toLocaleString()"
+                :shop="product.shop.name"
+            >
                 <template #product_image>
-                    <div class=" h-40 w-full bg-green-300"></div>
+                    <img :src="`http://localhost:8000/${product.images[0]}`" class="max-h-[200px] max-w-[200px]">
                 </template>
            </ProductCard>
-
-           <ProductCard>
-                <template #product_image>
-                    <div class=" h-52 w-full bg-orange-300"></div>
-                </template>
-           </ProductCard>
-
-           <ProductCard>
-                <template #product_image>
-                    <div class=" h-64 w-full bg-orange-300"></div>
-                </template>
-           </ProductCard>
-
-           <ProductCard>
-                <template #product_image>
-                    <div class="h-64 w-full bg-red-300"></div>
-                </template>
-           </ProductCard>
-
-           <ProductCard>
-                <template #product_image>
-                    <div class=" h-40 w-full bg-green-300"></div>
-                </template>
-           </ProductCard>
-
-           <ProductCard>
-                <template #product_image>
-                    <div class=" h-52 w-full bg-orange-300"></div>
-                </template>
-           </ProductCard>
-
-           <ProductCard>
-                <template #product_image>
-                    <div class=" h-64 w-full bg-orange-300"></div>
-                </template>
-           </ProductCard>
-
-           
-           <ProductCard>
-                <template #product_image>
-                    <div class=" h-96 w-full bg-orange-300"></div>
-                </template>
-           </ProductCard>
-
-           <ProductCard>
-                <template #product_image>
-                    <div class=" h-80 w-full bg-red-300"></div>
-                </template>
-           </ProductCard>
-
-           <ProductCard>
-                <template #product_image>
-                    <div class=" h-40 w-full bg-green-300"></div>
-                </template>
-           </ProductCard>
-
-           <ProductCard>
-                <template #product_image>
-                    <div class="h-64 w-full bg-red-300"></div>
-                </template>
-           </ProductCard>
-
-           <ProductCard>
-                <template #product_image>
-                    <div class=" h-40 w-full bg-green-300"></div>
-                </template>
-           </ProductCard>
-
-           <ProductCard>
-                <template #product_image>
-                    <div class=" h-52 w-full bg-orange-300"></div>
-                </template>
-           </ProductCard>
-        </div>
+        </div> -->
 
         
     </div>
@@ -255,6 +122,9 @@ import NavbarView from '../components/NavbarView.vue'
 import ProductCard from '../components/ProductCard'
 import ShopCard from '../components/ShopCard'
 import PageTitle from '../components/PageTitle'
+
+import axios from 'axios';
+
 
     export default {
         name: "MarketView",
@@ -267,11 +137,24 @@ import PageTitle from '../components/PageTitle'
         data() {
             return {
                 height: 0,
+
+                products: '',
             }
         },
         methods:{
             randomHeightInPx(){
                 this.height = Math.floor(Math.random(40, 100) * 100);
+            },
+
+
+            async getAllProducts(){
+                try{
+                    const response = await axios.get('/products');
+                    this.products = response.data.products;
+                    console.log(response)
+                }catch(error){
+                    console.log("error getting products..", error);
+                }
             }
         },
         computed:{
@@ -282,7 +165,9 @@ import PageTitle from '../components/PageTitle'
         },
 
         created() {
-            this.randomHeightInPx()
+            // this.randomHeightInPx();
+
+            this.getAllProducts();
         },
     }
 </script>

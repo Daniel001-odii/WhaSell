@@ -1,21 +1,6 @@
 <template>
-    <!-- NON AUTH NAVBAR -->
-    <div v-if="!authenticated" class="w-full text-white flex flex-row items-center justify-between px-5 py-3">
-        <LogoBlack/>
-        <div class="flex-row gap-4 text-black hidden md:flex">
-            <RouterLink to="#">About</RouterLink>
-            <RouterLink to="#">Features</RouterLink>
-            <RouterLink to="#">Pricing</RouterLink>
-            <RouterLink to="#">Use Cases</RouterLink>
-            <RouterLink to="#">Contact</RouterLink>
-        </div>
-        <div class="hidden md:flex flex-row gap-3 font-bold justify-stretch items-stretch">
-            <RouterLink to="/login" class="text-black hover:bg-slate-200 bg-opacity-20 px-8 rounded-md flex justify-center items-center">Login
-            </RouterLink>
-           
-            <button class="text-white bg-black px-8 py-3 rounded-md">Sign Up</button>
-        </div>
-    </div>
+    <FullPageModal v-if="unauthorized"/>
+  
 
     <!-- NAVBAR FOR AUTHENTICATED USERS -->
     <div v-if="authenticated" class="bg-gray-20 border-b ">
@@ -95,20 +80,20 @@
                             </template>
                         </CustomDropdown>
                     </div>
-                    <CustomDropdown>
+                    <CustomDropdown v-if="user">
                         <template #trigger>
-                            <img src="../assets/images/user_profile_img.png" class=" h-10">
+                            <i class="bi bi-person-circle text-4xl text-gray-400"></i>
                         </template>
                         <template #menu>
-                            <div class="text-black bg-white rounded-md p-1 relative top-5 border w-[350px]">
-                                <div class="flex flex-row items-center justify-between p-1">
-                                    <div class="flex flex-row gap-3 items-center justify-start">
+                            <div class="text-black bg-white rounded-md relative top-5 border w-[350px] p-3">
+                                <div class="flex flex-row items-center justify-between p-3 rounded-md cursor-pointer hover:bg-gray-100">
+                                    <div class="flex flex-row gap-3 items-center justify-start ">
                                         <div>
                                             <i class="bi bi-person-circle text-4xl text-gray-400"></i>
                                         </div>
                                         <div class="flex flex-col">
-                                            <p class="text-xl font-bold">Edwards Andrew</p>
-                                            <span class="text-sm">edwardsandrew123@gmail.com</span>
+                                            <p class="text-xl font-bold">{{ user.username }}</p>
+                                            <span class="text-sm">{{ user.email }}</span>
                                         </div>
                                     </div>
                                     <button>
@@ -124,7 +109,7 @@
                                     <RouterLink class="user-menu-item" to="#">
                                         <i class="bi bi-info-circle mr-3"></i>Help & Support</RouterLink>
                                 </div>
-                                <div class=" border-t p-2 pt-5">
+                                <div class=" border-t p-2 pt-5 mt-3">
                                     <button @click="logout"  class=" text-left w-full  text-black bg-transparent text-red-500 hover:font-bold">
                                         <i class="bi bi-box-arrow-right mr-3"></i> Log out
                                     </button>
@@ -171,6 +156,25 @@
             </RouterLink>
         </div>
     </div>
+
+
+      <!-- NON AUTH NAVBAR -->
+      <div v-else class="w-full text-white flex flex-row items-center justify-between px-5 py-3">
+        <LogoBlack/>
+        <div class="flex-row gap-4 text-black hidden md:flex">
+            <RouterLink to="#">About</RouterLink>
+            <RouterLink to="#">Features</RouterLink>
+            <RouterLink to="#">Pricing</RouterLink>
+            <RouterLink to="#">Use Cases</RouterLink>
+            <RouterLink to="#">Contact</RouterLink>
+        </div>
+        <div class="hidden md:flex flex-row gap-3 font-bold justify-stretch items-stretch">
+            <RouterLink to="/login" class="text-black hover:bg-slate-200 bg-opacity-20 px-8 rounded-md flex justify-center items-center">Login
+            </RouterLink>
+           
+            <button class="text-white bg-black px-8 py-3 rounded-md">Sign Up</button>
+        </div>
+    </div>
 </template>
 
 <script>
@@ -178,14 +182,24 @@ import CustomDropdown from './CustomDropdown.vue';
 import LogoBlack from './LogoBlack.vue';
 import axios from 'axios'
 
+import FullPageModal from '../components/FullPageModal.vue';
 
 export default {
     name: "NavbarView",
+    components: {
+        LogoBlack,
+        CustomDropdown,
+        FullPageModal
+    },
     data(){
         return{
-            authenticated: true,
+            authenticated: false,
             premium: false,
             flip: false,
+            user: '',
+
+            unauthorized: false,
+          
             shop_categories: [
                     "electronics",
                     "furniture",
@@ -204,10 +218,7 @@ export default {
                 ],
         }
     },
-    components: {
-        LogoBlack,
-        CustomDropdown,
-    },
+
     
 
     methods:{
@@ -221,6 +232,26 @@ export default {
         close (e) {
             if (!this.$el.contains(e.target)) {
                 this.flip = false;
+            }
+        },
+
+        async getUserDetails(){
+            try{
+                this.authenticated = true;
+                const response = await axios.get('/user');
+                this.user = response.data.user;
+                // console.log("user :", response);
+            }catch(error){
+                this.authenticated = false;
+                if(error.response.status == 401){
+                    this.unauthorized = true;
+                    // alert('session expired please login!');
+                };
+
+                this.$toast.open({
+                    message: `${error.response.data.message}`,
+                    type: 'error',
+                });
             }
         },
 
@@ -241,7 +272,8 @@ export default {
 
     mounted(){
         document.addEventListener('click', this.close);
-        this.checkAuthenticationState();       
+        this.checkAuthenticationState();    
+        this.getUserDetails();
     },
     beforeDestroy () {
         document.removeEventListener('click',this.close)

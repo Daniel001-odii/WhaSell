@@ -4,12 +4,12 @@
         <PageTitle>Settings</PageTitle>
         <div  class="flex flex-row gap-5 p-5 relative">
             <div class="p-3 flex flex-col gap-3 border rounded-xl w-full md:w-64 min-w-64 h-fit sticky top-10">
-                <RouterLink to="/account" class="nav-items" @click="page_visible = !page_visible">Personal details</RouterLink>
-                <RouterLink to="/account/shop" class="nav-items"  @click="page_visible = !page_visible">My Shop</RouterLink>
-                <RouterLink to="/account/analytics" class="nav-items" @click="page_visible = !page_visible">Analytics & Insights</RouterLink>
-                <RouterLink to="/account/upgrade" class="nav-items" @click="page_visible = !page_visible">Upgrade</RouterLink>
-                <RouterLink to="/account/notifications" class="nav-items" @click="page_visible = !page_visible">Manage Notifications</RouterLink>
-                <RouterLink to="/account/delete" class="nav-items" @click="page_visible = !page_visible">Delete My Account</RouterLink>
+                <RouterLink to="/account" class="nav-items"  :class="{'active-nav': isUserPage }" @click="page_visible = !page_visible">Personal details</RouterLink>
+                <RouterLink to="/account/shop" class="nav-items" :class="{'active-nav': isShopPage }"  @click="page_visible = !page_visible">My Shop</RouterLink>
+                <RouterLink to="/account/analytics" class="nav-items" :class="{'active-nav': isAnalyticsPage }" @click="page_visible = !page_visible">Analytics & Insights</RouterLink>
+                <RouterLink to="/account/upgrade" class="nav-items" :class="{'active-nav': isUpgradePage }" @click="page_visible = !page_visible">Upgrade</RouterLink>
+                <RouterLink to="/account/notifications" class="nav-items" :class="{'active-nav': isNotifyPage }" @click="page_visible = !page_visible">Manage Notifications</RouterLink>
+                <!-- <RouterLink to="/account/delete" class="nav-items" :class="{'active-nav': is }" @click="page_visible = !page_visible">Delete My Account</RouterLink> -->
                 <div class="mt-20 p-3 w-full">
                     <RouterLink to="#" class=" p-3 rounded-md hover:bg-green-800 hover:text-white w-full">Log out</RouterLink>
                 </div>
@@ -44,6 +44,24 @@ import PageTitle from '../components/PageTitle'
             return{
                 page_visible: false,
             }
+        },
+
+        computed: {
+            isUserPage(){
+                return this.$route.name == 'Account';
+            },
+            isShopPage(){
+                return this.$route.path.startsWith('/account/shop')
+            },
+            isAnalyticsPage(){
+                return this.$route.path.startsWith('/account/analytics')
+            },
+            isUpgradePage(){
+                return this.$route.path.startsWith('/account/upgrade')
+            },
+            isNotifyPage(){
+                return this.$route.path.startsWith('/account/notifications')
+            }
         }
     }
 </script>
@@ -51,5 +69,9 @@ import PageTitle from '../components/PageTitle'
 <style scoped>
     .nav-items{
         @apply p-3 rounded-md hover:bg-slate-100
+    }
+
+    .active-nav{
+        @apply bg-app_green text-white hover:bg-app_green
     }
 </style>

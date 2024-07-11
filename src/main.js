@@ -11,8 +11,8 @@ import './assets/css/style.css'
 // standalone Toast plugin
 import ToastPlugin from 'vue-toast-notification';
 // Import one of the available themes
-import 'vue-toast-notification/dist/theme-default.css';
-// import 'vue-toast-notification/dist/theme-bootstrap.css';
+// import 'vue-toast-notification/dist/theme-default.css';
+import 'vue-toast-notification/dist/theme-bootstrap.css';
 
 
 
@@ -29,9 +29,10 @@ import 'primevue/resources/themes/nova/theme.css';
 import 'primevue/resources/primevue.min.css';
 import 'primeicons/primeicons.css';
 
-import './assets/css/custom-toast.css'
+// import './assets/css/custom-toast.css'
 // Import the PrimeVue Toast component CSS
 // import 'primevue/toast/toast.css';
+
 
 const app = createApp(App);
 

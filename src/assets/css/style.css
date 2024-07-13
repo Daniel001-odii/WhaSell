@@ -52,3 +52,7 @@
 button:disabled{
   @apply bg-gray-300 cursor-not-allowed
 }
+
+button{
+  @apply hover:bg-opacity-90
+}

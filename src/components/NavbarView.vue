@@ -86,20 +86,24 @@
                         </template>
                         <template #menu>
                             <div class="text-black bg-white rounded-md relative top-5 border w-[350px] p-3">
-                                <div class="flex flex-row items-center justify-between p-3 rounded-md cursor-pointer hover:bg-gray-100">
-                                    <div class="flex flex-row gap-3 items-center justify-start ">
-                                        <div>
-                                            <i class="bi bi-person-circle text-4xl text-gray-400"></i>
+                               
+                                    <div class="flex flex-row items-center justify-between p-3 rounded-md cursor-pointer hover:bg-gray-100">
+                                        <div class="flex flex-row gap-3 items-center justify-start ">
+                                            <div>
+                                                <i class="bi bi-person-circle text-4xl text-gray-400"></i>
+                                            </div>
+                                            <div class="flex flex-col">
+                                                <p class="text-xl font-bold">{{ user.username }}</p>
+                                                <span class="text-sm">{{ user.email }}</span>
+                                            </div>
                                         </div>
-                                        <div class="flex flex-col">
-                                            <p class="text-xl font-bold">{{ user.username }}</p>
-                                            <span class="text-sm">{{ user.email }}</span>
-                                        </div>
+                                        <RouterLink to="/account">
+                                            <button>
+                                                <i class="pi pi-chevron-right text-sm"></i>
+                                            </button>
+                                        </RouterLink>
                                     </div>
-                                    <button>
-                                        <i class="pi pi-chevron-right text-sm"></i>
-                                    </button>
-                                </div>
+
                                 <div class="flex flex-col ">
                                     <RouterLink class="user-menu-item" to="/account">
                                         <i class="bi bi-gear mr-3"></i>Settings</RouterLink>
@@ -240,6 +244,7 @@ export default {
                 this.authenticated = true;
                 const response = await axios.get('/user');
                 this.user = response.data.user;
+                localStorage.setItem('user', response.data.user._id);
                 // console.log("user :", response);
             }catch(error){
                 this.authenticated = false;
@@ -248,10 +253,12 @@ export default {
                     // alert('session expired please login!');
                 };
 
+                /*
                 this.$toast.open({
                     message: `${error.response.data.message}`,
                     type: 'error',
                 });
+                */
             }
         },
 

@@ -11,8 +11,8 @@ import './assets/css/style.css'
 // standalone Toast plugin
 import ToastPlugin from 'vue-toast-notification';
 // Import one of the available themes
-// import 'vue-toast-notification/dist/theme-default.css';
-import 'vue-toast-notification/dist/theme-bootstrap.css';
+import 'vue-toast-notification/dist/theme-default.css';
+// import 'vue-toast-notification/dist/theme-bootstrap.css';
 
 
 
@@ -43,7 +43,7 @@ app.use(store);
 
 // toast..
 app.use(ToastPlugin, {
-    position: 'top-right'
+    position: 'bottom'
 });
 
 // Register the Toast component globally

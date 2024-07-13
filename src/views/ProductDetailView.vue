@@ -1,4 +1,28 @@
 <template>
+
+    <!-- PRODUCT DETAIL DIALOG -->
+   <Dialog v-model:visible="show_full_description" modal header="Product Description" :style="{ width: '50rem' }" :breakpoints="{ '1199px': '75vw', '575px': '90vw' }">
+        <div>
+            {{ product.description }}
+        </div>
+    </Dialog>
+
+
+    <FullPageModal v-show="unauthorized_action">
+        <div class="flex flex-col gap-3">
+            <p class="text-gray-400">my guy!</p>
+            <span class="text-2xl">You need to be logged in to perform that action :)</span>
+        </div>
+
+        <div class="flex flex-row gap-3 w-full">
+            <button @click="unauthorized_action = !unauthorized_action" class="btn p-3 px-6 bg-gray-200  rounded-md w-full mt-3">cancel</button>
+            <RouterLink to="/login" class="w-full">
+                <button class="btn p-3 px-6 bg-app_green text-white rounded-md w-full mt-3">Login</button>
+            </RouterLink>
+        </div>
+       
+    </FullPageModal>
+
     <div class="container mx-auto p-3">
 
     <!-- ERROR GETTING PRODUCT DETAILS -->
@@ -8,7 +32,6 @@
     </div>
 
     <!-- PAGE LOADING SKELETON -->
-
     <div v-if="loading" class="m-3">
         <Skeleton width="100%" borderRadius="20px" height="120px"></Skeleton>
         <div class="flex flex-col md:flex-row gap-5 mt-8 flex-wrap">
@@ -38,18 +61,25 @@
         <!-- {{ product.shop }} -->
         <!-- SHOP DETAIL BANNER -->
         <div class=" m-3 bg-app_gree border rounded-3xl p-5 flex flex-row items-end justify-between gap-5 flex-wrap ">
-            <div v-if="product.shop" class="flex flex-row justify-between gap-3 w-full">
+            <div v-if="shop" class="flex flex-row justify-between gap-3 w-full">
                 <div class="rounded-full w-20 h-20 min-w-20 bg-gray-100 flex justify-center items-center text-gray-200 text-3xl">
                     <i class="bi bi-shop"></i>
                 </div>
                 <div class="flex flex-row flex-wrap gap-3 justify-between border-green-30 w-full">
                     <div class="flex flex-col">
-                        <span class="text-xl font-bold">{{ product.shop.name }}</span>
-                        <span class="text-md">{{ product.shop.category }}</span>
-                        <span class="text-sm">Joined {{ formatDistanceToNow(product.shop.createdAt) }} ago | 2k+ followers</span>
+                        <RouterLink :to="`/shop/${shop.name}`">
+                            <span class="text-xl font-bold">{{ shop.name }}</span>
+                        </RouterLink>
+                        <span class="text-md">{{ shop.category }}</span>
+                        <span class="text-sm">Joined {{ formatDistanceToNow(shop.createdAt) }} ago | {{ shop.followers.length }} followers</span>
                     </div>
-                    <div class="flex flex-row gap-3 flex-wrap border-red-30 items-center justify-center self-end">
-                        <button @click="followShop(product.shop._id)" class=" text-sm border hover:border-gray-300 hover:bg-slate-100 rounded-full p-3 px-8 text-black font-medium"> &plus; Follow</button>
+
+                    <!-- display action buttons only when current user is not shop owner -->
+                    <div v-if="user != shop.owner" class="flex flex-row gap-3 flex-wrap border-red-30 items-center justify-center self-end">
+                        <button @click="followShop(shop._id)" class=" text-sm border hover:border-gray-300 hover:bg-slate-100 rounded-full p-3 px-8 text-black font-medium"> 
+                            <span v-if="!shop.followers.includes(user)"><i class="bi bi-plus mr-1"></i>follow</span>
+                            <span v-else>following</span>
+                        </button>
 
                         <button class="rounded-full h-10 w-10 hover:bg-slate-100 text-xl">
                                 <i class="bi bi-telephone-fill"></i>
@@ -66,18 +96,21 @@
         <!-- FULL PRODUCT DESRIPTION AND DETAILS -->
         <div class="flex flex-col md:flex-row gap-5 mt-8 flex-wra p-5" v-if="product">
                <!-- {{  main_image }} -->
-                  <div class="flex flex-col gap-3">
-                    <div :style="`background-image: url('${main_image}')`" class="full-image md:flex-1 w-full h-[400px] md:w-[400px] rounded-md flex justify-center items-center border">
-                        <!-- <img :src="`http://localhost:8000/${product.images[0]}`" class="max-h-[400px]"> -->
-                    </div>
-                    <div class="flex flex-row gap-3">
-                        <div @click="viewImage(image)" class=" w-20 max-h-[100px] h-auto bg-gray-100 p-3 border-2 hover:border-app_green rounded-lg cursor-pointer" v-for="image in product.images"> 
-                            <img :src="`http://localhost:8000/${image}`">
-                        </div>
-                    </div>
-                  </div>
+            <div class="flex flex-col gap-3 md:w-[50%]">
+                <div :style="`background-image: url('${main_image}')`" class="full-image  w-full h-[400px] rounded-md flex justify-center items-center">
+                    <!-- <img :src="`http://localhost:8000/${product.images[0]}`" class="max-h-[400px]"> -->
+                </div>
+                <div class="flex flex-row gap-3">
+                    <!-- image: {{ product.images }}<br/>
+                    main: {{ main_image }} -->
+                    <!-- <div @click="viewImage(image)" class=" w-20 h-20 bg-gray-100 overflow-hidden p-1 border-2 hover:border-app_green rounded-lg cursor-pointer" v-for="image in product.images">  -->
+                        <img @click="viewImage(image)" v-for="image in product.images" :src="`http://localhost:8000/${image}`" class=" rounded-md w-20 h-20 cursor-pointer">
+                         <!-- <div class="h-full w-full bg-red-500 rounded-md" :style="`background-image: url('${main_image}')`">{{ image }}</div> -->
+                    <!-- </div> -->
+                </div>
+            </div>
             
-            <div class="flex flex-col md:flex-1">
+            <div class="flex flex-col md:w-[50%]">
                 <span class="bg-app_light_green px-3 py-1 text-green-700 text-2xl font-semibold w-fit">{{ product.name }}</span>
                 <span class="px-3 py-2 mt-2 text-orange-600 bg-orange-100 w-fit rounded-md text-sm">
                     <i class="bi bi-stars"></i>
@@ -86,11 +119,19 @@
                 <span class="text-3xl font-bold mt-3">NGN {{ product.price.toLocaleString() }}</span>
 
                 <div class="flex flex-col gap-2 mt-5">
-                    <p class="font-bold text-xl">Product Description</p>
+                    <div class="flex flex-row justify-between">
+                        <p class="font-bold text-xl">Product Description</p>
+                        <button @click="show_full_description = true">
+                            <i class="bi bi-arrows-fullscreen"></i>
+                        </button>
+                       
+                    </div>
+                    
                     <div>{{ product.description }}</div>
                     <div class="flex flex-row gap-4 flew-wrap text-sm text-gray-400">
                         <span><i class="bi bi-tag mr-1"></i>{{ product.category }}</span>
-                        <span><i class="bi bi-eye mr-1"></i>{{ product.views }}</span>
+                        <span v-if="shop.location"><i class="bi bi-geo-alt mr-1"></i>{{ product.shop.location }}</span>
+                        <span><i class="bi bi-eye mr-1"></i>{{ product.views }} views</span>
                     </div>
                 </div>
                 <div class="mt-3">
@@ -148,22 +189,30 @@ import {  formatJoinedDate } from '../utils/dateUtil'
 
 import { formatDistanceToNow } from 'date-fns'
 
+import FullPageModal from '../components/FullPageModal.vue'
 
 import Skeleton from 'primevue/skeleton'
+import Dialog from 'primevue/dialog';
 
     export default {
         name: "ProductDetailView",
         components: {
             ProductCard,
-            Skeleton
+            Skeleton,
+            FullPageModal,
+            Dialog
         },
         data(){
             return{
                 product: '',
+                shop: '',
                 loading: false,
                 main_image: '',
 
+                user: '',
+                unauthorized_action: false,
                 formatDistanceToNow,
+                show_full_description: false,
                 dateer: '',
                 error_getting_product: false,
             }
@@ -176,11 +225,40 @@ import Skeleton from 'primevue/skeleton'
             },
 
 
+            checkUser(){
+                this.user = localStorage.getItem('user');
+            },
+
+            checkShopFollower(){
+                const isFollowing = this.shop.followers.includes(this.user);
+                return isFollowing
+            },
+
+            async getShopById(shop_id){
+                try{
+                    const response = await axios.get(`/shops/${shop_id}`);
+
+                    this.shop = response.data.shop;
+                }catch(error){
+                    console.log("error getting shop..", error)
+                    this.$toast.open({
+                        message: `${error.response.data.message}`,
+                        type: 'error'
+                    })
+                }
+            },  
+
+
             async getProduct(){
                 try{   
                     this.loading = true;
                     const response = await axios.get(`/products/${this.$route.params.product_id}`);
                     this.product = response.data.product;
+                    // this.shop = response.data.product.shop;
+
+                    // get the shop for the product...
+                    this.getShopById(this.product.shop);
+
                     this.main_image = `http://localhost:8000/${this.product.images[0].replace(/\\/g, '/')}`;
                     this.loading = false;
                     console.log(this.product)
@@ -191,6 +269,7 @@ import Skeleton from 'primevue/skeleton'
                 }
             },
 
+
             async followShop(shop_id){
                 try {
                     const response = await axios.post(`/shops/${shop_id}/follow`);
@@ -199,20 +278,31 @@ import Skeleton from 'primevue/skeleton'
                     this.$toast.open({
                         message: `${response.data.message}`,
                         type: 'default',
-                        position: 'bottom',
                     });
+
+                    this.getShopById(shop_id);
                   
                 } catch (error) {
-                    this.$toast.open({
-                        message: `${error.response.data.message}`,
-                        type: 'error',
-                    });
+                    console.log("error folowing shop: ", error.response);
+                    // if error is unauthorized display login-popup for user to sign-in..
+                    if(error.response.status == 500){
+                        this.unauthorized_action = true;
+                        // alert("You need to be signed-in to follow a shop");
+                    } else {
+                        this.$toast.open({
+                            message: `${error.response.data.message}`,
+                            type: 'error',
+                        });
+                    }
                 }
-            }
+            },
+
+
         },
 
         mounted(){
             this.getProduct();
+            this.checkUser();
         }
     }
 </script>

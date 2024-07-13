@@ -16,7 +16,8 @@
                 <div class="flex flex-col justify-center items-start gap-3 w-full">
                     <span class="font-bold test-md">Location<span class="text-red-500 ml-1">*</span></span>
                     <select class="border bg-slate-100 p-3 w-full rounded-md" v-model="shop_state">
-                        <option v-for="state in NaijaStates.all()">{{ state.state }}</option>
+                        <option disabled value="">Select State</option>
+                        <option v-for="state in NaijaStates.all()" :value="state.state">{{ state.state }}</option>
                     </select>
                 </div>
             </div>
@@ -27,7 +28,7 @@
             <div class="flex flex-col justify-center items-start gap-3 w-full mt-3">
                 <span class="font-bold test-md">Product categories<span class="text-red-500 ml-1">*</span></span>
                 <select class="border bg-slate-100 p-3 w-full rounded-md" v-model="shop.category">
-                    <option>Select category</option>
+                    <option disabled value="">Select category</option>
                     <option v-for="category in categories">{{ category.name }}</option>
                 </select>
             </div>
@@ -85,6 +86,9 @@ import NaijaStates from 'naija-state-local-government';
                     this.user = response.data.user;
                     this.shop = response.data.user.shop;
                     this.loading = false;
+                    if(response.data.user.location.state){
+                        this.shop.location.state = this.user.location.state;
+                    }
                 }catch(error){
                     console.log("error getting user", error);
                     this.loading = false;

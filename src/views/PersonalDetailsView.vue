@@ -18,7 +18,7 @@
         </div>
 
         <!-- LOCATION AREA -->
-
+<!-- {{ NaijaStates.all() }} -->
         <div class="divider-tab">
             location
         </div>
@@ -26,15 +26,17 @@
         <div class="border rounded-lg flex md:flex-row gap-3 p-8 mt-1">
             <div class="flex flex-col justify-center items-start gap-3 w-full">
                 <span class="font-bold test-md">state<span class="text-red-500 ml-1">*</span></span>
-                <select class="border p-3 w-full rounded-md">
-                    <option>Select State</option>
+                <select class="border bg-slate-100 p-3 w-full rounded-md" v-model="selected_state">
+                    <option disabled value="">Select State</option>
+                    <option v-for="state in NaijaStates.all()" :value="state.state">{{ state.state }}</option>
                 </select>
             </div>
 
             <div class="flex flex-col justify-center items-start gap-3 w-full">
                 <span class="font-bold test-md">L.G.A<span class="text-red-500 ml-1">*</span></span>
-                <select class="border p-3 w-full rounded-md">
-                    <option>Select State</option>
+                <select  class="border bg-slate-100 p-3 w-full rounded-md" v-model="selected_LGA">
+                    <option disabled value="">Select LGA</option>
+                    <option v-if="selected_state" v-for="LGA in NaijaStates.lgas(selected_state).lgas" :value="LGA">{{ LGA }}</option>
                 </select>
             </div>
         </div>
@@ -69,7 +71,7 @@
 
 <script>
 import axios from 'axios'
-
+import NaijaStates from 'naija-state-local-government';
 
     export default {
         name: "PersonalDetailsView",
@@ -79,6 +81,9 @@ import axios from 'axios'
         data(){
             return{
                 user: '',
+                NaijaStates,
+                selected_state: '',
+                selected_LGA: '',
             }
         },
 

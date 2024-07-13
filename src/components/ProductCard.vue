@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class=" break-inside-avoid flex-auto p-2 border border-transparent hover:border-gray-200 rounded-lg relative w-fit">
+        <div class=" break-inside-avoid flex-auto p-3 hover:shadow-md rounded-lg relative w-fit">
             <div class=" relative">
                 
                 <button class=" absolute z-10 top-3 left-3 h-6 w-6 rounded-md bg-white text-gray-500 shadow-xl flex justify-center items-center">
@@ -21,7 +21,7 @@
                 </RouterLink>
                 <div class="flex flex-row justify-between">
                 <!-- <slot name="product-price"> -->
-                    <span class=" text-2xl">&#8358;{{ product_price }}</span>
+                    <span class=" text-xl">&#8358;{{ product_price }}</span>
                 <!-- </slot> -->
                 <button class="h-8 w-8 rounded-full bg-white flex justify-center items-center">
                     <i class="bi bi-hand-thumbs-up"></i>
@@ -32,7 +32,7 @@
                     <i class="bi bi-eye-fill"></i>
                     {{ views }} views 
                 </span>
-                <span v-if="posted">listed {{ formatDistanceToNow(posted) }} ago</span>
+                <!-- <span v-if="posted">listed {{ formatDistanceToNow(posted) }} ago</span> -->
                 
             </div>
                 

@@ -52,6 +52,12 @@ import PageTitle from '../components/PageTitle'
             }
         },
 
+        mounted(){
+            if(this.$route.params.is_open){
+                this.page_visible = true;
+            }
+        },
+
         computed: {
             isUserPage(){
                 return this.$route.name == 'Account';
@@ -78,6 +84,7 @@ import PageTitle from '../components/PageTitle'
     }
 
     .active-nav{
-        @apply bg-app_green text-white hover:bg-app_green
+        /* @apply bg-app_green text-white hover:bg-app_green */
+        @apply text-app_green font-bold
     }
 </style>

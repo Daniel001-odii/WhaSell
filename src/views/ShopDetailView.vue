@@ -1,46 +1,101 @@
 <template>
     <div>
+        <!-- {{ isAllowed() }} -->
         <div class="flex flex-col">
-            <div class="shop-hero w-full bg-app_light_green h-[200px] relative">
+            <div v-if="loading">loading</div>
+            <div v-else class="shop-hero w-full bg-app_light_green h-[200px] relative">
+                <RouterLink to="/account/shop/true">
+                    <button v-if="isAllowed()"class="rounded-full border border-black bg-white bg-opacity-50 px-5 py-2 absolute bottom-5 right-5 z-40 flex justify-center items-center gap-3">
+                        <span class="hidden md:flex">edit profile</span>
+                        <i class="bi bi-pencil"></i>
+                    </button>
+                </RouterLink>
                 <div class="flex flex-col gap-8 absolute top-[65%] w-full border-red-400">
                     <div class="w-full relative h-[150px]">
-                          <div class=" absolute left-[100px] size-[150px] bg-gray-300 rounded-full "></div>
+                          <div class=" absolute left-[100px] size-[150px] rounded-full shop-image" :style="`background: url('${shop.profile.image_url}')`"></div>
                     </div>
                   
 
-                    <div class="flex flex-col md:flex-row gap-6 p-3">
-                        <div class="flex flex-col justify-center text-left md:w-[35%] items-start gap-3">
-                            <h1 class="font-bold text-2xl">Shop name here</h1>
-                            <span class="bg-app_light_green w-fit rounded-md text-app_green p-3">furniture</span>
+                    <div class="flex flex-col justify-start items-start md:flex-row gap-6 p-3">
+                        <div v-if="shop" class="flex flex-col justify-center text-left md:w-[35%] items-start gap-3">
+                            <h1 class="font-bold text-2xl">{{ shop.name }}</h1>
+                            <span class="bg-app_light_green w-fit rounded-md text-app_green p-3">{{ shop.category}}</span>
                             <div class="flex flex-row justify-between w-full flex-wrap gap-3">
-                                <span><i class="bi bi-people-fill text-green-800 mr-2"></i>Followers 20k+</span>
-                                <span><i class="bi bi-grid-fill  text-green-800 mr-2"></i>Lisitngs 34</span>
-                                <span><i class="bi bi-bookmark-star-fill  text-green-800 mr-2"></i>Ratings 34</span>
+                                <span><i class="bi bi-people-fill text-green-800 mr-2"></i>Followers {{ shop.followers_count }}</span>
+                                <span><i class="bi bi-grid-fill  text-green-800 mr-2"></i>Lisitngs {{ shop.listings }}</span>
+                                <span><i class="bi bi-bookmark-star-fill  text-green-800 mr-2"></i>Ratings <Rating v-model="shop_rating" disabled/></span>
                             </div>
                             <p class="mt-6">
-                                Welcome to Deluxe Arts and Crafts where artistry meets comfort, you can quickly browse through our catalogue of products ranging from beaded shirts, skirts, paintings, bags and more and bask in the joy of art we create. Feel free to follow my store to stay tuned with new product listings and get early promo discounts on time...... Read More
+                                {{ shop.description }}
                             </p>
                             <div class="text-gray-400 flex flex-row flex-wrap gap-4">
-                                <span>
-                                    <i class="bi bi-geo-alt-fill mr-1"></i>shop location here
+                                <span v-if="shop.location">
+                                    <i class="bi bi-geo-alt-fill mr-1"></i>
+                                    {{  shop.location }}
                                 </span>-
-                                <span>joined 3 years ago</span>
+                                <span>joined {{ formatDistanceToNow(shop.createdAt)}} ago</span>
                                 
                             </div>
-                            <div class="flex flex-row flex-wrap gap-3 w-full mt-4">
-                                <button class="bg-app_green text-white rounded-md p-3 grow"><i class="bi bi-person-plus mr-2"></i>follow</button>
+                            <div v-if="isAllowed()" class="flex flex-row flex-wrap gap-3 w-full mt-4">
+                                <RouterLink to="/products/new">
+                                    <button class="bg-app_green text-white rounded-md p-3 w-full"><i class="bi bi-plus-circle-fill mr-2"></i>Add new product</button>
+                                </RouterLink>
+                            </div>
+                            <div v-else class="w-full flex gap-3">
+                                <!-- <button @click="followShop(shop._id)" class=" text-sm border hover:border-gray-300 hover:bg-slate-100 rounded-full p-3 px-8 text-black font-medium"> 
+                                    
+                                </button> -->
+                                <button :class="shop.followers.includes(user) ? 'bg-green-600 text-app_green':'text-white'" @click="followShop(shop._id)" class="bg-app_green text-white rounded-md p-3 grow">
+                                    <span v-if="!shop.followers.includes(user)"><i class="bi bi-plus mr-1"></i>follow</span>
+                                    <span v-else>following</span>
+                                </button>
                                 <button class="bg-app_light_green text-app_green rounded-md px-6 py-2"><i class="bi bi-telephone"></i></button>
                                 <button class="bg-app_light_green text-app_green rounded-md px-6 py-2"><i class="bi bi-whatsapp"></i></button>
+                                
                             </div>
                         </div>
-                        <div class="flex flex-col mt-6 md:w-[70%] border-red-400">
+                        <div class="flex flex-col mt-6 md:mt-0 md:w-[70%] border-red-400 w-full">
                             <div class="flex flex-row justify-stretch items-stretch w-full p-3 text-lg">
                                 <button @click="current_tab = 0" :class="current_tab == 0 ? 'font-bold text-app_green':''" class="w-full p-3"><i class="bi bi-grid-fill mr-2"></i> Listings</button>
                                 <button @click="current_tab = 1" :class="current_tab == 1 ? 'font-bold text-app_green':''" class="w-full p-3"><i class="bi bi-file-play mr-2"></i>Glips</button>
                             </div>
-                            <div class="">
-                                <div v-show="current_tab == 0" class="w-full h-[400px] bg-red-500"></div>
-                                <div v-show="current_tab == 1" class="w-full h-[400px] bg-green-500"></div>
+                            <div class="w-full bg-gray-50 min-h-[400px] rounded-sm">
+                                <div v-show="current_tab == 0" class="w-full ">
+                                    <div v-if="loading_products">Loading products...</div>
+                                    <div v-else class="masonry flex flex-wrap gap-5">
+                                        <ProductCard v-for="(product, index) in products" :key="index"
+                                                :id="product._id"
+                                                :product_name="product.name"
+                                                :views="product.views"
+                                                :posted="product.createdAt"
+                                                :product_price="product.price.toLocaleString()"
+                                                :shop="product.shop.name"
+                                            >
+                                                <template #product_image>
+                                                    <img :src="`http://localhost:8000/${product.images[0]}`" class="max-h-[300px] max-w-[200px]">
+                                                </template>
+                                        </ProductCard>
+                                    </div>
+                                    <div class="flex justify-center items-center p-8 font-bold text-gray-500" v-if="!products || products.length <= 0">No products yet...</div>
+                                </div>
+                                <div v-show="current_tab == 1" class="w-full">
+                                    <div v-if="loading_products">Loading glips...</div>
+                                    <div v-else class="masonry flex flex-wrap gap-5">
+                                        <ProductCard v-for="(product, index) in products" :key="index"
+                                                :id="product._id"
+                                                :product_name="product.name"
+                                                :views="product.views"
+                                                :posted="product.createdAt"
+                                                :product_price="product.price.toLocaleString()"
+                                                :shop="product.shop.name"
+                                            >
+                                                <template #product_image>
+                                                    <img :src="`http://localhost:8000/${product.images[0]}`" class="max-h-[300px] max-w-[200px]">
+                                                </template>
+                                        </ProductCard>
+                                    </div>
+                                    <div class="h-full flex justify-center items-center p-8 font-bold text-gray-500" v-if="!products || products.length <= 0">No glips yet...</div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -49,33 +104,125 @@
             </div>
             
         </div>
-        
+        <!-- {{ shop_id }} -->
     </div>
 </template>
 
 <script>
 import ProductCard from '@/components/ProductCard.vue';
 import axios from 'axios'
-
+import { formatDistanceToNow } from 'date-fns'
+import Rating from 'primevue/rating';
 
     export default {
         name: "ShopDetailView",
         components:{
             ProductCard,
+            Rating,
         },
 
         data(){
             return{
+                loading: false,
                 current_tab: 0,
+                products: '',
+                glips: '',
+                shop: '',
+                user: '',
+                shop_id: '',
+                shop_rating: 4,
+                loading_products: false,
+                loading_glips: false,
+                formatDistanceToNow,
             }
         },
 
-        methods:{
+        computed:{
+            
+        },
 
+        methods:{
+            isAllowed(){
+                this.user = localStorage.getItem('user');
+                return this.user == this.shop.owner;
+            },
+            
+
+            async getShopByName(){
+                try{
+                    this.loading = true;
+                    const response = await axios.get(`/shops/${this.$route.params.name}/full`);
+                    this.shop = response.data.shop;
+                    console.log("shop: ", response)
+                    this.shop_id = response.data.shop._id;
+                    // this.products = response.data.shop.products;
+                    this.loading = false;
+                    // get products...
+                    this.getShopProducts(this.shop_id);
+                }catch(error){
+                    console.log("error getting shop: ", error);
+                    this.loading = false;
+                }   
+            },
+
+            async getShopById(shop_id){
+                try{
+                    const response = await axios.get(`/shops/${shop_id}`);
+
+                    this.shop = response.data.shop;
+                }catch(error){
+                    console.log("error getting shop..", error)
+                    this.$toast.open({
+                        message: `${error.response.data.message}`,
+                        type: 'error'
+                    })
+                }
+            },  
+
+            async getShopProducts(shop_id){
+                try{
+                    this.loading_products = true;
+                    const response = await axios.get(`/products/${shop_id}/shop`);
+                    this.products = response.data.products;
+                    console.log("products: ", response)
+                    this.loading_products = false;
+                }catch(error){
+                    console.log("error getting products..");
+                    this.loading_products = false;
+                }
+            },
+
+            async followShop(shop_id){
+                try {
+                    const response = await axios.post(`/shops/${shop_id}/follow`);
+                    // console.log("res from follow shop: ", response)
+                  
+                    this.$toast.open({
+                        message: `${response.data.message}`,
+                        type: 'default',
+                    });
+
+                    this.getShopById(shop_id);
+                  
+                } catch (error) {
+                    console.log("error folowing shop: ", error.response);
+                    // if error is unauthorized display login-popup for user to sign-in..
+                    if(error.response.status == 500){
+                        this.unauthorized_action = true;
+                        // alert("You need to be signed-in to follow a shop");
+                    } else {
+                        this.$toast.open({
+                            message: `${error.response.data.message}`,
+                            type: 'error',
+                        });
+                    }
+                }
+            },
         },
 
         created(){
-
+            this.getShopByName();
+          
         },
 
 
@@ -88,5 +235,11 @@ import axios from 'axios'
         background-size: cover;
         background-position: center;
         background-repeat: no-repeat;
+    }
+
+    .shop-image{
+        background-size: cover !important;
+        background-position: center !important;
+        background-repeat: no-repeat !important;
     }
 </style>

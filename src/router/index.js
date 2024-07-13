@@ -111,14 +111,14 @@ const routes = [
       },
 
       {
-        path: '/shop/:name',
+        path: '/shops/:name',
         name: `Shop`,
         component: ShopDetailView,
       },
 
 
       {path: 'likes', name: 'Your likes', component: LikesView},
-      {path: 'new-product', name: 'New Product', component: NewProductView},
+      {path: '/products/new', name: 'New Product', component: NewProductView},
     ]
   },
 
@@ -126,9 +126,10 @@ const routes = [
   {
     path: '/account',
     component: AccountTemplateView,
+    meta: { requiresAuth: true },
     children: [
       {path: '', name: `Account`, component: PersonalDetailsView},
-      {path: 'shop', name: `My Shop`, component: ShopView},
+      {path: 'shop/:is_open?', name: `My Shop`, component: ShopView},
       {path: 'analytics', name: `My Insights`, component: AnalyticsView},
       {path: 'upgrade', name: `My Subscription`, component: UpgradeView},
       {path: 'notifications', name: `My Notifications`, component: NotificationsView},
@@ -142,6 +143,40 @@ const routes = [
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes
-})
+});
+
+let redirectToLogin = false; // Initialize a flag to redirect to login after authentication
+let requestedRoute = null; // Initialize a variable to store the requested route
+const user_id = localStorage.getItem('user');
+
+// Create a navigation guard that prevents loggedn in users from visiting irrelevant routes when logged in...
+// this is ensured via the user roles present in the token...
+router.beforeEach((to, from, next) => {
+
+  // If the user is logged in and is trying to visit the root URL or login page
+  if (user_id && to.path === '/' || user_id && to.path === '/login' || user_id && to.path === '/register') {
+    // Redirect users to /jobs
+    next('/market')
+  }
+  else{
+    // Otherwise, proceed with the navigation
+    next()
+  };
+
+});
+
+
+
+// navigation gaurd to allow only loggedin users to view certain pages..
+router.beforeEach((to, from, next) => {
+  // Check if the route has a "requiresAuth" meta field and matches the user's role
+  if (to.meta.requiresAuth && !user_id) {
+    redirectToLogin = true; // Set the flag to true
+    requestedRoute = to.fullPath; // Store the requested route
+    next('/login'); // Redirect to login for unauthorized access
+  } else {
+    next(); // Proceed to the route
+  }
+});
 
 export default router

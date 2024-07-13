@@ -85,7 +85,7 @@
                             <i class="bi bi-person-circle text-4xl text-gray-400"></i>
                         </template>
                         <template #menu>
-                            <div class="text-black bg-white rounded-md relative top-5 border w-[350px] p-3">
+                            <div class="text-black bg-white rounded-xl relative top-5 border w-[350px] p-3">
                                
                                     <div class="flex flex-row items-center justify-between p-3 rounded-md cursor-pointer hover:bg-gray-100">
                                         <div class="flex flex-row gap-3 items-center justify-start ">
@@ -105,13 +105,16 @@
                                     </div>
 
                                 <div class="flex flex-col ">
-                                    <RouterLink class="user-menu-item" to="/account">
-                                        <i class="bi bi-gear mr-3"></i>Settings</RouterLink>
+                                    <!-- <RouterLink class="user-menu-item" to="/account">
+                                        <i class="bi bi-gear mr-3"></i>Settings
+                                    </RouterLink> -->
                                     <RouterLink class="user-menu-item" to="#">
-                                        <i class="bi bi-receipt mr-3"></i>Invoices</RouterLink>
+                                        <i class="bi bi-receipt mr-3"></i>Invoices
+                                    </RouterLink>
                                     <!-- <RouterLink class="user-menu-item" to="#">Followed Stores</RouterLink> -->
                                     <RouterLink class="user-menu-item" to="#">
-                                        <i class="bi bi-info-circle mr-3"></i>Help & Support</RouterLink>
+                                        <i class="bi bi-info-circle mr-3"></i>Help & Support
+                                    </RouterLink>
                                 </div>
                                 <div class=" border-t p-2 pt-5 mt-3">
                                     <button @click="logout"  class=" text-left w-full  text-black bg-transparent text-red-500 hover:font-bold">
@@ -265,8 +268,9 @@ export default {
         async logout() {
             try {
                 const response = await axios.post('/logout');
+                localStorage.clear();
                 console.log(response.data);
-                this.$router.push('/login');
+                window.location.reload();
             } catch (error) {
                 console.error(error);
             }

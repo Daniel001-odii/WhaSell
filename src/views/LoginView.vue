@@ -2,7 +2,7 @@
     <!-- <ToastBox/> -->
     <div class="min-h-screen flex flex-col md:flex-row">
         <div class="w-full md:w-[50%] min-h-screen flex justify-center items-center p-12 md:p-12">
-            <div class="p-3 w-full">
+            <div class="p-3 w-full max-w-lg">
                 <form @submit.prevent="login" class="m-3">
                     <h1 class="text-4xl font-bold text-app_green mb-3">Login</h1>
                     <p class="my-6">Welcome back!!, Oya let’s get back to it...</p>
@@ -110,7 +110,7 @@ import Button from 'primevue/button'
 
                     setTimeout(() => {
                         this.$router.push('/market');
-                    }, 3000);
+                    }, 2000);
 
                     this.loading = false;
                 } catch (error) {

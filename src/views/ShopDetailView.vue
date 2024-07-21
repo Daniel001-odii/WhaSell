@@ -1,4 +1,63 @@
 <template>
+
+    <!-- GLIPS MODAL HERE -->
+    <div v-if="glips_modal" class="fixed h-screen w-full z-50 top-0 right-0 bg-[rgba(0,0,0,0.8)] flex justify-center items-center">
+        <button class="absolute bg-red top-3 right-3" @click="glips_modal = !glips_modal">
+            <i class="bi bi-x-lg text-white text-2xl"></i>
+        </button>
+        <div class="glips-container border-red-500 w-full h-[90vh] flex flex-col justify-start items-center gap-3 p-3">
+            
+            
+            <!-- MAIN GLIP -->
+            <div class="glips rounded-xl bg-black text-white min-h-[100%]  h-full w-full md:max-h-[1000px] md:max-w-[400px] flex justify-center items-center relative" v-for="item in 10">
+                <i class="pi pi-spinner-dotted pi-spin ml-3 text-2xl"></i>
+
+
+                <!-- GLIP ACTIONS -->
+                 <div class="flex flex-col gap-4 bg-red-5 h-[200px] absolute right-5 text-2xl">
+                    <button class="bg-app_light_green rounded-full p-2 text-app_green h-14 w-14 relative">
+                        <i class="bi bi-shop"></i>
+                        <i class="bi bi-plus-circle-fill absolute top-7 text-[20px] -right-0"></i>
+                        
+                    </button>
+                    <button>
+                        <i class="bi bi-upload"></i>
+                    </button>
+                    <button>
+                        <i class="bi bi-hand-thumbs-up"></i>
+                    </button>
+                    <button>
+                        <i class="bi bi-three-dots"></i>
+                    </button>
+                    
+                 </div>
+
+
+
+                <!-- GLIP TEXTS -->
+                <div class=" flex flex-col absolute left-5 right-5 bottom-5">
+                    <div class="w-[80%] flex flex-col gap-3">
+                        <h1 class="font-bold text-2xl">Wooden Bed Frame {{ item }}</h1>
+                        <div>NGN 45,000</div>
+                        <div class="text-sm">
+                            <p>Transform your bedroom with our elegant wooden black bed frame, crafted from premium hardwood with a rich black finish. Its sturdy construction ensures lasting durability while its sleek design adds a touch of contemporary flair. Perfect for any bedroom sett... See More </p>
+                        </div>
+                    </div>
+                   
+                    <button class="btn bg-app_green text-white w-full mt-5">Buy now</button>
+                </div>
+
+
+              
+            </div>
+            
+        </div>
+    </div>
+
+
+
+
+
     <div>
         <!-- {{ isAllowed() }} -->
         <div class="flex flex-col">
@@ -78,7 +137,11 @@
                                     </div>
                                     <div class="flex justify-center items-center p-8 text-gray-500" v-if="!products || products.length <= 0">No products yet</div>
                                 </div>
-                                <div v-show="current_tab == 1" class="w-full">
+
+
+
+                                <!-- FOR GLIPS -->
+                                <div v-show="current_tab == 1" class="w-full" @click="glips_modal = !glips_modal">
                                     <div v-if="loading_products">Loading glips...</div>
                                     <div v-else class="flex flex-col justify-center items-center h-full">
                                     </div>
@@ -111,6 +174,7 @@ import Rating from 'primevue/rating';
 
         data(){
             return{
+                glips_modal: true,
                 loading: false,
                 current_tab: 0,
                 products: [],
@@ -233,5 +297,24 @@ import Rating from 'primevue/rating';
         background-size: cover !important;
         background-position: center !important;
         background-repeat: no-repeat !important;
+    }
+
+    .glips-container{
+        overflow: auto;
+  -webkit-scroll-snap-type: y mandatory;
+      -ms-scroll-snap-type: y mandatory;
+          scroll-snap-type: y mandatory;
+          -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+    }
+
+
+    .glips-container::-webkit-scrollbar {
+       display: none;
+    }
+
+
+    .glips{
+        scroll-snap-align: start;
     }
 </style>

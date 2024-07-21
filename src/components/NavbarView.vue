@@ -133,7 +133,7 @@
         </div>
 
         <!-- FOR MOBILE -->
-        <div class=" md:hidden bg-white text-black flex flex-row border-t w-full justify-around fixed bottom-0 z-50 p-3 text-sm">
+        <div v-if="false" class=" md:hidden bg-white text-black flex flex-row border-t w-full justify-around fixed bottom-0 z-50 p-3 text-sm">
             <RouterLink to="/market">
                 <button class="flex flex-col justify-center items-center">
                     <i class="bi bi-house-door"></i>
@@ -251,8 +251,10 @@ export default {
                 // console.log("user :", response);
             }catch(error){
                 this.authenticated = false;
+                
                 if(error.response.status == 401){
                     this.unauthorized = true;
+                    // window.location.reload();
                     // alert('session expired please login!');
                 };
 

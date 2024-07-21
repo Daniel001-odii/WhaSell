@@ -75,3 +75,7 @@ button:disabled{
 button{
   @apply hover:bg-opacity-90
 }
+
+.btn{
+  @apply border rounded-md px-6 py-2
+}

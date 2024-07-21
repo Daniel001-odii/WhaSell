@@ -76,25 +76,13 @@
                                                 </template>
                                         </ProductCard>
                                     </div>
-                                    <div class="flex justify-center items-center p-8 font-bold text-gray-500" v-if="!products || products.length <= 0">No products yet...</div>
+                                    <div class="flex justify-center items-center p-8 text-gray-500" v-if="!products || products.length <= 0">No products yet</div>
                                 </div>
                                 <div v-show="current_tab == 1" class="w-full">
                                     <div v-if="loading_products">Loading glips...</div>
-                                    <div v-else class="masonry flex flex-wrap gap-5">
-                                        <ProductCard v-for="(product, index) in products" :key="index"
-                                                :id="product._id"
-                                                :product_name="product.name"
-                                                :views="product.views"
-                                                :posted="product.createdAt"
-                                                :product_price="product.price.toLocaleString()"
-                                                :shop="product.shop.name"
-                                            >
-                                                <template #product_image>
-                                                    <img :src="`http://localhost:8000/${product.images[0]}`" class="max-h-[300px] max-w-[200px]">
-                                                </template>
-                                        </ProductCard>
+                                    <div v-else class="flex flex-col justify-center items-center h-full">
                                     </div>
-                                    <div class="h-full flex justify-center items-center p-8 font-bold text-gray-500" v-if="!products || products.length <= 0">No glips yet...</div>
+                                    <div class="h-full flex justify-center items-center p-8 text-gray-500" v-if="!glips || glips.length <= 0">No glips yet</div>
                                 </div>
                             </div>
                         </div>
@@ -125,8 +113,8 @@ import Rating from 'primevue/rating';
             return{
                 loading: false,
                 current_tab: 0,
-                products: '',
-                glips: '',
+                products: [],
+                glips: [],
                 shop: '',
                 user: '',
                 shop_id: '',
@@ -160,6 +148,9 @@ import Rating from 'primevue/rating';
                     // get products...
                     this.getShopProducts(this.shop_id);
                 }catch(error){
+                    if(error.response.status == 404){
+                        this.$router.push('/404');
+                    }
                     console.log("error getting shop: ", error);
                     this.loading = false;
                 }   
@@ -171,7 +162,8 @@ import Rating from 'primevue/rating';
 
                     this.shop = response.data.shop;
                 }catch(error){
-                    console.log("error getting shop..", error)
+                    console.log("error getting shop..", error);
+                    
                     this.$toast.open({
                         message: `${error.response.data.message}`,
                         type: 'error'

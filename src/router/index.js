@@ -30,6 +30,7 @@ import RegistrationDecideView from '@/views/Authentication/RegistrationDecideVie
 import UserRegistrationView from '@/views/Authentication/UserRegistrationView.vue'
 import SellerRegistrationView from '@/views/Authentication/SellerRegistrationView.vue'
 
+import PageNotFoundView from '@/views/PageNotFoundView.vue'
 
 
 const routes = [
@@ -66,22 +67,26 @@ const routes = [
     name: 'Whasell - Register Seller',
     component: SellerRegistrationView,
   },
-  // {
-  //   path: '/register/category?user-type=seller',
-  //   name: 'Whasell - Register Seller',
-  //   component: SellerRegistrationView,
-  // },
-  // {
-  //   path: '/register/category?user-type=buyer',
-  //   name: 'Whasell - Register Seller',
-  //   component: SellerRegistrationView,
-  // },
 
   {
     path: '/register/buyer',
     name: 'Whasell - Register Buyer',
     component: UserRegistrationView,
   },
+
+  
+  // 404 PAGES CONFIG...
+  {
+    path: "/404", 
+    name: "404",
+    component: PageNotFoundView
+  },
+
+  {
+    path: "/:catchAll(.*)", 
+    redirect: "/404"
+  },
+  //  404 PAGES ENDS HERE....
 
 
 

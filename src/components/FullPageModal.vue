@@ -48,7 +48,7 @@ import axios from 'axios';
                      
                     setTimeout(() => {
                         window.location.reload();
-                    }, 3000);
+                    }, 2000);
                     
                     console.log('refresh token: ', response);
                 }catch(error){

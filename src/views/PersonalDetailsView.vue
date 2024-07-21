@@ -1,70 +1,143 @@
 <template>
     <div>
-        <div class="border rounded-lg flex flex-col p-3" v-if="user">
-            <div class="flex flex-row flex-wrap gap-3 p-5">
+        <div class="border rounded-lg flex flex-col p-3 bg-white" v-if="user">
+            <form @submit.prevent="updateUserProfile" class="flex flex-col justify-center items-center gap-3 p-5">
                 <div class=" cursor-pointer bg-gray-600 hover:bg-gray-500 h-24 w-24 rounded-full min-w-24 flex justify-center items-center text-2xl">
                     <i class="bi bi-camera text-white"></i>
                 </div>
-                <!-- {{ user }} -->
-                <div class="">
-                    <p class="font-bold text-2xl">{{ user.username }}</p>
-                    <p>{{ user.email }}</p>
-                    <p>{{ user.phone }}</p>
-                    <button class="bg-app_green hover:bg-opacity-95 p-2 rounded-md w-fit px-6 text-white self-end mt-3">
-                        <i class="bi bi-pen mr-3"></i>Edit
-                    </button>
+            
+                <div class="w-full flex flex-col gap-3">
+                    <div class="flex flex-col justify-center items-start gap-3 w-full">
+                        <span class="font-bold test-md">Full Name<span class="text-red-500 ml-1">*</span></span>
+                        <input type="text" name="username" class="bg-slate-100 w-full p-3 rounded-md overflow-hidden outline-none" v-model="user.username">
+                    </div>
+
+                    <div class="flex flex-col justify-center items-start gap-3 w-full">
+                        <span class="font-bold test-md">Email Address<span class="text-red-500 ml-1">*</span></span>
+                        <input type="email" name="email" class="bg-slate-100 w-full p-3 rounded-md overflow-hidden outline-none" v-model="user.email">
+                    </div>
+
+                    <div class="flex flex-col justify-center items-start gap-3 w-full">
+                        <span class="font-bold test-md">Phone Number<span class="text-red-500 ml-1">*</span></span>
+                        <input type="phone" name="phone" class="bg-slate-100 w-full p-3 rounded-md overflow-hidden outline-none" v-model="user.phone">
+                    </div>
+                    <div class="flex items-end justify-end">
+                        <button type="submit" class="bg-app_green p-3 rounded-md text-white">
+                            <span v-if="loading_profile">loading...</span>
+                            <span v-else> Save Edits</span>     
+                        </button>
+                    </div>
                 </div>
-            </div>
+            </form>
         </div>
 
         <!-- LOCATION AREA -->
 <!-- {{ NaijaStates.all() }} -->
-        <div class="divider-tab">
-            location
+        <div class="divider-tab bg-white">
+            location 
         </div>
 
-        <div class="border rounded-lg flex md:flex-row gap-3 p-8 mt-1">
-            <div class="flex flex-col justify-center items-start gap-3 w-full">
-                <span class="font-bold test-md">state<span class="text-red-500 ml-1">*</span></span>
-                <select class="border bg-slate-100 p-3 w-full rounded-md" v-model="selected_state">
-                    <option disabled value="">Select State</option>
-                    <option v-for="state in NaijaStates.all()" :value="state.state">{{ state.state }}</option>
-                </select>
+        <form  @submit.prevent="updateUserLocation" class="border rounded-lg flex flex-col  gap-3 p-8 mt-1 bg-white">
+            <div class="flex flex-row gap-3">
+                <div class="flex flex-col justify-center items-start gap-3 w-full">
+                    <span class="font-bold test-md">state<span class="text-red-500 ml-1">*</span></span>
+                    <select class="border bg-slate-100 p-3 w-full rounded-md" v-model="location.state" name="state">
+                        <option disabled value="">Select State</option>
+                        <option v-for="state in NaijaStates.all()" :value="state.state">{{ state.state }}</option>
+                    </select>
+                </div>
+
+                <div class="flex flex-col justify-center items-start gap-3 w-full">
+                    <span class="font-bold test-md">L.G.A<span class="text-red-500 ml-1">*</span></span>
+                    <select  class="border bg-slate-100 p-3 w-full rounded-md" v-model="location.LGA" name="LGA">
+                        <option disabled value="">Select LGA</option>
+                        <option v-if="location.state" v-for="LGA in NaijaStates.lgas(location.state).lgas" :value="LGA">{{ LGA }}</option>
+                    </select>
+                </div>
             </div>
 
             <div class="flex flex-col justify-center items-start gap-3 w-full">
-                <span class="font-bold test-md">L.G.A<span class="text-red-500 ml-1">*</span></span>
-                <select  class="border bg-slate-100 p-3 w-full rounded-md" v-model="selected_LGA">
-                    <option disabled value="">Select LGA</option>
-                    <option v-if="selected_state" v-for="LGA in NaijaStates.lgas(selected_state).lgas" :value="LGA">{{ LGA }}</option>
-                </select>
+                <span class="font-bold test-md">Address<span class="text-red-500 ml-1">*</span></span>
+                <input type="address" name="address" class="bg-slate-100 w-full p-3 rounded-md overflow-hidden outline-none" v-model="location.address">
             </div>
-        </div>
+
+            <div class="flex items-end justify-end mt-3">
+                <button type="submit" class="bg-app_green p-3 rounded-md text-white">
+                    <span v-if="loading_location">loading...</span>
+                    <span v-else> Save Edits</span>
+                </button>
+            </div>
+        </form>
 
         <!-- CONTACT AREA -->
-        <div class="divider-tab">
+        <div class="divider-tab bg-white">
             Contact
         </div>
 
-        <div class="border rounded-lg flex md:flex-row gap-3 p-8 mt-1">
-            <div class="flex flex-col justify-center items-start gap-3 w-full">
-                <span class="font-bold test-md">WhatsApp number<span class="text-red-500 ml-1">*</span></span>
-                <input type="text" class="bg-slate-100 w-full p-3 rounded-md overflow-hidden outline-none" v-model="user.phone">
+        <!-- {{ socials.whatsapp }} -->
+        <div class="flex flex-col bg-white p-8 rounded-lg mt-1">
+            <div class="font-bold text-lg mt-3">Add Social Media Channel</div>
+       
+            <div class="flex flex-row flex-wrap gap-3 mt-3">
+                <button @click="whatsapp_field = !whatsapp_field" class="btn" :class="socials.whatsapp ? 'bg-green-400 text-white':''">
+                    <i class="bi bi-whatsapp"></i>
+                    WhatsApp
+                    <i v-if="!socials.whatsapp" class="bi bi-plus"></i>
+                </button>
+                <button @click="youtube_field = !youtube_field" class="btn" :class="socials.youtube ? 'bg-green-400 text-white':''">
+                    <i class="bi bi-youtube"></i>
+                    Youtube
+                    <i v-if="!socials.youtube" class="bi bi-plus"></i>
+                </button>
+                <button @click="facebook_field = !facebook_field" class="btn" :class="socials.facebook ? 'bg-green-400 text-white':''">
+                    <i class="bi bi-facebook"></i>
+                    facebook
+                    <i v-if="!socials.facebook" class="bi bi-plus"></i>
+                </button>
+                <button @click="instagram_field = !instagram_field" class="btn" :class="socials.instagram ? 'bg-green-400 text-white':''">
+                    <i class="bi bi-instagram"></i>
+                    instagram
+                    <i v-if="!socials.instagram" class="bi bi-plus"></i>
+                </button>
+                <button @click="twitter_field = !twitter_field" class="btn" :class="socials.twitter ? 'bg-green-400 text-white':''">
+                    <i class="bi bi-twitter"></i>
+                    twitter
+                    <i v-if="!socials.twitter" class="bi bi-plus"></i>
+                </button>
             </div>
+
+            <form  @submit.prevent="updateUserSocials">
+                <div v-if="whatsapp_field" class="flex flex-col justify-center items-start gap-3 w-full mt-3">
+                    <span class="font-bold test-md">WhatsApp Link</span>
+                    <input type="url" class="bg-slate-100 w-full p-3 rounded-md overflow-hidden outline-none" v-model="socials.whatsapp">
+                </div>
+                <div v-if="youtube_field" class="flex flex-col justify-center items-start gap-3 w-full mt-3">
+                    <span class="font-bold test-md">Youtube Link</span>
+                    <input type="text" class="bg-slate-100 w-full p-3 rounded-md overflow-hidden outline-none"  v-model="socials.youtube">
+                </div>
+                <div v-if="facebook_field" class="flex flex-col justify-center items-start gap-3 w-full mt-3">
+                    <span class="font-bold test-md">Facebook Profile Link</span>
+                    <input type="text" class="bg-slate-100 w-full p-3 rounded-md overflow-hidden outline-none"  v-model="socials.facebook">
+                </div>
+                <div v-if="instagram_field" class="flex flex-col justify-center items-start gap-3 w-full mt-3">
+                    <span class="font-bold test-md">instagram Profile Link</span>
+                    <input type="text" class="bg-slate-100 w-full p-3 rounded-md overflow-hidden outline-none"  v-model="socials.instagram">
+                </div>
+                <div v-if="twitter_field" class="flex flex-col justify-center items-start gap-3 w-full mt-3">
+                    <span class="font-bold test-md">twitter Profile Link</span>
+                    <input type="text" class="bg-slate-100 w-full p-3 rounded-md overflow-hidden outline-none"  v-model="socials.twitter">
+                </div>
+
+                <div class="flex items-end justify-end mt-3">
+                    <button type="submit" class="bg-app_green p-3 rounded-md text-white">
+                        <span v-if="loading_socials">loading...</span>
+                        <span v-else> Save Edits</span>
+                    </button>
+                </div>
+            </form>
         </div>
 
-
-         <!-- SOCIALS AREA -->
-         <div class="divider-tab">
-            Socials
-        </div>
-
-        <div class="border rounded-lg flex md:flex-row gap-3 p-8 mt-1">
-            <div class="flex flex-col justify-center items-start gap-3 w-full">
-                <span class="font-bold test-md">Facebook Profile Link</span>
-                <input type="text" class="bg-slate-100 w-full p-3 rounded-md overflow-hidden outline-none">
-            </div>
-        </div>
+        
 
     </div>
 </template>
@@ -80,10 +153,37 @@ import NaijaStates from 'naija-state-local-government';
         },
         data(){
             return{
-                user: '',
+                user: {
+                    username: '',
+                    email: '',
+                    phone: '',
+                },
+                location: {
+                    state: '',
+                    LGA: '',
+                    address: '',
+                },
+
+                instagram_field: false,
+                youtube_field: false,
+                twitter_field: false,
+                whatsapp_field: false,
+                facebook_field: false,
+
+                socials: {
+                    whatsapp: '',
+                    youtube: '',
+                    facebook: '',
+                    instagram: '',
+                    twitter: '',
+                },
                 NaijaStates,
                 selected_state: '',
                 selected_LGA: '',
+
+                loading_socials: false,
+                loading_location: false,
+                loading_profile: false,
             }
         },
 
@@ -92,7 +192,17 @@ import NaijaStates from 'naija-state-local-government';
                 try{
                     this.authenticated = true;
                     const response = await axios.get('/user');
+                    // this.user.username = response.data.user.username;
+                    // this.user.email = response.data.user.email;
+                    // this.user.phone = response.data.user.phone;
                     this.user = response.data.user;
+                    
+                    if(this.user.location){
+                        this.location = this.user.location
+                    }
+                    if(this.user.profile.socials){
+                        this.socials = this.user.profile.socials;
+                    }
                     // console.log("user :", response);
                 }catch(error){
                     this.authenticated = false;
@@ -107,6 +217,53 @@ import NaijaStates from 'naija-state-local-government';
                     });
                 }
             },
+
+            async updateUserProfile(){
+                try{
+                    this.loading_profile = true;
+                    const response = await axios.patch('/user/update', this.user);
+                    this.$toast.open({
+                        message: `${response.data.message}`,
+                        type: 'success',
+                    });
+                    this.loading_profile = false;
+                }catch(error){
+                    console.log("error updateing user: ", error);
+                    this.loading_profile = false;
+                }
+            },
+
+            async updateUserLocation(){
+                try{
+                    this.loading_location = true;
+                    const response = await axios.patch('/user/update', { location: this.location });
+                    console.log("updating user location: ", response);
+                    this.$toast.open({
+                        message: `${response.data.message}`,
+                        type: 'success',
+                    });
+                    this.loading_location = false;
+                }catch(error){
+                    console.log("error updating user: ", error);
+                    this.loading_location = false;
+                }
+            },
+
+            async updateUserSocials(){
+                try{
+                    this.loading_socials = true;
+                    const response = await axios.patch('/user/update', { socials: this.socials });
+                    console.log("updating user location: ", response);
+                    this.$toast.open({
+                        message: `${response.data.message}`,
+                        type: 'success',
+                    });
+                    this.loading_socials = false;
+                }catch(error){
+                    console.log("error updating user: ", error);
+                    this.loading_socials = false;
+                }
+            }
         },
         
         created(){
@@ -116,5 +273,11 @@ import NaijaStates from 'naija-state-local-government';
 </script>
 
 <style scoped>
-   
+   .btn{
+     @apply border rounded-md px-6 py-2
+   }
+
+   .active_social{
+    @apply bg-app_green text-white
+   }
 </style>

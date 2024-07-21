@@ -1,8 +1,10 @@
 <template>
-  <Toast
-  :messageicon="balloonIcon"
-  />
-  <router-view/>
+  <div class="bg-gray-50">
+    <Toast
+    :messageicon="balloonIcon"
+    />
+    <router-view/>
+  </div>
 </template>
 
 <script>

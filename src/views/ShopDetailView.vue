@@ -5,7 +5,7 @@
         <button class="absolute bg-red top-3 right-3" @click="glips_modal = !glips_modal">
             <i class="bi bi-x-lg text-white text-2xl"></i>
         </button>
-        <div class="glips-container border-red-500 w-full h-[90vh] flex flex-col justify-start items-center gap-3 p-3">
+        <div class="glips-container border-red-500 w-full h-[90vh] md:max-h-[800px] flex flex-col justify-start items-center gap-3 p-3">
             
             
             <!-- MAIN GLIP -->
@@ -71,7 +71,10 @@
                 </RouterLink>
                 <div class="flex flex-col gap-8 absolute top-[65%] w-full border-red-400">
                     <div class="w-full relative h-[150px]">
-                          <div class=" absolute left-[100px] size-[150px] rounded-full shop-image" :style="`background: url('${shop.profile.image_url}')`"></div>
+                          <!-- <div class=" absolute left-[100px] size-[150px] rounded-full shop-image" :style="`background: url('${shop.profile.image_url}')`"></div> -->
+                          <div class=" absolute left-[100px] size-[150px] rounded-full shop-image bg-app_light_green text-app_green text-4xl flex justify-center items-center">
+                            <i class="bi bi-shop"></i>
+                          </div>
                     </div>
                   
 
@@ -82,17 +85,19 @@
                             <div class="flex flex-row justify-between w-full flex-wrap gap-3">
                                 <span><i class="bi bi-people-fill text-green-800 mr-2"></i>Followers {{ shop.followers_count }}</span>
                                 <span><i class="bi bi-grid-fill  text-green-800 mr-2"></i>Lisitngs {{ shop.listings }}</span>
-                                <span><i class="bi bi-bookmark-star-fill  text-green-800 mr-2"></i>Ratings <Rating v-model="shop_rating" disabled/></span>
+                                <span><i class="bi bi-bookmark-star-fill  text-green-800 mr-2"></i>Ratings 
+                                    <!-- <Rating v-model="shop_rating" disabled/> -->
+                                </span>
                             </div>
-                            <p class="mt-6">
+                            <p class="mt-2">
                                 {{ shop.description }}
                             </p>
-                            <div class="text-gray-400 flex flex-row flex-wrap gap-4">
-                                <span v-if="shop.location">
+                            <div class="text-gray-400 flex flex-col gap-4 text-[12px]">
+                                <span>
                                     <i class="bi bi-geo-alt-fill mr-1"></i>
-                                    {{  shop.location }}
-                                </span>-
-                                <span>joined {{ formatDistanceToNow(shop.createdAt)}} ago</span>
+                                    Somewhere in Nigeria
+                                </span>
+                                <span><i class="bi bi-arrow-clockwise mr-1"></i>joined {{ formatDistanceToNow(shop.createdAt)}} ago</span>
                                 
                             </div>
                             <div v-if="isAllowed()" class="flex flex-row flex-wrap gap-3 w-full mt-4">
@@ -174,7 +179,7 @@ import Rating from 'primevue/rating';
 
         data(){
             return{
-                glips_modal: true,
+                glips_modal: false,
                 loading: false,
                 current_tab: 0,
                 products: [],
@@ -316,5 +321,7 @@ import Rating from 'primevue/rating';
 
     .glips{
         scroll-snap-align: start;
+        background: url('../assets/images/chair.png');
+        background-size: cover;
     }
 </style>

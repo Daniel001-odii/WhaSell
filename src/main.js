@@ -22,8 +22,7 @@ import 'bootstrap-icons/font/bootstrap-icons.css';
 // CONFIGURE AXIOS
 import axios from 'axios';
 axios.defaults.withCredentials = true;
-axios.defaults.baseURL = 'http://localhost:8000/api'
-
+axios.defaults.baseURL = process.env.VUE_APP_API_URL
 // Import PrimeVue CSS
 import 'primevue/resources/themes/nova/theme.css';
 import 'primevue/resources/primevue.min.css';

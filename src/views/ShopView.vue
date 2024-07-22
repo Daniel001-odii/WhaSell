@@ -52,9 +52,9 @@
                 </select>
             </div>
             <div class="flex flex-row gap-3 self-end">
-                <button type="button" class="btn" @click="edit_shop = !edit_shop">cancel</button>
+                <!-- <button type="button" class="btn" @click="edit_shop = !edit_shop">cancel</button> -->
            
-                <button type="submit" class="bg-app_green btn text-white" :disabled="shop.category == shop_category && shop.name == shop_name">
+                <button type="submit" class="bg-app_green btn text-white">
                     Save edit
                 </button>
             </div>
@@ -83,10 +83,10 @@
                     </tr>
                 </thead>
                 <tbody class="p-3 mt-3">
-                    <tr class="hover:bg-gray-50 p-2">
+                    <tr class="hover:bg-gray-50 p-2" v-for="item in 10">
                         <td class="flex flex-row gap-2 items-center">
                             <div class="bg-red-400 h-14 w-14 rounded-xl"></div>
-                            <span>Product name here</span>
+                            <span>Product {{ item }} name here</span>
                         </td>
                         <td>Product Category</td>
                         <td>300 pcs</td>

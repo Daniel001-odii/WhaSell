@@ -33,6 +33,7 @@ import axios from 'axios';
                 try {
                     const response = await axios.post('/logout');
                     this.$router.push('/login');
+                    this.$emit('close-modal');
                 } catch (error) {
                     console.error(error);
                 }

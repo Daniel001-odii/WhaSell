@@ -1,5 +1,5 @@
 <template>
-    <FullPageModal v-if="unauthorized"/>
+    <FullPageModal @close-modal="unauthorized = false" v-if="unauthorized"/>
   
 
     <!-- NAVBAR FOR AUTHENTICATED USERS -->
@@ -166,21 +166,31 @@
 
 
       <!-- NON AUTH NAVBAR -->
-      <div v-else class="w-full text-white flex flex-row items-center justify-between px-5 py-3">
-        <LogoBlack/>
-        <div class="flex-row gap-4 text-black hidden md:flex">
-            <RouterLink to="#">About</RouterLink>
-            <RouterLink to="#">Features</RouterLink>
-            <RouterLink to="#">Pricing</RouterLink>
-            <RouterLink to="#">Use Cases</RouterLink>
-            <RouterLink to="#">Contact</RouterLink>
+      <div v-else class="w-full p-5 flex flex-col md:flex-row items-center h-full bg-app_light_green border-b border-gray-300">
+        <div class=" border-red-500   md:w-fit w-full flex flex-row justify-between items-center">
+            <LogoBlack/>
+     
+
+            <button @click="nav_open = !nav_open" class="text-black text-2xl font-bold inline-block md:hidden">
+                <i class="bi bi-list"></i>
+            </button>
         </div>
-        <div class="hidden md:flex flex-row gap-3 font-bold justify-stretch items-stretch">
-            <RouterLink to="/login" class="text-black hover:bg-slate-200 bg-opacity-20 px-8 rounded-md flex justify-center items-center">Login
-            </RouterLink>
-           
-            <button class="text-white bg-black px-8 py-3 rounded-md">Sign Up</button>
+
+        <div :class="nav_open ? 'flex':'hidden md:flex'" class=" w-full flex-col gap-3 md:flex-row md:justify-between md:items-center  border-red-500">
+            <div class="w-full md:w-fit md:p-0 mt-4 md:mt-0 flex-col md:flex-row gap-2 text-black flex  border-red-500 relative mx-auto my-0">
+                <RouterLink class="nav-link" to="#">About</RouterLink>
+                <RouterLink class="nav-link" to="#">Features</RouterLink>
+                <RouterLink class="nav-link" to="#">Pricing</RouterLink>
+                <RouterLink class="nav-link" to="#">Use Cases</RouterLink>
+                <RouterLink class="nav-link" to="#">Contact</RouterLink>
+            </div>
+
+            <div class="flex flex-row gap-3 font-bold  border-red-500  self-end align-bottom">
+                <RouterLink to="/login" class="text-black hover:bg-slate-200 bg-opacity-20 px-8 rounded-md flex justify-center items-center">Login</RouterLink>
+                <button class="text-white bg-black px-8 py-3 rounded-md">Sign Up</button>
+            </div>
         </div>
+      
     </div>
 </template>
 
@@ -200,6 +210,7 @@ export default {
     },
     data(){
         return{
+            nav_open: false,
             authenticated: false,
             premium: false,
             flip: false,
@@ -273,6 +284,7 @@ export default {
                 localStorage.clear();
                 console.log(response.data);
                 window.location.reload();
+                // this.authenticated = false,
             } catch (error) {
                 console.error(error);
             }
@@ -297,5 +309,10 @@ export default {
 <style scoped>
     .user-menu-item{
         @apply hover:bg-slate-100  p-2 pl-2 rounded-md
+    }
+
+
+    .nav-link{
+        @apply hover:bg-gray-600 hover:text-white p-3 rounded-lg
     }
 </style>

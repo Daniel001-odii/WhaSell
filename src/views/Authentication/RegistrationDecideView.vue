@@ -1,7 +1,7 @@
 <template>
     <!-- <div> -->
         <div class=" min-h-screen flex flex-col md:flex-row">
-            <div class="w-full md:w-[50%] min-h-screen flex justify-center items-center p-12 md:p-12">
+            <div class="w-full md:w-[50%] min-h-screen flex justify-center items-center p-3 md:p-12">
                 <div class=" p-3">
                     <form onsubmit.prevent="visitRegisterPage()">
                         <h1 class="text-4xl font-bold text-app_green mb-3">Sign up</h1>

@@ -1,8 +1,8 @@
 <template>
     <!-- <ToastBox/> -->
     <div class="min-h-screen flex flex-col md:flex-row">
-        <div class="w-full md:w-[50%] min-h-screen flex justify-center items-center p-12 md:p-12">
-            <div class="p-3 w-full max-w-lg">
+        <div class="w-full md:w-[50%] min-h-screen flex justify-center items-center md:p-12">
+            <div class="p-3 w-full md:max-w-lg">
                 <form @submit.prevent="login" class="m-3">
                     <h1 class="text-4xl font-bold text-app_green mb-3">Login</h1>
                     <p class="my-6">Welcome back!!, Oya let’s get back to it...</p>
@@ -42,6 +42,10 @@
                         <span v-if="loading">loading...</span>
                         <span v-else>Looogin</span>
                     </button>
+
+                    <div class="mt-3 text-gray-400">
+                        <p>Not yet a member? <RouterLink class="text-app_green" to="/register">join us</RouterLink></p>
+                    </div>
                 </form>
             </div>
         </div>

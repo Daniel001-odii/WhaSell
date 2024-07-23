@@ -1,10 +1,10 @@
 <template>
     <div class="min-h-screen flex flex-col md:flex-row">
-        <div class="w-full md:w-[50%] min-h-screen flex justify-center items-center p-12 md:p-12">
+        <div class="w-full md:w-[50%] min-h-screen flex justify-center items-center p-3 md:p-12">
             <div class="p-3 w-full max-w-lg">
                 <form @submit.prevent="register" class="flex flex-col">
                     <h1 class="text-4xl font-bold text-app_green mb-3">Sign Up Seller</h1>
-                    <p class="my-6">Start your journey today! Buying made easy.</p>
+                    <p class="my-3">Start your journey today! Buying made easy.</p>
 
                     <span class="text-red-500 my-3">{{ error_message }}</span>
 

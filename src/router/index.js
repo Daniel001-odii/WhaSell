@@ -154,6 +154,8 @@ let redirectToLogin = false; // Initialize a flag to redirect to login after aut
 let requestedRoute = null; // Initialize a variable to store the requested route
 const user_id = localStorage.getItem('user');
 
+
+/*
 // Create a navigation guard that prevents loggedn in users from visiting irrelevant routes when logged in...
 // this is ensured via the user roles present in the token...
 router.beforeEach((to, from, next) => {
@@ -168,9 +170,10 @@ router.beforeEach((to, from, next) => {
     next()
   };
 
-});
+});*/
 
 
+/*
 
 // navigation gaurd to allow only loggedin users to view certain pages..
 router.beforeEach((to, from, next) => {
@@ -183,5 +186,7 @@ router.beforeEach((to, from, next) => {
     next(); // Proceed to the route
   }
 });
+
+*/
 
 export default router

@@ -255,7 +255,7 @@ export default {
 
         async getUserDetails(){
             try{
-                this.authenticated = true;
+              
                 const response = await axios.get('/user');
                 this.user = response.data.user;
                 localStorage.setItem('user', response.data.user._id);

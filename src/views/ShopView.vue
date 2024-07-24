@@ -1,5 +1,18 @@
 <template>
 
+<!-- NEW STORE MODAL -->
+ <div v-if="new_shop_created" class="flex justify-center min-h-screen items-center fixed bg-[rgba(0,0,0,0.8)] w-full left-0 top-0">
+    <div class="bg-white rounded-lg w-96 p-12 text-center flex flex-col justify-center items-center">
+        <p><b class="text-3xl">Shop created</b> <br/> Lets start selling!</p>
+        <button @click="visitNewShop" class="btn bg-app_green text-white mt-3  gap-3">
+            <span>Continue</span>
+            <i class="bi bi-arrow-right"></i>
+        </button>
+    </div>
+ </div>
+
+
+
     <!-- CREATE NEW SHOP DIV -->
 
     <div>
@@ -25,7 +38,7 @@
                             <h1 class="font-bold text-xl">{{ shop.name }}</h1>
                             <span class="text-green-500">{{ shop.category }}</span>
                             <span class="text-sm" v-if="user.location">{{ user.location.address }}, {{ user.location.LGA }}, {{ user.location.state }}, NG.</span>
-                            <RouterLink class="text-blue-600 text-sm mt-4" :to="`/shops/${shop.name}`">visit store <i class="bi bi-box-arrow-up-right"></i> </RouterLink>
+                            <RouterLink class="text-blue-600 text-sm mt-4" :to="`/shops/${shop.name}`" target="_blank">visit store <i class="bi bi-box-arrow-up-right"></i> </RouterLink>
                         </div>
                         <button @click="edit_shop = !edit_shop" class="btn text-white bg-app_green">
                             <i class="bi bi-pen"></i>
@@ -110,8 +123,8 @@
 
             
             <!-- displays only if user is a buyer without a store.. -->
-            <div  class="p-8 border flex flex-col rounded-lg gap-3">
-                <p>No shop yet? create a shop to <br/><button class="btn bg-blue-100 mt-3" v-if="!create_shop_option" @click="create_shop_option = !create_shop_option">start selling</button></p>
+            <div v-if="user.account_type == 'buyer'" class="p-8 border flex flex-col rounded-lg gap-3">
+                <p v-if="!create_shop_option">No shop yet? create a shop to <br/><button class="btn bg-black text-white mt-3"  @click="create_shop_option = !create_shop_option">start selling</button></p>
                 
                 <form @submit.prevent="createNewShop" v-if="create_shop_option" class="flex flex-col gap-3">
                     <div>
@@ -123,10 +136,18 @@
                         <p>Description</p>
                         <textarea v-model="new_shop.description" class="bg-slate-100 w-full p-3 rounded-md overflow-hidden outline-none min-h-[150px]" placeholder="a brief description of your shop here.." required></textarea>
                     </div>
+
+                    <div class="flex flex-col justify-center items-start gap-3 w-full mt-3">
+                        <span class="font-bold test-md">Shop category</span>
+                        <select class="border bg-slate-100 p-3 w-full rounded-md" v-model="new_shop.category">
+                            <option disabled value="">Select category</option>
+                            <option v-for="category in categories">{{ category.name }}</option>
+                        </select>
+                    </div>
                
-                    <button type="submit" class="bg-app_green text-white p-3 rounded-md"> 
+                    <button type="submit" class="bg-app_green text-white p-3 rounded-md" :disabled="creating_new_shop"> 
                         <span v-if="creating_new_shop">creating...</span>
-                        <span> &plus; create</span>
+                        <span v-else> &plus; create</span>
                     </button>
                 </form>
             </div>
@@ -171,6 +192,7 @@ import Column from 'primevue/column';
                 new_shop: {
                     name: '',
                     description: '',
+                    category: '',
                 },
 
                 loading: false,
@@ -182,9 +204,16 @@ import Column from 'primevue/column';
                 create_shop_option: false,
 
                 creating_new_shop: false,
+
+                new_shop_created: false,
             }
         },
         methods:{
+
+            visitNewShop(){
+                this.new_shop_created = !this.new_shop_created;
+                window.location.reload();
+            },
 
             async getAllCategories(){
                 try{
@@ -248,11 +277,16 @@ import Column from 'primevue/column';
                     this.creating_new_shop = true;
                     const response = await axios.post('/shops/new', { 
                         name: this.new_shop.name,
-                        description: this.new_shop.description
+                        description: this.new_shop.description,
+                        category: this.new_shop.category
                     });
-                    this.creating_new_shop = false;
+                    setTimeout(() => {
+                        this.creating_new_shop = false;
+                        this.new_shop_created = true;
+                    }, 5000);
+                   
                     console.log("res from new shop: ", response);
-                    window.location.reload();
+                    // window.location.reload();
                 }catch(error){
                     this.creating_new_shop = false;
                     console.log("error creating new shop: ", error);

@@ -20,7 +20,7 @@
                     <div class="h-28 min-w-28 text-white rounded-full bg-gray-600 flex justify-center items-center">
                         <i class="bi bi-shop text-3xl"></i>
                     </div>
-                    <div class="flex flex-row items-start flex-wrap justify-between w-full gap-5">
+                    <div v-if="shop.name" class="flex flex-row items-start flex-wrap justify-between w-full gap-5">
                         <div class="flex flex-col">
                             <h1 class="font-bold text-xl">{{ shop.name }}</h1>
                             <span class="text-green-500">{{ shop.category }}</span>
@@ -110,7 +110,7 @@
 
             
             <!-- displays only if user is a buyer without a store.. -->
-            <div class="p-8 border flex flex-col rounded-lg gap-3">
+            <div v-if="user.account_type == 'buyer'" class="p-8 border flex flex-col rounded-lg gap-3">
                 <p>No shop yet? create a shop to <br/><button class="btn bg-blue-100 mt-3" v-if="!create_shop_option" @click="create_shop_option = !create_shop_option">start selling</button></p>
                 
                 <form @submit.prevent="createNewShop" v-if="create_shop_option" class="flex flex-col gap-3">
@@ -124,7 +124,10 @@
                         <textarea v-model="new_shop.description" class="bg-slate-100 w-full p-3 rounded-md overflow-hidden outline-none min-h-[150px]" placeholder="a brief description of your shop here.." required></textarea>
                     </div>
                
-                    <button type="submit" class="bg-app_green text-white p-3 rounded-md"> &plus; create</button>
+                    <button type="submit" class="bg-app_green text-white p-3 rounded-md"> 
+                        <span v-if="creating_new_shop">creating...</span>
+                        <span> &plus; create</span>
+                    </button>
                 </form>
             </div>
 
@@ -177,17 +180,11 @@ import Column from 'primevue/column';
                 edit_shop: false,
 
                 create_shop_option: false,
+
+                creating_new_shop: false,
             }
         },
         methods:{
-
-            // async getAllCategories(){
-            //     try{
-            //         const response = await axios.get('/categories')
-            //     }catch(error){
-
-            //     }
-            // }
 
             async getAllCategories(){
                 try{
@@ -207,8 +204,11 @@ import Column from 'primevue/column';
                     this.user = response.data.user;
                     this.shop = response.data.user.shop;
 
-                    this.shop_name = response.data.user.shop.name;
-                    this.shop_category = response.data.user.shop.category;
+                    if(this.user.shop){
+                        this.shop_name = response.data.user.shop.name;
+                        this.shop_category = response.data.user.shop.category;
+                    }
+                  
 
                     if(this.user.location){
                         this.from_owner_state = true;
@@ -245,8 +245,13 @@ import Column from 'primevue/column';
 
             async createNewShop(){
                 try{
-                    const response = await axios.post('/shops/new', { shop: this.new_shop });
+                    const response = await axios.post('/shops/new', { 
+                        name: this.new_shop.name,
+                        description: this.new_shop.description
+                    });
+
                     console.log("res from new shop: ", response);
+                    window.location.reload();
                 }catch(error){
                     console.log("error creating new shop: ", error);
                 }

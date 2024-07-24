@@ -86,7 +86,7 @@
                         </template>
                         <template #menu>
                             <div class="text-black bg-white rounded-xl relative top-5 border w-[350px] p-3">
-                               
+                                <RouterLink to="/account">
                                     <div class="flex flex-row items-center justify-between p-3 rounded-md cursor-pointer hover:bg-gray-100">
                                         <div class="flex flex-row gap-3 items-center justify-start ">
                                             <div>
@@ -97,13 +97,13 @@
                                                 <span class="text-sm">{{ user.email }}</span>
                                             </div>
                                         </div>
-                                        <RouterLink to="/account">
+                                        
                                             <button>
                                                 <i class="pi pi-chevron-right text-sm"></i>
                                             </button>
-                                        </RouterLink>
+                                      
                                     </div>
-
+                                </RouterLink>
                                 <div class="flex flex-col ">
                                     <!-- <RouterLink class="user-menu-item" to="/account">
                                         <i class="bi bi-gear mr-3"></i>Settings
@@ -116,8 +116,8 @@
                                         <i class="bi bi-info-circle mr-3"></i>Help & Support
                                     </RouterLink>
                                 </div>
-                                <div class=" border-t p-2 pt-5 mt-3">
-                                    <button @click="logout"  class=" text-left w-full  text-black bg-transparent text-red-500 hover:font-bold">
+                                <div class=" border-t mt-3 w-full flex justify-start items-start">
+                                    <button @click="logout"  class="user-menu-item w-full flex items-start justify-start">
                                         <i class="bi bi-box-arrow-right mr-3"></i> Log out
                                     </button>
                                 </div>

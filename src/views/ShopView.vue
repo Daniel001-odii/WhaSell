@@ -91,7 +91,7 @@
                             </tr>
                         </thead>
                         <tbody class="p-3 mt-3">
-                            <tr class="hover:bg-gray-50 p-2" v-for="item in 10">
+                            <tr class="hover:bg-gray-50 p-2" v-for="item in 2">
                                 <td class="flex flex-row gap-2 items-center">
                                     <div class="bg-red-400 h-14 w-14 rounded-xl"></div>
                                     <span>Product {{ item }} name here</span>
@@ -110,7 +110,7 @@
 
             
             <!-- displays only if user is a buyer without a store.. -->
-            <div v-if="user.account_type == 'buyer'" class="p-8 border flex flex-col rounded-lg gap-3">
+            <div  class="p-8 border flex flex-col rounded-lg gap-3">
                 <p>No shop yet? create a shop to <br/><button class="btn bg-blue-100 mt-3" v-if="!create_shop_option" @click="create_shop_option = !create_shop_option">start selling</button></p>
                 
                 <form @submit.prevent="createNewShop" v-if="create_shop_option" class="flex flex-col gap-3">
@@ -245,14 +245,16 @@ import Column from 'primevue/column';
 
             async createNewShop(){
                 try{
+                    this.creating_new_shop = true;
                     const response = await axios.post('/shops/new', { 
                         name: this.new_shop.name,
                         description: this.new_shop.description
                     });
-
+                    this.creating_new_shop = false;
                     console.log("res from new shop: ", response);
                     window.location.reload();
                 }catch(error){
+                    this.creating_new_shop = false;
                     console.log("error creating new shop: ", error);
                 }
             }

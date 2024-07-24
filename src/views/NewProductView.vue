@@ -22,10 +22,12 @@
                 <input type="radio" name="upload" id="listing" v-model="upload_type" value="glip">
             </label>
         </div>
-        <div class=" max-w-sm md:w-[500px] md:max-w-md p-3">
-            <div v-if="upload_type == 'listing'">
+
+
+        <div class=" max-w-sm md:w-[500px] md:max-w-md p-8">
+            <div v-if="upload_type == 'listing'" class="border">
                 <form @submit.prevent="uploadProduct" >
-                    <div v-if="tab == 1" class="rounded-2xl flex flex-col gap-4 w-full">
+                    <div v-if="tab == 1" class="rounded-2xl flex flex-col gap-4">
                         <div class="flex flex-col">
                             <span class="label">Product Name *</span>
                             <input class="form-input" type="text" name="product-name" placeholder="Samsung S23 Ultra" v-model="product.name">
@@ -60,7 +62,7 @@
                             <!-- <i class="pi pi-angle-right pl-3 mt-[2px]"></i> -->
                         </button>
                     </div>
-                    <div v-if="tab == 2" type="button" class="rounded-2xl flex flex-col p-8 gap-4">
+                    <div v-if="tab == 2" type="button" class="rounded-2xl flex flex-col gap-4">
                         <div class="flex flex-col">
                             <span class="label">Condition *</span>
                             <select class="form-input" v-model="product.condition">
@@ -117,27 +119,25 @@
                 </div>
 
                 <div class="flex flex-col mt-4">
-                            <span class="label">Product Name *</span>
-                            <input class="form-input" type="text" name="product-name" placeholder="Samsung S23 Ultra" v-model="product.name">
-                        </div>
-                        <div class="flex flex-col">
-                            <span class="label">Product Description *</span>
-                            <textarea class="form-input h-[150px] max-h-[150px]" name="product-name" placeholder="Samsung S23 Ultra" v-model="product.description"></textarea>
-                        </div>
+                    <span class="label">Product Name *</span>
+                    <input class="form-input" type="text" name="product-name" placeholder="Samsung S23 Ultra" v-model="product.name">
+                </div>
+                <div class="flex flex-col">
+                    <span class="label">Product Description *</span>
+                    <textarea class="form-input h-[150px] max-h-[150px]" name="product-name" placeholder="Samsung S23 Ultra" v-model="product.description"></textarea>
+                </div>
 
-                        <div class="flex flex-col">
-                            <span class="label">Product Category *</span>
-                            <select class="form-input" v-model="product.category">
-                                <option disabled value="">Select Category</option>
-                                <option v-for="category in categories" :value="category">{{ category }}</option>
-                            </select>
-                        </div>
+                <div class="flex flex-col">
+                    <span class="label">Product Category *</span>
+                    <select class="form-input" v-model="product.category">
+                        <option disabled value="">Select Category</option>
+                        <option v-for="category in categories" :value="category">{{ category }}</option>
+                    </select>
+                </div>
 
-                        <button :disabled="product.name == '' || product.description == '' || product.category == ''" type="button" @click="tab += 1" class="bg-[#47C67F] mt-3 w-full rounded-lg p-3 text-white font-semibold hover:bg-opacity-90 flex flex-row items-center justify-center">Next
-                            <!-- <i class="pi pi-angle-right pl-3 mt-[2px]"></i> -->
-                        </button>
-
-                        
+                <button :disabled="product.name == '' || product.description == '' || product.category == ''" type="button" @click="tab += 1" class="bg-[#47C67F] mt-3 w-full rounded-lg p-3 text-white font-semibold hover:bg-opacity-90 flex flex-row items-center justify-center">Next
+                    <!-- <i class="pi pi-angle-right pl-3 mt-[2px]"></i> -->
+                </button> 
             </div>
         </div>
         <!-- {{  product }} -->
@@ -159,7 +159,7 @@ import axios from 'axios';
         },  
         data(){
             return{
-                upload_type: "glip",
+                upload_type: "listing",
                 categories: [
                     "Electronics & Gadgets",
                     "Health & Beauty",

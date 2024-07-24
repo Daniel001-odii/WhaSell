@@ -70,19 +70,19 @@
                     </button>
                 </RouterLink>
                 <div class="flex flex-col gap-8 absolute top-[65%] w-full border-red-400">
-                    <div class="w-full relative h-[150px]">
+                    <div class="w-full relative h-[150px] flex md:block justify-center items-center ">
                           <!-- <div class=" absolute left-[100px] size-[150px] rounded-full shop-image" :style="`background: url('${shop.profile.image_url}')`"></div> -->
-                          <div class=" absolute left-[100px] size-[150px] rounded-full shop-image bg-app_light_green text-app_green text-4xl flex justify-center items-center">
+                          <div class=" absolute md:left-[100px] size-[150px] rounded-full shop-image bg-app_light_green text-app_green text-4xl flex justify-center items-center">
                             <i class="bi bi-shop"></i>
                           </div>
                     </div>
                   
 
                     <div class="flex flex-col justify-start items-start md:flex-row gap-6 p-3">
-                        <div v-if="shop" class="flex flex-col justify-center text-left md:w-[35%] items-start gap-3">
+                        <div v-if="shop" class="flex flex-col justify-center text-left md:w-[35%] items-center w-full md:items-start gap-3">
                             <h1 class="font-bold text-2xl">{{ shop.name }}</h1>
                             <span class="bg-app_light_green w-fit rounded-md text-app_green p-3">{{ shop.category}}</span>
-                            <div class="flex flex-row justify-between w-full flex-wrap gap-3">
+                            <div class="flex flex-row justify-evenly md:justify-between w-full flex-wrap gap-3">
                                 <span><i class="bi bi-people-fill text-green-800 mr-2"></i>Followers {{ shop.followers_count }}</span>
                                 <span><i class="bi bi-grid-fill  text-green-800 mr-2"></i>Lisitngs {{ shop.listings }}</span>
                                 <span><i class="bi bi-bookmark-star-fill  text-green-800 mr-2"></i>Ratings 
@@ -100,7 +100,7 @@
                                 <span><i class="bi bi-arrow-clockwise mr-1"></i>joined {{ formatDistanceToNow(shop.createdAt)}} ago</span>
                                 
                             </div>
-                            <div v-if="isAllowed()" class="flex flex-row flex-wrap gap-3 w-full mt-4">
+                            <div v-if="isAllowed()" class="flex flex-row flex-wrap gap-3 w-full mt-4 justify-center md:justify-start">
                                 <RouterLink to="/products/new">
                                     <button class="bg-app_green text-white rounded-md p-3 w-full"><i class="bi bi-plus-circle-fill mr-2"></i>Add new product</button>
                                 </RouterLink>

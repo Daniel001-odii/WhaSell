@@ -11,7 +11,7 @@
 
                     <div class="flex flex-col gap-3">
                         <div>
-                            <input type="email" name="email" placeholder="username, email or phone" v-model="form.usernameOrEmailOrPhone" class="form-input" :class="errors.username ? 'border-red-400':''" required>
+                            <input type="text" name="email" placeholder="username, email or phone" v-model="form.usernameOrEmailOrPhone" class="form-input" :class="errors.username ? 'border-red-400':''" required>
                             <small v-if="errors.username || form.usernameOrEmailOrPhone == ''" class="text-red-500">{{ errors.username }}</small>
                         </div>
                         <div>

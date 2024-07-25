@@ -30,9 +30,10 @@
 
           
                 <div v-if="!edit_shop"  class="flex flex-row flex-wrap gap-4 px-8 py-5 bg-white border rounded-lg items-center">
-                    <div class="h-28 min-w-28 text-white rounded-full bg-gray-600 flex justify-center items-center">
+                    <!-- <div class="h-28 min-w-28 text-white rounded-full bg-gray-600 flex justify-center items-center">
                         <i class="bi bi-shop text-3xl"></i>
-                    </div>
+                    </div> -->
+                    <img :src="`http://localhost:8000/${shop_image}`" alt="Product Photo" class="rounded-full w-28 h-28 object-cover">
                     <div v-if="shop.name" class="flex flex-row items-start flex-wrap justify-between w-full gap-5">
                         <div class="flex flex-col">
                             <h1 class="font-bold text-xl">{{ shop.name }}</h1>
@@ -51,9 +52,28 @@
 
                 <form @submit.prevent="updateShop" v-if="edit_shop" class="border rounded-lg flex flex-col justify-center items-center gap-3 p-8 mt-1 bg-white">
 
-                    <div class=" h-28 w-28 text-white rounded-full bg-gray-600 mb-5 flex justify-center items-center">
+                    <!-- <div class=" h-28 w-28 text-white rounded-full bg-gray-600 mb-5 flex justify-center items-center hover:bg-gray-300 cursor-pointer">
                         <i class="bi bi-shop text-3xl"></i>
+                    </div> -->
+                    <div v-if="shop_image" class="w-28 h-28 relative rounded-full border border-gray-300 overflow-hidden">
+                        <!-- <img :src="shop_image" alt="Product Photo" class="w-full h-full object-cover"> -->
+                        <img :src="`http://localhost:8000/${shop_image}`" alt="Product Photo" class="w-full h-full object-cover">
                     </div>
+              
+
+                    <form @submit.prevent="changeShopImage">
+                        <!-- <label v-else class=" w-28 h-28 rounded-full bg-green-100 text-app_green flex items-center justify-center cursor-pointer"> -->
+                        <label class=" w-28 h-28 rounded-full bg-green-100 text-app_green flex items-center justify-center cursor-pointer">
+                            <input type="file" class="hidden" @change="onFileChange">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M13 21H3.6C3.26863 21 3 20.7314 3 20.4V3.6C3 3.26863 3.26863 3 3.6 3H20.4C20.7314 3 21 3.26863 21 3.6V13" stroke="#47C67F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M3 16L10 13L15.5 15.5" stroke="#47C67F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M16 10C14.8954 10 14 9.10457 14 8C14 6.89543 14.8954 6 16 6C17.1046 6 18 6.89543 18 8C18 9.10457 17.1046 10 16 10Z" stroke="#47C67F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M19 19V22M16 19H19H16ZM22 19H19H22ZM19 19V16V19Z" stroke="#47C67F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </label>
+                        <button v-if="shop_image_edit" type="submit">save image</button>
+                    </form>
 
                     <span v-if="from_owner_state" class="text-sm rounded-lg bg-blue-100 text-blue-700 p-3 mb-4 w-full">
                         <i class="bi bi-exclamation-circle"></i>
@@ -190,6 +210,7 @@ import Column from 'primevue/column';
                 },
 
                 new_shop: {
+                    image: null,
                     name: '',
                     description: '',
                     category: '',
@@ -206,13 +227,47 @@ import Column from 'primevue/column';
                 creating_new_shop: false,
 
                 new_shop_created: false,
+
+                
+                shop_image: null,
+                shop_image_edit: false,
             }
         },
         methods:{
 
+            onFileChange(event) {
+                const file = event.target.files[0];
+                this.new_shop.image = file;
+                
+                if (file) {
+                    this.shop_image = URL.createObjectURL(file);
+                  
+                }
+                this.shop_image_edit  = true;
+            },
+
             visitNewShop(){
                 this.new_shop_created = !this.new_shop_created;
                 window.location.reload();
+            },
+
+            async changeShopImage(){
+                const form = new FormData();
+                const file = this.new_shop.image;
+
+                form.append('shop_image', file);
+
+
+                try{
+                    const response = await axios.patch(`/shops/${this.shop._id}/image`, form, {
+                        headers: {
+                            'Content-Type': 'multipart/form-data'
+                        }
+                    });
+                    console.log('upload p-image: ', response);
+                }catch(error){
+                    console.log("error uploading profile image: ", error);
+                }
             },
 
             async getAllCategories(){
@@ -234,6 +289,7 @@ import Column from 'primevue/column';
                     this.shop = response.data.user.shop;
 
                     if(this.user.shop){
+                        this.shop_image = response.data.user.shop.profile.image_url;
                         this.shop_name = response.data.user.shop.name;
                         this.shop_category = response.data.user.shop.category;
                     }
@@ -264,7 +320,10 @@ import Column from 'primevue/column';
                     this.edit_shop = false;
 
                 }catch(error){
-                    console.log("error updating shop: ", error)
+                    console.log("error updating shop: ", error);
+                    if(error.response.status == 401){
+                        window.location.reload();
+                    }
                     this.$toast.open({
                         message: `${error.response.data.message}`,
                         type: 'error',

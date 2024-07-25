@@ -72,9 +72,11 @@
                 <div class="flex flex-col gap-8 absolute top-[65%] w-full border-red-400">
                     <div class="w-full relative h-[150px] flex md:block justify-center items-center ">
                           <!-- <div class=" absolute left-[100px] size-[150px] rounded-full shop-image" :style="`background: url('${shop.profile.image_url}')`"></div> -->
-                          <div class=" absolute md:left-[100px] size-[150px] rounded-full shop-image bg-app_light_green text-app_green text-4xl flex justify-center items-center">
+                          <!-- <div class=" absolute md:left-[100px] size-[150px] rounded-full shop-image bg-app_light_green text-app_green text-4xl flex justify-center items-center">
                             <i class="bi bi-shop"></i>
-                          </div>
+                           
+                          </div> -->
+                          <img :src="`http://localhost:8000/${shop.profile.image_url}`" alt="Product Photo" class="rounded-full absolute md:left-[100px] size-[150px] object-cover">
                     </div>
                   
 

@@ -33,6 +33,8 @@ import SellerRegistrationView from '@/views/Authentication/SellerRegistrationVie
 import PageNotFoundView from '@/views/PageNotFoundView.vue'
 
 
+import CategoriesView from '@/views/CategoriesView.vue'
+
 const routes = [
   {
     path: '/',
@@ -74,6 +76,9 @@ const routes = [
     component: UserRegistrationView,
   },
 
+
+
+
   
   // 404 PAGES CONFIG...
   {
@@ -103,6 +108,20 @@ const routes = [
         name: `Shops`,
         component: ShopListView,
       },
+
+      {
+        path: '/categories',
+        name: 'Categories',
+        component: CategoriesView,
+      },
+
+      {
+        path: '/categories/:name/all',
+        name: 'Sub categories',
+        component: CategoriesView,
+      },
+
+
       {
         path: 'market',
         name: 'Market',

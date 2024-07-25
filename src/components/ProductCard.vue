@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class=" break-inside-avoid flex-auto p-3 hover:shadow-md rounded-lg relative w-fit">
+        <div class=" break-inside-avoid flex-auto p-3 hover:shadow-md rounded-lg relative w-fit bg-white">
             <div class=" relative">
                 
                 <button class=" absolute z-10 top-3 left-3 h-6 w-6 rounded-md bg-white text-gray-500 shadow-xl flex justify-center items-center">

@@ -69,43 +69,7 @@
                     <img :src="`http://localhost:8000/${product.images[0]}`" class="">
                 </template>
            </ProductCard>
-           <ProductCard class="masonry-item" v-for="(product, index) in products" :key="index"
-                :id="product._id"
-                :product_name="product.name"
-                :views="product.views"
-                :posted="product.createdAt"
-                :product_price="product.price.toLocaleString()"
-                :shop="product.shop.name"
-            >
-                <template #product_image>
-                    <img :src="`http://localhost:8000/${product.images[0]}`" class="">
-                </template>
-           </ProductCard>
-           <ProductCard class="masonry-item" v-for="(product, index) in products" :key="index"
-                :id="product._id"
-                :product_name="product.name"
-                :views="product.views"
-                :posted="product.createdAt"
-                :product_price="product.price.toLocaleString()"
-                :shop="product.shop.name"
-            >
-                <template #product_image>
-                    <img :src="`http://localhost:8000/${product.images[0]}`" class="">
-                </template>
-           </ProductCard>
-           <ProductCard class="masonry-item" v-for="(product, index) in products" :key="index"
-                :id="product._id"
-                :product_name="product.name"
-                :views="product.views"
-                :posted="product.createdAt"
-                :product_price="product.price.toLocaleString()"
-                :shop="product.shop.name"
-            >
-                <template #product_image>
-                    <img :src="`http://localhost:8000/${product.images[0]}`" class="">
-                </template>
-           </ProductCard>
-         
+                   
         </div>
                     
 

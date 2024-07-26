@@ -1,6 +1,6 @@
 <template>
     <div class="">
-        <div class="text-center h-[300px] flex flex-col justify-center items-center p-12 hero min-h-screen">
+        <div class="text-center h-[500px] flex flex-col justify-center items-center p-12 hero">
             <h1 class="font-bold text-5xl text-white">
                 <span class="text-app_green">Discover </span>
                 new products from shops around <span class="text-app_green">you!</span></h1>
@@ -15,8 +15,6 @@
                     </button>
                 </div>
             </div>
-            
-            
         </div>
 
         <!-- CATEGORIES AREA -->
@@ -86,7 +84,11 @@
 
          <!-- SHOPS DISPLAY AREA -->
          <div class="p-3 flex flex-row overflow-x-auto justify-start">
-            <ShopCard v-for="product in 5"/>
+            <ShopCard v-for="(shop, index) in shops"
+                :name="shop.name"
+                :category="shop.category"
+                :image_url="shop.profile.image_url"
+            />
         </div>
 
          <!-- TOP SELLING DIVIDER -->
@@ -99,21 +101,21 @@
             </div>
         </div>
 
-        <!-- PRODCUT DISPLAY AREA -->
-        <!-- <div class="masonry">
-            <ProductCard v-for="(product, index) in products" :key="index"
+         <!-- PRODCUT DISPLAY AREA -->
+         <div class="masonry">
+            <ProductCard class="masonry-item" v-for="(product, index) in products" :key="index"
                 :id="product._id"
                 :product_name="product.name"
                 :views="product.views"
+                :posted="product.createdAt"
                 :product_price="product.price.toLocaleString()"
                 :shop="product.shop.name"
             >
                 <template #product_image>
-                    <img :src="`http://localhost:8000/${product.images[0]}`" class="max-h-[200px] max-w-[200px]">
+                    <img :src="`http://localhost:8000/${product.images[0]}`" class="">
                 </template>
-           </ProductCard>
-        </div> -->
-
+           </ProductCard> 
+        </div>
         
     </div>
 </template>
@@ -138,8 +140,8 @@ import axios from 'axios';
         data() {
             return {
                 height: 0,
-
-                products: '',
+                shops: [],
+                products: [],
             }
         },
         methods:{
@@ -156,6 +158,16 @@ import axios from 'axios';
                 }catch(error){
                     console.log("error getting products..", error);
                 }
+            },
+
+            async getAllShops(){
+                try{
+                    const response = await axios.get('/shops/list/all');
+                    this.shops = response.data.shops;
+                    console.log(response);
+                }catch(error){
+                    console.log("error getting shops: ", error);
+                }
             }
         },
         computed:{
@@ -169,6 +181,7 @@ import axios from 'axios';
             // this.randomHeightInPx();
 
             this.getAllProducts();
+            this.getAllShops();
         },
     }
 </script>

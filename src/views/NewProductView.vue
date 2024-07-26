@@ -8,6 +8,7 @@
 </div>
 
 <!-- {{ product }} -->
+{{ images }}
 
     <div class=" min-h-screen flex flex-col justify-start items-center">
         <div class="mt-20"></div>
@@ -61,7 +62,7 @@
                                     </svg>
                                 </label>
 
-                            <div v-for="(image, index) in images" :key="index">
+                            <div v-for="(image, index) in product.product_images" :key="index">
                                 <div class="w-20 h-20 rounded-lg border border-gray-300 overflow-hidden relative">
                                 <img :src="image" alt="Product Photo" class="w-full h-full object-cover">
                                 <button type="button" @click="removeImage(index)" class="absolute top-1 right-1 bg-red-500 text-white rounded-lg p-1">
@@ -207,7 +208,7 @@ import axios from 'axios';
                     name: '',
                     description: '',
                     category: '',
-                    product_images: '',
+                    product_images: [],
                     condition: '',
                     price: '',
                     charge_for_delivery: 'no',
@@ -227,18 +228,16 @@ import axios from 'axios';
                 const files = event.target.files;
                 for (let i = 0; i < files.length; i++) {
                     const file = files[i];
-                    this.images.push(URL.createObjectURL(file));
+                    // this.images.push(URL.createObjectURL(file));
+                    this.product.product_images.push(URL.createObjectURL(file));
                 };
-                this.product.product_images = files;
             },
 
             removeImage(index) {
                 this.product.product_images.splice(index, 1);
             },
 
-            handleFileChange(event) {
-                this.product.product_images = event.target.files;
-            },
+           
 
             async uploadProduct(){
                 const formData = new FormData();

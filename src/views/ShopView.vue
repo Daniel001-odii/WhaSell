@@ -29,21 +29,21 @@
             <div v-if="user.account_type == 'seller'">
 
           
-                <div v-if="!edit_shop"  class="flex flex-row flex-wrap gap-4 px-8 py-5 bg-white border rounded-lg items-center">
+                <div v-if="!edit_shop"  class="flex flex-row  gap-4 px-8 py-5 bg-white border rounded-lg items-center">
                     <!-- <div class="h-28 min-w-28 text-white rounded-full bg-gray-600 flex justify-center items-center">
                         <i class="bi bi-shop text-3xl"></i>
                     </div> -->
-                    <img :src="`http://localhost:8000/${shop_image}`" alt="Product Photo" class="rounded-full w-28 h-28 object-cover">
-                    <div v-if="shop.name" class="flex flex-row items-start flex-wrap justify-between w-full gap-5">
+                    <img :src="`http://localhost:8000/${shop_image}`" alt="Product Photo" class="rounded-full w-28 h-28 border object-cover">
+                    <div v-if="shop.name" class="flex flex-row items-center flex-wrap justify-between w-full gap-5">
                         <div class="flex flex-col">
                             <h1 class="font-bold text-xl">{{ shop.name }}</h1>
                             <span class="text-green-500">{{ shop.category }}</span>
                             <span class="text-sm" v-if="user.location">{{ user.location.address }}, {{ user.location.LGA }}, {{ user.location.state }}, NG.</span>
                             <RouterLink class="text-blue-600 text-sm mt-4" :to="`/shops/${shop.name}`" target="_blank">visit store <i class="bi bi-box-arrow-up-right"></i> </RouterLink>
                         </div>
-                        <button @click="edit_shop = !edit_shop" class="btn text-white bg-app_green">
+                        <button @click="edit_shop = !edit_shop" class="btn text-white bg-app_green flex gap-2">
                             <i class="bi bi-pen"></i>
-                            Edit
+                            <span>Edit</span>
                         </button>
                     </div>
                 
@@ -55,24 +55,20 @@
                     <!-- <div class=" h-28 w-28 text-white rounded-full bg-gray-600 mb-5 flex justify-center items-center hover:bg-gray-300 cursor-pointer">
                         <i class="bi bi-shop text-3xl"></i>
                     </div> -->
-                    <div v-if="shop_image" class="w-28 h-28 relative rounded-full border border-gray-300 overflow-hidden">
-                        <!-- <img :src="shop_image" alt="Product Photo" class="w-full h-full object-cover"> -->
-                        <img :src="`http://localhost:8000/${shop_image}`" alt="Product Photo" class="w-full h-full object-cover">
-                    </div>
+                    
               
 
-                    <form @submit.prevent="changeShopImage">
+                    <form @submit.prevent="changeShopImage" class="relative">
+                        <div v-if="shop_image" class="w-28 h-28 relative rounded-full border border-gray-300 overflow-hidden">
+                            <img :src="`http://localhost:8000/${shop_image}`" alt="Product Photo" class="w-full h-full object-cover">
+                        </div>
+
                         <!-- <label v-else class=" w-28 h-28 rounded-full bg-green-100 text-app_green flex items-center justify-center cursor-pointer"> -->
-                        <label class=" w-28 h-28 rounded-full bg-green-100 text-app_green flex items-center justify-center cursor-pointer">
+                        <label class=" w-28 h-28 rounded-full bg-black text-app_green flex items-center justify-center cursor-pointer absolute top-0 opacity-0 hover:opacity-80">
                             <input type="file" class="hidden" @change="onFileChange">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M13 21H3.6C3.26863 21 3 20.7314 3 20.4V3.6C3 3.26863 3.26863 3 3.6 3H20.4C20.7314 3 21 3.26863 21 3.6V13" stroke="#47C67F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                                <path d="M3 16L10 13L15.5 15.5" stroke="#47C67F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                                <path d="M16 10C14.8954 10 14 9.10457 14 8C14 6.89543 14.8954 6 16 6C17.1046 6 18 6.89543 18 8C18 9.10457 17.1046 10 16 10Z" stroke="#47C67F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                                <path d="M19 19V22M16 19H19H16ZM22 19H19H22ZM19 19V16V19Z" stroke="#47C67F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                            </svg>
+                            <i class="bi bi-camera-fill text-white"></i>
                         </label>
-                        <button v-if="shop_image_edit" type="submit">save image</button>
+                        <!-- <button v-if="shop_image_edit" type="submit">save image</button> -->
                     </form>
 
                     <span v-if="from_owner_state" class="text-sm rounded-lg bg-blue-100 text-blue-700 p-3 mb-4 w-full">
@@ -244,6 +240,8 @@ import Column from 'primevue/column';
                   
                 }
                 this.shop_image_edit  = true;
+                // update the shop image automatically after image change...
+                this.changeShopImage()
             },
 
             visitNewShop(){
@@ -265,6 +263,7 @@ import Column from 'primevue/column';
                         }
                     });
                     console.log('upload p-image: ', response);
+                    window.location.reload();
                 }catch(error){
                     console.log("error uploading profile image: ", error);
                 }

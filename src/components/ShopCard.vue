@@ -1,8 +1,8 @@
 <template>
-     <RouterLink to="/shop/odiiSpecial">
+     <RouterLink :to="`/shops/${name}`">
             <div>
                 <div>
-                <div class="w-[200px] p-4 hover:bg-gray-50 rounded-3xl flex flex-col gap-3">
+                <div class="w-[200px] p-4 hover:bg-gray-100 rounded-3xl flex flex-col justify-center items-center gap-3">
                     <div>
                         <span class="rounded-full status-tag bg-orange-400 text-white px-3 p-1 text-[12px] flex flex-row w-fit items-center">
                             <svg width="15" height="15" viewBox="0 0 26 28" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -12,16 +12,16 @@
                         </span>
                     </div>
                     <div class=" relative">
-                        <img src="../assets/images/image_5.png" class=" h-40 product-image opacity-20 rounded-full">
+                        <img :src="`http://localhost:8000/${image_url}`" class=" h-40 product-image rounded-full">
                     </div>
                     
                     <div class="flex flex-col text-center">
-                        <slot name="store-name">
-                            <span class="font-bold text-md">Felix Djardin Stores</span>
-                        </slot>
-                        <slot name="store-category">
-                            <span class="text-sm">Electronics Gadgets</span>
-                        </slot>
+                        <div name="store-name">
+                            <span class="font-bold text-md">{{ name }}</span>
+                        </div>
+                        <div name="store-category" class="bg-[#A4F4E7] px-3 py-1 rounded-lg text-green-700">
+                            <span class="text-sm">{{ category }}</span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -31,7 +31,12 @@
 
 <script>
     export default {
-        name: "ShopCard"
+        name: "ShopCard",
+        props: {
+            name: '',
+            category: '',
+            image_url: '',
+        }
     }
 </script>
 

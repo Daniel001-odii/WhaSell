@@ -76,7 +76,7 @@
                             
                         </div>
                         
-                        <button :disabled="product.name == '' || product.description == '' || product.category == ''" type="button" @click="tab += 1" class="bg-[#47C67F] rounded-lg p-3 text-white font-semibold hover:bg-opacity-90 flex flex-row items-center justify-center">Next
+                        <button :disabled="product.name == '' || product.description == '' || product.category == '' || product.product_images == ''" type="button" @click="tab += 1" class="bg-[#47C67F] rounded-lg p-3 text-white font-semibold hover:bg-opacity-90 flex flex-row items-center justify-center">Next
                             <!-- <i class="pi pi-angle-right pl-3 mt-[2px]"></i> -->
                         </button>
                     </div>

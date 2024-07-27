@@ -23,6 +23,11 @@ import 'bootstrap-icons/font/bootstrap-icons.css';
 import axios from 'axios';
 axios.defaults.withCredentials = true;
 axios.defaults.baseURL = process.env.VUE_APP_API_URL
+
+
+
+
+
 // Import PrimeVue CSS
 import 'primevue/resources/themes/nova/theme.css';
 import 'primevue/resources/primevue.min.css';
@@ -34,6 +39,9 @@ import 'primeicons/primeicons.css';
 
 
 const app = createApp(App);
+
+// declare global variable..
+app.config.globalProperties.$app_url = process.env.VUE_APP_ROOT_URL;
 
 app.use(PrimeVue);
 app.use(ToastService);

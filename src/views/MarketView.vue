@@ -64,7 +64,7 @@
                 :shop="product.shop.name"
             >
                 <template #product_image>
-                    <img :src="`http://localhost:8000/${product.images[0]}`" class="">
+                    <img :src="`${this.$app_url}/${product.images[0]}`" class="">
                 </template>
            </ProductCard>
                    
@@ -84,6 +84,7 @@
 
          <!-- SHOPS DISPLAY AREA -->
          <div class="p-3 flex flex-row overflow-x-auto justify-start">
+         <!-- {{ shops }} -->
             <ShopCard v-for="(shop, index) in shops"
                 :name="shop.name"
                 :category="shop.category"
@@ -112,7 +113,7 @@
                 :shop="product.shop.name"
             >
                 <template #product_image>
-                    <img :src="`http://localhost:8000/${product.images[0]}`" class="">
+                    <img :src="`${this.$app_url}/${product.images[0]}`" class="">
                 </template>
            </ProductCard> 
         </div>

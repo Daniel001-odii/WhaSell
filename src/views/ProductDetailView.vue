@@ -105,14 +105,13 @@
 
         <!-- FULL PRODUCT DESRIPTION AND DETAILS -->
         <div class="flex flex-col md:flex-row gap-5 mt-8 flex-wra p-5" v-if="product">
-               <!-- {{  main_image }} -->
+               {{  main_image }}
             <div class="flex flex-col gap-3 md:w-[50%] ">
                 <div :style="`background-image: url('${main_image}'); background-size: contain;`" class="full-image w-full h-[400px] rounded-md flex justify-center items-center bg-gray-100">
                     <!-- <img :src="`http://localhost:8000/${product.images[0]}`" class="max-h-[400px]"> -->
                 </div>
                 <div class="flex flex-row gap-3">
-                    <!-- image: {{ product.images }}<br/>
-                    main: {{ main_image }} -->
+                   
                     <!-- <div @click="viewImage(image)" class=" w-20 h-20 bg-gray-100 overflow-hidden p-1 border-2 hover:border-app_green rounded-lg cursor-pointer" v-for="image in product.images">  -->
                         <img @click="viewImage(image)" v-for="image in product.images" :src="image" class=" rounded-md w-20 h-20 cursor-pointer">
                          <!-- <div class="h-full w-full bg-red-500 rounded-md" :style="`background-image: url('${main_image}')`">{{ image }}</div> -->
@@ -233,8 +232,7 @@ import Rating from 'primevue/rating';
         methods:{
 
             viewImage(image_url){
-                const url = image_url.replace(/\\/g, '/');
-                this.main_image = `${this.$app_url}/${url}`;
+                this.main_image = image_url;
             },
 
 
@@ -277,7 +275,7 @@ import Rating from 'primevue/rating';
                     // get the shop for the product...
                     this.getShopById(this.product.shop);
 
-                    this.main_image = `${this.$app_url}/${this.product.images[0].replace(/\\/g, '/')}`;
+                    this.main_image = this.product.images[0];
                     this.loading = false;
                     console.log(this.product)
                 }catch(error){

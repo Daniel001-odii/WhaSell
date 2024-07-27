@@ -64,7 +64,7 @@
                 :shop="product.shop.name"
             >
                 <template #product_image>
-                    <img :src="`${this.$app_url}/${product.images[0]}`" class="">
+                    <img :src="product.images[0]" class="">
                 </template>
            </ProductCard>
                    
@@ -113,7 +113,7 @@
                 :shop="product.shop.name"
             >
                 <template #product_image>
-                    <img :src="`${this.$app_url}/${product.images[0]}`" class="">
+                    <img :src="product.images[0]" class="">
                 </template>
            </ProductCard> 
         </div>

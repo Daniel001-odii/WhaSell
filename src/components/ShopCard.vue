@@ -12,7 +12,7 @@
                         </span>
                     </div>
                     <div class=" relative">
-                        <img :src="`${this.$app_url}/${image_url}`" class=" h-40 product-image rounded-full">
+                        <img :src="image_url" class=" h-40 product-image rounded-full">
                     </div>
                     
                     <div class="flex flex-col text-center">

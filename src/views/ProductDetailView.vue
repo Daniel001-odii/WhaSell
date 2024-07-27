@@ -23,7 +23,7 @@
        
     </FullPageModal>
 
-    <!-- {{ product }} -->
+    {{ product }}
 
     <div class="container mx-auto p-3">
 
@@ -114,7 +114,7 @@
                     <!-- image: {{ product.images }}<br/>
                     main: {{ main_image }} -->
                     <!-- <div @click="viewImage(image)" class=" w-20 h-20 bg-gray-100 overflow-hidden p-1 border-2 hover:border-app_green rounded-lg cursor-pointer" v-for="image in product.images">  -->
-                        <img @click="viewImage(image)" v-for="image in product.images" :src="`${this.$app_url}/${image}`" class=" rounded-md w-20 h-20 cursor-pointer">
+                        <img @click="viewImage(image)" v-for="image in product.images" :src="image" class=" rounded-md w-20 h-20 cursor-pointer">
                          <!-- <div class="h-full w-full bg-red-500 rounded-md" :style="`background-image: url('${main_image}')`">{{ image }}</div> -->
                     <!-- </div> -->
                 </div>
@@ -234,7 +234,7 @@ import Rating from 'primevue/rating';
 
             viewImage(image_url){
                 const url = image_url.replace(/\\/g, '/');
-                this.main_image = `http://localhost:8000/${url}`;
+                this.main_image = `${this.$app_url}/${url}`;
             },
 
 

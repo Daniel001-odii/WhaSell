@@ -105,7 +105,7 @@
 
         <!-- FULL PRODUCT DESRIPTION AND DETAILS -->
         <div class="flex flex-col md:flex-row gap-5 mt-8 flex-wra p-5" v-if="product">
-               {{  main_image }}
+               <!-- {{  main_image }} -->
             <div class="flex flex-col gap-3 md:w-[50%] ">
                 <div :style="`background-image: url('${main_image}'); background-size: contain;`" class="full-image w-full h-[400px] rounded-md flex justify-center items-center bg-gray-100">
                     <!-- <img :src="`http://localhost:8000/${product.images[0]}`" class="max-h-[400px]"> -->

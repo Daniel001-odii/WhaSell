@@ -33,7 +33,7 @@
                     <!-- <div class="h-28 min-w-28 text-white rounded-full bg-gray-600 flex justify-center items-center">
                         <i class="bi bi-shop text-3xl"></i>
                     </div> -->
-                    <img :src="`http://localhost:8000/${shop_image}`" alt="Product Photo" class="rounded-full w-28 h-28 border object-cover">
+                    <img :src="shop_image" alt="Product Photo" class="rounded-full w-28 h-28 border object-cover">
                     <div v-if="shop.name" class="flex flex-row items-center flex-wrap justify-between w-full gap-5">
                         <div class="flex flex-col">
                             <h1 class="font-bold text-xl">{{ shop.name }}</h1>
@@ -60,11 +60,11 @@
 
                     <form @submit.prevent="changeShopImage" class="relative">
                         <div v-if="shop_image" class="w-28 h-28 relative rounded-full border border-gray-300 overflow-hidden">
-                            <img :src="`http://localhost:8000/${shop_image}`" alt="Product Photo" class="w-full h-full object-cover">
+                            <img :src="shop_image" alt="Product Photo" class="w-full h-full object-cover">
                         </div>
 
                         <!-- <label v-else class=" w-28 h-28 rounded-full bg-green-100 text-app_green flex items-center justify-center cursor-pointer"> -->
-                        <label class=" w-28 h-28 rounded-full bg-black text-app_green flex items-center justify-center cursor-pointer absolute top-0 opacity-0 hover:opacity-80">
+                        <label class=" w-28 h-28 rounded-full bg-black text-app_green flex items-center justify-center cursor-pointer absolute top-0 opacity-0 hover:opacity-50">
                             <input type="file" class="hidden" @change="onFileChange">
                             <i class="bi bi-camera-fill text-white"></i>
                         </label>

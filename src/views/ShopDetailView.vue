@@ -76,7 +76,7 @@
                             <i class="bi bi-shop"></i>
                            
                           </div> -->
-                          <img :src="`http://localhost:8000/${shop.profile.image_url}`" alt="Product Photo" class="rounded-full absolute md:left-[100px] size-[150px] object-cover">
+                          <img :src="shop.profile.image_url" alt="Product Photo" class="rounded-full absolute md:left-[100px] size-[150px] object-cover">
                     </div>
                   
 
@@ -138,7 +138,7 @@
                                                 :shop="product.shop.name"
                                             >
                                                 <template #product_image>
-                                                    <img :src="`http://localhost:8000/${product.images[0]}`" class="max-h-[300px] max-w-[200px]">
+                                                    <img :src="product.images[0]" class="max-h-[300px] max-w-[200px]">
                                                 </template>
                                         </ProductCard>
                                     </div>

@@ -108,7 +108,6 @@
                <!-- {{  main_image }} -->
             <div class="flex flex-col gap-3 md:w-[50%] ">
                 <div :style="`background-image: url('${main_image}'); background-size: contain;`" class="full-image w-full h-[400px] rounded-md flex justify-center items-center bg-gray-100">
-                    <!-- <img :src="`http://localhost:8000/${product.images[0]}`" class="max-h-[400px]"> -->
                 </div>
                 <div class="flex flex-row gap-3">
                    

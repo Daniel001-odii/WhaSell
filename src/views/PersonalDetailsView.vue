@@ -2,9 +2,24 @@
     <div>
         <div class="border rounded-lg flex flex-col p-3 bg-white" v-if="user">
             <form @submit.prevent="updateUserProfile" class="flex flex-col justify-center items-center gap-3 p-5">
-                <div class=" cursor-pointer bg-gray-600 hover:bg-gray-500 h-24 w-24 rounded-full min-w-24 flex justify-center items-center text-2xl">
+                <!-- <div class=" cursor-pointer bg-gray-600 hover:bg-gray-500 h-24 w-24 rounded-full min-w-24 flex justify-center items-center text-2xl">
                     <i class="bi bi-camera text-white"></i>
-                </div>
+                </div> -->
+                <!-- {{ user }} -->
+
+                <form @submit.prevent="changeUserImage" class="relative">
+                    <div v-if="user" class="min-w-28 w-28 h-28 relative rounded-full border border-gray-300 overflow-hidden">
+                        <img :src="user_image" alt="Product Photo" class="w-full h-full object-cover">
+                    </div>
+
+                    <!-- <label v-else class=" w-28 h-28 rounded-full bg-green-100 text-app_green flex items-center justify-center cursor-pointer"> -->
+                    <label class=" w-28 h-28 rounded-full bg-black text-app_green flex items-center justify-center cursor-pointer absolute top-0 opacity-0 hover:opacity-50">
+                        <input type="file" class="hidden" @change="onFileChange">
+                        <i class="bi bi-camera-fill text-white"></i>
+                    </label>
+                    <!-- <button v-if="shop_image_edit" type="submit">save image</button> -->
+                </form>
+
             
                 <div class="w-full flex flex-col gap-3">
                     <div class="flex flex-col justify-center items-start gap-3 w-full">
@@ -184,10 +199,48 @@ import NaijaStates from 'naija-state-local-government';
                 loading_socials: false,
                 loading_location: false,
                 loading_profile: false,
+
+                user_image: '',
             }
         },
 
         methods:{
+
+            onFileChange(event) {
+                const file = event.target.files[0];
+                this.new_shop.image = file;
+                
+                if (file) {
+                    this.shop_image = URL.createObjectURL(file);
+                  
+                }
+                this.shop_image_edit  = true;
+                // update the shop image automatically after image change...
+                this.changeUserImage()
+            },
+
+
+            async changeUserImage(){
+                const form = new FormData();
+                const file = this.new_shop.image;
+
+                form.append('shop_image', file);
+
+
+                try{
+                    const response = await axios.patch(`/shops/${this.shop._id}/image`, form, {
+                        headers: {
+                            'Content-Type': 'multipart/form-data'
+                        }
+                    });
+                    console.log('upload p-image: ', response);
+                    window.location.reload();
+                }catch(error){
+                    console.log("error uploading profile image: ", error);
+                }
+            },
+
+
             async getUserDetails(){
                 try{
                     this.authenticated = true;
@@ -196,6 +249,8 @@ import NaijaStates from 'naija-state-local-government';
                     // this.user.email = response.data.user.email;
                     // this.user.phone = response.data.user.phone;
                     this.user = response.data.user;
+
+                    this.user_image = response.data.user.profile.image_url;
                     
                     if(this.user.location){
                         this.location = this.user.location

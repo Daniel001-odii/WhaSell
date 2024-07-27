@@ -16,7 +16,7 @@
     <!-- CREATE NEW SHOP DIV -->
 
     <div>
-        <!-- {{ shop }} -->
+        <!-- {{ shop_products }} -->
         <div v-if="loading" class="w-full flex justify-center items-center h-[400px] gap-3">
          <span class="app_spinner"></span>
          <span>loading...</span>
@@ -119,17 +119,19 @@
                                 <th>Price/pdt</th>
                             </tr>
                         </thead>
-                        <tbody class="p-3 mt-3">
-                            <tr class="hover:bg-gray-50 p-2" v-for="item in 2">
+                        <tbody class="">
+                            <tr class="hover:bg-gray-50 p-2" v-for="(product, index) in shop_products" :key="index">
                                 <td class="flex flex-row gap-2 items-center">
-                                    <div class="bg-red-400 h-14 w-14 rounded-xl"></div>
-                                    <span>Product {{ item }} name here</span>
+                                    <div class="bg-red-400 h-14 min-w-14 rounded-xl overflow-hidden">
+                                        <img :src="product.images[0]" class="h-full w-full">
+                                    </div>
+                                    <span>{{ product.name.substring(0,30) }}...</span>
                                 </td>
-                                <td>Product Category</td>
-                                <td>300 pcs</td>
-                                <td>In Stock</td>
-                                <td>4</td>
-                                <td>NGN 24,000</td>
+                                <td>{{ product.category }}</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>NGN {{ product.price.toLocaleString() }}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -227,6 +229,8 @@ import Column from 'primevue/column';
                 
                 shop_image: null,
                 shop_image_edit: false,
+
+                shop_products: [],
             }
         },
         methods:{
@@ -291,6 +295,9 @@ import Column from 'primevue/column';
                         this.shop_image = response.data.user.shop.profile.image_url;
                         this.shop_name = response.data.user.shop.name;
                         this.shop_category = response.data.user.shop.category;
+                        
+                        // get shop products if any..
+                        this.getShopProducts();
                     }
                   
 
@@ -349,6 +356,15 @@ import Column from 'primevue/column';
                     this.creating_new_shop = false;
                     console.log("error creating new shop: ", error);
                 }
+            },
+
+            async getShopProducts(){
+                try{
+                    const response = await axios.get(`/products/${this.shop._id}/shop`);
+                    this.shop_products = response.data.products;
+                }catch(error){
+                    console.log("error getting shop products: ", error)
+                }
             }
         },
         created(){
@@ -359,5 +375,7 @@ import Column from 'primevue/column';
 </script>
 
 <style scoped>
-
+    td{
+        @apply !py-5 px-2
+    }
 </style>

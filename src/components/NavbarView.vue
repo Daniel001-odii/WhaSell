@@ -82,7 +82,8 @@
                     </div>
                     <CustomDropdown v-if="user">
                         <template #trigger>
-                            <i class="bi bi-person-circle text-4xl text-gray-400"></i>
+                            <!-- <i class="bi bi-person-circle text-4xl text-gray-400"></i> -->
+                            <img :src="user.profile.image_url" class=" size-10">
                         </template>
                         <template #menu>
                             <div class="text-black bg-white rounded-xl relative top-5 border w-[350px] p-3">
@@ -90,7 +91,8 @@
                                     <div class="flex flex-row items-center justify-between p-3 rounded-md cursor-pointer hover:bg-gray-100">
                                         <div class="flex flex-row gap-3 items-center justify-start ">
                                             <div>
-                                                <i class="bi bi-person-circle text-4xl text-gray-400"></i>
+                                                <!-- <i class="bi bi-person-circle text-4xl text-gray-400"></i> -->
+                                                <img :src="user.profile.image_url" class=" size-10">
                                             </div>
                                             <div class="flex flex-col">
                                                 <p class="text-xl font-bold">{{ user.username }}</p>

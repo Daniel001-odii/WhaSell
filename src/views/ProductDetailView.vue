@@ -23,7 +23,7 @@
        
     </FullPageModal>
 
-    {{ product }}
+    <!-- {{ product }} -->
 
     <div class="container mx-auto p-3">
 

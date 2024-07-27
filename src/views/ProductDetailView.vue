@@ -136,7 +136,7 @@
                        
                     </div>
                     
-                    <div>{{ product.description }}</div>
+                    <div>{{ product.description.substring(0, 500) }}</div>
                     <div class="flex flex-row gap-4 flew-wrap text-sm text-gray-400">
                         <span><i class="bi bi-tag mr-1"></i>{{ product.category }}</span>
                         <span v-if="shop.location"><i class="bi bi-geo-alt mr-1"></i>{{ product.shop.location }}</span>

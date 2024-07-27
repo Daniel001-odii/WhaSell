@@ -59,7 +59,7 @@
               
 
                     <form @submit.prevent="changeShopImage" class="relative">
-                        <div v-if="shop_image" class="w-28 h-28 relative rounded-full border border-gray-300 overflow-hidden">
+                        <div v-if="shop_image" class="min-w-28 w-28 h-28 relative rounded-full border border-gray-300 overflow-hidden">
                             <img :src="shop_image" alt="Product Photo" class="w-full h-full object-cover">
                         </div>
 

@@ -17,7 +17,7 @@
             
             <div class="flex flex-col ">
                 <RouterLink :to="`/products/${id}/${product_name}`" class="font-bold">
-                    {{ product_name }}
+                    {{ product_name.substring(0,25) }}...
                 </RouterLink>
                 <div class="flex flex-row justify-between">
                 <!-- <slot name="product-price"> -->

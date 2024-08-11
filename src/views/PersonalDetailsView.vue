@@ -14,7 +14,7 @@
 
                     <!-- <label v-else class=" w-28 h-28 rounded-full bg-green-100 text-app_green flex items-center justify-center cursor-pointer"> -->
                     <label class=" w-28 h-28 rounded-full bg-black text-app_green flex items-center justify-center cursor-pointer absolute top-0 opacity-0 hover:opacity-50">
-                        <input type="file" class="hidden" @change="onFileChange">
+                        <input type="file" name="user_image" class="hidden" @change="onFileChange">
                         <i class="bi bi-camera-fill text-white"></i>
                     </label>
                     <!-- <button v-if="shop_image_edit" type="submit">save image</button> -->
@@ -52,7 +52,7 @@
             location 
         </div>
 
-        <form  @submit.prevent="updateUserLocation" class="border rounded-lg flex flex-col  gap-3 p-8 mt-1 bg-white">
+        <form @submit.prevent="updateUserLocation" class="border rounded-lg flex flex-col  gap-3 p-8 mt-1 bg-white">
             <div class="flex flex-row gap-3">
                 <div class="flex flex-col justify-center items-start gap-3 w-full">
                     <span class="font-bold test-md">state<span class="text-red-500 ml-1">*</span></span>
@@ -121,7 +121,7 @@
                 </button>
             </div>
 
-            <form  @submit.prevent="updateUserSocials">
+            <form @submit.prevent="updateUserSocials">
                 <div v-if="whatsapp_field" class="flex flex-col justify-center items-start gap-3 w-full mt-3">
                     <span class="font-bold test-md">WhatsApp Link</span>
                     <input type="url" class="bg-slate-100 w-full p-3 rounded-md overflow-hidden outline-none" v-model="socials.whatsapp">
@@ -201,6 +201,7 @@ import NaijaStates from 'naija-state-local-government';
                 loading_profile: false,
 
                 user_image: '',
+                new_user_image: null,
             }
         },
 
@@ -208,34 +209,35 @@ import NaijaStates from 'naija-state-local-government';
 
             onFileChange(event) {
                 const file = event.target.files[0];
-                this.new_shop.image = file;
+                this.new_user_image = file;
                 
                 if (file) {
-                    this.shop_image = URL.createObjectURL(file);
-                  
+                    this.user_image = URL.createObjectURL(file);
                 }
-                this.shop_image_edit  = true;
                 // update the shop image automatically after image change...
                 this.changeUserImage()
             },
 
-
             async changeUserImage(){
                 const form = new FormData();
-                const file = this.new_shop.image;
+                const file = this.new_user_image;
 
-                form.append('shop_image', file);
+                form.append('user_image', file);
 
 
                 try{
-                    const response = await axios.patch(`/shops/${this.shop._id}/image`, form, {
+                    const response = await axios.patch(`/user/profile-image`, form, {
                         headers: {
-                            'Content-Type': 'multipart/form-data'
+                            'Content-Type': 'multipart/form-data',
                         }
                     });
                     console.log('upload p-image: ', response);
                     window.location.reload();
                 }catch(error){
+                    this.$toast.open({
+                        message: `${error.response.data.message}`,
+                        type: 'error',
+                    });
                     console.log("error uploading profile image: ", error);
                 }
             },

@@ -92,7 +92,7 @@
                         </select>
                     </div>
                     <div class="flex flex-row gap-3 self-end">
-                        <!-- <button type="button" class="btn" @click="edit_shop = !edit_shop">cancel</button> -->
+                        <button type="button" class="btn bg-gray-100" @click="edit_shop = !edit_shop">cancel</button>
                 
                         <button type="submit" class="bg-app_green btn text-white">
                             Save edit
@@ -103,11 +103,10 @@
 
                 <!-- PRODUCTS & PRODUCT DETAIL -->
                 <div class=" p-3 mt-12 rounded-lg border bg-white text-green-800 font-bold">
-                    My products
+                    My products ({{ shop_products.length }})
                 </div>
 
                 <div class="flex flex-col p-6 rounded-lg border bg-white mt-3 overflow-x-auto">
-
                     <table class="table-auto text-left w-[800px]">
                         <thead>
                             <tr>
@@ -120,12 +119,14 @@
                             </tr>
                         </thead>
                         <tbody class="">
-                            <tr class="hover:bg-gray-50 p-2" v-for="(product, index) in shop_products" :key="index">
-                                <td class="flex flex-row gap-2 items-center">
-                                    <div class="bg-red-400 h-14 min-w-14 rounded-xl overflow-hidden">
-                                        <img :src="product.images[0]" class="h-full w-full">
+                            <tr class="hover:bg-gray-50 p-2 cursor-pointer" v-for="(product, index) in shop_products" :key="index">
+                                <td @click="selected_product = index" class="flex flex-row gap-2 items-center">
+                                    <div class="bg-red-400 !size-12 rounded-xl overflow-hidden">
+                                        <img :src="product.images[0]" class="h-full w-full ">
                                     </div>
-                                    <span>{{ product.name.substring(0,30) }}...</span>
+                                    <span>
+                                        {{ product.name.substring(0,30) }}...
+                                    </span>
                                 </td>
                                 <td>{{ product.category }}</td>
                                 <td>-</td>
@@ -135,6 +136,61 @@
                             </tr>
                         </tbody>
                     </table>
+                </div>
+
+                <!-- PRODUCT DETAIL PREVIEW -->
+                <div class=" p-3 mt-12 rounded-lg border bg-white text-green-800 font-bold">
+                    Product
+                </div>
+                <div class="flex flex-row flex-wrap bg-white border p-8 mt-3 items-start gap-12 rounded-lg" v-if="shop_products.length > 0">
+
+                    <div class="flex flex-row flex-wrap gap-3 items-center" >
+                        
+                        <!-- <div class="!size-40 bg-gray-100 rounded-lg overflow-hidden h-full w-full flex justify-center items-center"> -->
+                            <img :src="shop_products[selected_product].images[0]" class="!size-40 bg-gray-100 rounded-lg ">
+                        <!-- </div> -->
+                        <div class="flex flex-col gap-3">
+                            <h2 class="font-bold text-xl"> {{ shop_products[selected_product].name.substring(0,20) }}...</h2>
+                            <div class=" bg-green-100 text-green-700 text-sm p-1 rounded-lg text-center w-fit">{{ shop_products[selected_product].category }}</div>
+                            <div class="flex flex-row overflow-x-auto gap-1">
+                                <!-- {{ shop_products[selected_product].images }} -->
+                                <img :src="image" class=" size-10 bg-gray-100 rounded-md" v-for="image in shop_products[selected_product].images"></img>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- PRODUCT DESCRIPTIONS -->
+                    <div class="flex flex-col gap-3 mt-8 md:mt-0 ">
+                       <span>
+                        <b>Variants:</b> Black, White, Sky Blue</span>
+                       <span><b>Bulk price:</b></span>
+                       <div>
+                            <b>Product Description:</b><br/>
+                            <p>
+                                {{ shop_products[selected_product].description }}
+                            </p>
+                        </div>
+                        <span><b>Total Qty:</b> 138pcs</span>
+                        <span><b>Qty sold:</b> 14pcs</span>
+                        <div class="flex flex-row justify-between items-center">
+                            <span><b>Qty left:</b> 123pcs</span>
+                            <div class=" gap-3 flex items-center">
+                                <span class="  inline-block !size-3 bg-blue-500 rounded-full"></span>
+                                <span class="text-blue-500">In stock</span>
+                            </div>
+                        </div>
+                        <div class="flex flex-row justify-between mt-8">
+                            <button class="bg-red-700 text-white p-3 btn">
+                                <i class="bi bi-trash mr-2"></i>
+                                Delete
+                            </button>
+                            <button class="btn bg-blue-100 text-blue-500">
+                                <i class="bi bi-pen mr-2"></i>
+                                Edit Product
+                            </button>
+                        </div>
+                    </div>
+                    
                 </div>
                 <!-- ************************** -->
             </div>
@@ -206,6 +262,8 @@ import Column from 'primevue/column';
                         address: '',
                     },
                 },
+
+                selected_product: '',
 
                 new_shop: {
                     image: null,
@@ -362,6 +420,7 @@ import Column from 'primevue/column';
                 try{
                     const response = await axios.get(`/products/${this.shop._id}/shop`);
                     this.shop_products = response.data.products;
+                    this.selected_product = 0;
                 }catch(error){
                     console.log("error getting shop products: ", error)
                 }

@@ -156,7 +156,7 @@
             Safety Tips
         </div>
         <div class="flex flex-col`">
-            <ol class=" ">
+            <ol class=" list-decimal" start="1">
                 <li>Avoid paying in advance, even if it's delivery</li>
                 <li>Meet the seller at a safe public place</li>
                 <li>Inspect the item and ensure it’s exactly what you ordered</li>

@@ -1,6 +1,48 @@
 <template>
     <FullPageModal @close-modal="unauthorized = false" v-if="unauthorized"/>
   
+    <!-- FEEDBACK -->
+     <div v-if="feedback_modal" class=" min-h-screen fixed w-full flex justify-center items-center bg-[rgba(0,0,0,0.5)] z-50 p-3">
+        <div class="bg-white size-40 rounded-md flex flex-col justify-center items-center w-[400px] h-fit">
+            <div class="w-full flex flex-row justify-between p-3 border-b">
+                <div class="font-bold flex flex-row gap-2">
+                    <img src="../assets/images/feedback-icon.png" class=" !size-8">
+                    <span class="text-xl">Feedback</span>
+                </div>
+                <button class=" text-2xl" @click="feedback_modal = !feedback_modal">&times;</button>
+            </div>
+            <div class="flex flex-col p-5 text-center">
+                <h1 class="text-3xl font-bold">How are you feeling?</h1>
+                <p class="mt-3">Your feedback is invaluable in helping us better understand your  need and tailor our service accordingly.</p>
+                <form>
+                    <div class="flex flex-row justify-between mt-12">
+                        <div class="text-sm flex flex-col justify-center items-center gap-3 cursor-pointer">
+                            <div @click="feeling = 0" class="p-5 rounded-full border-gray-100 hover:border-4" :class="feeling == 0 ? 'bg-green-400':''">
+                                <img src="../assets/images/sad.png" class=" size-16">
+                            </div>
+                            <span>Disappointed</span>
+                        </div>
+
+                        <div class="text-sm flex flex-col justify-center items-center gap-3 cursor-pointer ">
+                            <div @click="feeling = 1" class="p-5 rounded-full border-gray-100 hover:border-4" :class="feeling == 1 ? 'bg-green-400':''">
+                                <img src="../assets/images/good.png" class=" size-16">
+                            </div>
+                            <span>Good</span>
+                        </div>
+
+                        <div class="text-sm flex flex-col justify-center items-center gap-3 cursor-pointer">
+                            <div @click="feeling = 2" class="p-5 rounded-full border-gray-100 hover:border-4" :class="feeling == 2 ? 'bg-green-400':''">
+                                <img src="../assets/images/awesome.png" class=" size-16">
+                            </div>
+                            <span>Awesome</span>
+                        </div>
+                    </div>
+                    <textarea placeholder="Why do you feel this way, and what can we do to make it better?" class=" min-h-20 w-full p-3 text-sm  bg-gray-100 rounded-lg mt-12"></textarea>
+                    <button class="btn bg-green-500 text-white w-full mt-3 shadow-lg font-bold text-sm">Submit Now</button>
+                </form>
+            </div>
+        </div>
+     </div>
 
     <!-- NAVBAR FOR AUTHENTICATED USERS -->
     <div v-if="authenticated" class="bg-gray-20 border-b ">
@@ -219,6 +261,9 @@ export default {
             user: '',
 
             unauthorized: false,
+
+            feedback_modal: true,
+            feeling: null,
           
             shop_categories: [
                     "electronics",
@@ -316,5 +361,10 @@ export default {
 
     .nav-link{
         @apply hover:bg-gray-600 hover:text-white p-3 rounded-lg
+    }
+
+
+    .rating-btn{
+        background: linear-gradient(187deg, #FFF64920.07%, #0BDC6880.03%, #3CA169116%);
     }
 </style>

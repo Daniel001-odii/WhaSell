@@ -90,31 +90,31 @@
         </div>
 
         <!-- {{ socials.whatsapp }} -->
-        <div class="flex flex-col bg-white p-8 rounded-lg mt-1">
+        <div class="flex flex-col bg-white p-8 rounded-lg mt-3 border">
             <div class="font-bold text-lg mt-3">Add Social Media Channel</div>
        
             <div class="flex flex-row flex-wrap gap-3 mt-3">
-                <button @click="whatsapp_field = !whatsapp_field" class="btn" :class="socials.whatsapp ? 'bg-green-400 text-white':''">
+                <button @click="whatsapp_field = !whatsapp_field" class="social-btn" :class="socials.whatsapp ? 'bg-green-400 text-white':''">
                     <i class="bi bi-whatsapp"></i>
                     WhatsApp
                     <i v-if="!socials.whatsapp" class="bi bi-plus"></i>
                 </button>
-                <button @click="youtube_field = !youtube_field" class="btn" :class="socials.youtube ? 'bg-green-400 text-white':''">
+                <button @click="youtube_field = !youtube_field" class="social-btn" :class="socials.youtube ? 'bg-green-400 text-white':''">
                     <i class="bi bi-youtube"></i>
                     Youtube
                     <i v-if="!socials.youtube" class="bi bi-plus"></i>
                 </button>
-                <button @click="facebook_field = !facebook_field" class="btn" :class="socials.facebook ? 'bg-green-400 text-white':''">
+                <button @click="facebook_field = !facebook_field" class="social-btn" :class="socials.facebook ? 'bg-green-400 text-white':''">
                     <i class="bi bi-facebook"></i>
                     facebook
                     <i v-if="!socials.facebook" class="bi bi-plus"></i>
                 </button>
-                <button @click="instagram_field = !instagram_field" class="btn" :class="socials.instagram ? 'bg-green-400 text-white':''">
+                <button @click="instagram_field = !instagram_field" class="social-btn" :class="socials.instagram ? 'bg-green-400 text-white':''">
                     <i class="bi bi-instagram"></i>
                     instagram
                     <i v-if="!socials.instagram" class="bi bi-plus"></i>
                 </button>
-                <button @click="twitter_field = !twitter_field" class="btn" :class="socials.twitter ? 'bg-green-400 text-white':''">
+                <button @click="twitter_field = !twitter_field" class="social-btn" :class="socials.twitter ? 'bg-green-400 text-white':''">
                     <i class="bi bi-twitter"></i>
                     twitter
                     <i v-if="!socials.twitter" class="bi bi-plus"></i>
@@ -336,5 +336,9 @@ import NaijaStates from 'naija-state-local-government';
 
    .active_social{
     @apply bg-app_green text-white
+   }
+
+   .social-btn{
+    @apply btn flex gap-3 items-center hover:bg-gray-100
    }
 </style>

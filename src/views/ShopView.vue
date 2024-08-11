@@ -100,6 +100,7 @@
                     </div>
                 </form>
 
+              
 
                 <!-- PRODUCTS & PRODUCT DETAIL -->
                 <div class=" p-3 mt-12 rounded-lg border bg-white text-green-800 font-bold">
@@ -139,7 +140,7 @@
                 </div>
 
                 <!-- PRODUCT DETAIL PREVIEW -->
-                <div class=" p-3 mt-12 rounded-lg border bg-white text-green-800 font-bold">
+                <div class=" p-3 mt-12 rounded-lg border bg-white text-green-800 font-bold" v-if="shop_products.length > 0">
                     Product
                 </div>
                 <div class="flex flex-row flex-wrap bg-white border p-8 mt-3 items-start gap-12 rounded-lg" v-if="shop_products.length > 0">
@@ -238,12 +239,17 @@ import NaijaStates from 'naija-state-local-government';
 import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
 
+import AmountInput from '../components/AmountInput.vue'
+
     export default {
         name: "ShopView",
+
         components:{
             DataTable,
             Column,
+            AmountInput,
         },
+
         data(){
             return{
                 NaijaStates,

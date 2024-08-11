@@ -142,7 +142,12 @@
                                                 </template>
                                         </ProductCard>
                                     </div>
-                                    <div class="flex justify-center items-center p-8 text-gray-500" v-if="!products || products.length <= 0">No products yet</div>
+                                    <div class="flex justify-center items-center p-8 text-gray-500" v-if="!products || products.length <= 0">
+                                        <div class="flex flex-col justify-center items-center mt-12">
+                                            <img src="../assets/images/no-products.png" class=" !size-52">
+                                            <span class="mt-3">You have not posted any products yet</span>
+                                        </div>
+                                    </div>
                                 </div>
 
 
@@ -152,7 +157,12 @@
                                     <div v-if="loading_products">Loading glips...</div>
                                     <div v-else class="flex flex-col justify-center items-center h-full">
                                     </div>
-                                    <div class="h-full flex justify-center items-center p-8 text-gray-500" v-if="!glips || glips.length <= 0">No glips yet</div>
+                                    <div class="h-full flex justify-center items-center p-8 text-gray-500" v-if="!glips || glips.length <= 0">
+                                        <div class="flex flex-col justify-center items-center mt-12">
+                                            <img src="../assets/images/no-products.png" class=" !size-52">
+                                            <span class="mt-3">You have not posted any glips yet</span>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>

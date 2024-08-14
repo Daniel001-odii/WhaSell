@@ -59,10 +59,19 @@
                         <span class=" cursor-pointer flex items-center justify-center gap-3 ">Categories <i class="pi pi-chevron-down text-[14px]"></i></span>
 
                         <!-- CATEGORIES MENU -->
-                         <div class="group-hover:flex hidden absolute  font-light text-sm top-6 -left-20 z-50 ">
-                            <div class="shadow-lg p-6 mt-4 w-[650px] bg-white rounded-lg">
-                                 <div class="flex flex-row flex-wrap gap-2">
-                                    <button class="p-5 hover:bg-gray-100 rounded-md border" v-for="category in shop_categories">{{ category }}</button>
+                         <div class="group-hover:flex hidden absolute  font-light text-sm top-6 -left-52 z-50 ">
+                            <div class="shadow-lg p-6 mt-6 w-[650px] bg-white rounded-lg">
+                                 <div class="flex flex-row gap-2">
+                                    <div class="w-[35%] bg-red-5 flex flex-col gap-2">
+                                        <span class="hover:bg-gray-100 p-1 rounded-md" v-for="category in shop_categories.splice(0,5)">{{ category }}</span>
+                                    </div>
+                                    <div class="w-[35%] bg-blue-5 h-16 flex flex-col gap-2">
+                                        <span class="hover:bg-gray-100 p-1 rounded-md"  v-for="category in shop_categories">{{ category }}</span>
+                                    </div>
+                                    <div class="w-[35%] bg-orange-5 h-16 flex flex-col gap-2">
+                                        <span  class="hover:bg-gray-100 p-1 rounded-md"  v-for="category in shop_categories">{{ category }}</span>
+                                    </div>
+                                    <!-- <button class="p-5 hover:bg-gray-100 rounded-md border" v-for="category in shop_categories">{{ category }}</button> -->
                                 </div>
                             </div>
                            
@@ -76,9 +85,11 @@
             </div>
 
             <div class="flex flex-row items-center justify-center gap-8 relative">
-                <button>
-                    <i class="bi bi-hand-thumbs-up-fill text-2xl"></i>
-                </button>
+                <RouterLink to="/likes">
+                    <button>
+                        <i class="bi bi-hand-thumbs-up-fill text-2xl" :class="isLikes ? 'text-green-500':''"></i>
+                    </button>
+                </RouterLink>
 
                 <!-- <button v-if="premium" class="bg-orange-400 text-white rounded-lg px-8 p-2 text-sm hover:bg-orange-500">Upgrade</button> -->
                 
@@ -262,7 +273,7 @@ export default {
 
             unauthorized: false,
 
-            feedback_modal: true,
+            feedback_modal: false,
             feeling: null,
           
             shop_categories: [
@@ -342,10 +353,21 @@ export default {
         }
     },
 
+    computed:{
+        isLikes(){
+            return this.$route.path.startsWith('/likes')
+        }
+    },
+
     mounted(){
         document.addEventListener('click', this.close);
         this.checkAuthenticationState();    
         this.getUserDetails();
+
+        // show feedback...
+        setTimeout(()=>{
+            this.feedback_modal = true;
+        },10000)
     },
     beforeDestroy () {
         document.removeEventListener('click',this.close)

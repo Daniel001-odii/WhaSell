@@ -123,8 +123,8 @@
 
             <form @submit.prevent="updateUserSocials">
                 <div v-if="whatsapp_field" class="flex flex-col justify-center items-start gap-3 w-full mt-3">
-                    <span class="font-bold test-md">WhatsApp Link</span>
-                    <input type="url" class="bg-slate-100 w-full p-3 rounded-md overflow-hidden outline-none" v-model="socials.whatsapp">
+                    <span class="font-bold test-md">WhatsApp Number</span>
+                    <input type="phone" class="bg-slate-100 w-full p-3 rounded-md overflow-hidden outline-none" v-model="socials.whatsapp">
                 </div>
                 <div v-if="youtube_field" class="flex flex-col justify-center items-start gap-3 w-full mt-3">
                     <span class="font-bold test-md">Youtube Link</span>

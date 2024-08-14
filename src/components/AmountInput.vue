@@ -1,6 +1,6 @@
 <template>
-    <div>
-      <input class=" outline-none"
+    <div class="flex flex-row items-center form-input gap-3 text-gray-400">NGN
+      <input class=" outline-none text-black bg-transparent"
         v-model="formattedAmount"
         @input="formatAmount"
         @blur="onBlur"
@@ -13,38 +13,51 @@
   
   <script>
   export default {
+    name: 'AmountInput',
+    props: {
+      modelValue: {
+        type: [String, Number],
+        required: true
+      },
+      placeholder: {
+        type: String,
+        default: 'Enter amount'
+      }
+    },
     data() {
       return {
-        amount: '', // Stores the actual number value
-        formattedAmount: '' // Stores the formatted value with commas
+        amount: this.modelValue ? this.modelValue.toString().replace(/[^\d]/g, '') : '',
+        formattedAmount: this.numberWithCommas(this.modelValue)
       };
     },
     methods: {
       formatAmount() {
-        // Remove any non-digit characters except the decimal point
         let value = this.formattedAmount.replace(/[^\d]/g, '');
-  
-        // Format the number with commas
         this.formattedAmount = this.numberWithCommas(value);
         this.amount = value;
+        this.$emit('update:modelValue', this.amount);
       },
       numberWithCommas(x) {
-        // Format the number with commas
         return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
       },
       onBlur() {
-        // Optional: If you want to reset the amount on blur
         if (this.amount) {
           this.formattedAmount = this.numberWithCommas(this.amount);
         }
       },
       onFocus() {
-        // Optional: If you want to clear formatting when the input is focused
         this.formattedAmount = this.amount;
+      }
+    },
+    watch: {
+      modelValue(newVal) {
+        this.amount = newVal ? newVal.toString().replace(/[^\d]/g, '') : '';
+        this.formattedAmount = this.numberWithCommas(this.amount);
       }
     }
   };
   </script>
+  
   
   <style scoped>
 

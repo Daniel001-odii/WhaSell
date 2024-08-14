@@ -62,12 +62,13 @@
                 :posted="product.createdAt"
                 :product_price="product.price.toLocaleString()"
                 :shop="product.shop.name"
+                :is_liked="checkLikes(product._id)"
+                @like-product="addProductToLikes(product._id)"
             >
                 <template #product_image>
                     <img :src="product.images[0]" class="">
                 </template>
-           </ProductCard>
-                   
+           </ProductCard> 
         </div>
                     
 
@@ -113,18 +114,20 @@
 
          <!-- PRODCUT DISPLAY AREA -->
          <div class="masonry">
-            <ProductCard class="masonry-item" v-for="(product, index) in products" :key="index"
+            <!-- <ProductCard class="masonry-item" v-for="(product, index) in products" :key="index"
                 :id="product._id"
                 :product_name="product.name"
                 :views="product.views"
                 :posted="product.createdAt"
                 :product_price="product.price.toLocaleString()"
                 :shop="product.shop.name"
+                :is_liked="true"
+                @like-product="addProductToLikes(product._id)"
             >
                 <template #product_image>
                     <img :src="product.images[0]" class="">
                 </template>
-           </ProductCard> 
+           </ProductCard>  -->
         </div>
         
     </div>
@@ -152,11 +155,32 @@ import axios from 'axios';
                 height: 0,
                 shops: [],
                 products: [],
+                user: '',
+
+                liked_products: [],
             }
         },
         methods:{
             randomHeightInPx(){
                 this.height = Math.floor(Math.random(40, 100) * 100);
+            },
+
+            checkLikes(product_id){
+                if(this.liked_products.includes(product_id)){
+                    return true;
+                } else {
+                    return false;
+                }
+            },
+
+            async getUser(){
+                try{
+                    const response = await axios.get('/user');
+                    console.log("found user: ", response);
+                    this.liked_products = response.data.user.liked_products;
+                }catch(error){
+                    console.log("cant get user..", error);
+                }
             },
 
 
@@ -178,13 +202,33 @@ import axios from 'axios';
                 }catch(error){
                     console.log("error getting shops: ", error);
                 }
+            },
+
+            async addProductToLikes(product_id){
+                try{
+                    const response = await axios.post(`/products/${product_id}/like`);
+                    console.log("likes: ", response);
+                    this.$toast.open({
+                        message: `${response.data.message}`,
+                        type: 'default',
+                    });
+                    this.getUser();
+                    this.checkLikes(product_id);
+                }catch(error){
+                    this.$toast.open({
+                        message: `${response.data.message}`,
+                        type: 'default',
+                    });
+                }
             }
         },
         computed:{
             randomHeight(){
                 const height = Math.floor(Math.random(40, 100) * 100);
                 return height
-            }
+            },
+
+            
         },
 
         created() {
@@ -192,6 +236,7 @@ import axios from 'axios';
 
             this.getAllProducts();
             this.getAllShops();
+            this.getUser();
         },
     }
 </script>

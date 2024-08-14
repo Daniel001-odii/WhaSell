@@ -62,7 +62,8 @@
         <!-- {{ isAllowed() }} -->
         <div class="flex flex-col">
             <div v-if="loading">loading</div>
-            <div v-else class="shop-hero w-full bg-app_light_green h-[200px] relative">
+            <div v-else class=" w-full bg-app_light_green h-[200px] relative flex justify-center items-center">
+                <span class=" text-3xl font-bold text-green-200">{{ shop.category }}</span>
                 <RouterLink to="/account/shop/true">
                     <button v-if="isAllowed()"class="rounded-full border border-black bg-white bg-opacity-50 px-5 py-2 absolute bottom-5 right-5 z-40 flex justify-center items-center gap-3">
                         <span class="hidden md:flex">edit profile</span>

@@ -12,6 +12,20 @@
  </div>
 
 
+ <!-- DELETE PRODUCT MODAL -->
+<ModalComponent :show="delete_product_modal">
+    <div class="w-[400px]">
+        <i class="bi bi-exclamation-circle-fill text-red-500 text-4xl mb-12"></i>
+        <h1 class="text-2xl font-bold">Are you sure you want to delete this product?</h1>
+        <p class=" mt-3 text-center">proceeding with this action with permanently remove this product from your records and can not reversed, do you want to proceed?</p>
+        <div class="w-full flex justify-center gap-3 p-3 mt-3">
+            <button class="btn bg-gray-200 font-bold" @click="delete_product_modal = !delete_product_modal">cancel</button>
+            <button class="btn bg-red-500 text-white font-bold" @click="deleteProduct()">Yes, delete</button>
+        </div>
+    </div>
+</ModalComponent>
+
+
 
     <!-- CREATE NEW SHOP DIV -->
 
@@ -107,7 +121,7 @@
                     My products ({{ shop_products.length }})
                 </div>
 
-                <div class="flex flex-col p-6 rounded-lg border bg-white mt-3 overflow-x-auto">
+                <div class="flex flex-col p-6 rounded-lg border bg-white mt-3 overflow-x-auto" v-if="shop_products.length > 0">
                     <table class="table-auto text-left w-[800px]">
                         <thead>
                             <tr>
@@ -137,6 +151,10 @@
                             </tr>
                         </tbody>
                     </table>
+                </div>
+                <!-- IF THERE ARE NO PRODUCTS IN USER SHOP --> 
+                <div class="no-products w-full h-[300px] flex items-end  justify-center text-xl pb-4 text-gray-400" v-else>
+                    <p>You have no products yet <RouterLink class="text-green-500 underline" to="/products/new">Sell Now!</RouterLink></p>
                 </div>
 
                 <!-- PRODUCT DETAIL PREVIEW -->
@@ -181,7 +199,7 @@
                             </div>
                         </div>
                         <div class="flex flex-row justify-between mt-8">
-                            <button class="bg-red-700 text-white p-3 btn">
+                            <button @click="delete_selected(shop_products[selected_product]._id)" class="bg-red-700 text-white p-3 btn">
                                 <i class="bi bi-trash mr-2"></i>
                                 Delete
                             </button>
@@ -239,7 +257,9 @@ import NaijaStates from 'naija-state-local-government';
 import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
 
-import AmountInput from '../components/AmountInput.vue'
+import AmountInput from '../components/AmountInput.vue';
+
+import ModalComponent from '../components/ModalComponent.vue'
 
     export default {
         name: "ShopView",
@@ -248,6 +268,7 @@ import AmountInput from '../components/AmountInput.vue'
             DataTable,
             Column,
             AmountInput,
+            ModalComponent
         },
 
         data(){
@@ -268,33 +289,25 @@ import AmountInput from '../components/AmountInput.vue'
                         address: '',
                     },
                 },
-
                 selected_product: '',
-
                 new_shop: {
                     image: null,
                     name: '',
                     description: '',
                     category: '',
                 },
-
                 loading: false,
                 categories: [],
                 from_owner_state: false,
-
                 edit_shop: false,
-
                 create_shop_option: false,
-
                 creating_new_shop: false,
-
                 new_shop_created: false,
-
-                
                 shop_image: null,
                 shop_image_edit: false,
-
                 shop_products: [],
+                delete_product_modal: false,
+                selected_product_id: '',
             }
         },
         methods:{
@@ -315,6 +328,11 @@ import AmountInput from '../components/AmountInput.vue'
             visitNewShop(){
                 this.new_shop_created = !this.new_shop_created;
                 window.location.reload();
+            },
+
+            delete_selected(product_id){
+                this.delete_product_modal = true;
+                this.selected_product_id = product_id;
             },
 
             async changeShopImage(){
@@ -430,7 +448,30 @@ import AmountInput from '../components/AmountInput.vue'
                 }catch(error){
                     console.log("error getting shop products: ", error)
                 }
-            }
+            },
+
+            async deleteProduct(){
+                try{
+                    const response = await axios.delete(`/products/${this.selected_product_id}/delete`);
+                //    console.log("response");
+                   this.$toast.open({
+                        message: `${response.data.message}`,
+                        type: 'success',
+                    });
+                    this.delete_product_modal = false;
+                    setTimeout(()=>{
+                        window.location.reload();
+                    }, 3000)
+                  
+                }catch(error){
+                    this.$toast.open({
+                        message: `${error.response.data.message}`,
+                        type: 'error',
+                    });
+                    console.log("error deleting product: ", error)
+                    this.delete_product_modal = false;
+                }
+            },
         },
         created(){
             this.getUser();
@@ -442,5 +483,13 @@ import AmountInput from '../components/AmountInput.vue'
 <style scoped>
     td{
         @apply !py-5 px-2
+    }
+
+    .no-products {
+        background: url('../assets/images/no-products.png');
+        background-size: 50%;
+        background-repeat: no-repeat;
+        background-position: center;
+
     }
 </style>

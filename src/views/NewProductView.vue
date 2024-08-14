@@ -90,7 +90,8 @@
                         </div>
                         <div class="flex flex-col">
                             <span class="label">Product Price *</span>
-                            <input class="form-input" type="number" name="product-price" placeholder="NGN 999, 000.00" v-model="product.price">
+                            <!-- <input class="form-input" type="number" name="product-price" placeholder="NGN 999, 000.00" v-model="product.price"> -->
+                            <AmountInput v-model="product.price"/>
                         </div>
 
                         <div class="flex flex-col">
@@ -168,12 +169,14 @@ import Stepper from 'primevue/stepper'
 import StepperPanel from 'primevue/stepperpanel'
 import axios from 'axios';
 
+import AmountInput from '../components/AmountInput.vue';
 
     export default {
         name: "NewProductView",
         components: {
             Stepper,
-            StepperPanel
+            StepperPanel,
+            AmountInput,
         },  
         data(){
             return{

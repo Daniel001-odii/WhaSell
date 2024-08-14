@@ -1,11 +1,9 @@
 <template>
 
     <!-- PRODUCT DETAIL DIALOG -->
-   <Dialog v-model:visible="show_full_description" modal header="Product Description" :style="{ width: '50rem' }" :breakpoints="{ '1199px': '75vw', '575px': '90vw' }">
-        <div>
-            {{ product.description }}
-        </div>
-    </Dialog>
+<Dialog v-model:visible="show_full_description" modal header="Product Description" :style="{ width: '50rem' }" :breakpoints="{ '1199px': '75vw', '575px': '90vw' }">
+    <div v-html="product.description"></div>
+</Dialog>
 
 
     <FullPageModal v-show="unauthorized_action">
@@ -29,8 +27,8 @@
 
     <!-- ERROR GETTING PRODUCT DETAILS -->
     <div v-if="error_getting_product" class=" h-64 items-center flex flex-col justify-center text-gray-400 text-2xl">
-        <span><i class="bi bi-info-circle-fill"></i></span>
-        <p class="">error getting product..</p>
+        <img src="../assets/images/Match not found.png"/>
+        <p class="">we couldnt find the requested product</p>
     </div>
 
     <!-- PAGE LOADING SKELETON -->
@@ -59,7 +57,7 @@
 
 
     <!-- PRODUCT DETAILS -->
-    <div v-else class="flex md:flex-col flex-col-reverse">
+    <div v-if="!loading && product" class="flex md:flex-col flex-col-reverse">
         <!-- {{ product.shop }} -->
         <!-- SHOP DETAIL BANNER -->
         <div class=" m-3 bg-app_gree border rounded-3xl p-5 flex flex-row items-end justify-between gap-5 flex-wrap " :class="isAllowed ? 'border-app_green border':''">
@@ -72,7 +70,7 @@
                         <RouterLink :to="`/shops/${shop.name}`">
                             <span class="text-xl font-bold">{{ shop.name }}</span>
                         </RouterLink>
-                        <Rating v-model="value" disabled />
+                        <Rating v-model="rating_value" disabled />
                         <span class="text-md">{{ shop.category }}</span>
                         <span class="text-sm">Joined {{ formatDistanceToNow(shop.createdAt) }} ago | {{ shop.followers.length }} followers</span>
                     </div>
@@ -109,7 +107,7 @@
             <div class="flex flex-col gap-3 md:w-[50%] ">
                 <div :style="`background-image: url('${main_image}'); background-size: contain;`" class="full-image w-full h-[400px] rounded-md flex justify-center items-center bg-gray-100">
                 </div>
-                <div class="flex flex-row gap-3">
+                <div class="flex flex-row gap-3 overflow-x-auto">
                    
                     <!-- <div @click="viewImage(image)" class=" w-20 h-20 bg-gray-100 overflow-hidden p-1 border-2 hover:border-app_green rounded-lg cursor-pointer" v-for="image in product.images">  -->
                         <img @click="viewImage(image)" v-for="image in product.images" :src="image" class=" rounded-md w-20 h-20 cursor-pointer">
@@ -135,15 +133,18 @@
                        
                     </div>
                     
-                    <div>{{ product.description.substring(0, 500) }}</div>
-                    <div class="flex flex-row gap-4 flew-wrap text-sm text-gray-400">
+                    <div v-html="product.description.substring(0, 500)"></div>
+                    <div class="flex flex-col gap-3 flew-wrap text-sm text-gray-400">
                         <span><i class="bi bi-tag mr-1"></i>{{ product.category }}</span>
-                        <span v-if="shop.location"><i class="bi bi-geo-alt mr-1"></i>{{ product.shop.location }}</span>
+                        <span v-if="shop_location"><i class="bi bi-geo-alt mr-1"></i>{{ shop_location.address }}, {{  shop_location.state }}</span>
                         <span><i class="bi bi-eye mr-1"></i>{{ product.views }} views</span>
                     </div>
                 </div>
                 <div class="mt-3">
-                    <button class="bg-app_green hover:bg-opacity-90 text-white w-full rounded-lg p-3 text-lg font-semibold">Buy now</button>
+                    <!-- {{shop_location}} -->
+                    <a v-if="shop.owner" :href="`https://wa.me/${shop.owner.phone}?text=${wa_message_text}`">
+                        <button class="bg-app_green hover:bg-opacity-90 text-white w-full rounded-lg p-3 text-lg font-semibold">Buy now</button>
+                    </a>
                 </div>
             </div>
         </div>
@@ -177,14 +178,7 @@
 
         <!-- PRODUCT DISPLAY FOR SIMILAR ITEMS -->
         <!-- PRODCUT DISPLAY AREA -->
-        <div class="masonry">
-            <ProductCard>
-                <template #product_image>
-                    <div class=" h-40 w-full bg-green-300"></div>
-                </template>
-           </ProductCard>
-
-        </div>
+       
     </div>
 </template>
 
@@ -226,6 +220,10 @@ import Rating from 'primevue/rating';
                 show_full_description: false,
                 dateer: '',
                 error_getting_product: false,
+
+                shop_location: '',
+                rating_value: 3,
+                wa_message_text: `${window.location.href} ${encodeURIComponent('\n')} ${encodeURIComponent('\n')} ${encodeURIComponent('\n')}${encodeURIComponent('Hello i am interested in this product and would love to buy it now')}`,
             }
         },
         methods:{
@@ -234,6 +232,30 @@ import Rating from 'primevue/rating';
                 this.main_image = image_url;
             },
 
+            check_views() {
+                const current_product = this.product._id;
+                console.log("current product ID: ", current_product);
+                
+                let viewed_products = localStorage.getItem('viewed_products');
+                
+                if (!viewed_products) {
+                    // If there are no viewed products, initialize it as an empty array
+                    viewed_products = [];
+                } else {
+                    // Parse the existing viewed products from localStorage
+                    viewed_products = JSON.parse(viewed_products);
+                }
+
+                // Check if the current product ID is already in the viewed products array
+                if (!viewed_products.includes(current_product)) {
+                    // If not, add the current product ID to the array
+                    viewed_products.push(current_product);
+                    // Save the updated array back to localStorage
+                    localStorage.setItem('viewed_products', JSON.stringify(viewed_products));
+                }
+            },
+
+
 
             checkUser(){
                 this.user = localStorage.getItem('user');
@@ -241,7 +263,7 @@ import Rating from 'primevue/rating';
 
             isAllowed(){
                 const user = localStorage.getItem('user');
-                return user == this.shop.owner;
+                return user === this.shop.owner._id;
             },
 
             checkShopFollower(){
@@ -254,6 +276,8 @@ import Rating from 'primevue/rating';
                     const response = await axios.get(`/shops/${shop_id}`);
 
                     this.shop = response.data.shop;
+                    this.shop_location = response.data.shop.owner.location
+                    console.log('shop: ', this.shop)
                 }catch(error){
                     console.log("error getting shop..", error)
                     this.$toast.open({
@@ -276,7 +300,9 @@ import Rating from 'primevue/rating';
 
                     this.main_image = this.product.images[0];
                     this.loading = false;
-                    console.log(this.product)
+                    console.log(this.product);
+                    // check views...
+                    this.check_views();
                 }catch(error){
                     console.log('error getting product details: ', error);
                     this.loading = false;
@@ -318,6 +344,7 @@ import Rating from 'primevue/rating';
         mounted(){
             this.getProduct();
             this.checkUser();
+            
         }
     }
 </script>

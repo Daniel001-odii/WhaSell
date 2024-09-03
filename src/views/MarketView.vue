@@ -38,10 +38,12 @@
       
 
         <!-- ADVERT SPACE -->
-        <div class="bg-app_green h-60 mt-8 flex justify-center items-center text-white text-xl">
+       <!--  <div class="bg-app_green h-60 mt-8 flex justify-center items-center text-white text-xl">
             <span>Advert Space</span>
-        </div>
-
+        </div> -->
+        <RouterLink to="shops/official_whatsell" >
+            <img src="../assets/images/whatsell banner.png" class="mt-8"/>
+        </RouterLink>
 
         <!-- TOP SELLING DIVIDER -->
         <div class="p-3 flex flex-row items-center mt-8">

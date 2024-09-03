@@ -8,15 +8,16 @@
                 <!-- {{ user }} -->
 
                 <form @submit.prevent="changeUserImage" class="relative">
-                    <div v-if="user" class="min-w-28 w-28 h-28 relative rounded-full border border-gray-300 overflow-hidden">
-                        <img :src="user_image" alt="Product Photo" class="w-full h-full object-cover">
-                    </div>
+                    <!-- <div v-if="user" class="min-w-28 w-28 h-28 relative rounded-full border border-gray-300 overflow-hidden"> -->
+                        <!-- <img :src="user_image" alt="Product Photo" class="w-full h-full object-cover"> -->
+                        <div class=" uppercase font-bold flex justify-center items-center rounded-full !size-28 bg-gray-200 text-gray-500"> {{ user.username[0] }} {{ user.username[1] }}</div>
+                    <!-- </div> -->
 
                     <!-- <label v-else class=" w-28 h-28 rounded-full bg-green-100 text-app_green flex items-center justify-center cursor-pointer"> -->
-                    <label class=" w-28 h-28 rounded-full bg-black text-app_green flex items-center justify-center cursor-pointer absolute top-0 opacity-0 hover:opacity-50">
+                    <!-- <label class=" w-28 h-28 rounded-full bg-black text-app_green flex items-center justify-center cursor-pointer absolute top-0 opacity-0 hover:opacity-50">
                         <input type="file" name="user_image" class="hidden" @change="onFileChange">
                         <i class="bi bi-camera-fill text-white"></i>
-                    </label>
+                    </label> -->
                     <!-- <button v-if="shop_image_edit" type="submit">save image</button> -->
                 </form>
 

@@ -153,8 +153,12 @@
                     </table>
                 </div>
                 <!-- IF THERE ARE NO PRODUCTS IN USER SHOP --> 
-                <div class="no-products w-full h-[300px] flex items-end  justify-center text-xl pb-4 text-gray-400" v-else>
+               <!--  <div class="no-products w-full h-[300px] flex items-end  justify-center text-xl pb-4 text-gray-400" v-else>
                     <p>You have no products yet <RouterLink class="text-green-500 underline" to="/products/new">Sell Now!</RouterLink></p>
+                </div> -->
+                <div class="flex flex-col justify-center items-center mt-12" v-else>
+                    <img src="../assets/images/no-products.png" class=" !size-52">
+                    <p class="mt-3">You have no products yet <RouterLink class="text-green-500 underline" to="/products/new">Sell Now!</RouterLink></p>
                 </div>
 
                 <!-- PRODUCT DETAIL PREVIEW -->

@@ -135,8 +135,9 @@
                     </div>
                     <CustomDropdown v-if="user">
                         <template #trigger>
+                            <div class=" uppercase font-bold flex justify-center items-center rounded-full !size-10 bg-gray-200 text-gray-500"> {{ user.username[0] }} {{ user.username[1] }}</div>
                             <!-- <i class="bi bi-person-circle text-4xl text-gray-400"></i> -->
-                            <img :src="user.profile.image_url" class=" size-10 rounded-full">
+                            <!-- <img :src="user.profile.image_url" class=" size-10 rounded-full"> -->
                         </template>
                         <template #menu>
                             <div class="text-black bg-white rounded-xl relative top-5 border w-[350px] p-3">
@@ -144,8 +145,9 @@
                                     <div class="flex flex-row items-center justify-between p-3 rounded-md cursor-pointer hover:bg-gray-100">
                                         <div class="flex flex-row gap-3 items-center justify-start ">
                                             <div>
+                                                <div class=" uppercase font-bold flex justify-center items-center rounded-full !size-10 bg-gray-200 text-gray-500"> {{ user.username[0] }} {{ user.username[1] }}</div>
                                                 <!-- <i class="bi bi-person-circle text-4xl text-gray-400"></i> -->
-                                                <img :src="user.profile.image_url" class=" size-10 rounded-full">
+                                                <!-- <img :src="user.profile.image_url" class=" size-10 rounded-full"> -->
                                             </div>
                                             <div class="flex flex-col">
                                                 <p class="text-xl font-bold">{{ user.username }}</p>
@@ -387,6 +389,6 @@ export default {
 
 
     .rating-btn{
-        background: linear-gradient(187deg, #FFF64920.07%, #0BDC6880.03%, #3CA169116%);
+        background: linear-gradient(187deg, #FFF64920.07%, #0BDC6880.03%, #3CA16911.06%);
     }
 </style>

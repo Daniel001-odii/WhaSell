@@ -135,7 +135,7 @@
                     </div>
                     <CustomDropdown v-if="user">
                         <template #trigger>
-                            <div class=" uppercase font-bold flex justify-center items-center rounded-full !size-10 bg-gray-200 text-gray-500"> {{ user.username[0] }} {{ user.username[1] }}</div>
+                            <div class=" uppercase font-bold flex justify-center items-center rounded-full !size-10 bg-blue-500 text-white"> {{ user.username[0] }}{{ user.username[1] }}</div>
                             <!-- <i class="bi bi-person-circle text-4xl text-gray-400"></i> -->
                             <!-- <img :src="user.profile.image_url" class=" size-10 rounded-full"> -->
                         </template>
@@ -145,7 +145,7 @@
                                     <div class="flex flex-row items-center justify-between p-3 rounded-md cursor-pointer hover:bg-gray-100">
                                         <div class="flex flex-row gap-3 items-center justify-start ">
                                             <div>
-                                                <div class=" uppercase font-bold flex justify-center items-center rounded-full !size-10 bg-gray-200 text-gray-500"> {{ user.username[0] }} {{ user.username[1] }}</div>
+                                                <div class=" uppercase font-bold flex justify-center items-center rounded-full !size-10 bg-blue-500 text-white"> {{ user.username[0] }}{{ user.username[1] }}</div>
                                                 <!-- <i class="bi bi-person-circle text-4xl text-gray-400"></i> -->
                                                 <!-- <img :src="user.profile.image_url" class=" size-10 rounded-full"> -->
                                             </div>
@@ -173,7 +173,7 @@
                                         <i class="bi bi-info-circle mr-3"></i>Help & Support
                                     </RouterLink>
                                 </div>
-                                <div class=" border-t mt-3 w-full flex justify-start items-start">
+                                <div class=" border-t mt-3 pt-3 w-full flex justify-start items-start">
                                     <button @click="logout"  class="user-menu-item w-full flex items-start justify-start">
                                         <i class="bi bi-box-arrow-right mr-3"></i> Log out
                                     </button>

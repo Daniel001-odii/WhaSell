@@ -9,7 +9,7 @@
                         </svg>
                     </button>
                 </RouterLink>
-                <RouterLink :to="`/products/${id}/${product_name}`">
+                <RouterLink :to="`/products/${id}/${product_slug}`">
                     <slot name="product_image">
                         <div class="h-64 bg-gray-300"></div>
                     </slot>
@@ -17,8 +17,8 @@
             </div>
             
             <div class="flex flex-col ">
-                <RouterLink v-if="product_name" :to="`/products/${id}/${product_name}`" class="font-bold">
-                    {{ product_name.substring(0,25) }}...
+                <RouterLink v-if="product_slug" :to="`/products/${id}/${product_slug}`" class="font-bold">
+                    {{ product_slug.substring(0,25) }}...
                 </RouterLink>
                 <div class="flex flex-row justify-between">
                 <!-- <slot name="product-price"> -->
@@ -52,7 +52,7 @@ import { formatDistanceToNow } from 'date-fns'
         name: "ProductCard",
         props:{
             id: String,
-            product_name: String,
+            product_slug: String,
             product_price: String,
             product_image: String,
             views: Number,

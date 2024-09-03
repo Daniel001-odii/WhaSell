@@ -365,9 +365,9 @@ export default {
         this.getUserDetails();
 
         // show feedback...
-        setTimeout(()=>{
-            this.feedback_modal = true;
-        },10000)
+        // setTimeout(()=>{
+        //     this.feedback_modal = true;
+        // },10000)
     },
     beforeDestroy () {
         document.removeEventListener('click',this.close)

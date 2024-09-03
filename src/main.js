@@ -42,6 +42,7 @@ const app = createApp(App);
 
 // declare global variable..
 app.config.globalProperties.$app_url = process.env.VUE_APP_ROOT_URL;
+app.config.globalProperties.$api_url = process.env.VUE_APP_API_URL;
 
 app.use(PrimeVue);
 app.use(ToastService);

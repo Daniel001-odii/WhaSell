@@ -132,7 +132,7 @@
                                     <div v-else class="masonry flex flex-wrap gap-5">
                                         <ProductCard v-for="(product, index) in products" :key="index"
                                                 :id="product._id"
-                                                :product_name="product.name"
+                                                :product_slug="product.slug"
                                                 :views="product.views"
                                                 :posted="product.createdAt"
                                                 :product_price="product.price.toLocaleString()"

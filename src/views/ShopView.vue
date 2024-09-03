@@ -93,7 +93,7 @@
                     <div class="flex md:flex-row gap-3 w-full">
                         <div class="flex flex-col justify-center items-start gap-3 w-full">
                             <span class="font-bold test-md">Shop or business name<span class="text-red-500 ml-1">*</span></span>
-                            <input type="text" class="bg-slate-100 w-full p-3 rounded-md overflow-hidden outline-none" placeholder="Fortune and sons telecoms" v-model="shop.name">
+                            <input disabled type="text" class="bg-slate-100 text-gray-400 w-full p-3 rounded-md overflow-hidden outline-none" placeholder="Fortune and sons telecoms" v-model="shop.name">
                         </div>
                     </div>
 

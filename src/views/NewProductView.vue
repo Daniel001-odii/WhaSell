@@ -26,6 +26,7 @@
             </label>
         </div>
 
+        <!-- {{ product }} -->
 
         <div class=" max-w-sm md:w-[500px] md:max-w-md p-8">
             <div v-if="upload_type == 'listing'" class="">
@@ -51,6 +52,8 @@
                         <div class="w-full max-w-lg mx-auto">
                             <h2 class="text-lg font-semibold mb-4">Add Product Photo</h2>
                             <p class="mb-4 text-gray-600">At least 1 photo of this product must be added.<br>The first image will be displayed as the product thumbnail.</p>
+                            <span class="text-red-500" v-if="file_upload_error"> error:{{ file_upload_error }}</span>
+                            <!-- <div>{{ upoad_image_results }}</div> -->
                             <div class="flex gap-3 mb-6 flex-wrap">
                                 <label class=" w-20 h-20 rounded-lg bg-green-100 text-app_green flex items-center justify-center cursor-pointer">
                                     <input type="file" class="hidden" @change="onFileChange" multiple>
@@ -62,12 +65,17 @@
                                     </svg>
                                 </label>
 
-                            <div v-for="(image, index) in images" :key="index">
+                           
+                            <div v-for="(image, index) in upoad_image_results" :key="index">
+                                <!-- status   progress  image_preview -->
                                 <div class="w-20 h-20 rounded-lg border border-gray-300 overflow-hidden relative">
-                                <img :src="image" alt="Product Photo" class="w-full h-full object-cover">
-                                <button type="button" @click="removeImage(index)" class="absolute top-1 right-1 bg-red-500 text-white rounded-lg p-1">
-                                <i class="bi bi-x-lg"></i>
-                                </button>
+                                        <SpinnerComponent v-if="image.status === 'uploading'" class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"/>
+                                    <!-- </div> -->
+                                  
+                                    <img :src="image.image_preview" alt="Product Photo" class="w-full h-full object-cover">
+                                    <button type="button" @click="removeImage(image.filePath, index)" class="absolute top-1 right-1 bg-red-500 text-white rounded-lg p-1 z-20">
+                                    <i class="bi bi-x-lg"></i>
+                                    </button>
                                 </div>
                             </div>
 
@@ -76,7 +84,7 @@
                             
                         </div>
                         
-                        <button :disabled="product.name == '' || product.description == '' || product.category == '' || product.product_images == ''" type="button" @click="tab += 1" class="bg-[#47C67F] rounded-lg p-3 text-white font-semibold hover:bg-opacity-90 flex flex-row items-center justify-center">Next
+                        <button :disabled="product.name == '' || product.description == '' || product.category == '' || product.images == ''" type="button" @click="tab += 1" class="bg-[#47C67F] rounded-lg p-3 text-white font-semibold hover:bg-opacity-90 flex flex-row items-center justify-center">Next
                             <!-- <i class="pi pi-angle-right pl-3 mt-[2px]"></i> -->
                         </button>
                     </div>
@@ -171,12 +179,16 @@ import axios from 'axios';
 
 import AmountInput from '../components/AmountInput.vue';
 
+import SpinnerComponent from '../components/SpinnerComponent.vue'
+
+
     export default {
         name: "NewProductView",
         components: {
             Stepper,
             StepperPanel,
             AmountInput,
+            SpinnerComponent,
         },  
         data(){
             return{
@@ -211,7 +223,7 @@ import AmountInput from '../components/AmountInput.vue';
                     name: '',
                     description: '',
                     category: '',
-                    product_images: [],
+                    images: [],
                     condition: '',
                     price: '',
                     charge_for_delivery: 'no',
@@ -223,6 +235,9 @@ import AmountInput from '../components/AmountInput.vue';
                 loading: false,
 
                 images: [],
+                file_upload_error: '',
+                upoad_image_results: [],
+                // product_i
             }
         },
 
@@ -231,38 +246,54 @@ import AmountInput from '../components/AmountInput.vue';
                 const files = event.target.files;
                 for (let i = 0; i < files.length; i++) {
                     const file = files[i];
-                    this.images.push(URL.createObjectURL(file));
-                    this.product.product_images.push(file);
+                    if (file) {
+                    // Allowed file types
+                    const allowedTypes = ["image/"];
+
+                    // Check if the file type is allowed
+                    const isValidFileType = allowedTypes.some(type => file.type.startsWith(type));
+
+                    if (!isValidFileType) {
+                        this.file_upload_error = "Please select a valid image file (jpg, png, svg, etc)";
+                    } else if (file.size > 3 * 1024 * 1024) {
+                        this.file_upload_error = "File size should not exceed 3MB.";
+                    } else {
+                        this.file_upload_error = "";
+                        file.progress 
+                        this.uploadFile(file);
+                    }
+                }
                 };
             },
 
-            removeImage(index) {
-                this.product.product_images.splice(index, 1);
-                this.images.splice(index, 1);
+            removeImage(filePath, index) {
+                this.upoad_image_results.splice(index, 1);
+                this.product.images.splice(index, 1);
+                this.deleteImage(filePath);
             },
 
-           
-
-            async uploadProduct(){
-                const formData = new FormData();
-                for (let file of this.product.product_images) {
-                    formData.append('product_images', file);
-                };
-                // append other product fields here...
-                formData.append('name', this.product.name)
-                formData.append('description', this.product.description)
-                formData.append('category', this.product.category)
-                formData.append('condition', this.product.condition)
-                formData.append('price', this.product.price)
-                formData.append('charge_for_delivery', this.product.charge_for_delivery)
-                formData.append('price_negotiable', this.product.price_negotiable)
-                formData.append('delivery_fee', this.product.delivery_fee)
+            /* async uploadProductImage(file){
                 try{
-                    const response = await axios.post('/products/new', formData, {
+                    const form = new FormData();
+                    form.append('images', file);
+                    const response = await axios.post('/products/images', form, {
                         headers: {
                             'Content-Type': 'multipart/form-data'
                         }
                     });
+                    console.log("file uploaded: ", response)
+                    return response
+                }catch(error){
+                    return error;
+                }
+            }, */
+
+           
+
+            async uploadProduct(){
+               const payload = this.product;
+                try{
+                    const response = await axios.post('/products/new', payload);
                     this.product_uploaded = true;
 
                     // flash product successful upload modal and redirect to shop page..
@@ -278,7 +309,114 @@ import AmountInput from '../components/AmountInput.vue';
                         type: 'error',
                     });
                 }
-            }
+            },
+
+
+            uploadFile(file) {
+                if(this.upoad_image_results.length >= 5){
+                    // this.toast.error("Maximum upload per-time reached")
+                    console.log("max file upload reached")
+                } else {
+                    const formData = new FormData();
+                    formData.append('images', file);
+
+                    const uploadResult = {
+                        status: 'uploading',
+                        progress: 0,
+                        image_preview: '',
+                    };
+
+                    const imageUrl = URL.createObjectURL(file);
+                    uploadResult.image_preview = imageUrl;
+                    this.upoad_image_results.push(uploadResult);
+
+                    const index = this.upoad_image_results.length - 1; // Index of the current upload result
+
+                    const xhr = new XMLHttpRequest();
+                    xhr.open('POST', `${this.$api_url}/products/image`, true);
+
+                    // Handle progress event
+                    xhr.upload.onprogress = (event) => {
+                        if (event.lengthComputable) {
+                            const progress = Math.ceil((event.loaded  / event.total ) * 100);
+                            console.log(`Progress: ${progress}%`); // Debug log
+                            this.upoad_image_results[index].progress = progress;
+                            this.$forceUpdate(); // Force Vue to re-render
+                        } else {
+                            console.log('Progress event not computable'); // Debug log
+                        }
+
+                        // disabled next buttons here...
+                    };
+
+                    // Handle response
+                    xhr.onload = () => {
+                        if (xhr.status === 200) {
+                        const response = JSON.parse(xhr.response);
+                       /*  response.image.forEach(file => {
+                        //    attach images to main form body here...
+                            
+                        }); */
+                        this.upoad_image_results[index].filePath = response.result.url;
+
+                        console.log("from upload: ", response);
+                        
+                        this.product.images.push(response.result.url);
+                        this.upoad_image_results[index].status = 'uploaded';
+                        this.$forceUpdate();
+                        // re-enable next buttons here....
+
+
+                        } else {
+                            this.upoad_image_results[index].status = 'failed';
+                            console.error('Error uploading file 1:', xhr.response);
+                            this.file_upload_error = 'error uploading image'
+                            this.$forceUpdate(); // Ensure reactivity
+                        }
+                    };
+
+                    xhr.onerror = () => {
+                        // re-enable next buttons here...
+
+
+                        this.upoad_image_results[index].status = 'failed';
+                        this.file_upload_error = 'error uploading image'
+                        console.error('Error uploading file 2:', xhr.response);
+                        this.$forceUpdate(); // Ensure reactivity
+                    };
+                    // Send the form data
+                    xhr.send(formData);
+                }
+            },
+
+            extractFilePath(url) {
+                // Create a URL object
+                const urlObj = new URL(url);
+
+                // Extract the pathname from the URL
+                const fullPath = urlObj.pathname;
+
+                // Extract the portion of the path from the folder name to the image name
+                const filePath = fullPath.substring(fullPath.indexOf('product-images/'));
+
+                console.log("deleted: ", filePath)
+
+                return filePath;
+            },
+
+            async deleteImage(filePath) {
+    try {
+        const extractedPath = this.extractFilePath(filePath).replace(/ /g, '%20');
+        console.log("Attempting to delete: ", extractedPath);
+
+        const response = await axios.delete(`/products/image/delete`, {
+            data: { filePath: extractedPath }
+        });
+        console.log("deleting image: ", response);
+    } catch (error) {
+        console.log("error deleting image: ", error);
+    }
+}
         }
     }
 </script>

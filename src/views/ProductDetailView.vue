@@ -220,9 +220,10 @@ import Rating from 'primevue/rating';
                 show_full_description: false,
                 dateer: '',
                 error_getting_product: false,
-
+                index: 0,
                 shop_location: '',
                 rating_value: 3,
+                image_switcher: null,
                 wa_message_text: `${window.location.href} ${encodeURIComponent('\n')} ${encodeURIComponent('\n')} ${encodeURIComponent('\n')}${encodeURIComponent('Hello i am interested in this product and would love to buy it now')}`,
             }
         },
@@ -231,6 +232,16 @@ import Rating from 'primevue/rating';
             viewImage(image_url){
                 this.main_image = image_url;
             },
+
+            switch_images(){
+                this.image_switcher = setInterval(() => {
+                    this.main_image = this.product.images[this.index];
+                    this.index++
+                    if(this.index >= this.product.images.length){
+                        this.index = 0
+                    }
+                    console.log('switching images: ', this.index)
+                }, 3000)},
 
             check_views() {
                 const current_product = this.product._id;
@@ -344,7 +355,12 @@ import Rating from 'primevue/rating';
         mounted(){
             this.getProduct();
             this.checkUser();
+            this.switch_images();
             
+        },
+
+        unmounted(){
+            window.clearInterval(image_switcher);
         }
     }
 </script>

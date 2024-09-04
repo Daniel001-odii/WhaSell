@@ -12,8 +12,13 @@
                 </h1>
                 <p class=" pt-4 text-sm">convert your sales from WhatsApp easily, save time and scale fast</p>
                 <div class=" font-bold mt-5 flex flex-row gap-5 items-center justify-center flex-wrap">
-                    <button class=" bg-[#16492D] hover:bg-black text-white p-3 rounded-md px-8">Start Selling</button>
-                    <button class="border border-black hover:bg-app_green hover:text-white hover:border-transparent rounded-md text-black p-3 px-8">Shop Now!</button>
+                    <RouterLink to="/account/shop">
+                        <button class=" bg-[#16492D] hover:bg-black text-white p-3 rounded-md px-8">Start Selling</button>
+                    </RouterLink>
+
+                    <RouterLink to="/market">
+                        <button class="border border-black hover:bg-app_green hover:text-white hover:border-transparent rounded-md text-black p-3 px-8">Shop Now!</button>
+                    </RouterLink>
                 </div>
             </div>
         </div>

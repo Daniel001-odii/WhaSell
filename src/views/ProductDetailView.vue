@@ -360,7 +360,7 @@ import Rating from 'primevue/rating';
         },
 
         unmounted(){
-            window.clearInterval(image_switcher);
+            window.clearInterval(this.image_switcher);
         }
     }
 </script>

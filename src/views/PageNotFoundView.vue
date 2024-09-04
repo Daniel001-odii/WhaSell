@@ -1,5 +1,5 @@
 <template>
-    <div class="min-h-screen flex flex-col justify-center items-center">
+    <div class="min-h-screen flex flex-col justify-center items-center text-center p-8">
         <img src="../assets/images/Error 404 (3) 1.png">
         <h1 class="font-bold text-3xl">Oops, the Resource was not found</h1>
         <p>Its our fault not yours, for now you can</p>

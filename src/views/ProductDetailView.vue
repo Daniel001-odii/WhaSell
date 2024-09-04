@@ -181,7 +181,7 @@
                 <span class="text-xl font-bold">Similar Items you may like</span>
             </div>
         </div>
-
+<!-- {{ product.images[0] }} -->
         <!-- PRODUCT DISPLAY FOR SIMILAR ITEMS -->
         <!-- PRODCUT DISPLAY AREA -->
        
@@ -346,6 +346,9 @@ import Rating from 'primevue/rating';
                     this.getShopById(this.product.shop);
 
                     this.main_image = this.product.images[0];
+
+                    this.updateMetaTag('og:image', this.main_image);
+
                     this.loading = false;
                     console.log(this.product);
                     // check views...
@@ -409,7 +412,7 @@ import Rating from 'primevue/rating';
                 // document.title = this.product.name; // Set page title
                 // this.updateMetaTag('og:title', this.product.name);
                 this.updateMetaTag('og:description', this.product.description);
-                this.updateMetaTag('og:image', this.main_image); // Set dynamic image
+               // Set dynamic image
             },
             updateMetaTag(property, content) {
                 let element = document.querySelector(`meta[property="${property}"]`);
@@ -419,6 +422,7 @@ import Rating from 'primevue/rating';
                     element = document.createElement('meta');
                     element.setAttribute('property', property);
                     element.setAttribute('content', content);
+                    element.setAttribute('data-vmid', property);
                     document.head.appendChild(element);
                 }
             }
@@ -437,7 +441,7 @@ import Rating from 'primevue/rating';
             this.checkUser();
             this.switch_images();
 
-            this.updateMetaTags();
+            // this.updateMetaTags();
             
         },
 

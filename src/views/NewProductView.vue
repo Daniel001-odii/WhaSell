@@ -1,6 +1,6 @@
 <template>
 
-<div v-if="true" class="fixed min-h-screen w-full top-0 right-0 bg-[rgba(0,0,0,0.7)] flex justify-center items-center">
+<div v-if="product_uploaded" class="fixed min-h-screen w-full top-0 right-0 bg-[rgba(0,0,0,0.7)] flex justify-center items-center">
     <div class="flex flex-col justify-center items-center bg-white p-8 px-12 rounded-lg gap-5">
         <img src="../assets/images/Success.png" class=" size-[280px]">
         <p class="font-bold text-xl">Congratulations🎉</p>

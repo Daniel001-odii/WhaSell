@@ -1,9 +1,13 @@
 <template>
 
 <div v-if="product_uploaded" class="fixed min-h-screen w-full top-0 right-0 bg-[rgba(0,0,0,0.7)] flex justify-center items-center">
-    <div class="flex flex-col justify-center items-center bg-white p-5 rounded-lg">
-        <i class="bi bi-check-circle-fill text-green-500 text-4xl"></i>
-        <p class="font-bold mt-3">Product uploaded Successfully!</p>
+    <div class="flex flex-col justify-center items-center bg-white p-5 rounded-lg gap-5">
+        <img src="../assets/images/Success.png" class=" h-[400px]">
+        <p class="font-bold text-xl">Congratulations🎉</p>
+        <p class="">Product uploaded Successfully!</p>
+        <RouterLink to="/account/shop">
+            <button class=" bg-app_green btn text-white my-6">Continue to shop</button>
+        </RouterLink>
     </div>
 </div>
 
@@ -297,9 +301,9 @@ import SpinnerComponent from '../components/SpinnerComponent.vue'
                     this.product_uploaded = true;
 
                     // flash product successful upload modal and redirect to shop page..
-                    setTimeout( ()=> {
-                        this.$router.push('/account/shop')
-                    }, 5000);
+                    // setTimeout( ()=> {
+                    //     this.$router.push('/account/shop')
+                    // }, 5000);
                     
                     console.log(response);
                }catch(error){

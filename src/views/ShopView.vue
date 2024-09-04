@@ -52,7 +52,7 @@
                         <div class="flex flex-col">
                             <h1 class="font-bold text-xl">{{ shop.name }}</h1>
                             <span class="text-green-500">{{ shop.category }}</span>
-                            <span class="text-sm" v-if="user.location">{{ user.location.address }}, {{ user.location.LGA }}, {{ user.location.state }}, NG.</span>
+                            <span class="text-sm" v-if="user.location">{{ user.location.address.substring }}, {{ user.location.LGA }}, {{ user.location.state }}, NG.</span>
                             <RouterLink class="text-blue-600 text-sm mt-4" :to="`/shops/${shop.name}`" target="_blank">visit store <i class="bi bi-box-arrow-up-right"></i> </RouterLink>
                         </div>
                         <button @click="edit_shop = !edit_shop" class="btn text-white bg-app_green flex gap-2">

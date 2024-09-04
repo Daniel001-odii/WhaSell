@@ -171,16 +171,16 @@ const router = createRouter({
 
 let redirectToLogin = false; // Initialize a flag to redirect to login after authentication
 let requestedRoute = null; // Initialize a variable to store the requested route
-const user_id = localStorage.getItem('user');
 
 
-/*
+
+
 // Create a navigation guard that prevents loggedn in users from visiting irrelevant routes when logged in...
 // this is ensured via the user roles present in the token...
 router.beforeEach((to, from, next) => {
-
+  const user_id = localStorage.getItem('user');
   // If the user is logged in and is trying to visit the root URL or login page
-  if (user_id && to.path === '/' || user_id && to.path === '/login' || user_id && to.path === '/register') {
+  if (user_id && to.path === '/' || user_id && to.path === '/login' || user_id && to.path === '/register' || user_id && to.path === '/register') {
     // Redirect users to /jobs
     next('/market')
   }
@@ -189,23 +189,22 @@ router.beforeEach((to, from, next) => {
     next()
   };
 
-});*/
+});
 
 
-/*
 
 // navigation gaurd to allow only loggedin users to view certain pages..
 router.beforeEach((to, from, next) => {
+  const user_id = localStorage.getItem('user');
   // Check if the route has a "requiresAuth" meta field and matches the user's role
   if (to.meta.requiresAuth && !user_id) {
-    redirectToLogin = true; // Set the flag to true
-    requestedRoute = to.fullPath; // Store the requested route
+    // redirectToLogin = true; // Set the flag to true
+    // requestedRoute = to.fullPath; // Store the requested route
     next('/login'); // Redirect to login for unauthorized access
   } else {
     next(); // Proceed to the route
   }
 });
 
-*/
 
 export default router

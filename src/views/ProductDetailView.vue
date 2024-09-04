@@ -102,17 +102,23 @@
 
 
         <!-- FULL PRODUCT DESRIPTION AND DETAILS -->
-        <div class="flex flex-col md:flex-row gap-5 mt-8 flex-wra p-5" v-if="product">
+        <div class="flex flex-col md:flex-row gap-5 mt-8 flex-wra p-5 relative" v-if="user_data && product">
+            <div class="flex flex-row gap-4 absolute right-5 text-xl">
+                <button @click="addProductToLikes(product._id)" class="h-8 w-8 rounded-full bg-white flex justify-center items-center border" :class="checkLikes(product._id) ? 'border-green-500':''">
+                    <i class="bi bi-hand-thumbs-up-fill text-green-500" v-if="checkLikes(product._id)"></i>
+                    <i class="bi bi-hand-thumbs-up" v-else></i>
+                </button>
+                <button><i class="bi bi-share"></i></button>
+            </div>
                <!-- {{  main_image }} -->
             <div class="flex flex-col gap-3 md:w-[50%] ">
-                <div :style="`background-image: url('${main_image}'); background-size: contain;`" class="full-image w-full h-[400px] rounded-md flex justify-center items-center bg-gray-100">
-                </div>
-                <div class="flex flex-row gap-3 overflow-x-auto">
+                <div :style="`background-image: url('${main_image}'); background-size: contain;`" class="full-image w-full h-[400px] rounded-md flex justify-center items-center bg-gray-100"></div>
+                <div class="flex flex-row gap-3 items-center overflow-x-auto">
                    
-                    <!-- <div @click="viewImage(image)" class=" w-20 h-20 bg-gray-100 overflow-hidden p-1 border-2 hover:border-app_green rounded-lg cursor-pointer" v-for="image in product.images">  -->
-                        <img @click="viewImage(image)" v-for="image in product.images" :src="image" class=" rounded-md w-20 h-20 cursor-pointer">
+                    <div @click="viewImage(image)" :class="main_image == image ? 'border-4':''" class=" bg-gray-100 overflow-hidden p-1 border-app_green rounded-lg cursor-pointer" v-for="image in product.images"> 
+                        <img :src="image" class=" rounded-md size-16 cursor-pointer">
                          <!-- <div class="h-full w-full bg-red-500 rounded-md" :style="`background-image: url('${main_image}')`">{{ image }}</div> -->
-                    <!-- </div> -->
+                    </div>
                 </div>
             </div>
             
@@ -215,6 +221,7 @@ import Rating from 'primevue/rating';
                 main_image: '',
 
                 user: '',
+                user_data: '',
                 unauthorized_action: false,
                 formatDistanceToNow,
                 show_full_description: false,
@@ -231,6 +238,22 @@ import Rating from 'primevue/rating';
 
             viewImage(image_url){
                 this.main_image = image_url;
+            },
+
+            isLiked(){
+                if(this.user_data.liked_products.includes(this.product._id)){
+                    return true;
+                } else {
+                    return false
+                }
+            },
+
+            checkLikes(product_id){
+                if(this.user_data.liked_products.includes(product_id)){
+                    return true;
+                } else {
+                    return false;
+                }
             },
 
             switch_images(){
@@ -265,6 +288,19 @@ import Rating from 'primevue/rating';
                     localStorage.setItem('viewed_products', JSON.stringify(viewed_products));
                 }
             },
+
+            
+        async getUserDetails(){
+            try{
+              
+                const response = await axios.get('/user');
+                this.user_data = response.data.user;
+                localStorage.setItem('user', response.data.user._id);
+                // console.log("user :", response);
+            }catch(error){
+                // this.authenticated = false;
+            }
+        },
 
 
 
@@ -350,9 +386,29 @@ import Rating from 'primevue/rating';
             },
 
 
+            async addProductToLikes(product_id){
+                try{
+                    const response = await axios.post(`/products/${product_id}/like`);
+                    console.log("likes: ", response);
+                    this.$toast.open({
+                        message: `${response.data.message}`,
+                        type: 'default',
+                    });
+                    this.getUserDetails();
+                    this.isLiked();
+                }catch(error){
+                    this.$toast.open({
+                        message: `${response.data.message}`,
+                        type: 'default',
+                    });
+                }
+            }
+
+
         },
 
         mounted(){
+            this.getUserDetails();
             this.getProduct();
             this.checkUser();
             this.switch_images();

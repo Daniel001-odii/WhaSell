@@ -244,7 +244,9 @@
 
             <div class="flex flex-row gap-3 font-bold  border-red-500  self-end align-bottom">
                 <RouterLink to="/login" class="text-black hover:bg-slate-200 bg-opacity-20 px-8 rounded-md flex justify-center items-center">Login</RouterLink>
-                <button class="text-white bg-black px-8 py-3 rounded-md">Sign Up</button>
+                <RouterLink to="/register">
+                    <button class="text-white bg-black px-8 py-3 rounded-md">Sign Up</button>
+                </RouterLink>
             </div>
         </div>
       

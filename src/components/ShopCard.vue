@@ -3,7 +3,7 @@
             <div>
                 <div>
                 <div class="relative w-[200px] p-4 hover:bg-gray-100 rounded-3xl flex flex-col justify-center items-center gap-3">
-                    <div class="absolute z-10 top-5 left-3 scale-[0.9]">
+                    <div class="scale-[0.9]">
                         <slot name="badge"></slot>
                     </div>
                     <div class=" relative">

@@ -96,9 +96,11 @@
                                 {{ shop.description }}
                             </p>
                             <div class="text-gray-400 flex flex-col gap-4 text-[12px]">
-                                <span>
+                                <span class=" whitespace-nowrap">
                                     <i class="bi bi-geo-alt-fill mr-1"></i>
-                                    Somewhere in Nigeria
+                                    {{ shop.owner.location.address.substring(0,20) }}...,
+                                    {{ shop.owner.location.LGA }},
+                                    {{ shop.owner.location.state }}.
                                 </span>
                                 <span><i class="bi bi-arrow-clockwise mr-1"></i>joined {{ formatDistanceToNow(shop.createdAt)}} ago</span>
                                 
@@ -136,7 +138,7 @@
                                                 :views="product.views"
                                                 :posted="product.createdAt"
                                                 :product_price="product.price.toLocaleString()"
-                                                :shop="product.shop.name"
+                                                :shop_name="shop.name"
                                             >
                                                 <template #product_image>
                                                     <img :src="product.images[0]" class="max-h-[300px] max-w-[200px]">
@@ -214,7 +216,7 @@ import Rating from 'primevue/rating';
         methods:{
             isAllowed(){
                 this.user = localStorage.getItem('user');
-                return this.user == this.shop.owner;
+                return this.user == this.shop.owner._id;
             },
             
 

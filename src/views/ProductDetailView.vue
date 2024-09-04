@@ -402,7 +402,31 @@ import Rating from 'primevue/rating';
                         type: 'default',
                     });
                 }
+            },
+
+
+            updateMetaTags() {
+                // document.title = this.product.name; // Set page title
+                // this.updateMetaTag('og:title', this.product.name);
+                this.updateMetaTag('og:description', this.product.description);
+                this.updateMetaTag('og:image', this.main_image); // Set dynamic image
+            },
+            updateMetaTag(property, content) {
+                let element = document.querySelector(`meta[property="${property}"]`);
+                if (element) {
+                    element.setAttribute('content', content);
+                } else {
+                    element = document.createElement('meta');
+                    element.setAttribute('property', property);
+                    element.setAttribute('content', content);
+                    document.head.appendChild(element);
+                }
             }
+
+
+        },
+
+        created(){
 
 
         },
@@ -412,6 +436,8 @@ import Rating from 'primevue/rating';
             this.getProduct();
             this.checkUser();
             this.switch_images();
+
+            this.updateMetaTags();
             
         },
 

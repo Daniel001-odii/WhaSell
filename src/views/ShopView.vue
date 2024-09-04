@@ -347,13 +347,13 @@ import ModalComponent from '../components/ModalComponent.vue'
 
 
                 try{
-                    const response = await axios.patch(`/shops/${this.shop._id}/image`, form, {
+                    const response = await axios.post(`/shops/${this.shop._id}/image`, form, {
                         headers: {
                             'Content-Type': 'multipart/form-data'
                         }
                     });
                     console.log('upload p-image: ', response);
-                    window.location.reload();
+                    // window.location.reload();
                 }catch(error){
                     console.log("error uploading profile image: ", error);
                 }

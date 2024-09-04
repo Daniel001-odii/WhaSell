@@ -40,64 +40,47 @@ const routes = [
     path: '/',
     name: 'WhaSell',
     component: LandingPageView,
+    meta: { title: 'WhaSell' }
   },
   {
     path: '/login',
     name: 'WhaSell - Login',
     component: LoginView,
+    meta: { title: 'WhaSell - Login' }
   },
 
-  /*
-  {
-    path: '/register',
-    name: 'WhaSell - Register',
-    component: RegisterView,
-  }, 
-  */
-
-  /* AUTHENTICATION PAGES STARTS HERE ----- */
   {
     path: '/register',
     name: 'Whasell - Register type',
     component: RegistrationDecideView,
+    meta: { title: 'Whasell - Register type' }
   },
 
-
-  // http://localhost:8081/register/category?user-type=buyer
   {
     path: '/register/seller',
     name: 'Whasell - Register Seller',
     component: SellerRegistrationView,
+    meta: { title: 'Whasell - Register Seller' }
   },
 
   {
     path: '/register/buyer',
     name: 'Whasell - Register Buyer',
     component: UserRegistrationView,
+    meta: { title: 'Whasell - Register Buyer' }
   },
 
-
-
-
-  
-  // 404 PAGES CONFIG...
   {
     path: "/404", 
     name: "404",
-    component: PageNotFoundView
+    component: PageNotFoundView,
+    meta: { title: '404 - Page Not Found' }
   },
 
   {
     path: "/:catchAll(.*)", 
     redirect: "/404"
   },
-  //  404 PAGES ENDS HERE....
-
-
-
-
-  
-
 
   {
     path: '/',
@@ -105,69 +88,124 @@ const routes = [
     children: [
       {
         path: 'shops',
-        name: `Shops`,
+        name: 'Shops',
         component: ShopListView,
+        meta: { title: 'Shops' }
       },
 
       {
         path: '/categories',
         name: 'Categories',
         component: CategoriesView,
+        meta: { title: 'Categories' }
       },
 
       {
         path: '/categories/:name/all',
         name: 'Sub categories',
         component: CategoriesView,
+        meta: { title: 'Sub categories' }
       },
-
 
       {
         path: 'market',
         name: 'Market',
         component: MarketView,
+        meta: { title: 'Market' }
       },
      
       {
         path: '/products/:product_id/:product_slug',
-        name: `Product`,
+        name: 'Product',
         component: ProductDetailView,
+        meta: { title: 'Product' }
       },
 
       {
         path: '/shops/:name',
-        name: `Shop`,
+        name: 'Shop',
         component: ShopDetailView,
+        meta: { title: 'Shop' }
       },
 
-
-      {path: 'likes', name: 'Your likes', component: LikesView},
-      {path: '/products/new', name: 'New Product', component: NewProductView},
+      {
+        path: 'likes',
+        name: 'Your likes',
+        component: LikesView,
+        meta: { title: 'Your likes' }
+      },
+      {
+        path: '/products/new',
+        name: 'New Product',
+        component: NewProductView,
+        meta: { title: 'New Product' }
+      },
     ]
   },
-
 
   {
     path: '/account',
     component: AccountTemplateView,
     meta: { requiresAuth: true },
     children: [
-      {path: '', name: `Account`, component: PersonalDetailsView},
-      {path: 'shop/:is_open?', name: `My Shop`, component: ShopView},
-      {path: 'analytics', name: `My Insights`, component: AnalyticsView},
-      {path: 'upgrade', name: `My Subscription`, component: UpgradeView},
-      {path: 'notifications', name: `My Notifications`, component: NotificationsView},
-      {path: 'delete', name: `Danger zone`, component: DangerZoneView},
+      {
+        path: '',
+        name: 'Account',
+        component: PersonalDetailsView,
+        meta: { title: 'Account' }
+      },
+      {
+        path: 'shop/:is_open?',
+        name: 'My Shop',
+        component: ShopView,
+        meta: { title: 'My Shop' }
+      },
+      {
+        path: 'analytics',
+        name: 'My Insights',
+        component: AnalyticsView,
+        meta: { title: 'My Insights' }
+      },
+      {
+        path: 'upgrade',
+        name: 'My Subscription',
+        component: UpgradeView,
+        meta: { title: 'My Subscription' }
+      },
+      {
+        path: 'notifications',
+        name: 'My Notifications',
+        component: NotificationsView,
+        meta: { title: 'My Notifications' }
+      },
+      {
+        path: 'delete',
+        name: 'Danger zone',
+        component: DangerZoneView,
+        meta: { title: 'Danger zone' }
+      },
     ]
   }
-
-
 ]
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes
 });
+
+
+
+// auto change page title...
+router.beforeEach((to, from, next) => {
+  if (to.meta.title) {
+    document.title = to.meta.title;
+  } else {
+    document.title = 'WhaSell'; // Default title
+  }
+  next();
+});
+
+
 
 let redirectToLogin = false; // Initialize a flag to redirect to login after authentication
 let requestedRoute = null; // Initialize a variable to store the requested route

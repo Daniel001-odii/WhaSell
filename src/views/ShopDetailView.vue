@@ -2,15 +2,20 @@
 
     <!-- GLIPS MODAL HERE -->
     <div v-if="glips_modal" class="fixed h-screen w-full z-50 top-0 right-0 bg-[rgba(0,0,0,0.8)] flex justify-center items-center">
-        <button class="absolute bg-red top-3 right-3" @click="glips_modal = !glips_modal">
+        <button class="absolute bg-red top-3 right-3 z-10" @click="glips_modal = !glips_modal">
             <i class="bi bi-x-lg text-white text-2xl"></i>
         </button>
-        <div class="glips-container border-red-500 w-full h-[90vh] md:max-h-[800px] flex flex-col justify-start items-center gap-3 p-3">
+
+        <!-- VIDEO PREVIEW HERE -->
+        <div class="glips-container border-red-500 w-full h-[100dvh] md:max-h-[800px] flex flex-col justify-start items-center gap-3 md:p-3">
             
             
             <!-- MAIN GLIP -->
-            <div class="glips rounded-xl bg-black text-white min-h-[100%]  h-full w-full md:max-h-[1000px] md:max-w-[400px] flex justify-center items-center relative" v-for="item in 10">
-                <i class="pi pi-spinner-dotted pi-spin ml-3 text-2xl"></i>
+            <div v-for="glip in glips" class="glips md:rounded-xl bg-black text-white min-h-[100%]  h-full w-full md:max-h-[1000px] md:max-w-[400px] flex justify-center items-center relative">
+                <!-- <i class="pi pi-spinner-dotted pi-spin ml-3 text-2xl"></i> -->
+                <video autoplay>
+                    <source :src="glip.video_url" >
+                </video>
 
 
                 <!-- GLIP ACTIONS -->
@@ -37,11 +42,11 @@
                 <!-- GLIP TEXTS -->
                 <div class=" flex flex-col absolute left-5 right-5 bottom-5">
                     <div class="w-[80%] flex flex-col gap-3">
-                        <h1 class="font-bold text-2xl">Wooden Bed Frame {{ item }}</h1>
-                        <div>NGN 45,000</div>
-                        <div class="text-sm">
-                            <p>Transform your bedroom with our elegant wooden black bed frame, crafted from premium hardwood with a rich black finish. Its sturdy construction ensures lasting durability while its sleek design adds a touch of contemporary flair. Perfect for any bedroom sett... See More </p>
-                        </div>
+                        <h1 class="font-bold text-2xl">{{ glip.name }}</h1>
+                        <div>NGN {{ glip.price.toLocaleString()}}</div>
+                        <span class="text-sm w-full overflow-auto min-h-[200px]">
+                            {{glip.description}}
+                        </span>
                     </div>
                    
                     <button class="btn bg-app_green text-white w-full mt-5">Buy now</button>
@@ -156,15 +161,21 @@
 
 
                                 <!-- FOR GLIPS -->
-                                <div v-show="current_tab == 1" class="w-full" @click="glips_modal = !glips_modal">
-                                    <span>Glips</span>
+                                <div v-show="current_tab == 1" class="w-full p-3" >
                                     <div v-if="loading_products">Loading glips...</div>
-                                    {{glips}}
+                                    <!-- {{glips}} -->
                                     <div v-if="glips.length > 0">
-                                        <div v-for="glip in glips">
-                                            <video>
-                                                <source :src="glip.video_url">
-                                            </video>
+                                        <div v-for="glip in glips" class="relative">
+                                            <div @click="glipPreview(glip, index)" class=" w-[200px] h-[300px] bg-black rounded-lg flex justify-center items-center relative">
+                                                <video>
+                                                    <source :src="glip.video_url">
+                                                </video>
+                                                <div class="bg-white absolute p-3 rounded-md bottom-5 left-5 flex flex-row gap-3 text-sm">
+                                                    <button><i class="bi bi-hand-thumbs-up"></i></button>
+                                                    <span>{{glip.name}}</span>
+                                                </div>
+                                            </div>
+                                        
                                         </div>
                                     </div>
                                     <div v-else class="flex flex-col justify-center items-center h-full">
@@ -215,6 +226,7 @@ import Rating from 'primevue/rating';
                 loading_products: false,
                 loading_glips: false,
                 formatDistanceToNow,
+                current_glip: null,
             }
         },
 
@@ -317,6 +329,11 @@ import Rating from 'primevue/rating';
                     }
                 }
             },
+
+            glipPreview(glip, index){
+                this.current_glip = glip;
+                this.glips_modal = !this.glips_modal
+            }
         },
 
         created(){
@@ -359,7 +376,8 @@ import Rating from 'primevue/rating';
 
     .glips{
         scroll-snap-align: start;
-        background: url('../assets/images/chair.png');
+        //background: url('../assets/images/chair.png');
+        background:  black;
         background-size: cover;
     }
 </style>

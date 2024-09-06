@@ -44,9 +44,7 @@
                     <div class="w-[80%] flex flex-col gap-3">
                         <h1 class="font-bold text-2xl">{{ glip.name }}</h1>
                         <div>NGN {{ glip.price.toLocaleString()}}</div>
-                        <span class="text-sm w-full overflow-auto min-h-[200px]">
-                            {{glip.description}}
-                        </span>
+                        <div v-html="glip.description" style="overflow-wrap: break-word" class="text-sm w-full max-h-[300px] overflow-y-auto"></div>
                     </div>
                    
                     <button class="btn bg-app_green text-white w-full mt-5">Buy now</button>

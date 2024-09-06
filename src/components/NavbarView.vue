@@ -166,15 +166,15 @@
                                         <i class="bi bi-gear mr-3"></i>Settings
                                     </RouterLink> -->
                                     <RouterLink class="user-menu-item" to="#">
-                                        <i class="bi bi-receipt mr-3"></i>Invoices
+                                        <i class="bi bi-stack mr-3"></i>Inventory
                                     </RouterLink>
                                     <!-- <RouterLink class="user-menu-item" to="#">Followed Stores</RouterLink> -->
                                     <RouterLink class="user-menu-item" to="#">
-                                        <i class="bi bi-info-circle mr-3"></i>Help & Support
+                                        <i class="bi bi-geo-fill mr-3"></i>Location
                                     </RouterLink>
                                 </div>
                                 <div class=" border-t mt-3 pt-3 w-full flex justify-start items-start">
-                                    <button @click="logout"  class="user-menu-item w-full flex items-start justify-start">
+                                    <button @click="logout"  class=" text-red-500 user-menu-item w-full flex items-start justify-start">
                                         <i class="bi bi-box-arrow-right mr-3"></i> Log out
                                     </button>
                                 </div>

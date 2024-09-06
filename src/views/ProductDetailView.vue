@@ -5,21 +5,52 @@
     <div v-html="product.description"></div>
 </Dialog>
 
-
-    <FullPageModal v-show="unauthorized_action">
-        <div class="flex flex-col gap-3">
-            <p class="text-gray-400">my guy!</p>
-            <span class="text-2xl">You need to be logged in to perform that action :)</span>
+<FullPageModal v-if="proceed_to_buy">
+    <div class="flex flex-col justify-center items-center overflow-y-auto">
+        <!-- <img src="../assets/images/Credit card payment.png" class="w-[300px]"/> -->
+        <div>
+            <h2 class="font-bold text-3xl">Proceed to purchase</h2>
+            <p>Before you proceed, make sure you carefully read and follow these helpful tips to ensure the safety of yourself and your goods!</p>
+            <!-- SAFETY TIPS---- -->
+            <div class="mt-5 flex flex-col justify-center items-center gap-8 px-10 py-6 bg-blue-100 text-blue-600 w-fit mx-auto my-0 rounded-xl p">
+                <div class="bg-blue-600 text-white p-3 rounded-md font-bold w-fit">
+                    <i class="bi bi-shield-check"></i>
+                    Safety Tips
+                </div>
+                <div class="flex flex-col text-left w-full`">
+                    <ol class=" list-decimal text-left" start="1">
+                        <li>Avoid paying in advance, even if it's delivery</li>
+                        <li>Meet the seller at a safe public place</li>
+                        <li>Inspect the item and ensure it’s exactly what you ordered</li>
+                        <li>Make sure that the packed item is what you’ve inspected</li>
+                        <li>Only pay if you’re satisfied!</li>
+                    </ol>
+                </div>
+            </div>
+            <div class="flex flex-row justify-between mt-6 w-full">
+                <button  @click="proceed_to_buy = !proceed_to_buy" class="btn bg-slate-100">Cancel</button>
+                <a v-if="shop.owner" :href="`https://wa.me/${shop.owner.phone}?text=${wa_message_text}`">
+                    <button class="btn bg-app_green text-white">Proceed to buy</button>
+                </a>
+            </div>
         </div>
+    </div>
+</FullPageModal>
 
-        <div class="flex flex-row gap-3 w-full">
-            <button @click="unauthorized_action = !unauthorized_action" class="btn p-3 px-6 bg-gray-200  rounded-md w-full mt-3">cancel</button>
-            <RouterLink to="/login" class="w-full">
-                <button class="btn p-3 px-6 bg-app_green text-white rounded-md w-full mt-3">Login</button>
-            </RouterLink>
-        </div>
-       
-    </FullPageModal>
+
+<FullPageModal v-show="unauthorized_action">
+    <div class="flex flex-col gap-3">
+        <p class="text-gray-400">my guy!</p>
+        <span class="text-2xl">You need to be logged in to perform that action :)</span>
+    </div>
+
+    <div class="flex flex-row gap-3 w-full">
+        <button @click="unauthorized_action = !unauthorized_action" class="btn p-3 px-6 bg-gray-200  rounded-md w-full mt-3">cancel</button>
+        <RouterLink to="/login" class="w-full">
+            <button class="btn p-3 px-6 bg-app_green text-white rounded-md w-full mt-3">Login</button>
+        </RouterLink>
+    </div>
+</FullPageModal>
 
     <!-- {{ product }} -->
 
@@ -108,7 +139,7 @@
                     <i class="bi bi-hand-thumbs-up-fill text-green-500" v-if="checkLikes(product._id)"></i>
                     <i class="bi bi-hand-thumbs-up" v-else></i>
                 </button>
-                <button><i class="bi bi-share"></i></button>
+                <button class="h-8 w-8 rounded-full bg-white flex justify-center items-center border text-sm" p-3><i class="bi bi-share"></i></button>
             </div>
                <!-- {{  main_image }} -->
             <div class="flex flex-col gap-3 md:w-[50%] ">
@@ -148,30 +179,15 @@
                 </div>
                 <div class="mt-3">
                     <!-- {{shop_location}} -->
-                    <a v-if="shop.owner" :href="`https://wa.me/${shop.owner.phone}?text=${wa_message_text}`">
-                        <button class="bg-app_green hover:bg-opacity-90 text-white w-full rounded-lg p-3 text-lg font-semibold">Buy now</button>
-                    </a>
+                  
+                    <button class="bg-app_green hover:bg-opacity-90 text-white w-full rounded-lg p-3 text-lg font-semibold" @click="proceed_to_buy = !proceed_to_buy">Buy now</button>
+                    <!-- </a> -->
                 </div>
             </div>
         </div>
     </div>
 
-<!-- SAFETY TIPS---- -->
-    <div class="mt-5 flex flex-col justify-start items-start md:flex-row md:items-center md:justify-center gap-8 px-10 py-6 bg-blue-100 text-blue-600 w-fit mx-auto my-0 rounded-xl p">
-        <div class="bg-blue-600 text-white p-3 rounded-md font-bold">
-            <i class="bi bi-shield-check"></i>
-            Safety Tips
-        </div>
-        <div class="flex flex-col`">
-            <ol class=" list-decimal" start="1">
-                <li>Avoid paying in advance, even if it's delivery</li>
-                <li>Meet the seller at a safe public place</li>
-                <li>Inspect the item and ensure it’s exactly what you ordered</li>
-                <li>Make sure that the packed item is what you’ve inspected</li>
-                <li>Only pay if you’re satisfied!</li>
-            </ol>
-        </div>
-    </div>
+
         <!-- SIMILAR ITEMS YOU MAY LIKE -->
          <div class="p-3 flex flex-row items-center mt-8">
             <div class="flex flex-row items-center gap-3">
@@ -231,6 +247,7 @@ import Rating from 'primevue/rating';
                 shop_location: '',
                 rating_value: 3,
                 image_switcher: null,
+                proceed_to_buy: false,
                 wa_message_text: `${window.location.href} ${encodeURIComponent('\n')} ${encodeURIComponent('\n')} ${encodeURIComponent('\n')}${encodeURIComponent('Hello i am interested in this product and would love to buy it now')}`,
             }
         },

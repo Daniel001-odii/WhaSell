@@ -1,6 +1,6 @@
 <template>
     <div class="">
-        <div class="text-center h-[500px] flex flex-col justify-center items-center p-12 hero">
+        <!-- <div class="text-center h-[500px] flex flex-col justify-center items-center p-12 hero">
             <h1 class="font-bold text-5xl text-white">
                 <span class="text-app_green">Discover </span>
                 new products from shops around <span class="text-app_green">you!</span></h1>
@@ -15,7 +15,7 @@
                     </button>
                 </div>
             </div>
-        </div>
+        </div> -->
 
         <!-- CATEGORIES AREA -->
          <div class="flex flex-col md:flex-row gap-3 items-center justify-start md:justify-center sticky top-0 z-20 bg-white p-3">
@@ -38,12 +38,19 @@
       
 
         <!-- ADVERT SPACE -->
-       <!--  <div class="bg-app_green h-60 mt-8 flex justify-center items-center text-white text-xl">
+         <div class="flex flex-row gap-3 h-[400px] p-3">
+            <div class="w-[50%] h-full bg-red-500 rounded-lg"></div>
+            <div class="w-[50%] h-full flex flex-col gap-3">
+                <div class="bg-blue-500 rounded-lg w-full h-[50%]"></div>
+                <div class="bg-green-500 rounded-lg w-full h-[50%]"></div>
+            </div>
+         </div>
+        <!-- <div class="bg-app_green h-60 mt-8 flex justify-center items-center text-white text-xl">
             <span>Advert Space</span>
         </div> -->
-        <RouterLink to="shops/official_whatsell" >
+        <!-- <RouterLink to="shops/official_whatsell" >
             <img src="../assets/images/whatsell banner.png" class="mt-8"/>
-        </RouterLink>
+        </RouterLink> -->
 
         <!-- TOP SELLING DIVIDER -->
         <div class="p-3 flex flex-row items-center mt-8">
@@ -112,6 +119,11 @@
                 </svg>
                 <span class="text-xl font-bold">More to buy</span>
             </div>
+        </div>
+
+        <div class="w-full h-[200px] flex flex-col gap-3 justify-center items-center">
+            <img src="../assets/images/no-products.png" class=" !size-52">
+            <p>Nothing to show in this category</p>
         </div>
 
          <!-- PRODCUT DISPLAY AREA -->

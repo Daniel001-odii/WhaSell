@@ -202,7 +202,7 @@
                                 <span class="text-blue-500">In stock</span>
                             </div>
                         </div>
-                        <div class="flex flex-row justify-between mt-8">
+                        <div class="flex flex-row  gap-4 justify-between mt-8">
                             <button @click="delete_selected(shop_products[selected_product]._id)" class="bg-red-700 text-white p-3 btn">
                                 <i class="bi bi-trash mr-2"></i>
                                 Delete

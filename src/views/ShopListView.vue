@@ -62,7 +62,11 @@
         </div>
 
         <div class="p-3 flex flex-row overflow-x-auto justify-start">
-                <ShopCard v-for="product in 5"/>
+                <!-- <ShopCard v-for="product in 5"/> -->
+                <div class="w-full h-[200px] flex flex-col gap-3 justify-center items-center">
+                    <img src="../assets/images/no-products.png" class=" !size-52">
+                    <p>Nothing to show in this category</p>
+                </div>
         </div>
 
         <!-- TOP SELLING DIVIDER -->
@@ -76,7 +80,11 @@
         </div>
 
         <div class="p-3 flex flex-row overflow-x-auto justify-start">
-            <ShopCard v-for="product in 5"/>
+            <!-- <ShopCard v-for="product in 5"/> -->
+            <div class="w-full h-[200px] flex flex-col gap-3 justify-center items-center">
+                <img src="../assets/images/no-products.png" class=" !size-52">
+                <p>Nothing to show in this category</p>
+            </div>
         </div>
 
         <!-- TOP SELLING DIVIDER -->
@@ -88,7 +96,11 @@
         </div>
 
         <div class="p-3 flex flex-row overflow-x-auto justify-start">
-            <ShopCard v-for="product in 5"/>
+            <!-- <ShopCard v-for="product in 5"/> -->
+            <div class="w-full h-[200px] flex flex-col gap-3 justify-center items-center">
+                <img src="../assets/images/no-products.png" class=" !size-52">
+                <p>Nothing to show in this category</p>
+            </div>
         </div>
 
 
@@ -101,7 +113,11 @@
         </div>
 
         <div class="p-3 flex flex-row overflow-x-auto justify-start">
-            <ShopCard v-for="product in 5"/>
+            <!-- <ShopCard v-for="product in 5"/> -->
+            <div class="w-full h-[200px] flex flex-col gap-3 justify-center items-center">
+                <img src="../assets/images/no-products.png" class=" !size-52">
+                <p>Nothing to show in this category</p>
+            </div>
         </div>
 
 
@@ -114,7 +130,11 @@
         </div>
 
         <div class="p-3 flex flex-row overflow-x-auto justify-start">
-            <ShopCard v-for="product in 5"/>
+            <!-- <ShopCard v-for="product in 5"/> -->
+            <div class="w-full h-[200px] flex flex-col gap-3 justify-center items-center">
+                <img src="../assets/images/no-products.png" class=" !size-52">
+                <p>Nothing to show in this category</p>
+            </div>
         </div>
     </div>
 </template>

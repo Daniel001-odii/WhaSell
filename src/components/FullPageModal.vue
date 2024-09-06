@@ -1,6 +1,6 @@
 <template>
-    <div class=" min-h-screen flex w-full fixed z-50 bg-[rgba(0,0,0,0.8)] justify-center items-center top-0 left-0">
-        <div class=" gap-3 flex flex-col bg-white w-[400px] p-8 rounded-lg text-center items-center justify-center">
+    <div class=" min-h-screen flex w-full fixed z-50 bg-[rgba(0,0,0,0.8)] justify-center items-center top-0 left-0 p-8">
+        <div class=" gap-3 flex flex-col bg-white  max-w-[600px] p-8 rounded-lg text-center items-center justify-center">
             <slot>
                 <span>
                     <i class="text-gray-500 text-2xl bi bi-info-circle"></i>

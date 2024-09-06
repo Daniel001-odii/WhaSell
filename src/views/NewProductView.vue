@@ -26,13 +26,14 @@
 
             <label  :class="upload_type == 'glip'?'bg-app_light_green':''" class="flex flex-row justify-center items-center gap-6 rounded-full border border-app_green px-4 py-2 font-bold">
                 <span>Glip</span>
-                <input disabled type="radio" name="upload" id="listing" v-model="upload_type" value="glip">
+                <input type="radio" name="upload" id="listing" v-model="upload_type" value="glip">
             </label>
         </div>
 
         <!-- {{ product }} -->
 
-        <div class=" max-w-sm md:w-[500px] md:max-w-md p-8">
+        <div class=" max-w-sm md:w-[500px] md:max-w-md p-8 overflow-x-hidden">
+            <!-- UPLOAD PRODUCT -->
             <div v-if="upload_type == 'listing'" class="">
                 <form @submit.prevent="uploadProduct">
                     <div v-if="tab == 1" class="rounded-2xl flex flex-col gap-4">
@@ -138,41 +139,108 @@
                 </form>
             </div>
 
-            <!-- GLIPS -->
+            {{ glip }}
+            <!-- UPLOAD GLIP -->
             <div v-if="upload_type == 'glip'" class=" w-full">
-                <div class="flex flex-col gap-5 justify-center items-center rounded-lg cursor-pointer bg-app_light_green p-10 border border-app_green">
-                    <div>
-                        <p class="font-bold text-lg text-app_green">Upload a video lip of your product</p>
-                        <span class="text-sm text-gray-400">Drag and drop or tap to input your media content</span>
+                <form @submit.prevent="uploadGlipVideo">
+                    <div v-if="tab == 1" class="rounded-2xl flex flex-col gap-4">
+                        <span class="text-red-500" v-if="file_upload_error"> error:{{ file_upload_error }}</span>
+                        <!-- progress: {{ glip_upload_progress }} - status: {{ glip_upload_status }} -->
+                        <div v-if="videoDetails" class="flex flex-row-reverse gap-3">
+                            <div v-if="thumbnail" class="flex flex-col gap-2 max-w-[300px]">
+                                <p class="text-sm"><strong>{{ videoDetails.name.substring(0,20) }}</strong></p>
+                                <div>
+                                    <p><strong>Size:</strong> {{ videoDetails.size }} MB</p>
+                                    <p><strong>Duration:</strong> {{ videoDetails.duration }}</p>
+                                    <p v-if="glip_upload_status == 'uploading'" class="text-blue-500"><i class="bi bi-cloud-arrow-up-fill mr-3"></i>uploading...</p>
+                                    <p v-if="glip_upload_status == 'uploaded'" class="text-green-500"><i class="bi bi-cloud-check-fill  mr-3"></i>upload complete</p>
+                                </div>
+                                <label class="btn bg-app_green text-white">Replace
+                                    <input type="file" class="hidden" @change="handleVideoUpload">
+                                </label>
+                            </div>
+                            <img :src="thumbnail" alt="Video Thumbnail" class="w-[50%]"/>
+                        
+                        </div>
+                        <label v-else class="flex flex-col gap-5 justify-center items-center rounded-lg cursor-pointer bg-app_light_green p-10 border border-app_green text-center">
+                            <div>
+                                <input type="file" class="hidden" @change="handleVideoUpload">
+                                <p class="font-bold text-lg text-app_green">Upload a video lip of your product</p>
+                                <span class="text-sm text-gray-400">Drag and drop or tap to input your media content</span>
+                            </div>
+                        
+                            <i class="bi bi-camera-video text-3xl text-app_green"></i>
+                        </label>
+
+                        <div class="flex flex-col mt-4">
+                            <span class="label">Product Name *</span>
+                            <input class="form-input" type="text" name="glip-name" placeholder="Samsung S23 Ultra" v-model="glip.name">
+                        </div>
+                        <div class="flex flex-col">
+                            <span class="label">Product Description *</span>
+                            <textarea class="form-input h-[150px] max-h-[150px]" name="glip-name" placeholder="Samsung S23 Ultra" v-model="glip.description"></textarea>
+                        </div>
+
+                        <div class="flex flex-col">
+                            <span class="label">Product Category *</span>
+                            <select class="form-input" v-model="glip.category">
+                                <option disabled value="">Select Category</option>
+                                <option v-for="category in categories" :value="category">{{ category }}</option>
+                            </select>
+                        </div>
+
+                        <button :disabled="glip.name == '' || glip.description == '' || glip.category == '' || glip.video_url == null" type="button" @click="tab += 1" class="bg-[#47C67F] mt-3 w-full rounded-lg p-3 text-white font-semibold hover:bg-opacity-90 flex flex-row items-center justify-center">Next
+                            <!-- <i class="pi pi-angle-right pl-3 mt-[2px]"></i> -->
+                        </button> 
                     </div>
-                   
-                    <i class="bi bi-camera-video text-3xl text-app_green"></i>
-                </div>
+                    <div v-if="tab == 2" type="button" class="rounded-2xl flex flex-col gap-4">
+                        <div class="flex flex-col">
+                            <span class="label">Condition *</span>
+                            <select class="form-input" v-model="glip.condition">
+                                <option disabled value="">Select Condition</option>
+                                <option v-for="condition in conditions" :value="condition">{{ condition }}</option>
+                            </select>
+                        </div>
+                        <div class="flex flex-col">
+                            <span class="label">Product Price *</span>
+                            <!-- <input class="form-input" type="number" name="glip-price" placeholder="NGN 999, 000.00" v-model="glip.price"> -->
+                            <AmountInput v-model="glip.price"/>
+                        </div>
 
-                <div class="flex flex-col mt-4">
-                    <span class="label">Product Name *</span>
-                    <input class="form-input" type="text" name="product-name" placeholder="Samsung S23 Ultra" v-model="product.name">
-                </div>
-                <div class="flex flex-col">
-                    <span class="label">Product Description *</span>
-                    <textarea class="form-input h-[150px] max-h-[150px]" name="product-name" placeholder="Samsung S23 Ultra" v-model="product.description"></textarea>
-                </div>
+                        <div class="flex flex-col">
+                            <span class="label">Will you charge for delivery?</span>
+                            <select class="form-input" v-model="glip.charge_for_delivery">
+                                <option value="yes">Yes</option>
+                                <option value="no">No</option>
+                            </select>
+                            <input v-show="glip.charge_for_delivery == 'yes'" class="form-input mt-3" type="number" name="delivery-fee" placeholder="NGN 999, 000.00" v-model="glip.delivery_fee">
+                        </div>
 
-                <div class="flex flex-col">
-                    <span class="label">Product Category *</span>
-                    <select class="form-input" v-model="product.category">
-                        <option disabled value="">Select Category</option>
-                        <option v-for="category in categories" :value="category">{{ category }}</option>
-                    </select>
-                </div>
+                        <div class="flex flex-col">
+                            <span class="label">Are you open to negotiation?</span>
+                            <select class="form-input" v-model="glip.price_negotiable">
+                                <option value="yes">Yes</option>
+                                <option value="no">No</option>
+                            </select>
+                        </div>
 
-                <button :disabled="product.name == '' || product.description == '' || product.category == ''" type="button" @click="tab += 1" class="bg-[#47C67F] mt-3 w-full rounded-lg p-3 text-white font-semibold hover:bg-opacity-90 flex flex-row items-center justify-center">Next
-                    <!-- <i class="pi pi-angle-right pl-3 mt-[2px]"></i> -->
-                </button> 
+                        <div class="flex flex-row gap-3 justify-between items-center">
+                            <button type="button" @click="tab -= 1" class="bg-gray-400 rounded-lg p-3 text-white font-semibold hover:bg-opacity-90 px-6">
+                                Prev
+                                <!-- <i class="pi pi-angle-left"></i> -->
+                            </button>
+                            <button :disabled="glip.condition == '' || glip.price == ''" type="button" @click="uploadGlipVideo" class="bg-[#47C67F] rounded-lg p-3 text-white font-semibold hover:bg-opacity-90 w-full">
+                                <span v-if="loading">uploading...</span>
+                                <span v-else>Post</span>
+                            </button>
+                        </div>
+                    </div>
+                
+                </form> 
             </div>
-        </div>
         <!-- {{  product }} -->
 
+        </div>
     </div>
 </template>
 
@@ -184,6 +252,7 @@ import axios from 'axios';
 import AmountInput from '../components/AmountInput.vue';
 
 import SpinnerComponent from '../components/SpinnerComponent.vue'
+import { formatDuration, intervalToDuration } from 'date-fns';
 
 
     export default {
@@ -196,7 +265,7 @@ import SpinnerComponent from '../components/SpinnerComponent.vue'
         },  
         data(){
             return{
-                upload_type: "listing",
+                upload_type: "glip",
                 categories: [
                     "Electronics & Gadgets",
                     "Health & Beauty",
@@ -235,12 +304,30 @@ import SpinnerComponent from '../components/SpinnerComponent.vue'
                     delivery_fee: '',
                 },
 
+                glip: {
+                    name: '',
+                    description: '',
+                    category: '',
+                    video_url: 'https://storage.googleapis.com/test-for-mongo.appspot.com/product-glips/853889-sd_960_540_25fps.MP4?GoogleAccessId=firebase-adminsdk-5xhge%40test-for-mongo.iam.gserviceaccount.com&Expires=4102441200&Signature=xV8H%2FqejBkN05FwxtJtPBxh3DQ%2BI5cIihLWg1%2FsIpVJfgucH4nhYf9nu%2ByKuCeN5ZI3995XcjaaO5V1gm40AGTLHEl0NNMkLHmBWwsaIhGAq%2BYUL8KrNGA6tZiowCYWb82ieoug7T5CCa6HBcrHZGDAtqubWtEfZnC2xUk%2FEb3nwfqbEOZVySnsQNpc6PZgG3iGC5CIQEpE9Ua9C8LmlLghdPBgsFjT2MJEFP1q8CyVKF222PimmNFY2eRMzqyjM9iEl8h2SQc%2B5Fms9QsllGNcJPUaCvu05t3cXUe0iziBj3L4CsP6emwnp5PHJCb0RQlAF9GgBQt0ovJwxeQvZDA%3D%3D',
+                    condition: '',
+                    price: '',
+                    charge_for_delivery: 'no',
+                    price_negotiable: 'no',
+                    delivery_fee: '',
+                },
+
                 product_uploaded: false,
                 loading: false,
 
                 images: [],
                 file_upload_error: '',
                 upoad_image_results: [],
+
+                upload_video_resulst: '',
+                thumbnail: null,
+                videoDetails: null,
+                glip_upload_status: null,
+                glip_upload_progress: 0,
                 // product_i
             }
         },
@@ -269,6 +356,81 @@ import SpinnerComponent from '../components/SpinnerComponent.vue'
                 }
                 };
             },
+            // video name
+            // video duration
+            // video size
+
+            handleVideoUpload(event) {
+                const file = event.target.files[0];
+                this.file_upload_error = ""; // Reset the error
+
+                if (!file) {
+                    this.file_upload_error = "No file selected.";
+                    return;
+                }
+
+                // Check if the file type is video
+                if (!file.type.startsWith('video')) {
+                    this.file_upload_error = "Only video files are allowed.";
+                    return;
+                }
+
+                // Check if the file size is less than or equal to 10MB
+                const sizeInMB = (file.size / (1024 * 1024)).toFixed(2); // Convert bytes to MB
+                if (sizeInMB > 10) {
+                    this.file_upload_error = "File size should be less than or equal to 10MB.";
+                    return;
+                }
+
+                const videoElement = document.createElement('video');
+                const canvasElement = document.createElement('canvas');
+                
+                videoElement.src = URL.createObjectURL(file);
+                videoElement.muted = true; // Mute the video
+
+                videoElement.addEventListener('loadedmetadata', () => {
+                    // Get video duration and convert it to seconds
+                    const duration = Math.floor(videoElement.duration); // Duration in seconds
+
+                    // Check if the video duration is greater than 30 seconds
+                    if (duration > 30) {
+                    this.file_upload_error = "Video too long (should not be more than 30 seconds).";
+                    return;
+                    }
+
+                    // If no error, store video details in the data
+                    this.videoDetails = {
+                    name: file.name,
+                    size: sizeInMB,
+                    duration: `${duration}s` // Store duration in seconds
+                    };
+
+                    // Set the current time to generate thumbnail at 5 seconds
+                    videoElement.currentTime = 5;
+                });
+
+                videoElement.addEventListener('seeked', () => {
+                    const ctx = canvasElement.getContext('2d');
+                    canvasElement.width = videoElement.videoWidth;
+                    canvasElement.height = videoElement.videoHeight;
+                    ctx.drawImage(videoElement, 0, 0, canvasElement.width, canvasElement.height);
+                    
+                    // Convert the canvas to a data URL (thumbnail image)
+                    this.thumbnail = canvasElement.toDataURL('image/jpeg');
+
+                    // start upload here..
+                    this.uploadVideoFile(file);
+                });
+            },
+
+
+            convertSeconds(seconds) {
+                // Get duration from seconds
+                const duration = intervalToDuration({ start: 0, end: seconds * 1000 });
+                
+                // Format the duration
+                return formatDuration(duration, { format: ['hours', 'minutes', 'seconds'] });
+            },
 
             removeImage(filePath, index) {
                 this.upoad_image_results.splice(index, 1);
@@ -276,7 +438,13 @@ import SpinnerComponent from '../components/SpinnerComponent.vue'
                 this.deleteImage(filePath);
             },
 
-            /* async uploadProductImage(file){
+            removeVideo(filePath, index) {
+                this.upoad_image_results.splice(index, 1);
+                this.product.images.splice(index, 1);
+                this.deleteImage(filePath);
+            },
+
+         /*    async uploadProductImage(file){
                 try{
                     const form = new FormData();
                     form.append('images', file);
@@ -290,20 +458,15 @@ import SpinnerComponent from '../components/SpinnerComponent.vue'
                 }catch(error){
                     return error;
                 }
-            }, */
+            },
 
-           
+            */
 
             async uploadProduct(){
                const payload = this.product;
                 try{
                     const response = await axios.post('/products/new', payload);
                     this.product_uploaded = true;
-
-                    // flash product successful upload modal and redirect to shop page..
-                    // setTimeout( ()=> {
-                    //     this.$router.push('/account/shop')
-                    // }, 5000);
                     
                     console.log(response);
                }catch(error){
@@ -314,6 +477,22 @@ import SpinnerComponent from '../components/SpinnerComponent.vue'
                     });
                 }
             },
+
+            async uploadGlipVideo(){
+               const payload = this.glip;
+                try{
+                    const response = await axios.post('/products/glips/new', payload);
+                    this.product_uploaded = true;
+                    console.log(response);
+               }catch(error){
+                console.log("error uploading product: ", error);
+                this.$toast.open({
+                        message: `${error.response.data.message}`,
+                        type: 'error',
+                    });
+                }
+            },
+
 
 
             uploadFile(file) {
@@ -393,6 +572,67 @@ import SpinnerComponent from '../components/SpinnerComponent.vue'
                 }
             },
 
+            uploadVideoFile(file) {
+                    const formData = new FormData();
+                    formData.append('video', file);
+
+                    // const uploadResult = {
+                    //     status: 'uploading',
+                    //     progress: 0,
+                    // };
+
+                    const xhr = new XMLHttpRequest();
+                    xhr.open('POST', `${this.$api_url}/products/video`, true);
+
+                    // Handle progress event
+                    xhr.upload.onprogress = (event) => {
+                        this.glip_upload_status = 'uploading'
+                        if (event.lengthComputable) {
+                            const progress = Math.ceil((event.loaded  / event.total ) * 100);
+                            console.log(`Progress: ${progress}%`); // Debug log
+                            this.glip_upload_progress = progress;
+                        } else {
+                            console.log('Progress event not computable'); // Debug log
+                        }
+                    };
+
+                    // Handle response
+                    xhr.onload = () => {
+                        if (xhr.status === 200) {
+                        const response = JSON.parse(xhr.response);
+                        // this.upoad_image_results[index].filePath = response.result.url;
+
+                        // console.log("from upload: ", response);
+                        
+                        // set glip product video value..
+                        this.glip.video_url = response.result.url;
+                        this.glip_upload_status = 'uploaded';
+                        this.$forceUpdate();
+                        // re-enable next buttons here....
+
+
+                        } else {
+                            this.glip_upload_status = 'failed';
+                            console.error('Error uploading video:', xhr.response);
+                            this.file_upload_error = 'error uploading video'
+                            this.$forceUpdate(); // Ensure reactivity
+                        }
+                    };
+
+                    xhr.onerror = () => {
+                        // re-enable next buttons here...
+
+
+                        this.glip_upload_status = 'failed';
+                        this.file_upload_error = 'error uploading video'
+                        console.error('Error uploading video 2:', xhr.response);
+                        this.$forceUpdate(); // Ensure reactivity
+                    };
+                    // Send the form data
+                    xhr.send(formData);
+        
+            },
+
             extractFilePath(url) {
                 // Create a URL object
                 const urlObj = new URL(url);
@@ -409,20 +649,21 @@ import SpinnerComponent from '../components/SpinnerComponent.vue'
             },
 
             async deleteImage(filePath) {
-    try {
-        const extractedPath = this.extractFilePath(filePath).replace(/ /g, '%20');
-        console.log("Attempting to delete: ", extractedPath);
+                try {
+                    const extractedPath = this.extractFilePath(filePath).replace(/ /g, '%20');
+                    console.log("Attempting to delete: ", extractedPath);
 
-        const response = await axios.delete(`/products/image/delete`, {
-            data: { filePath: extractedPath }
-        });
-        console.log("deleting image: ", response);
-    } catch (error) {
-        console.log("error deleting image: ", error);
+                    const response = await axios.delete(`/products/image/delete`, {
+                        data: { filePath: extractedPath }
+                    });
+                    console.log("deleting image: ", response);
+                } catch (error) {
+                    console.log("error deleting image: ", error);
+                }
+            },
+        },
     }
-}
-        }
-    }
+    // }
 </script>
 
 <style scoped>

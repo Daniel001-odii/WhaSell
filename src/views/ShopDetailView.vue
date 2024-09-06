@@ -157,7 +157,16 @@
 
                                 <!-- FOR GLIPS -->
                                 <div v-show="current_tab == 1" class="w-full" @click="glips_modal = !glips_modal">
+                                    <span>Glips</span>
                                     <div v-if="loading_products">Loading glips...</div>
+                                    {{glips}}
+                                    <div v-if="glips.length > 0">
+                                        <div v-for="glip in glips">
+                                            <video>
+                                                <source :src="glip.video_url">
+                                            </video>
+                                        </div>
+                                    </div>
                                     <div v-else class="flex flex-col justify-center items-center h-full">
                                     </div>
                                     <div class="h-full flex justify-center items-center p-8 text-gray-500" v-if="!glips || glips.length <= 0">
@@ -196,7 +205,7 @@ import Rating from 'primevue/rating';
             return{
                 glips_modal: false,
                 loading: false,
-                current_tab: 0,
+                current_tab: 1,
                 products: [],
                 glips: [],
                 shop: '',
@@ -231,6 +240,7 @@ import Rating from 'primevue/rating';
                     this.loading = false;
                     // get products...
                     this.getShopProducts(this.shop_id);
+                    this.getShopGlips(this.shop_id);
                 }catch(error){
                     if(error.response.status == 404){
                         this.$router.push('/404');
@@ -261,6 +271,19 @@ import Rating from 'primevue/rating';
                     const response = await axios.get(`/products/${shop_id}/shop`);
                     this.products = response.data.products;
                     console.log("products: ", response)
+                    this.loading_products = false;
+                }catch(error){
+                    console.log("error getting products..");
+                    this.loading_products = false;
+                }
+            },
+
+            async getShopGlips(shop_id){
+                try{
+                    this.loading_products = true;
+                    const response = await axios.get(`/products/glips/${shop_id}/all`);
+                    this.glips = response.data.glips;
+                    console.log("glips: ", response)
                     this.loading_products = false;
                 }catch(error){
                     console.log("error getting products..");

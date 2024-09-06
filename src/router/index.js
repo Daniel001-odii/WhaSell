@@ -205,7 +205,9 @@ router.beforeEach((to, from, next) => {
   next();
 });
 
-
+import axios from 'axios'
+axios.defaults.withCredentials = true;
+axios.defaults.baseURL = process.env.VUE_APP_API_URL
 
 let redirectToLogin = false; // Initialize a flag to redirect to login after authentication
 let requestedRoute = null; // Initialize a variable to store the requested route
@@ -213,29 +215,70 @@ let requestedRoute = null; // Initialize a variable to store the requested route
 
 
 
-// Create a navigation guard that prevents loggedn in users from visiting irrelevant routes when logged in...
-// this is ensured via the user roles present in the token...
-router.beforeEach((to, from, next) => {
-  const user_id = localStorage.getItem('user');
-  // If the user is logged in and is trying to visit the root URL or login page
-  if (user_id && to.path === '/' || user_id && to.path === '/login' || user_id && to.path === '/register' || user_id && to.path === '/register') {
-    // Redirect users to /jobs
-    next('/market')
-  }
-  else{
-    // Otherwise, proceed with the navigation
-    next()
-  };
 
+// this is ensured via the user roles present in the token...
+router.beforeEach(async (to, from, next) => {
+
+  let user;
+
+  // Asynchronously fetch the user
+  async function getUser() {
+    try {
+      const response = await axios.get('/user');
+      if (response.data.user) {
+        user = 'authorised';
+      }
+      console.log("user from routes: ", response);
+    } catch (error) {
+      console.log("error getting user from routes: ", error);
+      if (error.response && error.response.status === 500) {
+        user = 'unauthorised';
+      }
+    }
+  }
+
+  // Wait for the user data to be fetched
+  await getUser();
+
+  console.log("user state: ", user);
+
+  // Check user's state and decide the navigation
+  if (user == 'authorised' && (to.path === '/' || to.path === '/login' || to.path === '/register')) {
+    // Redirect users to /market
+    next('/market');
+  } else {
+    // Otherwise, proceed with the navigation
+    next();
+  }
 });
 
 
 
+
 // navigation gaurd to allow only loggedin users to view certain pages..
-router.beforeEach((to, from, next) => {
-  const user_id = localStorage.getItem('user');
+router.beforeEach(async (to, from, next) => {
+  let user;
+
+  // Asynchronously fetch the user
+  async function getUser() {
+    try {
+      const response = await axios.get('/user');
+      if (response.data.user) {
+        user = 'authorised';
+      }
+      console.log("user from routes: ", response);
+    } catch (error) {
+      console.log("error getting user from routes: ", error);
+      if (error.response && error.response.status === 500) {
+        user = 'unauthorised';
+      }
+    }
+  }
+
+  // Wait for the user data to be fetched
+  await getUser();
   // Check if the route has a "requiresAuth" meta field and matches the user's role
-  if (to.meta.requiresAuth && !user_id) {
+  if (to.meta.requiresAuth && !user) {
     // redirectToLogin = true; // Set the flag to true
     // requestedRoute = to.fullPath; // Store the requested route
     next('/login'); // Redirect to login for unauthorized access

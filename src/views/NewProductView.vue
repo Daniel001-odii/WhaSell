@@ -139,7 +139,7 @@
                 </form>
             </div>
 
-            {{ glip }}
+            <!-- {{ glip }} -->
             <!-- UPLOAD GLIP -->
             <div v-if="upload_type == 'glip'" class=" w-full">
                 <form @submit.prevent="uploadGlipVideo">
@@ -308,7 +308,7 @@ import { formatDuration, intervalToDuration } from 'date-fns';
                     name: '',
                     description: '',
                     category: '',
-                    video_url: 'https://storage.googleapis.com/test-for-mongo.appspot.com/product-glips/853889-sd_960_540_25fps.MP4?GoogleAccessId=firebase-adminsdk-5xhge%40test-for-mongo.iam.gserviceaccount.com&Expires=4102441200&Signature=xV8H%2FqejBkN05FwxtJtPBxh3DQ%2BI5cIihLWg1%2FsIpVJfgucH4nhYf9nu%2ByKuCeN5ZI3995XcjaaO5V1gm40AGTLHEl0NNMkLHmBWwsaIhGAq%2BYUL8KrNGA6tZiowCYWb82ieoug7T5CCa6HBcrHZGDAtqubWtEfZnC2xUk%2FEb3nwfqbEOZVySnsQNpc6PZgG3iGC5CIQEpE9Ua9C8LmlLghdPBgsFjT2MJEFP1q8CyVKF222PimmNFY2eRMzqyjM9iEl8h2SQc%2B5Fms9QsllGNcJPUaCvu05t3cXUe0iziBj3L4CsP6emwnp5PHJCb0RQlAF9GgBQt0ovJwxeQvZDA%3D%3D',
+                    video_url: '',
                     condition: '',
                     price: '',
                     charge_for_delivery: 'no',

@@ -1,62 +1,11 @@
 <template>
 
     <!-- GLIPS MODAL HERE -->
-    <div v-if="glips_modal" class="fixed h-screen w-full z-50 top-0 right-0 bg-[rgba(0,0,0,0.8)] flex justify-center items-center">
-        <button class="absolute bg-red top-3 right-3 z-10" @click="glips_modal = !glips_modal">
-            <i class="bi bi-x-lg text-white text-2xl"></i>
-        </button>
-
-        <!-- VIDEO PREVIEW HERE -->
-        <div class="glips-container border-red-500 w-full h-[100dvh] md:max-h-[800px] flex flex-col justify-start items-center gap-3 md:p-3">
-            
-            
-            <!-- MAIN GLIP -->
-            <div v-for="glip in glips" class="glips md:rounded-xl bg-black text-white min-h-[100%]  h-full w-full md:max-h-[1000px] md:max-w-[400px] flex justify-center items-center relative">
-                <!-- <i class="pi pi-spinner-dotted pi-spin ml-3 text-2xl"></i> -->
-                <video autoplay>
-                    <source :src="glip.video_url" >
-                </video>
-
-
-                <!-- GLIP ACTIONS -->
-                 <div class="flex flex-col gap-4 bg-red-5 h-[200px] absolute right-5 text-2xl">
-                    <button class="bg-app_light_green rounded-full p-2 text-app_green h-14 w-14 relative">
-                        <i class="bi bi-shop"></i>
-                        <i class="bi bi-plus-circle-fill absolute top-7 text-[20px] -right-0"></i>
-                        
-                    </button>
-                    <button>
-                        <i class="bi bi-upload"></i>
-                    </button>
-                    <button>
-                        <i class="bi bi-hand-thumbs-up"></i>
-                    </button>
-                    <button>
-                        <i class="bi bi-three-dots"></i>
-                    </button>
-                    
-                 </div>
-
-
-
-                <!-- GLIP TEXTS -->
-                <div class=" flex flex-col absolute left-5 right-5 bottom-5">
-                    <div class="w-[80%] flex flex-col gap-3">
-                        <h1 class="font-bold text-2xl">{{ glip.name }}</h1>
-                        <div>NGN {{ glip.price.toLocaleString()}}</div>
-                        <div v-html="glip.description" style="overflow-wrap: break-word" class="text-sm w-full max-h-[300px] overflow-y-auto"></div>
-                    </div>
-                   
-                    <button class="btn bg-app_green text-white w-full mt-5">Buy now</button>
-                </div>
-
-
-              
-            </div>
-            
-        </div>
-    </div>
-
+    <GlipComponent
+        :glips_modal="glips_modal"
+        :glips="glips"
+        @close-glip="glips_modal = !glips_modal"
+    />
 
 
 
@@ -65,8 +14,8 @@
         <!-- {{ isAllowed() }} -->
         <div class="flex flex-col">
             <div v-if="loading">loading</div>
-            <div v-else class=" w-full bg-app_light_green h-[200px] relative flex justify-center items-center">
-                <span class=" text-3xl font-bold text-green-200">{{ shop.category }}</span>
+            <div v-else class=" w-full bg-app_green h-[200px] relative flex justify-center items-center">
+                <span class=" text-3xl font-bold text-green-100">{{ shop.category }}</span>
                 <RouterLink to="/account/shop/true">
                     <button v-if="isAllowed()"class="rounded-full border border-black bg-white bg-opacity-50 px-5 py-2 absolute bottom-5 right-5 z-40 flex justify-center items-center gap-3">
                         <span class="hidden md:flex">edit profile</span>
@@ -164,13 +113,17 @@
                                     <!-- {{glips}} -->
                                     <div v-if="glips.length > 0">
                                         <div v-for="glip in glips" class="relative">
-                                            <div @click="glipPreview(glip, index)" class=" w-[200px] h-[300px] bg-black rounded-lg flex justify-center items-center relative">
+                                            <div @click="glipPreview(glip, index)" class=" w-[200px] h-[300px] bg-black rounded-lg flex justify-center items-center relative overflow-hidden">
                                                 <video>
                                                     <source :src="glip.video_url">
+                                                    <!-- <source src="../assets/videos/glip_test.mp4"> -->
                                                 </video>
-                                                <div class="bg-white absolute p-3 rounded-md bottom-5 left-5 flex flex-row gap-3 text-sm">
-                                                    <button><i class="bi bi-hand-thumbs-up"></i></button>
-                                                    <span>{{glip.name}}</span>
+                                                <div class="bg-black bg-opacity-40 text-white absolute p-3 rounded-md bottom-5 left-1/2 transform -translate-x-1/2 flex flex-row gap-3 text-sm w-[90%]">
+                                                    <button class="p-3 rounded-full bg-white text-app_green size-8 flex justify-center items-center"><i class="bi bi-hand-thumbs-up"></i></button>
+                                                    <div class="flex flex-col">
+                                                        <span class="font-bold">{{glip.name}}</span>
+                                                        <span class="text-[12px]">NGN {{glip.price}}</span>
+                                                    </div>
                                                 </div>
                                             </div>
                                         
@@ -198,6 +151,7 @@
 </template>
 
 <script>
+import GlipComponent from '@/components/GlipComponent.vue';
 import ProductCard from '@/components/ProductCard.vue';
 import axios from 'axios'
 import { formatDistanceToNow } from 'date-fns'
@@ -208,6 +162,7 @@ import Rating from 'primevue/rating';
         components:{
             ProductCard,
             Rating,
+            GlipComponent,
         },
 
         data(){
@@ -225,6 +180,12 @@ import Rating from 'primevue/rating';
                 loading_glips: false,
                 formatDistanceToNow,
                 current_glip: null,
+
+                isPlaying: false,
+                currentTime: 0, // Current time of the video
+                videoDuration: 0, // Total duration of the video
+                dragging: false, // To track whether the user is dragging
+                progressPercentage: 0, // Progress in percentage (0 - 100)
             }
         },
 
@@ -233,6 +194,53 @@ import Rating from 'primevue/rating';
         },
 
         methods:{
+            togglePlayPause() {
+      const video = document.getElementById("videoPlayer");
+      if (video.paused) {
+        video.play();
+        this.isPlaying = true;
+      } else {
+        video.pause();
+        this.isPlaying = false;
+      }
+    },
+    updateProgress() {
+    if (!this.dragging) {
+        const video = document.getElementById("videoPlayer");
+      this.currentTime = video.currentTime;
+      this.progressPercentage = (this.currentTime / video.duration) * 100;
+    }
+  },
+    seekVideo(event) {
+      const video = document.getElementById("videoPlayer");
+      video.currentTime = event.target.value;
+      this.currentTime = event.target.value;
+    },
+    startDrag(event) {
+      this.dragging = true;
+      this.dragSeek(event);
+    },
+    dragSeek(event) {
+      if (this.dragging) {
+        const progressBar = document.getElementById("progressBar");
+        const rect = progressBar.getBoundingClientRect();
+        const offsetX = event.clientX - rect.left;
+        const percentage = Math.max(0, Math.min(100, (offsetX / rect.width) * 100));
+        this.progressPercentage = percentage;
+        this.seekTo(percentage);
+      }
+    },
+    stopDrag() {
+      this.dragging = false;
+    },
+    seekTo(percentage) {
+    const video = document.getElementById("videoPlayer");
+    video.currentTime = (percentage / 100) * video.duration;
+    this.currentTime = video.currentTime;
+    this.progressPercentage = percentage;
+  },
+
+    
             isAllowed(){
                 this.user = localStorage.getItem('user');
                 return this.user == this.shop.owner._id;
@@ -339,6 +347,15 @@ import Rating from 'primevue/rating';
           
         },
 
+        mounted() {
+            const video = document.getElementById("videoPlayer");
+            if(video){
+                video.onloadedmetadata = () => {
+                    this.videoDuration = video.duration;
+                };
+            }
+        },
+
 
     }
 </script>
@@ -374,8 +391,9 @@ import Rating from 'primevue/rating';
 
     .glips{
         scroll-snap-align: start;
-        //background: url('../assets/images/chair.png');
+       /*  background: url('../assets/images/chair.png'); */
         background:  black;
         background-size: cover;
     }
+
 </style>

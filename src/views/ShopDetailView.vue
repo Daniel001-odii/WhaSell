@@ -241,13 +241,11 @@ import { convertTypeAcquisitionFromJson } from 'typescript';
     this.progressPercentage = percentage;
   },
 
-//   http://localhost:8000/api/shops/668215076595163e02feb539/view
 
-    
-            isAllowed(){
-                this.user = localStorage.getItem('user');
-                return this.user == this.shop.owner._id;
-            },
+isAllowed(){
+    this.user = localStorage.getItem('user');
+    return this.user == this.shop.owner._id;
+},
 
             userIsFollowingShop(user){
          /*    if(this.shop.followers)

@@ -38,9 +38,11 @@ import CategoriesView from '@/views/CategoriesView.vue'
 const routes = [
   {
     path: '/',
-    name: 'WhaSell',
-    component: LandingPageView,
-    meta: { title: 'WhaSell' }
+    name: 'Market',
+    component: MarketView,
+    meta: { title: 'Market' }
+  /*   component: LandingPageView,
+    meta: { title: 'WhaSell' } */
   },
   {
     path: '/login',

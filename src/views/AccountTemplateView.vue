@@ -14,7 +14,7 @@
                 <RouterLink to="/account" class="nav-items"  :class="{'active-nav': isUserPage }" @click="page_visible = !page_visible">Personal details</RouterLink>
                 <RouterLink to="/account/shop" class="nav-items" :class="{'active-nav': isShopPage }"  @click="page_visible = !page_visible">My Shop</RouterLink>
                 <RouterLink to="/account/analytics" class="nav-items" :class="{'active-nav': isAnalyticsPage }" @click="page_visible = !page_visible">Analytics & Insights</RouterLink>
-                <RouterLink to="/account/upgrade" class="nav-items" :class="{'active-nav': isUpgradePage }" @click="page_visible = !page_visible">Upgrade</RouterLink>
+                <RouterLink to="/account/upgrade" class="nav-items" :class="{'active-nav': isUpgradePage }" @click="page_visible = !page_visible">Subscriptions</RouterLink>
                 <RouterLink to="/account/notifications" class="nav-items" :class="{'active-nav': isNotifyPage }" @click="page_visible = !page_visible">Manage Notifications</RouterLink>
             </div>
 

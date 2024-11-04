@@ -316,6 +316,58 @@ import ModalComponent from '../components/ModalComponent.vue'
         },
         methods:{
 
+            getLocation() {
+                if (navigator.geolocation) {
+                    navigator.geolocation.getCurrentPosition(this.showPosition, this.showError);
+                } else {
+                    this.error = "Geolocation is not supported by this browser.";
+                }
+            },
+
+            
+            showPosition(position) {
+            const lat = position.coords.latitude;
+            const lon = position.coords.longitude;
+
+            // Use the OpenCage Geocoding API to get the location details
+            const apiKey = 'e99cb79bd180409b8eed5d463de070d1'; // Replace with your OpenCage API key
+            const apiUrl = `https://api.opencagedata.com/geocode/v1/json?q=${lat}+${lon}&key=${apiKey}`;
+
+            fetch(apiUrl)
+                .then(response => response.json())
+                .then(data => {
+                if (data.results && data.results.length > 0) {
+                    // Extract the state from the result
+                    this.state = data.results[0].components.state;
+                } else {
+                    this.error = "Unable to retrieve state information.";
+                }
+                })
+                .catch(error => {
+                console.error('Error:', error);
+                this.error = "An error occurred while fetching location details.";
+                });
+            },
+
+
+            showError(error) {
+            switch (error.code) {
+                case error.PERMISSION_DENIED:
+                this.error = "User denied the request for Geolocation.";
+                break;
+                case error.POSITION_UNAVAILABLE:
+                this.error = "Location information is unavailable.";
+                break;
+                case error.TIMEOUT:
+                this.error = "The request to get user location timed out.";
+                break;
+                case error.UNKNOWN_ERROR:
+                this.error = "An unknown error occurred.";
+                break;
+            }
+            },
+
+
             onFileChange(event) {
                 const file = event.target.files[0];
                 this.new_shop.image = file;

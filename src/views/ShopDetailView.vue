@@ -3,7 +3,7 @@
     <!-- GLIPS MODAL HERE -->
     <GlipComponent
         :glips_modal="glips_modal"
-        :glips="glips"
+        :glips="['../assets/videos/glip_test.mp4','']"
         @close-glip="glips_modal = !glips_modal"
     />
 
@@ -156,6 +156,7 @@ import ProductCard from '@/components/ProductCard.vue';
 import axios from 'axios'
 import { formatDistanceToNow } from 'date-fns'
 import Rating from 'primevue/rating';
+import { convertTypeAcquisitionFromJson } from 'typescript';
 
     export default {
         name: "ShopDetailView",
@@ -169,7 +170,7 @@ import Rating from 'primevue/rating';
             return{
                 glips_modal: false,
                 loading: false,
-                current_tab: 1,
+                current_tab: 0,
                 products: [],
                 glips: [],
                 shop: '',
@@ -240,10 +241,29 @@ import Rating from 'primevue/rating';
     this.progressPercentage = percentage;
   },
 
+//   http://localhost:8000/api/shops/668215076595163e02feb539/view
+
     
             isAllowed(){
                 this.user = localStorage.getItem('user');
                 return this.user == this.shop.owner._id;
+            },
+
+            userIsFollowingShop(user){
+         /*    if(this.shop.followers)
+                this.shop.followers.forEach(user => {
+                    o
+                }); */
+            },
+
+            async addViewsToShop(){
+              try{
+                const response = await axios.get(`/shops/${this.shop_id}/view`);
+                console.log("adding view to shop: ", response);
+              }catch(error){
+                // just do nothing...
+                console.log("error adding views to shop: ", error);
+              }
             },
             
 
@@ -259,6 +279,7 @@ import Rating from 'primevue/rating';
                     // get products...
                     this.getShopProducts(this.shop_id);
                     this.getShopGlips(this.shop_id);
+                    this.addViewsToShop();
                 }catch(error){
                     if(error.response.status == 404){
                         this.$router.push('/404');
@@ -344,6 +365,10 @@ import Rating from 'primevue/rating';
 
         created(){
             this.getShopByName();
+           /*  if(this.shop_id){
+                this.addViewsToShop();
+            } */
+          
           
         },
 

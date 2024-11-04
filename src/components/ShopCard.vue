@@ -2,8 +2,8 @@
      <RouterLink :to="`/shops/${name}`">
             <div>
                 <div>
-                <div class="relative w-[200px] p-4 hover:bg-gray-100 rounded-3xl flex flex-col justify-center items-center gap-3">
-                    <div class="scale-[0.9]">
+                <div class="relative w-[200px] p-4 bg-gray-100 border border-transparent hover:border-app_green rounded-3xl flex flex-col justify-center items-center gap-3">
+                    <div class="scale-[0.7] text-small justify-center items-center flex flex-row gap-0.5 absolute -top-4 right-0 z-10">
                         <slot name="badge"></slot>
                     </div>
                     <div class=" relative">
@@ -14,6 +14,7 @@
                         <div name="store-name">
                             <span class="font-bold text-xl">{{ name }}</span>
                         </div>
+                      
                         <!-- <div class="text-4xl">
                             *****
                         </div> -->

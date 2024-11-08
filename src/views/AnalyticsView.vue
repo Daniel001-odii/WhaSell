@@ -63,8 +63,8 @@
                     <div class=" overflow-x-auto max-w-sm">
                         <!-- <Doughnut v-if="bubble_chart.labels" :data="bubble_chart" :options="bubble_chart.options" /> -->
                             <!-- {{ bubble_chart }} -->
-                        <!-- <Bar v-if="bar_chart.labels" :data="bar_chart" :options="options" /> -->
-                        <Line v-if="bar_chart.labels" :data="bar_chart" :options="options" />
+                        <Bar v-if="bar_chart.labels" :data="bar_chart" :options="options" />
+                        <!-- <Line v-if="bar_chart.labels" :data="bar_chart" :options="options" /> -->
                     </div>
                     <div class="flex flex-row gap-3 mt-3">
                         <span class="text-red-500"><i class="bi bi-graph-down-arrow mr-2"></i>13%</span>

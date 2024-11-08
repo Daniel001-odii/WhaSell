@@ -3,6 +3,7 @@
     <div class="mx-auto container">
         <PageTitle>{{ this.$route.name }}</PageTitle>
         <RouterView></RouterView>
+        <!-- <router-view/> -->
     </div>
 </template>
 

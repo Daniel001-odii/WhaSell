@@ -1,6 +1,6 @@
 <template>
     <NavbarView/>
-    <div class="container mx-auto min-h-screen bg-gray-50">
+    <div class="container mx-auto min-h-screen bg-">
         <!-- <PageTitle>Settings</PageTitle> -->
          <RouterLink to="/market">
             <button class="flex flex-row gap-1 font-medium text-xl p-3">
@@ -20,7 +20,7 @@
 
 
             <!-- class="w-full min-h-screen flex-col gap-1 p-5 md:flex absolute left-0 md:relative -top-[10px]" :class="page_visible ? 'flex':'hidden'" -->
-            <div class="flex flex-col gap-3 w-full overflow-auto">
+            <div class="flex flex-col gap-3 w-full overflow-y-auto h-screen pb-12">
                 <div class="font-bold p-3 border rounded-lg text-green-700 bg-white">
                     <!-- <button @click="page_visible = !page_visible">
                         <i class="pi pi-angle-left pr-3 mt-[2px]"></i>

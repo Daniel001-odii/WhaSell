@@ -1,7 +1,7 @@
 <template>
     <footer class="bg-transparent py-8">
-  <div class="container mx-auto px-4">
-    <div class="flex flex-wrap justify-between">
+  <div class="mx-auto px-4">
+    <div class="flex flex-row flex-wrap justify-between">
       
       <!-- Logo and Description Section -->
       <div class="w-full md:w-1/4 mb-8 md:mb-0 pr-12">
@@ -23,54 +23,56 @@
         </div>
       </div>
 
-      <!-- Categories Section -->
-      <div class="w-full md:w-1/4 mb-8 md:mb-0">
-        <h3 class="text-lg font-semibold text-gray-800 mb-4">Categories</h3>
-        <ul class="text-gray-600 space-y-2">
-          <li>Electronics & Gadgets</li>
-          <li>Health & Beauty</li>
-          <li>Automotive</li>
-          <li>Office Supplies</li>
-          <li>Arts & Crafts Supplies</li>
-          <li>Fashion & Apparel</li>
-          <li>Books & Media</li>
-          <li>Toys & Games</li>
-          <li>Pet Supplies</li>
-          <li>Jewelry & Watches</li>
-          <li>Home & Kitchen</li>
-          <li>Sport & Outdoors</li>
-          <li>Grocery & Gourmet Food</li>
-          <li>Baby Products</li>
-          <li>Travel & Luggage</li>
-        </ul>
-      </div>
+      <div class="flex flex-row">
+        <!-- Categories Section -->
+        <div class="w-full md:w-1/4 mb-8 md:mb-0">
+          <h3 class="text-lg font-semibold text-gray-800 mb-4">Categories</h3>
+          <ul class="text-gray-600 space-y-2">
+            <li>Electronics & Gadgets</li>
+            <li>Health & Beauty</li>
+            <li>Automotive</li>
+            <li>Office Supplies</li>
+            <li>Arts & Crafts Supplies</li>
+            <li>Fashion & Apparel</li>
+            <li>Books & Media</li>
+            <li>Toys & Games</li>
+            <li>Pet Supplies</li>
+            <li>Jewelry & Watches</li>
+            <li>Home & Kitchen</li>
+            <li>Sport & Outdoors</li>
+            <li>Grocery & Gourmet Food</li>
+            <li>Baby Products</li>
+            <li>Travel & Luggage</li>
+          </ul>
+        </div>
 
-      <!-- Quick Links Section -->
-      <div class="w-full md:w-1/4 mb-8 md:mb-0">
-        <h3 class="text-lg font-semibold text-gray-800 mb-4">Quick Links</h3>
-        <ul class="text-gray-600 space-y-2">
-          <li>Market</li>
-          <li>Shops</li>
-          <li>Categories</li>
-          <li>Wallet</li>
-          <li>Clips</li>
-          <li>Accounts</li>
-          <li>Terminologies</li>
-          <li>Safety Tips</li>
-          <li>FAQ's</li>
-          <li>Help</li>
-        </ul>
-      </div>
+        <!-- Quick Links Section -->
+        <div class="w-full md:w-1/4 mb-8 md:mb-0">
+          <h3 class="text-lg font-semibold text-gray-800 mb-4">Quick Links</h3>
+          <ul class="text-gray-600 space-y-2">
+            <li>Market</li>
+            <li>Shops</li>
+            <li>Categories</li>
+            <li>Wallet</li>
+            <li>Clips</li>
+            <li>Accounts</li>
+            <li>Terminologies</li>
+            <li>Safety Tips</li>
+            <li>FAQ's</li>
+            <li>Help</li>
+          </ul>
+        </div>
 
-      <!-- Contact Us Section -->
-      <div class="w-full md:w-1/4">
-        <h3 class="text-lg font-semibold text-gray-800 mb-4">Contact Us</h3>
-        <ul class="text-gray-600 space-y-2">
-          <li>+234 706 789 5678</li>
-          <li>+234 802 789 5390</li>
-          <li>support@whatsell.com</li>
-          <li>HQ @ No 12, Alesa, Isarowiwa Road, Port Harcourt, Nigeria</li>
-        </ul>
+        <!-- Contact Us Section -->
+        <div class="w-full md:w-1/4">
+          <h3 class="text-lg font-semibold text-gray-800 mb-4">Contact Us</h3>
+          <ul class="text-gray-600 space-y-2">
+            <li>+234 706 789 5678</li>
+            <li>+234 802 789 5390</li>
+            <li>support@whatsell.com</li>
+            <li>HQ @ No 12, Alesa, Isarowiwa Road, Port Harcourt, Nigeria</li>
+          </ul>
+        </div>
       </div>
     </div>
 

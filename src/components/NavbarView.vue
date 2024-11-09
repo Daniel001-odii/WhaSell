@@ -55,28 +55,7 @@
                 
                 <div class="hidden md:flex flex-row gap-10 font-bold">
                     <RouterLink to="/market">Home</RouterLink>
-                    <div class="relative group">
-                        <span class=" cursor-pointer flex items-center justify-center gap-3 ">Categories <i class="pi pi-chevron-down text-[14px]"></i></span>
-
-                        <!-- CATEGORIES MENU -->
-                         <div class="group-hover:flex hidden absolute  font-light text-sm top-6 -left-52 z-50 ">
-                            <div class="shadow-lg p-6 mt-6 w-[650px] bg-white rounded-lg">
-                                 <div class="flex flex-row gap-2">
-                                    <div class="w-[35%] bg-red-5 flex flex-col gap-2">
-                                        <span class="hover:bg-gray-100 p-1 rounded-md" v-for="category in shop_categories.splice(0,5)">{{ category }}</span>
-                                    </div>
-                                    <div class="w-[35%] bg-blue-5 h-16 flex flex-col gap-2">
-                                        <span class="hover:bg-gray-100 p-1 rounded-md"  v-for="category in shop_categories">{{ category }}</span>
-                                    </div>
-                                    <div class="w-[35%] bg-orange-5 h-16 flex flex-col gap-2">
-                                        <span  class="hover:bg-gray-100 p-1 rounded-md"  v-for="category in shop_categories">{{ category }}</span>
-                                    </div>
-                                    <!-- <button class="p-5 hover:bg-gray-100 rounded-md border" v-for="category in shop_categories">{{ category }}</button> -->
-                                </div>
-                            </div>
-                           
-                         </div>
-                    </div>
+                    
                     
                     <RouterLink to="/shops">Shops</RouterLink>
                     <RouterLink to="/likes">Glips</RouterLink>

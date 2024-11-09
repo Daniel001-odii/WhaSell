@@ -9,6 +9,8 @@
             </div>
         </div>
 
+    <div class="p-6">
+
        <!--  <svg xmlns="http://www.w3.org/2000/svg" width="1380" height="755" viewBox="0 0 1380 755" fill="none">
             <path d="M0 30C0 13.4315 13.4315 0 30 0H1350C1366.57 0 1380 13.4315 1380 30V683.67C1380 698.985 1368.3 711.863 1353.07 713.487C848.685 767.275 549.117 770.359 26.869 713.543C11.6717 711.889 0 699.023 0 683.736V30Z" fill="url(#paint0_linear_803_60310)"/>
             <defs>
@@ -113,16 +115,51 @@
          <!-- NEAR YOU DIVIDER -->
          <div class="p-3 flex flex-row items-center mt-8">
             <div class="flex flex-row items-center gap-3">
-                <svg width="20" height="24" viewBox="0 0 20 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M10 0.25C12.5859 0.25 15.0658 1.27723 16.8943 3.10571C18.7228 4.93419 19.75 7.41414 19.75 10C19.75 14.12 16.855 18.61 11.14 23.518C10.8222 23.791 10.4171 23.9409 9.99813 23.9405C9.5792 23.9402 9.1743 23.7895 8.857 23.516L8.479 23.188C3.017 18.408 0.25 14.028 0.25 10C0.25 7.41414 1.27723 4.93419 3.10571 3.10571C4.93419 1.27723 7.41414 0.25 10 0.25ZM10 6.25C9.00544 6.25 8.05161 6.64509 7.34835 7.34835C6.64509 8.05161 6.25 9.00544 6.25 10C6.25 10.9946 6.64509 11.9484 7.34835 12.6517C8.05161 13.3549 9.00544 13.75 10 13.75C10.9946 13.75 11.9484 13.3549 12.6517 12.6517C13.3549 11.9484 13.75 10.9946 13.75 10C13.75 9.00544 13.3549 8.05161 12.6517 7.34835C11.9484 6.64509 10.9946 6.25 10 6.25Z" fill="black"/>
-                </svg>
-                <span class="text-xl font-bold">Near You</span>
+                <span class="text-xl font-bold">Shops Near You</span>
             </div>
+        </div>
+
+        <!-- SHOP CARD -->
+        <div class="flex flex-row !flex-wrap gap-3 pb-10 p-5">
+         <div v-for="(shop, index) in shops" class="flex flex-1 relative min-w-[300px] h-[260px] bg-gray-50 rounded-lg flex-col overflow-hidden">
+            <div class=" h-[60%] w-full relative" :style="`background: url(${shop.profile.image_url})`" style="background-position: center; background-repeat: no-repeat; background-size: cover;">
+                <RouterLink :to="`/shops/${shop.name}`">
+                    <div class=" size-16 border-2 absolute top-[76%] left-[20px] border-white bg-green-100 rounded-full flex justify-center items-center text-2xl">
+                        <i class="bi bi-shop text-green-600"></i>
+                    </div>
+                </RouterLink>
+            </div>
+            <div class=" h-[30%] w-full p-8">
+                <p class="font-bold text-lg">{{ shop.name }}</p>
+                <p class=" text-gray-400">{{ shop.category }}</p>
+            </div>
+         </div>
+        </div>
+
+         <!-- NEAR YOU DIVIDER -->
+         <div class="p-3 flex flex-row items-center mt-8">
+            <div class="flex flex-row items-center gap-3">
+                <span class="text-xl font-bold text-[#00C1F6]">Boosted Shops</span>
+            </div>
+        </div>
+        <div class="flex flex-row !flex-wrap gap-3 pb-10 p-5">
+         <div v-for="shop in 2" class="flex flex-1 relative min-w-[300px] h-fit bg-gray-50 rounded-lg flex-col overflow-hidden">
+            <div class=" h-[200px] lg:h-[300px] w-full relative bg-green-100" style="background-position: center; background-repeat: no-repeat; background-size: cover;">
+                <span class="absolute right-6 top-4 rounded-full size-[40px] flex justify-center items-center text-white bg-[#00C1F6]">
+                    <i class="bi bi-rocket-takeoff-fill"></i>
+                </span>
+            </div>
+            <div class=" h-[30%] w-full p-8">
+                <p class="font-bold text-lg">Shop name here</p>
+                <p class=" text-gray-400">category</p>
+                <button class="rounded-full bg-[#00C1F6] text-white p-3 px-6 mt-6">Shop Now</button>
+            </div>
+         </div>
         </div>
 
 
          <!-- SHOPS DISPLAY AREA -->
-         <div class="p-6 flex gap-3 flex-row overflow-x-auto justify-start items-end">
+        <!--  <div class="p-6 flex gap-3 flex-row overflow-x-auto justify-start items-end">
             <ShopCard v-for="(shop, index) in shops"
                 :name="shop.name"
                 :category="shop.category"
@@ -144,9 +181,9 @@
                 </span>
             </template>
         </ShopCard>
-
+ 
         </div>
-
+-->
     
 
          <!-- TOP SELLING DIVIDER -->
@@ -182,7 +219,7 @@
                 <div class=" h-[50%] bg-green-800 w-full gaurd"></div>
             </div>
     </div>
-        
+</div> 
         
     </div>
 
@@ -200,6 +237,7 @@ import PageTitle from '../components/PageTitle'
 
 import axios from 'axios';
 import TheFooter from '@/components/TheFooter.vue';
+import { RouterLink } from 'vue-router';
 
 
     export default {

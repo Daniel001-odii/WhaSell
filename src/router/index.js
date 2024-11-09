@@ -314,7 +314,8 @@ router.beforeEach(async (to, from, next) => {
 router.beforeEach(async (to, from, next) => {
   checkUser();
   if (to.meta.requiresAuth && !checkUser()) {
-    next('/login'); // Redirect to login for unauthorized access
+    // next('/login'); // Redirect to login for unauthorized access
+    next({ path: '/login', query: { redirect: to.fullPath } }); // Redirect to login with the intended path
   } else {
     next(); // Proceed to the route
   }

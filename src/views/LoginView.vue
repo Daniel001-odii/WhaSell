@@ -112,11 +112,16 @@ import Button from 'primevue/button'
 
                     localStorage.setItem("is_authenticated", true);
 
-                    setTimeout(() => {
-                        this.$router.push('/market');
-                    }, 2000);
+                    
 
-                    this.loading = false;
+                    setTimeout(() => {
+                        // this.$router.push('/market');
+                        // Redirect to the originally requested page or a default page
+                        const redirectPath = this.$route.query.redirect || '/market';
+                        this.$router.push(redirectPath);
+                    }, 1000);
+
+                    this.loading = true;
                 } catch (error) {
                     // console.log("error in login user: ", error);
                     this.$toast.open({

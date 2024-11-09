@@ -1,5 +1,6 @@
 <template>
     <div class="">
+        <NavbarView/>
         <div class=" flex h-screen max-h-[700px] w-full bg-green-800 justify-start p-12 text-left items-center text-white rounded-xl rounded-b-[10%]" style="clip-path: ellipse(98% 98% at 50% 0%); background: linear-gradient(135deg, #1F633D 0%, #16492D 46.219%, #FFBD00 100%);">
             <div class="flex flex-col gap-5">
                 <h1 class="text-5xl font-bold">We bring local Shopping<br/> to your door step</h1>

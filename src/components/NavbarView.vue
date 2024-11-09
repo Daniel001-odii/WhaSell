@@ -88,7 +88,7 @@
                 <RouterLink to="/account/subscriptions">
                     <span class="flex flex-row items-center font-bold text-xl"> <img src="../assets/images/coins_group.png" class=" h-[30px] mr-2"> {{ user.credits }}</span>
                 </RouterLink>
-                <RouterLink to="/likes">
+                <RouterLink to="/likes" class="hidden md:block">
                     <button>
                         <i class="bi bi-hand-thumbs-up-fill text-2xl" :class="isLikes ? 'text-green-500':''"></i>
                     </button>
@@ -101,7 +101,7 @@
                         
                         <CustomDropdown>
                             <template #trigger>
-                                <button class="relative">
+                                <button class="relative ">
                                     <i class="bi bi-bell-fill text-2xl"></i>
                                 </button>
                             </template>
@@ -193,32 +193,41 @@
         </div>
 
         <!-- FOR MOBILE -->
-        <div v-if="false" class=" md:hidden bg-white text-black flex flex-row border-t w-full justify-around fixed bottom-0 z-50 p-3 text-sm">
+        <div v-if="true" class=" md:hidden bg-white text-gray-400 flex flex-row w-[95%] justify-around fixed left-0 right-0 bottom-5 border-t shadow-xl z-50 p-3 text-[10px] rounded-xl mx-auto">
             <RouterLink to="/market">
-                <button class="flex flex-col justify-center items-center">
-                    <i class="bi bi-house-door"></i>
+                <button :class="isHome ? 'text-green-500 scale-[1.2]':''" class="flex flex-col justify-center items-center">
+                    <i class="bi bi-house-door-fill mobile-menu-icon"></i>
                     <span>Home</span>
                 </button>
             </RouterLink>
 
-            <RouterLink to="/shops">
-                <button class="flex flex-col justify-center items-center">
-                    <i class="bi bi-shop"></i>
-                    <span>Shops</span>
-                </button>
-            </RouterLink>
-
+           
             <RouterLink to="/likes">
-                <button class="flex flex-col justify-center items-center">
-                    <i class="bi bi-hand-thumbs-up"></i>
+                <button :class="isLikes ? 'text-green-500 scale-[1.2]':''" class="flex flex-col justify-center items-center">
+                    <i class="bi bi-hand-thumbs-up-fill mobile-menu-icon"></i>
                     <span>Likes</span>
                 </button>
             </RouterLink>
 
-            <RouterLink to="/new-product">
+            <RouterLink to="/products/new">
+                <button :class="isNewProduct ? 'text-green-500 scale-[1.2]':''" class="flex flex-col justify-center items-center">
+                    <i class="bi bi-plus-square-fill mobile-menu-icon"></i>
+                    <span>New Product</span>
+                </button>
+            </RouterLink>
+            
+            <RouterLink to="/shops">
+                <button :class="isShops ? 'text-green-500 scale-[1.2]':''" class="flex flex-col justify-center items-center">
+                    <i class="bi bi-bag-fill mobile-menu-icon"></i>
+                    <span>Shops</span>
+                </button>
+            </RouterLink>
+
+
+            <RouterLink to="/products/new">
                 <button class="flex flex-col justify-center items-center">
-                    <i class="bi bi-tag"></i>
-                    <span>Sell</span>
+                    <i class="bi bi-play-btn-fill mobile-menu-icon"></i>
+                    <span>Glips</span>
                 </button>
             </RouterLink>
         </div>
@@ -365,7 +374,17 @@ export default {
     computed:{
         isLikes(){
             return this.$route.path.startsWith('/likes')
-        }
+        },
+        isHome(){
+            return this.$route.path.startsWith('/market')
+        },
+        isNewProduct(){
+            return this.$route.path.startsWith('/products/new')
+        },
+        isShops(){
+            return this.$route.path.startsWith('/shops')
+        },
+        
     },
 
     mounted(){
@@ -397,5 +416,9 @@ export default {
 
     .rating-btn{
         background: linear-gradient(187deg, #FFF64920.07%, #0BDC6880.03%, #3CA16911.06%);
+    }
+
+    .mobile-menu-icon{
+        @apply text-2xl
     }
 </style>

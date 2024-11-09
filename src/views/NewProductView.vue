@@ -265,7 +265,7 @@ import { formatDuration, intervalToDuration } from 'date-fns';
         },  
         data(){
             return{
-                upload_type: "glip",
+                upload_type: "listing",
                 categories: [
                     "Electronics & Gadgets",
                     "Health & Beauty",

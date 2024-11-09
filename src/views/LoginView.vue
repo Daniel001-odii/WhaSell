@@ -117,7 +117,7 @@ import Button from 'primevue/button'
                     setTimeout(() => {
                         // this.$router.push('/market');
                         // Redirect to the originally requested page or a default page
-                        const redirectPath = this.$route.query.redirect || '/market';
+                        const redirectPath = this.$route.query.redirect || '/';
                         this.$router.push(redirectPath);
                     }, 1000);
 

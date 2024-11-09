@@ -37,12 +37,18 @@ import CategoriesView from '@/views/CategoriesView.vue'
 
 const routes = [
   {
-    path: '/',
-    name: 'Market',
+    path: '',
+    name: 'Market-general',
     component: MarketView,
     meta: { title: 'Market' }
   /*   component: LandingPageView,
     meta: { title: 'WhaSell' } */
+  },
+  {
+    path: '/market',
+    name: 'Market',
+    component: MarketView,
+    meta: { title: 'Market' }
   },
   {
     path: '/login',
@@ -109,12 +115,12 @@ const routes = [
         meta: { title: 'Sub categories' }
       },
 
-      {
+      /* {
         path: 'market',
         name: 'Market',
         component: MarketView,
         meta: { title: 'Market' }
-      },
+      }, */
      
       {
         path: '/products/:product_id/:product_slug',
@@ -216,7 +222,12 @@ let requestedRoute = null; // Initialize a variable to store the requested route
 
 
 function checkUser(){
-  return localStorage.getItem('is_authenticated');
+  if(localStorage.getItem('is_authenticated')){
+    return true
+  } else {
+    localStorage.clear();
+    return false
+  }
 }
 
 

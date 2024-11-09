@@ -85,6 +85,9 @@
             </div>
 
             <div class="flex flex-row items-center justify-center gap-8 relative">
+                <RouterLink to="/account/subscriptions">
+                    <span class="flex flex-row items-center font-bold text-xl"> <img src="../assets/images/coins_group.png" class=" h-[30px] mr-2"> {{ user.credits }}</span>
+                </RouterLink>
                 <RouterLink to="/likes">
                     <button>
                         <i class="bi bi-hand-thumbs-up-fill text-2xl" :class="isLikes ? 'text-green-500':''"></i>
@@ -135,8 +138,8 @@
                     </div>
                     <CustomDropdown v-if="user">
                         <template #trigger>
-                            <div class=" uppercase font-bold flex justify-center items-center rounded-full !size-10 bg-blue-500 text-white"> {{ user.username[0] }}{{ user.username[1] }}</div>
-                            <!-- <i class="bi bi-person-circle text-4xl text-gray-400"></i> -->
+                            <!-- <div class=" uppercase font-bold flex justify-center items-center rounded-full !size-10 bg-green-500 text-white"> {{ user.username[0] }}{{ user.username[1] }}</div> -->
+                            <i class="bi bi-person-circle text-4xl text-gray-400"></i>
                             <!-- <img :src="user.profile.image_url" class=" size-10 rounded-full"> -->
                         </template>
                         <template #menu>
@@ -145,7 +148,7 @@
                                     <div class="flex flex-row items-center justify-between p-3 rounded-md cursor-pointer hover:bg-gray-100">
                                         <div class="flex flex-row gap-3 items-center justify-start ">
                                             <div>
-                                                <div class=" uppercase font-bold flex justify-center items-center rounded-full !size-10 bg-blue-500 text-white"> {{ user.username[0] }}{{ user.username[1] }}</div>
+                                                <div class=" uppercase font-bold flex justify-center items-center rounded-full !size-10 bg-green-500 text-white"> {{ user.username[0] }}{{ user.username[1] }}</div>
                                                 <!-- <i class="bi bi-person-circle text-4xl text-gray-400"></i> -->
                                                 <!-- <img :src="user.profile.image_url" class=" size-10 rounded-full"> -->
                                             </div>
@@ -259,6 +262,7 @@ import LogoBlack from './LogoBlack.vue';
 import axios from 'axios'
 
 import FullPageModal from '../components/FullPageModal.vue';
+import { RouterLink } from 'vue-router';
 
 export default {
     name: "NavbarView",
@@ -320,6 +324,7 @@ export default {
               
                 const response = await axios.get('/user');
                 this.user = response.data.user;
+                this.user.credits = response.data.credits;
                 localStorage.setItem('user', response.data.user._id);
                 // console.log("user :", response);
             }catch(error){

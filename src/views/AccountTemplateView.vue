@@ -68,7 +68,7 @@ import PageTitle from '../components/PageTitle'
                 return this.$route.path.startsWith('/account/analytics')
             },
             isUpgradePage(){
-                return this.$route.path.startsWith('/account/upgrade')
+                return this.$route.path.startsWith('/account/subscriptions')
             },
             isNotifyPage(){
                 return this.$route.path.startsWith('/account/notifications')

@@ -215,10 +215,12 @@ let redirectToLogin = false; // Initialize a flag to redirect to login after aut
 let requestedRoute = null; // Initialize a variable to store the requested route
 
 
+function checkUser(){
+  return localStorage.getItem('is_authenticated');
+}
 
 
-
-// this is ensured via the user roles present in the token...
+/* // this is ensured via the user roles present in the token...
 router.beforeEach(async (to, from, next) => {
 
   let user;
@@ -252,12 +254,28 @@ router.beforeEach(async (to, from, next) => {
     // Otherwise, proceed with the navigation
     next();
   }
+}); */
+
+
+// this is ensured via the user roles present in the token...
+router.beforeEach(async (to, from, next) => {
+
+  checkUser();
+
+  // Check user's state and decide the navigation
+  if ( checkUser() && (to.path === '/' || to.path === '/login' || to.path === '/register')) {
+    // Redirect users to /market
+    next('/market');
+  } else {
+    // Otherwise, proceed with the navigation
+    next();
+  }
 });
 
 
 
 
-// navigation gaurd to allow only loggedin users to view certain pages..
+/* // navigation gaurd to allow only loggedin users to view certain pages..
 router.beforeEach(async (to, from, next) => {
   let user;
 
@@ -288,6 +306,20 @@ router.beforeEach(async (to, from, next) => {
     next(); // Proceed to the route
   }
 });
+ */
+
+
+
+// navigation gaurd to allow only loggedin users to view certain pages..
+router.beforeEach(async (to, from, next) => {
+  checkUser();
+  if (to.meta.requiresAuth && !checkUser()) {
+    next('/login'); // Redirect to login for unauthorized access
+  } else {
+    next(); // Proceed to the route
+  }
+});
+
 
 
 export default router

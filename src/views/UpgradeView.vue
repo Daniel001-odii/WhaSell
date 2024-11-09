@@ -1,5 +1,32 @@
 <template>
     <div>
+
+        <!-- PAYMENT STATUS MODAL -->
+        <div v-if="$route.query.payment_status" class="fixed min-h-screen w-full bg-[#000] top-0 left-0 bg-opacity-50 backdrop-blur-md flex justify-center items-center">
+            <div class="bg-white w-[400px] p-4 min-h-[100px] rounded-xl justify-center items-center flex flex-col gap-6 ">
+                <div v-if="payment_success" class="flex flex-col text-green-500 text-center">
+                    <span class="font-bold text-2xl">Payment Successful</span>
+                    <i class="bi bi-check-circle-fill text-2xl"></i>
+                </div>
+                <div class=" text-red-500 flex flex-col text-center" v-if="payment_success == false" >
+                    <span class="font-bold text-2xl">Payment Failed</span>
+                    <i class="bi bi-exclamation-circle-fill text-2xl"></i>
+                </div>
+                <div class=" text-orange-500 flex flex-col text-center" v-if="payment_success == null" >
+                    <span class="font-bold text-2xl">Payment processing</span>
+                    <div class="p-4 mt-2">
+                        <SpinnerComponent/>
+                    </div>
+                    
+                </div>
+               
+                <RouterLink to="/account/subscriptions">
+                    <button class="btn bg-gray-500 text-white">Continue</button>
+                </RouterLink>
+            </div>
+        </div>
+
+
         <div class="border rounded-lg flex flex-col gap-3 p-3  px-8 mt-1 bg-white">
             <h2 class="font-bold mt-5">Pricing Brochure</h2>
             
@@ -48,9 +75,9 @@
         <div class="border rounded-lg flex flex-col gap-3 p-8 mt-3 bg-white">
           <h2 class="text-gray-500 font-bold">Available Balance <i class="bi bi-eye-fill"></i></h2>
           <div class="flex flex-row justify-between">
-            <div class="flex flex-row gap-3 items-center">
+            <div class="flex flex-row gap-3 items-center" v-if="user">
                 <img src="../assets/images/coins_group.png"/>
-                <span class="font-bold text-3xl">88</span>
+                <span class="font-bold text-3xl">{{ user.credits }}</span>
             </div>
             <div>
                 <!-- <button class="btn bg-app_green text-white">TopUp wallet</button> -->
@@ -70,7 +97,7 @@
                        
                         <span>{{ coin }}</span>
                     </div>
-                    <input type="radio" :id="'default_coins'+index" name="default_coins" :value="coin" v-model="coins_input" class="hidden"/>
+                    <input type="radio" :id="'default_coins'+index" name="default_coins" :value="coin" v-model="coins_input" @change="variablePaymentAmount(coins_input)" class="hidden"/>
                     <span>Pay ₦{{ paymentAmount(coin).toLocaleString()}}</span>
                 </label>
             </div>
@@ -88,10 +115,24 @@
                 <div :class="coin_error ? 'text-red-500':''" class="font-bold text-xl"> {{ amount }}</div>
             </form>
 
-            <button @click="buyCoinsNow" :disabled="coin_error || loading_purchase" type="button" class="btn bg-app_green text-white w-fit self-end">
-                <span v-if="loading_purchase">loading...</span>
+            <button @click="buyCoinsNow" :disabled="coin_error || loading_purchase || coins_input == ''" type="button" class="btn bg-app_green text-white w-fit self-end">
+                <span v-if="loading_purchase" class="flex flex-row items-center gap-4"><span>loading...</span> <SpinnerComponent/></span>
                 <span v-else><i class="bi bi-cash-stack mr-3"></i> Pay</span>
             </button>
+        </div>
+        <div class="font-bold p-3 border rounded-lg text-green-700 bg-white mt-12">
+            <i class="bi bi-receipt mr-3"></i>Your Transactions
+        </div>
+
+        <div class="border rounded-lg flex flex-col gap-3 p-3  px-8 mt-1 bg-white">
+            <h2 class="font-bold text-lg mt-6">Most Recent Transactions Receipts</h2>
+            
+            <div v-for="items in wallet_transactions" class="flex flex-row justify-between">
+                <span class="font-bold">N{{ items.amount.toLocaleString() }}</span>
+                <span :class="items.status == 'successful'?'text-green-600':'text-gray-500'">{{ items.status }}</span>
+                <span>{{ items.date }}</span>
+            </div>
+            
         </div>
 
        <!--  <div class="flex flex-row py-4 mt-3 items-center text-lg gap-5">
@@ -103,12 +144,15 @@
 </template>
 
 <script>
+import SpinnerComponent from '@/components/SpinnerComponent.vue';
 import axios from 'axios';
+import { RouterLink } from 'vue-router';
+
 
     export default {
         name: "UpgradeView",
         components:{
-
+            SpinnerComponent,
         },
         data(){
             return{
@@ -118,6 +162,12 @@ import axios from 'axios';
                 coin_error: false,
 
                 loading_purchase: false,
+                user: null,
+
+                payment_status: '',
+                payment_success: null,
+
+                wallet_transactions: [],
             }
         },
 
@@ -149,10 +199,58 @@ import axios from 'axios';
                     console.log("error buying coins: ", error);
                     this.loading_purchase = false;
                 }
+            },
+
+            
+            async getUserDetails(){
+                try{
+                    const response = await axios.get('/user');
+                    this.user = response.data.user;
+                    this.user.credits = response.data.credits;
+                    // console.log("user from subscriptioin page :", response);
+                }catch(error){
+                    this.authenticated = false;
+                    if(error.response.status == 401){
+                        this.unauthorized = true;
+                        // alert('session expired please login!');
+                    };
+
+                    this.$toast.open({
+                        message: `${error.response.data.message}`,
+                        type: 'error',
+                    });
+                }
+            },
+
+            async checkPaymentStatus(){
+                try{
+                    const response = await axios.get(`/user/coin_purchase/${this.$route.query.payment_reference}/status`);
+                    console.log("payment status: ", response);
+                    this.payment_success = true;
+                }catch(error){
+                    console.log("error with checking payment status: ", error);
+                    this.payment_success = false;
+                }
+            },
+
+            async getUserWallet(){
+                try{
+                    const response = await axios.get("/user/wallet");
+                    this.wallet_transactions = response.data.wallet.transactions;
+                }catch(error){
+                    console.log("error getting user wallet: ", error)
+                }
             }
         },
         created(){
-            
+            this.getUserDetails();
+            this.getUserWallet();
+        },
+
+        mounted(){
+            if(this.$route.query.payment_reference){
+                this.checkPaymentStatus();
+            }
         }
     }
 </script>

@@ -169,7 +169,7 @@ const routes = [
         meta: { title: 'My Insights' }
       },
       {
-        path: 'upgrade',
+        path: 'subscriptions',
         name: 'My Subscription',
         component: UpgradeView,
         meta: { title: 'My Subscription' }
@@ -280,9 +280,9 @@ router.beforeEach(async (to, from, next) => {
   // Wait for the user data to be fetched
   await getUser();
   // Check if the route has a "requiresAuth" meta field and matches the user's role
-  if (to.meta.requiresAuth && !user) {
-    // redirectToLogin = true; // Set the flag to true
-    // requestedRoute = to.fullPath; // Store the requested route
+  // Check user's state and decide the navigation
+  // if (!user == 'authorised' && (to.path === '/account')) {
+  if (to.meta.requiresAuth && user == 'unauthorised') {
     next('/login'); // Redirect to login for unauthorized access
   } else {
     next(); // Proceed to the route

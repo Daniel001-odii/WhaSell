@@ -156,7 +156,7 @@ import ProductCard from '@/components/ProductCard.vue';
 import axios from 'axios'
 import { formatDistanceToNow } from 'date-fns'
 import Rating from 'primevue/rating';
-import { convertTypeAcquisitionFromJson } from 'typescript';
+
 
     export default {
         name: "ShopDetailView",

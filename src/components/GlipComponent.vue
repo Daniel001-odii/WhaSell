@@ -17,7 +17,7 @@
                     ></i>
                 </button>
 
-                <video autoplay
+                <video autoplay="true"
                     id="videoPlayer"
                     @click="togglePlayPause"
                     @timeupdate="updateProgress"

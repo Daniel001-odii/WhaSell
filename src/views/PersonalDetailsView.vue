@@ -49,7 +49,7 @@
 
         <!-- LOCATION AREA -->
 <!-- {{ NaijaStates.all() }} -->
-        <div class="divider-tab bg-white">
+        <div id="location" class="divider-tab bg-white">
             location 
         </div>
 

@@ -198,7 +198,24 @@ const routes = [
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
-  routes
+  routes,
+  scrollBehavior(to, from, savedPosition) {
+    if (savedPosition) {
+      return savedPosition;
+    } else if (to.hash) {
+      // Delay scrolling until after the page fully loads
+      return new Promise((resolve) => {
+        setTimeout(() => {
+          resolve({
+            el: to.hash,
+            behavior: 'smooth',
+          });
+        }, 300); // Adjust the delay as necessary
+      });
+    } else {
+      return { top: 0 };
+    }
+  },
 });
 
 

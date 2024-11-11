@@ -15,7 +15,7 @@
 <!-- {{ images }} -->
 
     <div class=" min-h-screen flex flex-col justify-start items-center">
-        <div class="mt-20"></div>
+        <div class="mt-12"></div>
         
         <!-- SWITCH TO PRODUCT OR GLIP -->
         <div class="flex flex-row flex-wrap justify-center items-center gap-3 md:gap-12 p-5">
@@ -241,6 +241,7 @@
         <!-- {{  product }} -->
 
         </div>
+        <div class="mt-20"></div>
     </div>
 </template>
 

@@ -52,7 +52,8 @@
                         <div class="flex flex-col">
                             <h1 class="font-bold text-xl">{{ shop.name }}</h1>
                             <span class="text-green-500">{{ shop.category }}</span>
-                            <span class="text-sm" v-if="user.location">{{ user.location.address.substring }}, {{ user.location.LGA }}, {{ user.location.state }}, NG.</span>
+                            <!-- <span class="text-sm" v-if="user.location">{{ user.location }}</span> -->
+                            <span class="text-sm md:line-clamp-none line-clamp-1" v-if="user.location">{{ user.location.address}}, {{ user.location.LGA }}, {{ user.location.state }}, NG.</span>
                             <RouterLink class="text-blue-600 text-sm mt-4" :to="`/shops/${shop.name}`" target="_blank">visit store <i class="bi bi-box-arrow-up-right"></i> </RouterLink>
                         </div>
                         <button @click="edit_shop = !edit_shop" class="btn text-white bg-app_green flex gap-2">
@@ -117,41 +118,44 @@
               
 
                 <!-- PRODUCTS & PRODUCT DETAIL -->
-                <div class=" p-3 mt-12 rounded-lg border bg-white text-green-800 font-bold">
+                <div id="inventory" class=" p-3 mt-12 rounded-lg border bg-white text-green-800 font-bold">
                     My products ({{ shop_products.length }})
                 </div>
 
-                <div class="flex flex-col p-6 rounded-lg border bg-white mt-3 overflow-x-auto" v-if="shop_products.length > 0">
-                    <table class="table-auto text-left w-[800px]">
-                        <thead>
-                            <tr>
-                                <th>Items</th>
-                                <th>category</th>
-                                <th>QTY Left</th>
-                                <th>Status</th>
-                                <th>Variants</th>
-                                <th>Price/pdt</th>
-                            </tr>
-                        </thead>
-                        <tbody class="">
-                            <tr class="hover:bg-gray-50 p-2 cursor-pointer" v-for="(product, index) in shop_products" :key="index">
-                                <td @click="selected_product = index" class="flex flex-row gap-2 items-center">
-                                    <div class="bg-red-400 !size-12 rounded-xl overflow-hidden">
-                                        <img :src="product.images[0]" class="h-full w-full ">
-                                    </div>
-                                    <span>
-                                        {{ product.name.substring(0,30) }}...
-                                    </span>
-                                </td>
-                                <td>{{ product.category }}</td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>NGN {{ product.price.toLocaleString() }}</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+                
+
+
+
+                <div class="relative overflow-x-auto" v-if="shop_products.length > 0">
+    <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+            <tr>
+                <th scope="col" class="px-6 py-3">Items</th>
+                <th scope="col" class="px-6 py-3">Category</th>
+                <th scope="col" class="px-6 py-3">QTY Left</th>
+                <th scope="col" class="px-6 py-3">Status</th>
+                <th scope="col" class="px-6 py-3">Variants</th>
+                <th scope="col" class="px-6 py-3">Price/pdt</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 cursor-pointer" v-for="(product, index) in shop_products" :key="index">
+                <td @click="selected_product = index" class="px-6 py-4 flex flex-row gap-2 items-center">
+                    <div class="bg-red-400 rounded-xl overflow-hidden">
+                        <img :src="product.images[0]" class="!size-[30px]">
+                    </div>
+                    <span>{{ product.name.substring(0, 30) }}...</span>
+                </td>
+                <td class="px-6 py-4">{{ product.category }}</td>
+                <td class="px-6 py-4">Null</td>
+                <td class="px-6 py-4">Null</td>
+                <td class="px-6 py-4">Null</td>
+                <td class="px-6 py-4">NGN {{ product.price.toLocaleString() }}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
                 <!-- IF THERE ARE NO PRODUCTS IN USER SHOP --> 
                <!--  <div class="no-products w-full h-[300px] flex items-end  justify-center text-xl pb-4 text-gray-400" v-else>
                     <p>You have no products yet <RouterLink class="text-green-500 underline" to="/products/new">Sell Now!</RouterLink></p>

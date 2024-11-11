@@ -63,9 +63,9 @@
 
             </div>
 
-            <div class="flex flex-row items-center justify-center gap-8 relative">
-                <RouterLink to="/account/subscriptions">
-                    <span class="flex flex-row items-center font-bold text-xl"> <img src="../assets/images/coins_group.png" class=" h-[30px] mr-2"> {{ user.credits }}</span>
+            <div class="flex flex-row items-center justify-center gap-3 md:gap-8 relative">
+                <RouterLink :to="{ path: '/account/subscriptions', hash: '#coins' }">
+                    <span class="flex flex-row items-center font-bold text-xl" v-if="user"> <img src="../assets/images/coins_group.png" class=" h-[30px] mr-1"> {{formattedCoins}}</span>
                 </RouterLink>
                 <RouterLink to="/likes" class="hidden md:block">
                     <button>
@@ -147,11 +147,12 @@
                                     <!-- <RouterLink class="user-menu-item" to="/account">
                                         <i class="bi bi-gear mr-3"></i>Settings
                                     </RouterLink> -->
-                                    <RouterLink class="user-menu-item" to="#">
+                                    <!-- http://localhost:8080/account/shop -->
+                                    <RouterLink class="user-menu-item" :to="{ path: '/account/shop', hash: '#inventory' }">
                                         <i class="bi bi-stack mr-3"></i>Inventory
                                     </RouterLink>
                                     <!-- <RouterLink class="user-menu-item" to="#">Followed Stores</RouterLink> -->
-                                    <RouterLink class="user-menu-item" to="#">
+                                    <RouterLink class="user-menu-item" :to="{ path: '/account', hash: '#location' }">
                                         <i class="bi bi-geo-fill mr-3"></i>Location
                                     </RouterLink>
                                 </div>
@@ -172,7 +173,7 @@
         </div>
 
         <!-- FOR MOBILE -->
-        <div v-if="true" class=" md:hidden bg-white text-gray-400 flex flex-row w-[95%] justify-around fixed left-0 right-0 bottom-5 border-t shadow-xl z-50 p-3 text-[10px] rounded-xl mx-auto">
+        <div v-if="true" class=" md:hidden bg-white text-gray-400 flex flex-row w-[95%] justify-around fixed left-0 right-0 bottom-2 border-t shadow-xl z-50 p-3 text-[10px] rounded-xl mx-auto">
             <RouterLink to="/market">
                 <button :class="isHome ? 'text-green-500 scale-[1.2]':''" class="flex flex-col justify-center items-center">
                     <i class="bi bi-house-door-fill mobile-menu-icon"></i>
@@ -307,6 +308,7 @@ export default {
             }
         },
 
+
         async getUserDetails(){
             try{
               
@@ -363,6 +365,21 @@ export default {
         isShops(){
             return this.$route.path.startsWith('/shops')
         },
+
+        formattedCoins() {
+            const coins = this.user.credits;
+
+            if (coins >= 1_000_000) {
+                return `${Math.floor(coins / 1_000_000)}M+`;
+            } else if (coins >= 10_000) {
+                return `${Math.floor(coins / 1_000)}K+`;
+            } else if (coins >= 1_000) {
+                return `${(coins / 1_000).toFixed(1)}K+`;
+            } else {
+                return coins.toString();
+            }
+        },
+
         
     },
 

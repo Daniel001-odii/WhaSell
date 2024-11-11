@@ -69,7 +69,7 @@
             </div>
         </div>
 
-        <div class="font-bold p-3 border rounded-lg text-green-700 bg-white mt-12">
+        <div id="coins" class="font-bold p-3 border rounded-lg text-green-700 bg-white mt-12">
             <i class="bi bi-wallet2 mr-3"></i>Your wallet
         </div>
         <div class="border rounded-lg flex flex-col gap-3 p-8 mt-3 bg-white">
@@ -77,7 +77,7 @@
           <div class="flex flex-row justify-between">
             <div class="flex flex-row gap-3 items-center" v-if="user">
                 <img src="../assets/images/coins_group.png"/>
-                <span class="font-bold text-3xl">{{ user.credits }}</span>
+                <span class="font-bold text-3xl">{{ user.credits.toLocaleString() }}</span>
             </div>
             <div>
                 <!-- <button class="btn bg-app_green text-white">TopUp wallet</button> -->
@@ -125,12 +125,12 @@
         </div>
 
         <div class="border rounded-lg flex flex-col gap-3 p-3  px-8 mt-1 bg-white">
-            <h2 class="font-bold text-lg mt-6">Most Recent Transactions Receipts</h2>
+            <h2 class="font-bold text-lg mt-6">3 Most Recent Transactions Receipts</h2>
             
-            <div v-for="items in wallet_transactions" class="flex flex-row justify-between">
+            <div v-for="items in wallet_transactions.slice(0, 3)" class="flex flex-row justify-between">
                 <span class="">₦{{ items.amount.toLocaleString() }}</span>
                 <span :class="items.status == 'successful'?'text-green-600':'text-gray-500'">{{ items.status }}</span>
-                <span>{{ items.date }}</span>
+                <span>{{ readableDate(items.date) }}</span>
             </div>
             
         </div>
@@ -147,6 +147,7 @@
 import SpinnerComponent from '@/components/SpinnerComponent.vue';
 import axios from 'axios';
 import { RouterLink } from 'vue-router';
+import { format, formatDate } from 'date-fns';
 
 
     export default {
@@ -168,10 +169,15 @@ import { RouterLink } from 'vue-router';
                 payment_success: null,
 
                 wallet_transactions: [],
+                format,
             }
         },
 
         methods: {
+            readableDate(dateString){
+                return format(new Date(dateString), 'dd/mm/yyyy');
+            },
+
             paymentAmount(no_of_coins){
                 return (0.5 * (no_of_coins / 10) + 0.5) * 1000
             },

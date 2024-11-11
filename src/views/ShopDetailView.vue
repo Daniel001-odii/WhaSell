@@ -3,7 +3,7 @@
     <!-- GLIPS MODAL HERE -->
     <GlipComponent
         :glips_modal="glips_modal"
-        :glips="['../assets/videos/glip_test.mp4','']"
+        :glips="glips"
         @close-glip="glips_modal = !glips_modal"
     />
 

@@ -10,7 +10,7 @@
         </RouterLink>
         <div  class="flex md:flex-row gap-5 p-5 relative flex-col">
             <!-- sticky top-5 -->
-            <div class="p-3 flex flex-col gap-3 border rounded-xl w-full md:w-64 min-w-64 h-fit bg-white">
+            <div class="p-3  md:sticky top-5  flex flex-col gap-3 border rounded-xl w-full md:w-64 min-w-64 h-fit bg-white">
                 <RouterLink to="/account" class="nav-items"  :class="{'active-nav': isUserPage }" @click="page_visible = !page_visible">Personal details</RouterLink>
                 <RouterLink to="/account/shop" class="nav-items" :class="{'active-nav': isShopPage }"  @click="page_visible = !page_visible">My Shop</RouterLink>
                 <RouterLink to="/account/analytics" class="nav-items" :class="{'active-nav': isAnalyticsPage }" @click="page_visible = !page_visible">Analytics & Insights</RouterLink>
@@ -20,7 +20,8 @@
 
 
             <!-- class="w-full min-h-screen flex-col gap-1 p-5 md:flex absolute left-0 md:relative -top-[10px]" :class="page_visible ? 'flex':'hidden'" -->
-            <div class="flex flex-col gap-3 w-full overflow-y-auto h-screen pb-12">
+            <!-- <div class="flex flex-col gap-3 w-full overflow-y-auto h-screen pb-12"> -->
+                <div class="flex flex-col gap-3 w-full pb-12">
                 <div class="font-bold p-3 border rounded-lg text-green-700 bg-white">
                     <!-- <button @click="page_visible = !page_visible">
                         <i class="pi pi-angle-left pr-3 mt-[2px]"></i>

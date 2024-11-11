@@ -286,7 +286,7 @@ router.beforeEach(async (to, from, next) => {
 
 
 // this is ensured via the user roles present in the token...
-router.beforeEach(async (to, from, next) => {
+/* router.beforeEach(async (to, from, next) => {
 
   checkUser();
 
@@ -298,7 +298,7 @@ router.beforeEach(async (to, from, next) => {
     // Otherwise, proceed with the navigation
     next();
   }
-});
+}); */
 
 
 

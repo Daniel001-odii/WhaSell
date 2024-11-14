@@ -51,7 +51,7 @@ app.use(store);
 
 // toast..
 app.use(ToastPlugin, {
-    position: 'top'
+    position: 'bottom'
 });
 
 // Register the Toast component globally

@@ -1,6 +1,6 @@
 <template>
 
-<div v-if="product_uploaded" class="fixed min-h-screen w-full top-0 right-0 bg-[rgba(0,0,0,0.7)] flex justify-center items-center">
+<div v-if="product_uploaded" class="fixed min-h-screen w-full top-0 right-0 bg-[rgba(0,0,0,0.7)] flex justify-center items-center z-50">
     <div class="flex flex-col justify-center items-center bg-white p-8 px-12 rounded-lg gap-5">
         <img src="../assets/images/Success.png" class=" size-[280px]">
         <p class="font-bold text-xl">Congratulations🎉</p>
@@ -8,6 +8,20 @@
         <RouterLink to="/account/shop">
             <button class=" bg-app_green btn text-white my-6">Continue to shop</button>
         </RouterLink>
+    </div>
+</div>
+
+<div v-if="insufficient_coins" class="fixed min-h-screen w-full top-0 right-0 bg-[rgba(0,0,0,0.7)] flex justify-center items-center z-50 p-3">
+    <div class="flex flex-col justify-center items-center bg-white p-8 px-12 rounded-lg gap-2">
+        <img src="../assets/images/coin_hd.png" class=" md:size-[280px] size-[180px] ">
+        <p class="font-bold text-xl text-red-500"> <i class="bi bi-exclamation-triangle-fill mr-3"></i>You've run out of Coins</p>
+        <p class="m-0 p-0 text-center ">Sorry, you've run out of coins and need to top-up to proceed with your action.</p>
+        <div class="flex flex-row gap-3">
+            <button @click="insufficient_coins = !insufficient_coins" class=" bg-gray-200 btn my-6">Cancel</button>
+            <RouterLink :to="{ path: '/account/subscriptions', hash: '#coins' }">
+                <button class=" bg-app_green btn text-white my-6">Top-up Now</button>
+            </RouterLink>
+        </div>
     </div>
 </div>
 
@@ -329,6 +343,8 @@ import { formatDuration, intervalToDuration } from 'date-fns';
                 videoDetails: null,
                 glip_upload_status: null,
                 glip_upload_progress: 0,
+
+                insufficient_coins: false,
                 // product_i
             }
         },
@@ -472,6 +488,9 @@ import { formatDuration, intervalToDuration } from 'date-fns';
                     console.log(response);
                }catch(error){
                 console.log("error uploading product: ", error);
+                if(error.response.status == 401){
+                    this.insufficient_coins = true;
+                }
                 this.$toast.open({
                         message: `${error.response.data.message}`,
                         type: 'error',

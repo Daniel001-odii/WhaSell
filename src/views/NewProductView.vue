@@ -488,7 +488,7 @@ import { formatDuration, intervalToDuration } from 'date-fns';
                     console.log(response);
                }catch(error){
                 console.log("error uploading product: ", error);
-                if(error.response.status == 401){
+                if(error.response.status == 400){
                     this.insufficient_coins = true;
                 }
                 this.$toast.open({

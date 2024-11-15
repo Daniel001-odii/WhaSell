@@ -48,7 +48,7 @@
                                 {{ shop.description }}
                             </p>
                             <div class="text-gray-400 flex flex-col gap-4 text-[12px]">
-                                <span class=" whitespace-nowrap">
+                                <span v-if="user.location" class=" whitespace-nowrap">
                                     <i class="bi bi-geo-alt-fill mr-1"></i>
                                     {{ shop.owner.location.address.substring(0,20) }}...,
                                     {{ shop.owner.location.LGA }},

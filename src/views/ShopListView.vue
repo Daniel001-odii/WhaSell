@@ -15,42 +15,23 @@
 
 
          <!-- SHOP DETAIL BANNER -->
-         <div v-if="user.account_type == 'seller' && shop" class=" m-3 bg-app_gree border rounded-lg p-3 flex flex-row items-end justify-between gap-5 flex-wrap shadow-sm">
+          <!-- {{ user }} -->
+         <div v-if="user.account_type == 'seller' && user.shop" class=" m-3 bg-app_gree border rounded-lg p-3 flex flex-row items-end justify-between gap-5 flex-wrap shadow-sm">
             <div class="flex flex-row justify-between gap-3 w-full" >
                 <div class=" min-w-28 !w-[200px] h-28 relative rounded-xl border border-gray-300 overflow-hidden">
-                    <img :src="shop.profile.image_url" alt="Product Photo" class="w-full h-full object-cover">
+                    <img :src="user.shop.profile.image_url" alt="shop Photo" class="w-full h-full object-cover">
                 </div>
                 <div class="flex flex-row flex-wrap gap-3 justify-between border-green-30 w-full">
-                    <div class="flex flex-col">
-                        <RouterLink :to="`/shops/${shop.name}`">
-                            <span class="text-xl font-bold">{{ shop.name }}</span>
+                    <div class="flex flex-col" v-if="user.shop.followers">
+                        <RouterLink :to="`/shops/${user.shop.name}`">
+                            <span class="text-xl font-bold">{{ user.shop.name }}</span>
                         </RouterLink>
                         <Rating v-model="value" disabled />
-                        <span class="text-md">{{ shop.category }}</span>
-                        <span class="text-sm">Joined {{ formatDistanceToNow(shop.createdAt) }} ago | {{ shop.followers.length }} followers</span>
+                        <span class="text-md">{{ user.shop.category }}</span>
+                        <span class="text-sm">Joined {{ formatDistanceToNow(user.shop.createdAt) }} ago | {{ user.shop.followers.length }} followers</span>
                     </div>
 
-                    <!-- display action buttons only when current user is not shop owner -->
-                    <div v-if="!isAllowed()" class="hidden md:flex flex-row gap-3 flex-wrap border-red-30 items-center justify-center self-end">
-                        <button @click="followShop(shop._id)" class=" text-sm border hover:border-gray-300 hover:bg-slate-100 rounded-full p-3 px-8 text-black font-medium"> 
-                            <span v-if="!shop.followers.includes(user)"><i class="bi bi-plus mr-1"></i>follow</span>
-                            <span v-else>following</span>
-                        </button>
-
-                        <button class="rounded-full h-10 w-10 hover:bg-slate-100 text-xl">
-                                <i class="bi bi-telephone-fill"></i>
-                        </button>
-                        <button class="rounded-full h-10 w-10 hover:bg-slate-100 text-2xl">
-                            <i class="bi bi-whatsapp"></i>
-                        </button>
-                    </div>
-                    <div v-else class=" h-full hidden md:flex justify-center items-center relative hover:left-1">
-                        <RouterLink :to="`/shops/${shop.name}`">
-                            <button>
-                                <i class="bi bi-arrow-right-circle-fill text-2xl text-app_green"></i>
-                            </button>
-                        </RouterLink>
-                    </div>
+                   
                 </div>
             </div>
         </div>

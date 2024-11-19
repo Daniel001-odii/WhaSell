@@ -13,7 +13,7 @@
     <div>
         <!-- {{ isAllowed() }} -->
         <div class="flex flex-col">
-            <div v-if="loading">loading</div>
+            <FullPageLoader v-if="loading"/>
             <div v-else class=" w-full bg-app_green h-[200px] relative flex justify-center items-center">
                 <span class=" text-3xl font-bold text-green-100">{{ shop.category }}</span>
                 <RouterLink to="/account/shop/true">
@@ -38,7 +38,7 @@
                             <h1 class="font-bold text-2xl">{{ shop.name }}</h1>
                             <span class="bg-app_light_green w-fit rounded-md text-app_green p-3">{{ shop.category}}</span>
                             <div class="flex flex-row justify-evenly md:justify-between w-full flex-wrap gap-3">
-                                <span><i class="bi bi-people-fill text-green-800 mr-2"></i>Followers {{ shop.followers_count }}</span>
+                                <span><i class="bi bi-people-fill text-green-800 mr-2"></i>Followers {{ shop.followers.length }}</span>
                                 <span><i class="bi bi-grid-fill  text-green-800 mr-2"></i>Lisitngs {{ shop.listings }}</span>
                                 <span><i class="bi bi-bookmark-star-fill  text-green-800 mr-2"></i>Ratings 
                                     <!-- <Rating v-model="shop_rating" disabled/> -->
@@ -62,12 +62,12 @@
                                     <button class="bg-app_green text-white rounded-md p-3 w-full"><i class="bi bi-plus-circle-fill mr-2"></i>Add new product</button>
                                 </RouterLink>
                             </div>
-                            <div v-else class="w-full flex gap-3">
+                            <div v-else class="w-full flex flex-wrap gap-3">
                                 <!-- <button @click="followShop(shop._id)" class=" text-sm border hover:border-gray-300 hover:bg-slate-100 rounded-full p-3 px-8 text-black font-medium"> 
                                     
                                 </button> -->
-                                <button :class="shop.followers.includes(user) ? 'bg-green-600 text-app_green':'text-white'" @click="followShop(shop._id)" class="bg-app_green text-white rounded-md p-3 grow">
-                                    <span v-if="!shop.followers.includes(user)"><i class="bi bi-plus mr-1"></i>follow</span>
+                                <button :class="shop && userIsFollowingShop(followers, user) ? 'bg-green-600 text-white border-none':''" @click="followShop(shop._id)" class="border text-green-500 rounded-md p-3 grow min-w-[200px]">
+                                    <span v-if="!userIsFollowingShop(followers, user)"><i class="bi bi-plus mr-1"></i>follow</span>
                                     <span v-else>following</span>
                                 </button>
                                 <button class="bg-app_light_green text-app_green rounded-md px-6 py-2"><i class="bi bi-telephone"></i></button>
@@ -83,7 +83,7 @@
                             <div class="w-full bg-gray-50 min-h-[400px] rounded-sm">
                                 <div v-show="current_tab == 0" class="w-full ">
                                     <div v-if="loading_products">Loading products...</div>
-                                    <div v-else class="masonry flex flex-wrap gap-5">
+                                    <div v-else class="flex flex-wrap gap-5">
                                         <ProductCard v-for="(product, index) in products" :key="index"
                                                 :id="product._id"
                                                 :product_slug="product.slug"
@@ -93,7 +93,7 @@
                                                 :shop_name="shop.name"
                                             >
                                                 <template #product_image>
-                                                    <img :src="product.images[0]" class="max-h-[300px] max-w-[200px]">
+                                                    <img :src="product.images[0]" class="size-full">
                                                 </template>
                                         </ProductCard>
                                     </div>
@@ -111,7 +111,7 @@
                                 <div v-show="current_tab == 1" class="w-full p-3" >
                                     <div v-if="loading_products">Loading glips...</div>
                                     <!-- {{glips}} -->
-                                    <div v-if="glips.length > 0">
+                                    <div v-if="glips.length > 0" class="flex flex-row flex-wrap gap-2">
                                         <div v-for="glip in glips" class="relative">
                                             <div @click="glipPreview(glip, index)" class=" w-[200px] h-[300px] bg-black rounded-lg flex justify-center items-center relative overflow-hidden">
                                                 <video>
@@ -151,6 +151,7 @@
 </template>
 
 <script>
+import FullPageLoader from '@/components/fullPageLoader.vue';
 import GlipComponent from '@/components/GlipComponent.vue';
 import ProductCard from '@/components/ProductCard.vue';
 import axios from 'axios'
@@ -164,6 +165,7 @@ import Rating from 'primevue/rating';
             ProductCard,
             Rating,
             GlipComponent,
+            FullPageLoader,
         },
 
         data(){
@@ -181,7 +183,7 @@ import Rating from 'primevue/rating';
                 loading_glips: false,
                 formatDistanceToNow,
                 current_glip: null,
-
+                followers: [],
                 isPlaying: false,
                 currentTime: 0, // Current time of the video
                 videoDuration: 0, // Total duration of the video
@@ -195,6 +197,17 @@ import Rating from 'primevue/rating';
         },
 
         methods:{
+
+            userIsFollowingShop(followers, idToCheck) {
+                let exists = false; // Initialize a flag
+                followers.forEach(follower => {
+                    if (follower._id === idToCheck) {
+                        exists = true; // Set flag to true if a match is found
+                    }
+                });
+                return exists; // Return the flag
+            },
+
             togglePlayPause() {
       const video = document.getElementById("videoPlayer");
       if (video.paused) {
@@ -247,12 +260,7 @@ isAllowed(){
     return this.user == this.shop.owner._id;
 },
 
-            userIsFollowingShop(user){
-         /*    if(this.shop.followers)
-                this.shop.followers.forEach(user => {
-                    o
-                }); */
-            },
+           
 
             async addViewsToShop(){
               try{
@@ -272,6 +280,7 @@ isAllowed(){
                     this.shop = response.data.shop;
                     console.log("shop: ", response)
                     this.shop_id = response.data.shop._id;
+                    this.followers = response.data.shop.followers;
                     // this.products = response.data.shop.products;
                     this.loading = false;
                     // get products...
@@ -290,7 +299,7 @@ isAllowed(){
             async getShopById(shop_id){
                 try{
                     const response = await axios.get(`/shops/${shop_id}`);
-
+                    this.followers = response.data.shop.followers;
                     this.shop = response.data.shop;
                 }catch(error){
                     console.log("error getting shop..", error);

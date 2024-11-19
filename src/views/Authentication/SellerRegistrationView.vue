@@ -163,7 +163,7 @@
 
 <script>
 import axios from 'axios'
-
+import ToastBox from '@/components/ToastBox.vue'
 
 
     export default {
@@ -247,10 +247,18 @@ import axios from 'axios'
                     this.loading = true;
                     const response = await axios.post('/register/secondary', this.form, { withCredentials: true });
                     console.log("registration response: ", response);
-                    alert("registration successful!");
-                    localStorage.setItem("is_authenticated", true);
-                    this.$router.push('/market');
-                    this.loading = false;
+                    // alert("registration successful!");
+                    // show toast alert...
+                    this.$toast.open({
+                        message: 'Registration successful',
+                        type: 'success',
+                    });
+                    // localStorage.setItem("is_authenticated", true);
+                    setTimeout(() => {
+                        this.$router.push('/market');
+                    }, 2000);
+                    
+                    // this.loading = false;
                 } catch (error) {
                     
                     if (error.response && error.response.data && error.response.data.error && error.response.data.error.errors) {

@@ -11,18 +11,7 @@
 
     <div class="p-6">
 
-       <!--  <svg xmlns="http://www.w3.org/2000/svg" width="1380" height="755" viewBox="0 0 1380 755" fill="none">
-            <path d="M0 30C0 13.4315 13.4315 0 30 0H1350C1366.57 0 1380 13.4315 1380 30V683.67C1380 698.985 1368.3 711.863 1353.07 713.487C848.685 767.275 549.117 770.359 26.869 713.543C11.6717 711.889 0 699.023 0 683.736V30Z" fill="url(#paint0_linear_803_60310)"/>
-            <defs>
-                <linearGradient id="paint0_linear_803_60310" x1="31.0001" y1="-83.0001" x2="1761.5" y2="1166" gradientUnits="userSpaceOnUse">
-                <stop stop-color="#1F633D"/>
-                <stop offset="0.46219" stop-color="#16492D"/>
-                <stop offset="1" stop-color="#FFBD00"/>
-                </linearGradient>
-            </defs>
-        </svg>
-        <div class="responsive-shape"></div> -->
-
+     
         <!-- <div class="text-center h-[500px] flex flex-col justify-center items-center p-12 hero">
             <h1 class="font-bold text-5xl text-white">
                 <span class="text-app_green">Discover </span>
@@ -64,37 +53,16 @@
                 </div>
             </div>
          </div> -->
-      
-
-        <!-- ADVERT SPACE -->
-         <!-- <div class="flex flex-row gap-3 h-[400px] p-3">
-            <div class="w-[50%] h-full bg-red-500 rounded-lg"></div>
-            <div class="w-[50%] h-full flex flex-col gap-3">
-                <div class="bg-blue-500 rounded-lg w-full h-[50%]"></div>
-                <div class="bg-green-500 rounded-lg w-full h-[50%]"></div>
-            </div>
-         </div> -->
-
-
-        <!-- <div class="bg-app_green h-60 mt-8 flex justify-center items-center text-white text-xl">
-            <span>Advert Space</span>
-        </div> -->
-        <!-- <RouterLink to="shops/official_whatsell" >
-            <img src="../assets/images/whatsell banner.png" class="mt-8"/>
-        </RouterLink> -->
-
-        <!-- TOP SELLING DIVIDER -->
-        <div class="p-3 flex flex-row items-center mt-8">
-            <div class="flex flex-row items-center gap-3">
-                <svg width="26" height="28" viewBox="0 0 26 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M12.4731 2.499L11.1081 1.61816L10.8481 3.30866C10.4342 5.978 8.74098 8.45833 6.87331 10.2013C3.21707 13.615 2.41648 17.325 3.54857 20.3875C4.6319 23.3182 7.3814 25.3248 10.1721 25.6597L10.8177 25.7367C9.2209 24.6855 8.19606 22.2297 8.55356 20.3945C8.90673 18.5908 10.1114 16.9015 12.4254 15.3428L13.5921 14.5588L14.0276 15.9647C14.2844 16.7953 14.7286 17.4627 15.1803 18.1405C15.397 18.4672 15.6169 18.7973 15.8184 19.1485C16.515 20.3677 16.6991 21.7233 16.2496 23.0685C15.8401 24.2912 15.1651 25.2525 14.2346 25.7857L15.2854 25.6597C17.9049 25.3458 19.8278 24.381 21.0769 22.7675C22.3151 21.168 22.7496 19.1088 22.7496 16.9167C22.7496 14.875 21.9706 12.7703 21.052 11.0192C19.9751 8.96816 18.5701 7.26483 17.0361 5.614C16.7706 6.18566 16.7912 6.41666 16.2452 7.33483C15.5365 5.30692 14.2056 3.60071 12.4731 2.499Z" fill="black"/>
-                </svg>
-                <span class="text-xl font-bold">Top Selling </span>
+    
+         <!-- BEST SELLING -->
+         <div class="divider">
+            <div class="divider-item">
+                <span>Top Selling</span>
             </div>
         </div>
 
         <!-- PRODCUT DISPLAY AREA -->
-        <div class="masonry">
+        <div class="flex flex-row flex-wrap gap-3">
             <ProductCard class="masonry-item" v-for="(product, index) in products" :key="index"
                 :id="product._id"
                 :product_slug="product.slug"
@@ -106,40 +74,34 @@
                 @like-product="addProductToLikes(product._id)"
             >
                 <template #product_image>
-                    <img :src="product.images[0]" class=" !size-40">
+                    <img :src="product.images[0]" class=" !size-full rounded-md transition-transform duration-300 transform hover:scale-125 peer">
                 </template>
            </ProductCard> 
         </div>
-                    
 
-         <!-- NEAR YOU DIVIDER -->
-         <div class="p-3 flex flex-row items-center mt-8">
-            <div class="flex flex-row items-center gap-3">
-                <span class="text-xl font-bold">Shops Near You</span>
+
+         <!-- BEST SELLING -->
+        <div class="divider">
+            <div class="divider-item">
+                <span>Shops Near You</span>
             </div>
         </div>
 
         <!-- SHOP CARD -->
         <div class="flex flex-row !flex-wrap gap-3 pb-10 p-5">
-         <div v-for="(shop, index) in shops" class="flex flex-1 relative min-w-[300px] h-[260px] bg-gray-50 rounded-lg flex-col overflow-hidden">
-            <div class=" h-[60%] w-full relative" :style="`background: url(${shop.profile.image_url})`" style="background-position: center; background-repeat: no-repeat; background-size: cover;">
-                <RouterLink :to="`/shops/${shop.name}`">
-                    <div class=" size-16 border-2 absolute top-[76%] left-[20px] border-white bg-green-100 rounded-full flex justify-center items-center text-2xl">
-                        <i class="bi bi-shop text-green-600"></i>
-                    </div>
-                </RouterLink>
-            </div>
-            <div class=" h-[30%] w-full p-8">
-                <p class="font-bold text-lg">{{ shop.name }}</p>
-                <p class=" text-gray-400">{{ shop.category }}</p>
-            </div>
-         </div>
+            <ShopCard v-for="(shop, index) in shops"
+                :name="shop.name"
+                :category="shop.category"
+                :image_url="shop.profile.image_url"
+            />
         </div>
 
-         <!-- NEAR YOU DIVIDER -->
-         <div class="p-3 flex flex-row items-center mt-8">
-            <div class="flex flex-row items-center gap-3">
-                <span class="text-xl font-bold text-[#00C1F6]">Boosted Shops</span>
+
+        <!-- BOOSTED SHOPS -->
+        <div class="p-3 flex flex-row items-center mt-8">
+            <div class="flex flex-row items-center gap-3 text-[#00C1F6] justify-center">
+                <i class="bi bi-rocket-takeoff-fill"></i>
+                <span class="text-xl font-bold ">Boosted Shops</span>
             </div>
         </div>
         <div class="flex flex-row !flex-wrap gap-3 pb-10 p-5">
@@ -158,38 +120,11 @@
         </div>
 
 
-         <!-- SHOPS DISPLAY AREA -->
-        <!--  <div class="p-6 flex gap-3 flex-row overflow-x-auto justify-start items-end">
-            <ShopCard v-for="(shop, index) in shops"
-                :name="shop.name"
-                :category="shop.category"
-                :image_url="shop.profile.image_url"
-            >
-            <template #badge>
-                <span v-if="shop.is_boosted" class="rounded-full status-tag bg-purple-200 border-2 border-purple-300 shadow-lg shadow-purple-300 text-white p-1 text-[12px] flex flex-row w-fit items-center">
-                    <span class="material-symbols-outlined text-purple-500">rocket</span>
-                   
-                </span>
-                <span v-if="shop.is_top_seller" class="rounded-full status-tag bg-red-200 border-2 border-red-300 shadow-lg shadow-red-300 text-white p-1 text-[12px] flex flex-row w-fit items-center">
-                    <span class="material-symbols-outlined text-red-700">local_fire_department</span>
-                </span>
-                <span v-if="shop.is_trending" class="rounded-full status-tag bg-green-200 border-2 border-green-300 shadow-lg shadow-green-300 text-white p-1 text-[12px] flex flex-row w-fit items-center">
-                    <span class="material-symbols-outlined text-green-700">trending_up</span>
-                </span>
-                <span v-if="shop.is_top_seller" class="rounded-full status-tag bg-blue-200 border-2 border-blue-300 shadow-lg shadow-blue-300 text-white p-1 text-[12px] flex flex-row w-fit items-center">
-                    <span class="material-symbols-outlined text-blue-500">offline_bolt</span>
-                </span>
-            </template>
-        </ShopCard>
- 
-        </div>
--->
-    
 
-         <!-- TOP SELLING DIVIDER -->
-         <div class="p-3 flex flex-row items-center mt-8">
-            <div class="flex flex-row items-center gap-3">
-                <span class=" font-bold text-xl">Services to help you Shop</span>
+          <!-- BEST SELLING -->
+        <div class="divider">
+            <div class="divider-item">
+                <span>Services to help you Shop</span>
             </div>
         </div>
 

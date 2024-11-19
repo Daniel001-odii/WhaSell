@@ -128,9 +128,18 @@
             <h2 class="font-bold text-lg mt-3">Top-ups</h2>
             
             <div v-for="items in wallet_transactions.slice(0, 3)" class="flex flex-row justify-between">
-                <span class="">₦{{ items.amount.toLocaleString() }}</span>
-                <span :class="items.status == 'successful'?'text-green-600':'text-gray-500'">{{ items.status }}</span>
-                <span>{{ readableDate(items.date) }}</span>
+                <div class="flex flex-row justify-center items-center gap-3 text-sm">
+                    <img v-if="items.status == 'successful'" src="../assets/images/transaction_success.svg" class=" size-[30px]">
+                    <img v-if="items.status == 'failed'" src="../assets/images/transaction_failed.svg" class=" size-[30px]">
+                    <img v-if="items.status == 'pending'" src="../assets/images/transaction_pending.svg" class=" size-[30px]">
+                    <div class="flex flex-col">
+                        <span class="">Topup {{ items.amount.toLocaleString() }} credits</span>
+                        <span class="text-small font-light">{{ readableDate(items.date) }}</span>
+                    </div>
+                </div>
+                <span class="font-bold">₦{{ items.amount.toLocaleString() }}</span>
+                <!-- <span :class="items.status == 'successful'?'text-green-600':'text-gray-500'">{{ items.status }}</span> -->
+                <!-- <span>{{ readableDate(items.date) }}</span> -->
             </div>
             
         </div>

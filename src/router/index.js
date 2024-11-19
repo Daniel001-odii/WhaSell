@@ -102,6 +102,13 @@ const routes = [
       },
 
       {
+        path: 'glips',
+        name: 'Glips',
+        component: GlipsPageView,
+        meta: { title: 'Glips' },
+      },
+
+      {
         path: '/categories',
         name: 'Categories',
         component: CategoriesView,
@@ -231,6 +238,7 @@ router.beforeEach((to, from, next) => {
 });
 
 import axios from 'axios'
+import GlipsPageView from '@/views/GlipsPageView.vue'
 axios.defaults.withCredentials = true;
 axios.defaults.baseURL = process.env.VUE_APP_API_URL
 

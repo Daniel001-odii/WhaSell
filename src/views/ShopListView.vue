@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="p-5">
         <div class="w-full text-center text-gray-400">
             <p v-if="state">You are in: {{ state }}</p>
             <p v-if="error">{{ error }}</p>
@@ -7,18 +7,17 @@
 
 
           <!-- TOP SELLING DIVIDER -->
-          <div class="divider">
+          <div v-if="user.account_type == 'seller' && shop" class="divider">
             <div class="divider-item">
-                <i class="bi bi-person-plus-fill"></i>
                 <span>Your Shop</span>
             </div>
         </div>
 
 
          <!-- SHOP DETAIL BANNER -->
-         <div v-if="shop" class=" m-3 bg-app_gree border rounded-3xl p-5 flex flex-row items-end justify-between gap-5 flex-wrap " :class="isAllowed ? 'border-app_green border':''">
+         <div v-if="user.account_type == 'seller' && shop" class=" m-3 bg-app_gree border rounded-lg p-3 flex flex-row items-end justify-between gap-5 flex-wrap shadow-sm">
             <div class="flex flex-row justify-between gap-3 w-full" >
-                <div class=" min-w-28 w-28 h-28 relative rounded-full border border-gray-300 overflow-hidden">
+                <div class=" min-w-28 !w-[200px] h-28 relative rounded-xl border border-gray-300 overflow-hidden">
                     <img :src="shop.profile.image_url" alt="Product Photo" class="w-full h-full object-cover">
                 </div>
                 <div class="flex flex-row flex-wrap gap-3 justify-between border-green-30 w-full">
@@ -58,121 +57,96 @@
 
 
 
-        <!-- TOP SELLING DIVIDER -->
+        <!-- SHOPS YOU FOLLOW -->
         <div class="divider">
             <div class="divider-item">
-                <i class="bi bi-person-plus-fill"></i>
-                <span>Boosted</span>
+                <span>Shops You Follow</span>
             </div>
         </div>
 
-        <div class="p-3 flex flex-row overflow-x-auto justify-start items-end gap-3">
+
+        <div class="flex flex-row !flex-wrap gap-3 p-3 pb-10">
             <ShopCard v-for="(shop, index) in boosted_shops"
-                    :name="shop.name"
-                    :category="shop.category"
-                    :image_url="shop.profile.image_url"
-                >
-                <template #badge>
-                    <span v-if="shop.is_boosted" class="rounded-full status-tag bg-purple-200 border-2 border-purple-300 shadow-lg shadow-purple-300 text-white p-1 text-[12px] flex flex-row w-fit items-center">
-                        <span class="material-symbols-outlined text-purple-500">rocket</span>
-                    
-                    </span>
-                    <span v-if="shop.is_top_seller" class="rounded-full status-tag bg-red-200 border-2 border-red-300 shadow-lg shadow-red-300 text-white p-1 text-[12px] flex flex-row w-fit items-center">
-                        <span class="material-symbols-outlined text-red-700">local_fire_department</span>
-                    </span>
-                    <span v-if="shop.is_trending" class="rounded-full status-tag bg-green-200 border-2 border-green-300 shadow-lg shadow-green-300 text-white p-1 text-[12px] flex flex-row w-fit items-center">
-                        <span class="material-symbols-outlined text-green-700">trending_up</span>
-                    </span>
-                    <span v-if="shop.is_top_seller" class="rounded-full status-tag bg-blue-200 border-2 border-blue-300 shadow-lg shadow-blue-300 text-white p-1 text-[12px] flex flex-row w-fit items-center">
-                        <span class="material-symbols-outlined text-blue-500">offline_bolt</span>
-                    </span>
-                </template>
-            </ShopCard>
-        </div
-
-       
-        <!-- TOP SELLING DIVIDER -->
-        <div class="divider">
-            <div class="divider-item">
-                <i class="bi bi-cursor-fill"></i>
-                <span>Shops Near you</span>
-            </div>
-        </div>
-
-
-         <!-- SHOPS DISPLAY AREA -->
-        <div v-if="getting_nearby_shops" class="w-full text-center p-3">getting nearby shops...</div>
-        <div v-else class="p-3 flex flex-row overflow-x-auto justify-start items-end">
-         <!-- {{ shops }} -->
-            <ShopCard v-for="(shop, index) in shops_near_me"
                 :name="shop.name"
                 :category="shop.category"
                 :image_url="shop.profile.image_url"
-            >
-            <template #badge>
-                <span v-if="shop.badge == 'top-seller'" class="rounded-full status-tag bg-red-500 text-white px-3 p-1 text-[12px] flex flex-row w-fit items-center">
-                    <svg width="15" height="15" viewBox="0 0 26 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M12.4731 2.499L11.1081 1.61816L10.8481 3.30866C10.4342 5.978 8.74098 8.45833 6.87331 10.2013C3.21707 13.615 2.41648 17.325 3.54857 20.3875C4.6319 23.3182 7.3814 25.3248 10.1721 25.6597L10.8177 25.7367C9.2209 24.6855 8.19606 22.2297 8.55356 20.3945C8.90673 18.5908 10.1114 16.9015 12.4254 15.3428L13.5921 14.5588L14.0276 15.9647C14.2844 16.7953 14.7286 17.4627 15.1803 18.1405C15.397 18.4672 15.6169 18.7973 15.8184 19.1485C16.515 20.3677 16.6991 21.7233 16.2496 23.0685C15.8401 24.2912 15.1651 25.2525 14.2346 25.7857L15.2854 25.6597C17.9049 25.3458 19.8278 24.381 21.0769 22.7675C22.3151 21.168 22.7496 19.1088 22.7496 16.9167C22.7496 14.875 21.9706 12.7703 21.052 11.0192C19.9751 8.96816 18.5701 7.26483 17.0361 5.614C16.7706 6.18566 16.7912 6.41666 16.2452 7.33483C15.5365 5.30692 14.2056 3.60071 12.4731 2.499Z" fill="white"/>
-                    </svg>
-                   {{ shop.badge }}
+            />
+        </div>
+
+
+        <!-- BEST SELLING -->
+        <div class="divider">
+            <div class="divider-item">
+                <span>Best Selling Shops</span>
+            </div>
+        </div>
+
+
+        <div class="flex flex-row !flex-wrap gap-3 p-3 pb-10">
+            <ShopCard v-for="(shop, index) in boosted_shops"
+                :name="shop.name"
+                :category="shop.category"
+                :image_url="shop.profile.image_url"
+            />
+        </div>
+
+        <!-- BEST SELLING -->
+        <div class="divider">
+            <div class="divider-item">
+                <span>Shops Near You</span>
+            </div>
+        </div>
+
+
+        <div class="flex flex-row !flex-wrap gap-3 p-3 pb-10">
+            <ShopCard v-for="(shop, index) in boosted_shops"
+                :name="shop.name"
+                :category="shop.category"
+                :image_url="shop.profile.image_url"
+            />
+        </div>
+
+        <!-- BEST SELLING -->
+        <div class="divider">
+            <div class="divider-item">
+                <span>Shops Near You</span>
+            </div>
+        </div>
+
+
+        <div class="flex flex-row !flex-wrap gap-3 p-3 pb-10">
+            <ShopCard v-for="(shop, index) in boosted_shops"
+                :name="shop.name"
+                :category="shop.category"
+                :image_url="shop.profile.image_url"
+            />
+        </div>
+
+
+         <!-- BOOSTED SHOPS -->
+         <div class="p-3 flex flex-row items-center mt-8">
+            <div class="flex flex-row items-center gap-3 text-[#00C1F6] justify-center">
+                <i class="bi bi-rocket-takeoff-fill"></i>
+                <span class="text-xl font-bold ">Boosted Shops</span>
+            </div>
+        </div>
+        <div class="flex flex-row !flex-wrap gap-3 pb-10 p-5">
+         <div v-for="shop in 2" class="flex flex-1 relative min-w-[300px] h-fit bg-gray-50 rounded-lg flex-col overflow-hidden">
+            <div class=" h-[200px] lg:h-[300px] w-full relative bg-green-100" style="background-position: center; background-repeat: no-repeat; background-size: cover;">
+                <span class="absolute right-6 top-4 rounded-full size-[40px] flex justify-center items-center text-white bg-[#00C1F6]">
+                    <i class="bi bi-rocket-takeoff-fill"></i>
                 </span>
-                
-            </template>
-            </ShopCard>
+            </div>
+            <div class=" h-[30%] w-full p-8">
+                <p class="font-bold text-lg">Shop name here</p>
+                <p class=" text-gray-400">category</p>
+                <button class="rounded-full bg-[#00C1F6] text-white p-3 px-6 mt-6">Shop Now</button>
+            </div>
+         </div>
         </div>
 
-         <!-- TOP SELLING DIVIDER -->
-         <div class="divider">
-            <div class="divider-item">
-                <svg width="26" height="28" viewBox="0 0 26 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M12.4731 2.499L11.1081 1.61816L10.8481 3.30866C10.4342 5.978 8.74098 8.45833 6.87331 10.2013C3.21707 13.615 2.41648 17.325 3.54857 20.3875C4.6319 23.3182 7.3814 25.3248 10.1721 25.6597L10.8177 25.7367C9.2209 24.6855 8.19606 22.2297 8.55356 20.3945C8.90673 18.5908 10.1114 16.9015 12.4254 15.3428L13.5921 14.5588L14.0276 15.9647C14.2844 16.7953 14.7286 17.4627 15.1803 18.1405C15.397 18.4672 15.6169 18.7973 15.8184 19.1485C16.515 20.3677 16.6991 21.7233 16.2496 23.0685C15.8401 24.2912 15.1651 25.2525 14.2346 25.7857L15.2854 25.6597C17.9049 25.3458 19.8278 24.381 21.0769 22.7675C22.3151 21.168 22.7496 19.1088 22.7496 16.9167C22.7496 14.875 21.9706 12.7703 21.052 11.0192C19.9751 8.96816 18.5701 7.26483 17.0361 5.614C16.7706 6.18566 16.7912 6.41666 16.2452 7.33483C15.5365 5.30692 14.2056 3.60071 12.4731 2.499Z" fill="black"/>
-                </svg>
-                <span>Following</span>
-            </div>
-        </div>
-
-        <div class="p-3 flex flex-row overflow-x-auto justify-start">
-            <!-- <ShopCard v-for="product in 5"/> -->
-            <div class="w-full h-[200px] flex flex-col gap-3 justify-center items-center">
-                <img src="../assets/images/no-products.png" class=" !size-52">
-                <p>Nothing to show in this category</p>
-            </div>
-        </div>
-
-      
-
-        <!-- TOP SELLING DIVIDER -->
-       <!--  <div class="divider">
-            <div class="divider-item">
-                <i class="bi bi-cursor-fill"></i>
-                <span>Visited previously</span>
-            </div>
-        </div>
-
-        <div class="p-3 flex flex-row overflow-x-auto justify-start">
-            <div class="w-full h-[200px] flex flex-col gap-3 justify-center items-center">
-                <img src="../assets/images/no-products.png" class=" !size-52">
-                <p>Nothing to show in this category</p>
-            </div>
-        </div> -->
-
-
-         <!-- TOP SELLING DIVIDER -->
-         <div class="divider">
-            <div class="divider-item">
-                <i class="bi bi-cursor-fill"></i>
-                <span>Top Rated Shops</span>
-            </div>
-        </div>
-
-        <div class="p-3 flex flex-row overflow-x-auto justify-start">
-            <!-- <ShopCard v-for="product in 5"/> -->
-            <div class="w-full h-[200px] flex flex-col gap-3 justify-center items-center">
-                <img src="../assets/images/no-products.png" class=" !size-52">
-                <p>Nothing to show in this category</p>
-            </div>
-        </div>
-
+       
+    
 
         
 
@@ -210,6 +184,7 @@ import Rating from 'primevue/rating';
                 getting_nearby_shops: false,
 
                 boosted_shops: [],
+                user: '',
             }
         },
 
@@ -365,29 +340,16 @@ import Rating from 'primevue/rating';
                 try{
                     this.authenticated = true;
                     const response = await axios.get('/user');
-                    // this.user.username = response.data.user.username;
-                    // this.user.email = response.data.user.email;
-                    // this.user.phone = response.data.user.phone;
-                    this.user = response.data.user;
-                    
-                    if(this.user.location){
-                        this.location = this.user.location
-                    }
-                    if(this.user.profile.socials){
-                        this.socials = this.user.profile.socials;
-                    }
-                    if(this.user.shop.name){
-                        this.shop = this.user.shop;
-                    };
-
-                    // console.log("user :", response);
+                    const user = response.data.user;
+                    this.shop = user;
+                    this.user = user;
+                    console.log("user: ", user)
                 }catch(error){
                     this.authenticated = false;
+                    console.log("error getting user details: ", error)
                     if(error.response.status == 401){
                         this.unauthorized = true;
-                        // alert('session expired please login!');
                     };
-
                     this.$toast.open({
                         message: `${error.response.data.message}`,
                         type: 'error',

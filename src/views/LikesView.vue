@@ -1,7 +1,7 @@
 <template>
     <div>
         <!-- PRODCUT DISPLAY AREA -->
-         <div v-if="loading">Loading...</div>
+        <FullPageLoader v-if="loading"/>
         <div v-else class="masonry">
             <ProductCard class="masonry-item" v-for="(product, index) in products" :key="index"
                 :id="product._id"
@@ -20,10 +20,12 @@
            </ProductCard> 
            <!-- {{ products }} -->
         </div>
+        <div v-if="!loading && products.length == 0" class="w-full p-12 text-center text-gray-400">Nothing to see here :)</div>
     </div>
 </template>
 
 <script>
+import FullPageLoader from '@/components/fullPageLoader.vue';
 import ProductCard from '../components/ProductCard';
 import axios from 'axios';
 
@@ -31,6 +33,7 @@ import axios from 'axios';
         name: "LikesView",
         components:{
             ProductCard,
+            FullPageLoader
         },
         data(){
             return{

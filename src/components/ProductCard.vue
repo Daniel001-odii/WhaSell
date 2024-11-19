@@ -1,6 +1,6 @@
 <template>
-    <div>
-        <div class=" break-inside-avoid flex-auto rounded-lg relative w-fit">
+    <!-- <div> -->
+        <div class=" flex flex-1 relative !lg:max-w-[200px] min-w-[200px] flex-col overflow-hidden">
             <div class=" relative">
                 <!-- <RouterLink :to="`/shops/${shop_name}`">
                     <button class=" absolute z-10 top-3 left-3 h-6 w-6 rounded-md bg-white text-gray-500 shadow-xl flex justify-center items-center">
@@ -10,26 +10,27 @@
                     </button>
                 </RouterLink> -->
                 <RouterLink :to="`/products/${id}/${product_slug}`">
-                    <slot name="product_image" class="size-64 bg-red-500 rounded-md overflow-hidden">
+                    <div class=" bg-red-500 rounded-md overflow-hidden">
+                        <slot name="product_image"></slot>
                         <!-- <div class=""></div> -->
-                    </slot>
+                    </div>
                 </RouterLink>
             </div>
             
-            <div class="flex flex-col ">
-                <RouterLink v-if="product_slug" :to="`/products/${id}/${product_slug}`" class="font-bold text-sm">
-                    {{ product_slug.substring(0,25) }}...
+            <div class="flex flex-col mt-3">
+                <RouterLink v-if="product_slug" :to="`/products/${id}/${product_slug}`" class="text-sm clamp-4">
+                    {{ product_slug }}
                 </RouterLink>
                 <div class="flex flex-row justify-between">
                 <!-- <slot name="product-price"> -->
-                    <span class=" text-lg">&#8358;{{ product_price }}</span>
+                    <span class=" text-lg font-bold">NGN {{ product_price }}</span>
                 <!-- </slot> -->
                 <button @click="addLike()" class="h-8 w-8 rounded-full bg-white flex justify-center items-center border absolute top-3 right-3" :class="is_liked ? 'border-green-500':''">
                     <i class="bi bi-hand-thumbs-up-fill text-green-500" v-if="is_liked"></i>
                     <i class="bi bi-hand-thumbs-up" v-else></i>
                 </button>
             </div>
-            <div class="mt-3 text-gray-400 text-[12px] flex justify-between">
+            <div class="mt-1 text-gray-400 text-[12px] flex justify-between">
                 <span>
                     <i class="bi bi-eye-fill" ></i>
                     {{ views }} views 
@@ -38,13 +39,13 @@
                 
             </div>
 
-            <div>
-                <button class="bg-[#37B36E] text-white btn w-full mt-3 font-bold">Buy now</button>
-            </div>
+           <!--  <div>
+                <button class="bg-[#37B36E] text-white btn w-full mt-3 font-bold text-sm">Buy</button>
+            </div> -->
                 
             </div>
         </div>
-    </div>
+    <!-- </div> -->
 </template>
 
 <script>

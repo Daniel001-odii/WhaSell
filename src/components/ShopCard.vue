@@ -1,5 +1,5 @@
 <template>
-     <RouterLink :to="`/shops/${name}`">
+   <!--   <RouterLink :to="`/shops/${name}`">
             <div>
                 <div>
                 <div class="relative w-[200px] p-4 bg-gray-100 border border-transparent hover:border-app_green rounded-3xl flex flex-col justify-center items-center gap-3">
@@ -14,10 +14,6 @@
                         <div name="store-name">
                             <span class="font-bold text-xl">{{ name }}</span>
                         </div>
-                      
-                        <!-- <div class="text-4xl">
-                            *****
-                        </div> -->
                         <div name="store-category" class="bg-[#A4F4E7] px-3 py-1 rounded-lg text-green-700">
                             <span class="text-sm">{{ category }}</span>
                         </div>
@@ -25,7 +21,19 @@
                 </div>
             </div>
             </div>
-        </RouterLink>
+        </RouterLink> -->
+
+    <RouterLink :to="`/shops/${name}`" class="flex flex-1 relative lg:max-w-[300px] min-w-[300px] h-[260px] bg-gray-50 rounded-lg flex-col overflow-hidden">
+        <div class=" h-[60%] w-full relative" :style="`background: url(${image_url})`" style="background-position: center; background-repeat: no-repeat; background-size: cover;">
+            <div class=" size-16 border-2 absolute top-[76%] left-[20px] border-white bg-green-100 rounded-full flex justify-center items-center text-2xl">
+                <i class="bi bi-shop text-green-600"></i>
+            </div>
+        </div>
+        <div class=" h-[30%] w-full p-8">
+            <p class="font-bold text-lg">{{ name }}</p>
+            <p class=" text-gray-400">{{ category }}</p>
+        </div>
+    </RouterLink>
 </template>
 
 <script>

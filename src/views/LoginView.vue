@@ -58,7 +58,6 @@
 
 <script>
 import axios from 'axios'
-
 import ToastBox from '../components/ToastBox.vue'
 
 import Button from 'primevue/button'

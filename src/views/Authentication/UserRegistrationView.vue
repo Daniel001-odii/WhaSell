@@ -129,10 +129,15 @@ import axios from 'axios'
                     this.loading = true;
                     const response = await axios.post('/register/primary', this.form, { withCredentials: true });
                     console.log("registration response: ", response);
-                    alert("registration successful!");
-                    localStorage.setItem("is_authenticated", true);
-                    this.$router.push('/market');
-                    this.loading = false;
+                    this.$toast.open({
+                        message: 'Registration successful',
+                        type: 'success',
+                    });
+                    // localStorage.setItem("is_authenticated", true);
+                    setTimeout(() => {
+                        this.$router.push('/login');
+                    }, 2000);
+                    // this.loading = false;
                 } catch (error) {
                     
                     if (error.response && error.response.data && error.response.data.error && error.response.data.error.errors) {

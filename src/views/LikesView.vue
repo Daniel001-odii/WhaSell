@@ -2,21 +2,18 @@
     <div>
         <!-- PRODCUT DISPLAY AREA -->
         <FullPageLoader v-if="loading"/>
-        <div v-else class="masonry">
+        <div v-else class="flex flex-row flex-wrap gap-5 p-5">
             <ProductCard class="masonry-item" v-for="(product, index) in products" :key="index"
                 :id="product._id"
                 :product_slug="product.slug"
                 :views="product.views"
                 :posted="product.createdAt"
                 :product_price="product.price.toLocaleString()"
-                :shop="product.shop.name"
+                :shop_name="product.shop.name"
                 :is_liked="checkLikes(product._id)"
                 @like-product="addProductToLikes(product._id)"
-              
+                :image_url="product.images[0]"
             >
-                <template #product_image>
-                    <img :src="product.images[0]" class="">
-                </template>
            </ProductCard> 
            <!-- {{ products }} -->
         </div>

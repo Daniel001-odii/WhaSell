@@ -34,7 +34,6 @@
                     <button class="bg-app_light_green rounded-full p-2 text-app_green h-14 w-14 relative">
                         <i class="bi bi-shop"></i>
                         <i class="bi bi-plus-circle-fill absolute top-7 text-[20px] -right-0"></i>
-                        
                     </button>
                     <button>
                         <i class="bi bi-upload"></i>
@@ -52,7 +51,7 @@
 
                 <!-- GLIP TEXTS -->
                 <div class=" flex flex-col absolute left-5 right-5 bottom-5">
-                 <!--    <div class="w-[80%] flex flex-col gap-3">
+                    <!--<div class="w-[80%] flex flex-col gap-3">
                         <h1 class="font-bold text-2xl">{{ glip.name }}</h1>
                         <div>NGN {{ glip.price.toLocaleString()}}</div>
                         <div v-html="glip.description" style="overflow-wrap: break-word" class="text-sm w-full max-h-[300px] overflow-y-auto"></div>

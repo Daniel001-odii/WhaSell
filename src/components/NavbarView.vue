@@ -175,7 +175,9 @@
         </div>
 
         <!-- FOR MOBILE -->
-        <div v-if="true" class=" md:hidden bg-white text-gray-400 flex flex-row w-[95%] justify-around fixed left-0 right-0 bottom-2 border-t shadow-xl z-50 p-3 text-[10px] rounded-xl mx-auto items-center">
+        <div v-if="true"  :class="isHidden ? '-bottom-20':'bottom-2'" class=" md:hidden bg-white text-gray-400 flex flex-row w-[95%] justify-around fixed left-0 right-0  border-t shadow-xl z-50 p-3 text-[10px] rounded-xl mx-auto items-center mobile-nav">
+        <!-- <div :class="isHidden ? '-bottom-20':'bottom-0'" class="mobile-nav"> -->
+
             <RouterLink to="/market">
                 <button :class="isHome ? 'text-green-500  ':''" class="flex flex-col justify-center items-center">
                     <svg width="30" height="30" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -299,6 +301,9 @@ export default {
 
             feedback_modal: false,
             feeling: null,
+
+            isHidden: false, // Tracks if the nav should be hidden
+            lastScrollY: 0, // Stores the last scroll position
           
             shop_categories: [
                     "electronics",
@@ -316,6 +321,7 @@ export default {
                     "drinks & groceries",
                     "other"
                 ],
+            PreviousSrollPos: window.scrollY,
         }
     },
 
@@ -376,7 +382,27 @@ export default {
 
         checkAuthenticationState(){
             this.authenticated = localStorage.getItem("is_authenticated");
-        }
+        },
+
+        handleScroll() {
+            /* const currentScrollY = window.scrollY;
+            if (currentScrollY > this.lastScrollY) {
+                // Scrolling up
+                this.isHidden = true;
+            } else {
+                // Scrolling down
+                this.isHidden = false;
+            }
+            this.lastScrollY = currentScrollY; */
+            const currentSrollPos = window.scrollY;
+            if(this.PreviousSrollPos > currentSrollPos){
+                this.isHidden = false;
+            } else {
+                this.isHidden = true;
+            }
+
+            this.PreviousSrollPos = currentSrollPos;
+        },
     },
 
     computed:{
@@ -410,18 +436,21 @@ export default {
             }
         },
 
+       
+
         
     },
 
+    beforeUnmount() {
+        document.removeEventListener("scroll", this.handleScroll);
+    },
+
     mounted(){
+        document.addEventListener("scroll", this.handleScroll);
+
         document.addEventListener('click', this.close);
         this.checkAuthenticationState();    
         this.getUserDetails();
-
-        // show feedback...
-        // setTimeout(()=>{
-        //     this.feedback_modal = true;
-        // },10000)
     },
     beforeDestroy () {
         document.removeEventListener('click',this.close)
@@ -447,4 +476,30 @@ export default {
     .mobile-menu-icon{
         @apply text-2xl
     }
+
+   /*  .mobile-nav{
+
+    }
+ */
+    .mobile-nav{
+/*   position: fixed;
+  left: 0;
+  width: 100%;
+  background: #ffffff;
+  border-top: 1px solid #ddd;
+  box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 10px 0;
+  */
+  /* z-index: 10; */
+  transition: bottom 0.5s ease-in-out;
+}
+
+.mobile-nav.hidden {
+  transform: translateY(80%);
+}
+
+
 </style>

@@ -84,18 +84,17 @@
                                 <div v-show="current_tab == 0" class="w-full ">
                                     <div v-if="loading_products">Loading products...</div>
                                     <div v-else class="flex flex-wrap gap-5">
-                                        <ProductCard v-for="(product, index) in products" :key="index"
-                                                :id="product._id"
-                                                :product_slug="product.slug"
-                                                :views="product.views"
-                                                :posted="product.createdAt"
-                                                :product_price="product.price.toLocaleString()"
-                                                :shop_name="shop.name"
-                                            >
-                                                <template #product_image>
-                                                    <img :src="product.images[0]" class="size-full">
-                                                </template>
-                                        </ProductCard>
+                                        <ProductCard class="masonry-item" v-for="(product, index) in products" :key="index"
+                                            :id="product._id"
+                                            :product_slug="product.slug"
+                                            :views="product.views"
+                                            :posted="product.createdAt"
+                                            :product_price="product.price.toLocaleString()"
+                                            :shop_name="product.shop.name"
+                                            @like-product="addProductToLikes(product._id)"
+                                            :image_url="product.images[0]"
+                                        >
+                                    </ProductCard> 
                                     </div>
                                     <div class="flex justify-center items-center p-8 text-gray-500" v-if="!products || products.length <= 0">
                                         <div class="flex flex-col justify-center items-center mt-12">

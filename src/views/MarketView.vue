@@ -62,7 +62,7 @@
         </div>
 
         <!-- PRODCUT DISPLAY AREA -->
-        <div class="flex flex-row flex-wrap gap-3">
+        <div class="flex flex-row flex-wrap gap-3 w-full">
             <ProductCard class="masonry-item" v-for="(product, index) in products" :key="index"
                 :id="product._id"
                 :product_slug="product.slug"
@@ -72,10 +72,8 @@
                 :shop_name="product.shop.name"
                 :is_liked="checkLikes(product._id)"
                 @like-product="addProductToLikes(product._id)"
+                :image_url="product.images[0]"
             >
-                <template #product_image>
-                    <img :src="product.images[0]" class=" !size-full rounded-md transition-transform duration-300 transform hover:scale-125 peer">
-                </template>
            </ProductCard> 
         </div>
 

@@ -207,52 +207,6 @@ import Rating from 'primevue/rating';
                 return exists; // Return the flag
             },
 
-            togglePlayPause() {
-      const video = document.getElementById("videoPlayer");
-      if (video.paused) {
-        video.play();
-        this.isPlaying = true;
-      } else {
-        video.pause();
-        this.isPlaying = false;
-      }
-    },
-    updateProgress() {
-    if (!this.dragging) {
-        const video = document.getElementById("videoPlayer");
-      this.currentTime = video.currentTime;
-      this.progressPercentage = (this.currentTime / video.duration) * 100;
-    }
-  },
-    seekVideo(event) {
-      const video = document.getElementById("videoPlayer");
-      video.currentTime = event.target.value;
-      this.currentTime = event.target.value;
-    },
-    startDrag(event) {
-      this.dragging = true;
-      this.dragSeek(event);
-    },
-    dragSeek(event) {
-      if (this.dragging) {
-        const progressBar = document.getElementById("progressBar");
-        const rect = progressBar.getBoundingClientRect();
-        const offsetX = event.clientX - rect.left;
-        const percentage = Math.max(0, Math.min(100, (offsetX / rect.width) * 100));
-        this.progressPercentage = percentage;
-        this.seekTo(percentage);
-      }
-    },
-    stopDrag() {
-      this.dragging = false;
-    },
-    seekTo(percentage) {
-    const video = document.getElementById("videoPlayer");
-    video.currentTime = (percentage / 100) * video.duration;
-    this.currentTime = video.currentTime;
-    this.progressPercentage = percentage;
-  },
-
 
 isAllowed(){
     this.user = localStorage.getItem('user');
@@ -379,12 +333,7 @@ isAllowed(){
         },
 
         mounted() {
-            const video = document.getElementById("videoPlayer");
-            if(video){
-                video.onloadedmetadata = () => {
-                    this.videoDuration = video.duration;
-                };
-            }
+            
         },
 
 

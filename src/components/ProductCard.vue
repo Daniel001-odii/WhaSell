@@ -3,9 +3,9 @@
         <div class=" flex flex-1 relative md:max-w-[200px] min-w-[200px] flex-col overflow-hidden">
             <div class=" relative">
                 <RouterLink :to="`/products/${id}/${product_slug}`">
-                    <div class=" bg-red-500 rounded-md overflow-hidden">
+                    <div class=" prod-alt-image rounded-md overflow-hidden">
                         <!-- <slot name="product_image"></slot> -->
-                        <img :src="image_url" class=" !size-full rounded-md transition-transform duration-300 transform hover:scale-125 peer">
+                        <!-- <img :src="image_url" class=" !size-full rounded-md transition-transform duration-300 transform hover:scale-125 peer"> -->
                         <!-- <div class=""></div> -->
                     </div>
                 </RouterLink>
@@ -82,5 +82,14 @@ import { formatDistanceToNow } from 'date-fns'
         background-size: cover;
         background-position: center;
         background-repeat: none;
+    }
+
+    .prod-alt-image{
+        background-image: url('../assets/images/no-products.png');
+        background-size: contain;
+        background-position: center;
+        background-repeat: no-repeat;
+
+        min-height: 100px;
     }
 </style>

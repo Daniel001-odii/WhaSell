@@ -5,7 +5,7 @@
                 <RouterLink :to="`/products/${id}/${product_slug}`">
                     <div class=" prod-alt-image rounded-md overflow-hidden">
                         <!-- <slot name="product_image"></slot> -->
-                        <!-- <img :src="image_url" class=" !size-full rounded-md transition-transform duration-300 transform hover:scale-125 peer"> -->
+                        <img :src="image_url" class=" !size-full rounded-md transition-transform duration-300 transform hover:scale-125 peer">
                         <!-- <div class=""></div> -->
                     </div>
                 </RouterLink>
@@ -85,11 +85,12 @@ import { formatDistanceToNow } from 'date-fns'
     }
 
     .prod-alt-image{
-        background-image: url('../assets/images/no-products.png');
-        background-size: contain;
+        background-image: url('../assets/images/image_5.png');
+        background-size: cover;
         background-position: center;
         background-repeat: no-repeat;
-
+        background-blend-mode: saturation;
+        /* filter: grayscale(100%); */
         min-height: 100px;
     }
 </style>

@@ -7,6 +7,22 @@
         @close-glip="glips_modal = !glips_modal"
     />
 
+    <!-- {{ $route.query }} -->
+
+    <!-- BOOST SHOP MODAL -->
+    <div v-if="$route.query.boost_shop" class="fixed h-screen w-full z-50 top-0 right-0 bg-[rgba(0,0,0,0.8)] flex justify-center items-center">
+        <div class="bg-white justify-center items-center p-5 flex flex-col rounded-lg">
+            <h1 class="font-bold text-xl mb-3">Boost your shop</h1>
+            <div>Make your shop visible to more buyers</div>
+            <div>Select your preffered plan</div>
+            <div class="flex flex-row gap-5 mt-6">
+                <RouterLink to="/shops">
+                    <button class="btn border bg-gray-100">cancel</button>
+                </RouterLink>
+                <button class="btn bg-green-500 text-white">Boost</button>
+            </div>
+        </div>
+    </div>
 
 
 
@@ -61,6 +77,10 @@
                                 <RouterLink to="/products/new">
                                     <button class="bg-app_green text-white rounded-md p-3 w-full"><i class="bi bi-plus-circle-fill mr-2"></i>Add new product</button>
                                 </RouterLink>
+                                <button class="rounded-md bg-[#00C1F6] text-white p-3 px-6" @click="boost_shop_modal = !boost_shop_modal">
+                                    <span class=" hidden md:inline-block mr-3">Boost Shop </span>
+                                    <i class="bi bi-rocket-fill"></i>
+                                </button>
                             </div>
                             <div v-else class="w-full flex flex-wrap gap-3">
                                 <!-- <button @click="followShop(shop._id)" class=" text-sm border hover:border-gray-300 hover:bg-slate-100 rounded-full p-3 px-8 text-black font-medium"> 
@@ -80,7 +100,7 @@
                                 <button @click="current_tab = 0" :class="current_tab == 0 ? 'font-bold text-app_green':''" class="w-full p-3"><i class="bi bi-grid-fill mr-2"></i> Listings</button>
                                 <button @click="current_tab = 1" :class="current_tab == 1 ? 'font-bold text-app_green':''" class="w-full p-3"><i class="bi bi-file-play mr-2"></i>Glips</button>
                             </div>
-                            <div class="w-full bg-gray-50 min-h-[400px] rounded-sm">
+                            <div class="w-full bg-gray-50 min-h-[400px] rounded-sm p-5">
                                 <div v-show="current_tab == 0" class="w-full ">
                                     <div v-if="loading_products">Loading products...</div>
                                     <div v-else class="flex flex-wrap gap-5">
@@ -157,6 +177,8 @@ import axios from 'axios'
 import { formatDistanceToNow } from 'date-fns'
 import Rating from 'primevue/rating';
 
+import router from '@/router';
+import { RouterLink } from 'vue-router';
 
     export default {
         name: "ShopDetailView",
@@ -188,6 +210,8 @@ import Rating from 'primevue/rating';
                 videoDuration: 0, // Total duration of the video
                 dragging: false, // To track whether the user is dragging
                 progressPercentage: 0, // Progress in percentage (0 - 100)
+
+                boost_shop_modal: false,
             }
         },
 
@@ -333,7 +357,7 @@ isAllowed(){
         },
 
         mounted() {
-            
+
         },
 
 

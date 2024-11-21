@@ -17,11 +17,11 @@
          <!-- SHOP DETAIL BANNER -->
           <!-- {{ user }} -->
          <div v-if="user.account_type == 'seller' && user.shop" class=" m-3 bg-app_gree border rounded-lg p-3 flex flex-row items-end justify-between gap-5 flex-wrap shadow-sm">
-            <div class="flex flex-row justify-between gap-3 w-full" >
-                <div class=" min-w-28 !w-[200px] h-28 relative rounded-xl border border-gray-300 overflow-hidden">
+            <div class="flex flex-row items-center gap-3 w-full flex-wrap" >
+                <div class=" min-w-28 w-full md:!w-[200px] h-28 relative rounded-xl border border-gray-300 overflow-hidden">
                     <img :src="user.shop.profile.image_url" alt="shop Photo" class="w-full h-full object-cover">
                 </div>
-                <div class="flex flex-row flex-wrap gap-3 justify-between border-green-30 w-full">
+                <div class="flex flex-row flex-wrap gap-3 justify-between border-green-30">
                     <div class="flex flex-col" v-if="user.shop.followers">
                         <RouterLink :to="`/shops/${user.shop.name}`">
                             <span class="text-xl font-bold">{{ user.shop.name }}</span>
@@ -38,6 +38,8 @@
 
 
 
+      
+
         <!-- SHOPS YOU FOLLOW -->
         <div class="divider">
             <div class="divider-item">
@@ -46,8 +48,88 @@
         </div>
 
 
-        <div class="flex flex-row !flex-wrap gap-3 p-3 pb-10">
-            <ShopCard v-for="(shop, index) in boosted_shops"
+        <div class="flex flex-row gap-3 p-3 pb-10 overflow-x-auto">
+
+            <!-- LOADING SHOPS -->
+            <div v-if="this.loading_shops['followed']"  v-for="loader in 4" class=" flex flex-1 relative lg:max-w-[300px] min-w-[300px] h-[260px] bg-gray-50 rounded-lg x justify-start items-end">
+                <div class="flex flex-col gap-2 p-5">
+                    <Skeleton width="65px" height="65px" borderRadius="50px"></Skeleton>
+                    <Skeleton width="180px" borderRadius="10px" height="20px"></Skeleton>
+                    <Skeleton width="100px" borderRadius="10px" height="15px"></Skeleton>
+                </div>
+            </div>
+
+            <ShopCard v-for="(shop, index) in followed_shops" v-else
+                :name="shop.name"
+                :category="shop.category"
+                :image_url="shop.profile.image_url"
+            />
+
+            <div class="h-[200px] justify-center items-center flex flex-col text-center w-full text-gray-500" v-if="followed_shops.length <= 0">
+                <i class="bi bi-exclamation-circle-fill "></i>
+                <span>You are not following any shop at the moment</span>
+            </div>
+        </div>
+
+
+       
+         <!-- BOOSTED SHOPS -->
+        <div class="p-3 flex flex-row items-center mt-8">
+            <div class="flex flex-row items-center gap-3 text-[#00C1F6] justify-center">
+                <i class="bi bi-rocket-takeoff-fill"></i>
+                <span class="text-xl font-bold ">Boosted Shops</span>
+            </div>
+        </div>
+
+        <div class="flex flex-row !flex-wrap gap-3 pb-10">
+
+             <!-- LOADING BOOSTED SHOPS -->
+             <div v-if="loading_shops['boosted']"  v-for="loader in 2" class="flex flex-1 relative min-w-[300px] h-[400px] bg-gray-50 rounded-lg flex-col justify-end items-start">
+                <div class="flex flex-col gap-2 p-8">
+                    <Skeleton width="180px" borderRadius="10px" height="20px"></Skeleton>
+                    <Skeleton width="120px" borderRadius="10px" height="20px"></Skeleton>
+                    <Skeleton width="100px" borderRadius="30px" height="50px" class="mt-4"></Skeleton>
+                </div>
+            </div>
+
+            <BoostedShopCard v-else v-for="shop in boosted_shops"
+                :name="shop.name"
+                :category="shop.category"
+                :image_url="shop.profile.image_url"
+            />
+
+            
+        </div>
+
+        <div v-if="!loading_shops['boosted'] && boosted_shops.length <= 0" class="p-5 py-8 text-center w-full bg-[#00c1f618] rounded-lg text-xl text-[#00C1F6]">There are limited slots available,<br/> be the first to take an available slot. <br/> 
+
+            <RouterLink v-if="user.shop" :to="`/shops/${user.shop.name}?boost_shop=true`">
+                <button class="rounded-full bg-[#00C1F6] text-white p-3 px-6 mt-6 font-bold">Boost Your Shop Now! <i class="bi bi-rocket-fill ml-3"></i></button>
+            </RouterLink>
+            
+            <RouterLink v-else>
+                <button class="rounded-full bg-black text-white p-3 px-6 mt-6 font-bold">Create Your shop</button>
+            </RouterLink>
+        </div>
+
+        <!-- BEST SELLING -->
+        <div class="divider">
+            <div class="divider-item">
+                <span>Shops Near You</span>
+            </div>
+        </div>
+
+
+        <div class="flex flex-row gap-3 p-3 pb-10 overflow-x-auto">
+            <!-- LOADING SHOPS -->
+            <div v-if="loading_shops['followed']" v-for="loader in 4" class=" flex flex-1 relative lg:max-w-[300px] min-w-[300px] h-[260px] bg-gray-50 rounded-lg x justify-start items-end">
+                <div class="flex flex-col gap-2 p-5">
+                    <Skeleton width="65px" height="65px" borderRadius="50px"></Skeleton>
+                    <Skeleton width="180px" borderRadius="10px" height="20px"></Skeleton>
+                    <Skeleton width="100px" borderRadius="10px" height="15px"></Skeleton>
+                </div>
+            </div>
+            <ShopCard v-for="(shop, index) in all_shops"
                 :name="shop.name"
                 :category="shop.category"
                 :image_url="shop.profile.image_url"
@@ -55,75 +137,29 @@
         </div>
 
 
-        <!-- BEST SELLING -->
-        <div class="divider">
+
+         <!-- BEST SELLING -->
+        <div v-if="followed_shops.length > 0" class="divider">
             <div class="divider-item">
                 <span>Best Selling Shops</span>
             </div>
         </div>
 
 
-        <div class="flex flex-row !flex-wrap gap-3 p-3 pb-10">
-            <ShopCard v-for="(shop, index) in boosted_shops"
+        <div class="flex flex-row gap-3 p-3 pb-10 overflow-x-auto">
+            <!-- LOADING SHOPS -->
+            <div v-if="loading_shops['followed']" v-for="loader in 4" class=" flex flex-1 relative lg:max-w-[300px] min-w-[300px] h-[260px] bg-gray-50 rounded-lg x justify-start items-end">
+                <div class="flex flex-col gap-2 p-5">
+                    <Skeleton width="65px" height="65px" borderRadius="50px"></Skeleton>
+                    <Skeleton width="180px" borderRadius="10px" height="20px"></Skeleton>
+                    <Skeleton width="100px" borderRadius="10px" height="15px"></Skeleton>
+                </div>
+            </div>
+            <ShopCard v-for="(shop, index) in followed_shops"
                 :name="shop.name"
                 :category="shop.category"
                 :image_url="shop.profile.image_url"
             />
-        </div>
-
-        <!-- BEST SELLING -->
-        <div class="divider">
-            <div class="divider-item">
-                <span>Shops Near You</span>
-            </div>
-        </div>
-
-
-        <div class="flex flex-row !flex-wrap gap-3 p-3 pb-10">
-            <ShopCard v-for="(shop, index) in boosted_shops"
-                :name="shop.name"
-                :category="shop.category"
-                :image_url="shop.profile.image_url"
-            />
-        </div>
-
-        <!-- BEST SELLING -->
-        <div class="divider">
-            <div class="divider-item">
-                <span>Shops Near You</span>
-            </div>
-        </div>
-
-
-        <div class="flex flex-row !flex-wrap gap-3 p-3 pb-10">
-            <ShopCard v-for="(shop, index) in boosted_shops"
-                :name="shop.name"
-                :category="shop.category"
-                :image_url="shop.profile.image_url"
-            />
-        </div>
-
-
-         <!-- BOOSTED SHOPS -->
-         <div class="p-3 flex flex-row items-center mt-8">
-            <div class="flex flex-row items-center gap-3 text-[#00C1F6] justify-center">
-                <i class="bi bi-rocket-takeoff-fill"></i>
-                <span class="text-xl font-bold ">Boosted Shops</span>
-            </div>
-        </div>
-        <div class="flex flex-row !flex-wrap gap-3 pb-10 p-5">
-         <div v-for="shop in 2" class="flex flex-1 relative min-w-[300px] h-fit bg-gray-50 rounded-lg flex-col overflow-hidden">
-            <div class=" h-[200px] lg:h-[300px] w-full relative bg-green-100" style="background-position: center; background-repeat: no-repeat; background-size: cover;">
-                <span class="absolute right-6 top-4 rounded-full size-[40px] flex justify-center items-center text-white bg-[#00C1F6]">
-                    <i class="bi bi-rocket-takeoff-fill"></i>
-                </span>
-            </div>
-            <div class=" h-[30%] w-full p-8">
-                <p class="font-bold text-lg">Shop name here</p>
-                <p class=" text-gray-400">category</p>
-                <button class="rounded-full bg-[#00C1F6] text-white p-3 px-6 mt-6">Shop Now</button>
-            </div>
-         </div>
         </div>
 
        
@@ -136,12 +172,15 @@
 </template>
 
 <script>
-import PageTitle from '../components/PageTitle'
-import ShopCard from '../components/ShopCard'
+import BoostedShopCard from '@/components/BoostedShopCard.vue';
+import PageTitle from '@/components/PageTitle.vue'
+import ShopCard from '@/components/ShopCard.vue'
 
 import axios from 'axios'
 import { formatDistanceToNow } from 'date-fns'
 import Rating from 'primevue/rating';
+import Skeleton from 'primevue/skeleton';
+import { RouterLink } from 'vue-router';
 
 
     export default {
@@ -149,7 +188,9 @@ import Rating from 'primevue/rating';
         components:{
             PageTitle,
             ShopCard,
-            Rating
+            Rating,
+            Skeleton,
+            BoostedShopCard
         },
         data(){
             return{
@@ -161,23 +202,61 @@ import Rating from 'primevue/rating';
                 state: null,
                 error: null,
 
-                shops_near_me: [],
+                
                 getting_nearby_shops: false,
 
                 boosted_shops: [],
+                followed_shops: [],
+                shops_near_me: [],
+
                 user: '',
+
+                loading_shops: [],
+                all_shops: [],
             }
         },
 
         methods: {
 
+            async getFollowedShops(){
+                try{
+                    this.loading_shops['followed'] = true;
+                    const response = await axios.get('/shops/followed/all');
+                    console.log("followed shops: ", response);
+                    this.followed_shops = response.data.followed_shops;
+                    this.loading_shops['followed'] = false;
+                }catch(error){
+                    console.log("error getting followed shops: ", error);
+                    this.loading_shops['followed'] = false;
+                }
+            },  
+
             async getBoostedShops(){
                 try{
+                    this.loading_shops["boosted"] = true;
                     const response = await axios.get(`/shops/boosted/all`);
+
+                   /*  setTimeout(()=>{
+                        this.boosted_shops = response.data.shops;
+                        this.loading_shops["boosted"] = false;
+                    }, 4000) */
                     this.boosted_shops = response.data.shops;
-                    console.log("boosted shops: ", this.boosted_shops)
+                    console.log("boosted shops: ", this.boosted_shops);
+                    this.loading_shops["boosted"] = false;
                 }catch(error){
+                    this.loading_shops["boosted"] = false;
                     console.log(error);
+                }
+            },
+
+
+            async getAllShops(){
+                try{
+                    const response = await axios.get('/shops/list/all');
+                    this.all_shops = response.data.shops;
+                    console.log("all shops: ", response)
+                }catch(error){
+                    console.log("error getting all shops: ", error);
                 }
             },
 
@@ -342,6 +421,9 @@ import Rating from 'primevue/rating';
             this.getUserDetails();
             
             this.getBoostedShops()
+            this.getFollowedShops()
+            this.getAllShops();
+            
             // get user's location..
             // this.getLocation();
         }

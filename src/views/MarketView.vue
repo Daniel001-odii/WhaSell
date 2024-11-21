@@ -9,7 +9,7 @@
             </div>
         </div>
 
-    <div class="p-6">
+
 
      
         <!-- <div class="text-center h-[500px] flex flex-col justify-center items-center p-12 hero">
@@ -53,6 +53,9 @@
                 </div>
             </div>
          </div> -->
+
+        
+         
     
          <!-- BEST SELLING -->
          <div class="divider">
@@ -63,7 +66,13 @@
 
         <!-- PRODCUT DISPLAY AREA -->
         <div class="flex flex-row flex-wrap gap-3 w-full">
-            <ProductCard class="masonry-item" v-for="(product, index) in products" :key="index"
+            <!-- loading states -->
+            <div class="flex flex-col gap-2" v-for="loader in 6" v-if="loading_products">
+                <Skeleton width="200px" borderRadius="10px" height="100px"></Skeleton>
+                <Skeleton width="200px" borderRadius="10px" height="15px"></Skeleton>
+                <Skeleton width="200px" borderRadius="10px" height="30px"></Skeleton>
+            </div>
+            <ProductCard v-else class="masonry-item" v-for="(product, index) in products" :key="index"
                 :id="product._id"
                 :product_slug="product.slug"
                 :views="product.views"
@@ -78,20 +87,40 @@
         </div>
 
 
-         <!-- BEST SELLING -->
+         <!-- SHOPS NEAT YOU -->
         <div class="divider">
             <div class="divider-item">
                 <span>Shops Near You</span>
             </div>
         </div>
 
+        <div class="flex flex-col gap-2" v-for="loader in 2">
+            
+
+           
+            
+            
+        </div>
         <!-- SHOP CARD -->
-        <div class="flex flex-row !flex-wrap gap-3 pb-10 p-5">
-            <ShopCard v-for="(shop, index) in shops"
+        <div class="flex flex-row !flex-wrap gap-3 pb-10">
+
+             <!-- LOADING SHOPS -->
+             <div v-if="loading_shops" v-for="loader in 4" class=" flex flex-1 relative lg:max-w-[300px] min-w-[300px] h-[260px] bg-gray-50 rounded-lg x justify-start items-end">
+                <div class="flex flex-col gap-2 p-5">
+                    <Skeleton width="65px" height="65px" borderRadius="50px"></Skeleton>
+                    <Skeleton width="180px" borderRadius="10px" height="20px"></Skeleton>
+                    <Skeleton width="100px" borderRadius="10px" height="15px"></Skeleton>
+                </div>
+            </div>
+
+            <ShopCard v-else v-for="(shop, index) in shops"
                 :name="shop.name"
                 :category="shop.category"
                 :image_url="shop.profile.image_url"
             />
+
+            
+            <!-- {{ shops }} -->
         </div>
 
 
@@ -127,34 +156,36 @@
         </div>
 
 
-    <div class="flex flex-row !flex-wrap gap-3 pb-10 p-5">
-            <div class="flex flex-col justify-between items-center flex-1 rounded-md overflow-hidden h-[300px] min-w-[300px]">
-                <div class="flex flex-col gap-3 bg-gray-100 h-[50%] p-5 w-full">
-                    <span class="font-bold text-xl">Frequently Asked Questions</span>
-                    <p class="mt-2 text-sm">Updates on safe Shopping in our shops</p>
-                </div>
-                <div class=" h-[50%] bg-yellow-400 w-full question"></div>
-            </div>
 
-            <div class="flex flex-col justify-between items-center flex-1 rounded-md overflow-hidden h-[300px] min-w-[300px]">
-                <div class="flex flex-col gap-3 bg-gray-100 h-[50%] p-5 w-full">
-                    <span class="font-bold text-xl">Navigate WhatSell With Ease</span>
-                    <p class="mt-2 text-sm">Updates how you can navigate WhatSell easily</p>
+        <!-- FAQ SECTION -->
+        <div class="flex flex-row !flex-wrap gap-3 pb-10 p-5">
+                <div class="flex flex-col justify-between items-center flex-1 rounded-md overflow-hidden h-[300px] min-w-[300px]">
+                    <div class="flex flex-col gap-3 bg-gray-100 h-[50%] p-5 w-full">
+                        <span class="font-bold text-xl">Frequently Asked Questions</span>
+                        <p class="mt-2 text-sm">Updates on safe Shopping in our shops</p>
+                    </div>
+                    <div class=" h-[50%] bg-yellow-400 w-full question"></div>
                 </div>
-                <div class=" h-[50%] bg-green-400 w-full coins"></div>
-            </div>
 
-            <div class="flex flex-col justify-between items-center flex-1 rounded-md overflow-hidden h-[300px] min-w-[300px]">
-                <div class="flex flex-col gap-3 bg-gray-100 h-[50%] p-5 w-full">
-                    <span class="font-bold text-xl">Safety Tips for Secure Purchasing</span>
-                    <p class="mt-2 text-sm">Get full insight on how to safely buy products on WhatSell</p>
+                <div class="flex flex-col justify-between items-center flex-1 rounded-md overflow-hidden h-[300px] min-w-[300px]">
+                    <div class="flex flex-col gap-3 bg-gray-100 h-[50%] p-5 w-full">
+                        <span class="font-bold text-xl">Navigate WhatSell With Ease</span>
+                        <p class="mt-2 text-sm">Updates how you can navigate WhatSell easily</p>
+                    </div>
+                    <div class=" h-[50%] bg-green-400 w-full coins"></div>
                 </div>
-                <div class=" h-[50%] bg-green-800 w-full gaurd"></div>
-            </div>
-    </div>
+
+                <div class="flex flex-col justify-between items-center flex-1 rounded-md overflow-hidden h-[300px] min-w-[300px]">
+                    <div class="flex flex-col gap-3 bg-gray-100 h-[50%] p-5 w-full">
+                        <span class="font-bold text-xl">Safety Tips for Secure Purchasing</span>
+                        <p class="mt-2 text-sm">Get full insight on how to safely buy products on WhatSell</p>
+                    </div>
+                    <div class=" h-[50%] bg-green-800 w-full gaurd"></div>
+                </div>
+        </div>
 </div> 
         
-    </div>
+    <!-- </div> -->
 
 
     <TheFooter/>
@@ -164,14 +195,15 @@
 
 <script>
 import NavbarView from '../components/NavbarView.vue'
-import ProductCard from '../components/ProductCard'
-import ShopCard from '../components/ShopCard'
-import PageTitle from '../components/PageTitle'
+import ProductCard from '@/components/ProductCard.vue'
+import ShopCard from '@/components/ShopCard.vue'
+import PageTitle from '@/components/PageTitle.vue'
 
 import axios from 'axios';
 import TheFooter from '@/components/TheFooter.vue';
 import { RouterLink } from 'vue-router';
 
+import Skeleton from 'primevue/skeleton'
 
     export default {
         name: "MarketView",
@@ -181,6 +213,7 @@ import { RouterLink } from 'vue-router';
             ShopCard,
             PageTitle,
             TheFooter,
+            Skeleton,
         },
         data() {
             return {
@@ -193,6 +226,9 @@ import { RouterLink } from 'vue-router';
 
                 state: null,
                 error: null,
+
+                loading_products: false,
+                loading_shops: false,
             }
         },
         methods:{
@@ -268,20 +304,29 @@ import { RouterLink } from 'vue-router';
 
             async getAllProducts(){
                 try{
+                    this.loading_products = true;
                     const response = await axios.get('/products');
                     this.products = response.data.products;
-                    console.log(response)
+                    console.log(response);
+                    this.loading_products = false;
                 }catch(error){
                     console.log("error getting products..", error);
+                    this.loading_products = false;
                 }
             },
 
             async getAllShops(){
                 try{
+                    this.loading_shops = true;
                     const response = await axios.get('/shops/list/all');
+
                     this.shops = response.data.shops;
+                    this.loading_shops = false;
+                   
                     console.log(response);
+                   
                 }catch(error){
+                    this.loading_shops = false;
                     console.log("error getting shops: ", error);
                 }
             },

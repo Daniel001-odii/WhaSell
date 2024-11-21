@@ -47,7 +47,7 @@
                         <i class="bi bi-shop text-3xl"></i>
                     </div> -->
                     <img :src="shop_image" alt="Product Photo" class="rounded-full w-28 h-28 border object-cover">
-                    <div v-if="shop.name" class="flex flex-row items-center flex-wrap justify-between w-full gap-5">
+                    <div v-if="shop" class="flex flex-row items-center flex-wrap justify-between w-full gap-5">
                         <div class="flex flex-col">
                             <h1 class="font-bold text-xl">{{ shop.name }}</h1>
                             <span class="text-green-500">{{ shop.category }}</span>

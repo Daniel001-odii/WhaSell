@@ -26,7 +26,6 @@
 </ModalComponent>
 
 
-
     <!-- CREATE NEW SHOP DIV -->
 
     <div>
@@ -127,34 +126,34 @@
 
 
                 <div class="relative overflow-x-auto mt-3" v-if="shop_products.length > 0">
-    <table class="w-full text-sm text-left rtl:text-right text-gray-500">
-        <thead class="text-xs text-gray-700 uppercase bg-gray-50 ">
-            <tr>
-                <th scope="col" class="px-6 py-3">Items</th>
-                <th scope="col" class="px-6 py-3">Category</th>
-                <!-- <th scope="col" class="px-6 py-3">QTY Left</th> -->
-                <th scope="col" class="px-6 py-3">Status</th>
-                <!-- <th scope="col" class="px-6 py-3">Variants</th> -->
-                <th scope="col" class="px-6 py-3">Price/pdt</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr class="bg-white border-b hover:bg-gray-50 cursor-pointer" v-for="(product, index) in shop_products" :key="index">
-                <td @click="selected_product = index" class="px-6 py-4 flex flex-row gap-2 items-center">
-                    <!-- <div class="bg-red-400 rounded-xl overflow-hidden"> -->
-                        <img :src="product.images[0]" class="!size-[30px] rounded-lg">
-                    <!-- </div> -->
-                    <span class=" line-clamp-3">{{ product.name }}</span>
-                </td>
-                <td class="px-6 py-4">{{ product.category }}</td>
-                <!-- <td class="px-6 py-4">Null</td> -->
-                <!-- <td class="px-6 py-4">Null</td> -->
-                <td class="px-6 py-4">Null</td>
-                <td class="px-6 py-4">NGN {{ product.price.toLocaleString() }}</td>
-            </tr>
-        </tbody>
-    </table>
-</div>
+                    <table class="w-full text-sm text-left rtl:text-right text-gray-500">
+                        <thead class="text-xs text-gray-700 uppercase bg-gray-50 ">
+                            <tr>
+                                <th scope="col" class="px-6 py-3">Items</th>
+                                <th scope="col" class="px-6 py-3">Category</th>
+                                <!-- <th scope="col" class="px-6 py-3">QTY Left</th> -->
+                                <th scope="col" class="px-6 py-3">Status</th>
+                                <!-- <th scope="col" class="px-6 py-3">Variants</th> -->
+                                <th scope="col" class="px-6 py-3">Price/pdt</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="bg-white border-b hover:bg-gray-50 cursor-pointer" v-for="(product, index) in shop_products" :key="index">
+                                <td @click="selected_product = index" class="px-6 py-4 flex flex-row gap-2 items-center">
+                                    <!-- <div class="bg-red-400 rounded-xl overflow-hidden"> -->
+                                        <img :src="product.images[0]" class="!size-[30px] rounded-lg">
+                                    <!-- </div> -->
+                                    <span class=" line-clamp-3">{{ product.name }}</span>
+                                </td>
+                                <td class="px-6 py-4">{{ product.category }}</td>
+                                <!-- <td class="px-6 py-4">Null</td> -->
+                                <!-- <td class="px-6 py-4">Null</td> -->
+                                <td class="px-6 py-4">Null</td>
+                                <td class="px-6 py-4">NGN {{ product.price.toLocaleString() }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
 
                 <!-- IF THERE ARE NO PRODUCTS IN USER SHOP --> 
                <!--  <div class="no-products w-full h-[300px] flex items-end  justify-center text-xl pb-4 text-gray-400" v-else>

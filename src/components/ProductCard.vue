@@ -1,6 +1,7 @@
 <template>
     <!-- <div> -->
-        <div class=" flex flex-1 relative md:max-w-[200px] min-w-[200px] flex-col overflow-hidden">
+        <div class=" flex flex-1 flex-col overflow-hidden min-w-[150px] max-w-[200px] relative">
+        <!-- <div class=" flex flex-1 relative min-w-[150px] md:max-w-[200px] md:min-w-[200px] flex-col overflow-hidden"> -->
             <div class=" relative">
                 <RouterLink :to="`/products/${id}/${product_slug}`">
                     <div class=" prod-alt-image rounded-md overflow-hidden">

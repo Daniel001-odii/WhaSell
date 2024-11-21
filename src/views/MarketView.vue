@@ -1,7 +1,8 @@
 <template>
     <div class="">
         <NavbarView/>
-        <div class=" flex h-screen max-h-[700px] w-full bg-green-800 justify-start p-12 text-left items-center text-white rounded-xl rounded-b-[10%]" style="clip-path: ellipse(98% 98% at 50% 0%); background: linear-gradient(135deg, #1F633D 0%, #16492D 46.219%, #FFBD00 100%);">
+        <!-- <div class=" flex mt-6 h-screen max-h-[700px] w-full bg-green-800 justify-start p-12 text-left items-center text-white rounded-xl rounded-b-[10%]" style="clip-path: ellipse(98% 98% at 50% 0%); background: linear-gradient(135deg, #1F633D 0%, #16492D 46.219%, #FFBD00 100%);"> -->
+            <div class=" flex mt-6 h-screen max-h-[700px] w-full bg-green-800 justify-start p-12 text-left items-center text-white rounded-xl" style=" background: linear-gradient(135deg, #1F633D 0%, #16492D 46.219%, #FFBD00 100%);">
             <div class="flex flex-col gap-5">
                 <h1 class="text-5xl font-bold">We bring local Shopping<br/> to your door step</h1>
                 <p class="text-xl">Buy with ease, sell to a larger audience, all from the comfort of our home</p>
@@ -64,15 +65,15 @@
             </div>
         </div>
 
-        <!-- PRODCUT DISPLAY AREA -->
-        <div class="flex flex-row flex-wrap gap-3 w-full">
+        <!-- PRODUCT DISPLAY AREA -->
+        <div class="flex flex-row flex-wrap gap-3 w-full p-5">
             <!-- loading states -->
             <div class="flex flex-col gap-2" v-for="loader in 6" v-if="loading_products">
                 <Skeleton width="200px" borderRadius="10px" height="100px"></Skeleton>
                 <Skeleton width="200px" borderRadius="10px" height="15px"></Skeleton>
                 <Skeleton width="200px" borderRadius="10px" height="30px"></Skeleton>
             </div>
-            <ProductCard v-else class="masonry-item" v-for="(product, index) in products" :key="index"
+            <ProductCard v-else class="" v-for="(product, index) in products" :key="index"
                 :id="product._id"
                 :product_slug="product.slug"
                 :views="product.views"
@@ -86,23 +87,10 @@
            </ProductCard> 
         </div>
 
+      
 
-         <!-- SHOPS NEAT YOU -->
-        <div class="divider">
-            <div class="divider-item">
-                <span>Shops Near You</span>
-            </div>
-        </div>
-
-        <div class="flex flex-col gap-2" v-for="loader in 2">
-            
-
-           
-            
-            
-        </div>
         <!-- SHOP CARD -->
-        <div class="flex flex-row !flex-wrap gap-3 pb-10">
+        <div class="flex flex-row gap-3 p-3 pb-10 overflow-x-auto">
 
              <!-- LOADING SHOPS -->
              <div v-if="loading_shops" v-for="loader in 4" class=" flex flex-1 relative lg:max-w-[300px] min-w-[300px] h-[260px] bg-gray-50 rounded-lg x justify-start items-end">
@@ -118,11 +106,9 @@
                 :category="shop.category"
                 :image_url="shop.profile.image_url"
             />
-
-            
-            <!-- {{ shops }} -->
         </div>
 
+        <!-- {{ user.shop }} -->
 
         <!-- BOOSTED SHOPS -->
         <div class="p-3 flex flex-row items-center mt-8">
@@ -131,19 +117,33 @@
                 <span class="text-xl font-bold ">Boosted Shops</span>
             </div>
         </div>
-        <div class="flex flex-row !flex-wrap gap-3 pb-10 p-5">
-         <div v-for="shop in 2" class="flex flex-1 relative min-w-[300px] h-fit bg-gray-50 rounded-lg flex-col overflow-hidden">
-            <div class=" h-[200px] lg:h-[300px] w-full relative bg-green-100" style="background-position: center; background-repeat: no-repeat; background-size: cover;">
-                <span class="absolute right-6 top-4 rounded-full size-[40px] flex justify-center items-center text-white bg-[#00C1F6]">
-                    <i class="bi bi-rocket-takeoff-fill"></i>
-                </span>
+
+        <div class="flex flex-row !flex-wrap gap-3 pb-10">
+             <!-- LOADING BOOSTED SHOPS -->
+             <div v-if="loading_shops['boosted']"  v-for="loader in 2" class="flex flex-1 relative min-w-[300px] h-[400px] bg-gray-50 rounded-lg flex-col justify-end items-start">
+                <div class="flex flex-col gap-2 p-8">
+                    <Skeleton width="180px" borderRadius="10px" height="20px"></Skeleton>
+                    <Skeleton width="120px" borderRadius="10px" height="20px"></Skeleton>
+                    <Skeleton width="100px" borderRadius="30px" height="50px" class="mt-4"></Skeleton>
+                </div>
             </div>
-            <div class=" h-[30%] w-full p-8">
-                <p class="font-bold text-lg">Shop name here</p>
-                <p class=" text-gray-400">category</p>
-                <button class="rounded-full bg-[#00C1F6] text-white p-3 px-6 mt-6">Shop Now</button>
-            </div>
-         </div>
+
+            <BoostedShopCard v-else v-for="shop in boosted_shops"
+                :name="shop.name"
+                :category="shop.category"
+                :image_url="shop.profile.image_url"
+            />            
+        </div>
+
+        <div v-if=" boosted_shops.length == 0" class="p-5 py-8 text-center w-full bg-[#00c1f618] rounded-lg text-xl text-[#00C1F6]">There are limited slots available,<br/> be the first to take an available slot. <br/> 
+
+            <RouterLink v-if="user.shop" :to="`/shops/${user.shop.name}?boost_shop=true`">
+                <button class="rounded-full bg-[#00C1F6] text-white p-3 px-6 mt-6 font-bold">Boost Your Shop Now! <i class="bi bi-rocket-fill ml-3"></i></button>
+            </RouterLink>
+
+            <RouterLink v-else to="/account">
+                <button class="rounded-full bg-black text-white p-3 px-6 mt-6 font-bold">Create Your shop</button>
+            </RouterLink>
         </div>
 
 
@@ -188,7 +188,7 @@
     <!-- </div> -->
 
 
-    <TheFooter/>
+    <!-- <TheFooter/> -->
 
 
 </template>
@@ -205,6 +205,9 @@ import { RouterLink } from 'vue-router';
 
 import Skeleton from 'primevue/skeleton'
 
+import BoostedShopCard from '@/components/BoostedShopCard.vue';
+
+
     export default {
         name: "MarketView",
         components: {
@@ -214,6 +217,7 @@ import Skeleton from 'primevue/skeleton'
             PageTitle,
             TheFooter,
             Skeleton,
+            BoostedShopCard,
         },
         data() {
             return {
@@ -229,6 +233,9 @@ import Skeleton from 'primevue/skeleton'
 
                 loading_products: false,
                 loading_shops: false,
+
+                boosted_shops: [],
+                loading_boosted_shops: false,
             }
         },
         methods:{
@@ -295,9 +302,30 @@ import Skeleton from 'primevue/skeleton'
                 try{
                     const response = await axios.get('/user');
                     console.log("found user: ", response);
+                    this.user = response.data.user;
                     this.liked_products = response.data.user.liked_products;
                 }catch(error){
                     console.log("cant get user..", error);
+                }
+            },
+
+
+
+            async getBoostedShops(){
+                try{
+                    this.loading_boosted_shops = true;
+                    const response = await axios.get(`/shops/boosted/all`);
+
+                   /*  setTimeout(()=>{
+                        this.boosted_shops = response.data.shops;
+                        this.loading_shops["boosted"] = false;
+                    }, 4000) */
+                    this.boosted_shops = response.data.shops;
+                    console.log("boosted shops: ", this.boosted_shops);
+                    this.loading_boosted_shops = false;
+                }catch(error){
+                    this.loading_boosted_shops = false;
+                    console.log(error);
                 }
             },
 
@@ -364,6 +392,8 @@ import Skeleton from 'primevue/skeleton'
             this.getAllProducts();
             this.getAllShops();
             this.getUser();
+            this.getBoostedShops();
+            
         },
     }
 </script>

@@ -232,10 +232,10 @@ import { RouterLink } from 'vue-router';
             },
 
 
-isAllowed(){
-    this.user = localStorage.getItem('user');
-    return this.user == this.shop.owner._id;
-},
+            isAllowed(){
+                this.user = localStorage.getItem('user');
+                return this.user == this.shop.owner._id;
+            },
 
            
 

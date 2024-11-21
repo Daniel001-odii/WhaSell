@@ -40,11 +40,6 @@
                 </RouterLink>
                 <div class="flex flex-col gap-8 absolute top-[65%] w-full border-red-400">
                     <div class="w-full relative h-[150px] flex md:block justify-center items-center ">
-                          <!-- <div class=" absolute left-[100px] size-[150px] rounded-full shop-image" :style="`background: url('${shop.profile.image_url}')`"></div> -->
-                          <!-- <div class=" absolute md:left-[100px] size-[150px] rounded-full shop-image bg-app_light_green text-app_green text-4xl flex justify-center items-center">
-                            <i class="bi bi-shop"></i>
-                           
-                          </div> -->
                           <img :src="shop.profile.image_url" alt="Product Photo" class="rounded-full absolute md:left-[100px] size-[150px] object-cover">
                     </div>
                   
@@ -73,6 +68,7 @@
                                 <span><i class="bi bi-arrow-clockwise mr-1"></i>joined {{ formatDistanceToNow(shop.createdAt)}} ago</span>
                                 
                             </div>
+                           
                             <div v-if="isAllowed()" class="flex flex-row flex-wrap gap-3 w-full mt-4 justify-center md:justify-start">
                                 <RouterLink to="/products/new">
                                     <button class="bg-app_green text-white rounded-md p-3 w-full"><i class="bi bi-plus-circle-fill mr-2"></i>Add new product</button>
@@ -83,24 +79,26 @@
                                 </button>
                             </div>
                             <div v-else class="w-full flex flex-wrap gap-3">
-                                <!-- <button @click="followShop(shop._id)" class=" text-sm border hover:border-gray-300 hover:bg-slate-100 rounded-full p-3 px-8 text-black font-medium"> 
-                                    
-                                </button> -->
-                                <button :class="shop && userIsFollowingShop(followers, user) ? 'bg-green-600 text-white border-none':''" @click="followShop(shop._id)" class="border text-green-500 rounded-md p-3 grow min-w-[200px]">
+                            <!-- <div class="w-full flex gap-3"> -->
+                                <button :class="shop && userIsFollowingShop(followers, user) ? 'bg-green-600 text-white border-none':''" @click="followShop(shop._id)" class="border text-green-500 rounded-md p-3 grow md:min-w-[180px]">
                                     <span v-if="!userIsFollowingShop(followers, user)"><i class="bi bi-plus mr-1"></i>follow</span>
                                     <span v-else>following</span>
                                 </button>
-                                <button class="bg-app_light_green text-app_green rounded-md px-6 py-2"><i class="bi bi-telephone"></i></button>
-                                <button class="bg-app_light_green text-app_green rounded-md px-6 py-2"><i class="bi bi-whatsapp"></i></button>
-                                
+                                <div class="bg-app_light_green text-app_green rounded-md p-2 flex flex-row gap-3 px-3">
+                                    <button class="bg-app_light_green text-app_green rounded-md p-1 "><i class="bi bi-telephone"></i></button>
+                                    <div class=" border-r border-app_green"></div>
+                                    <button class="bg-app_light_green text-app_green rounded-md p-1"><i class="bi bi-whatsapp"></i></button>
+                                </div>
+                               <!--  <button class="bg-app_light_green text-app_green rounded-md px-6 py-2"><i class="bi bi-telephone"></i></button>
+                                <button class="bg-app_light_green text-app_green rounded-md px-6 py-2"><i class="bi bi-whatsapp"></i></button> -->
                             </div>
                         </div>
-                        <div class="flex flex-col mt-6 md:mt-0 md:w-[70%] border-red-400 w-full">
-                            <div class="flex flex-row justify-stretch items-stretch w-full p-3 text-lg">
-                                <button @click="current_tab = 0" :class="current_tab == 0 ? 'font-bold text-app_green':''" class="w-full p-3"><i class="bi bi-grid-fill mr-2"></i> Listings</button>
-                                <button @click="current_tab = 1" :class="current_tab == 1 ? 'font-bold text-app_green':''" class="w-full p-3"><i class="bi bi-file-play mr-2"></i>Glips</button>
+                        <div class="flex flex-col mt-6 md:mt-0 md:w-[70%] border-red-400 w-full p-3 mb-3">
+                            <div class="flex flex-row justify-stretch items-stretch w-full text-lg  bg-gray-100 rounded-lg p-3">
+                                <button @click="current_tab = 0" :class="current_tab == 0 ? 'font-bold text-app_green bg-white border shadow-md':''" class="w-full p-3 rounded-md"><i class="bi bi-grid-fill mr-2"></i> Listings</button>
+                                <button @click="current_tab = 1" :class="current_tab == 1 ? 'font-bold text-app_green bg-white border shadow-md':''" class="w-full p-3 rounded-md"><i class="bi bi-file-play mr-2"></i>Glips</button>
                             </div>
-                            <div class="w-full bg-gray-50 min-h-[400px] rounded-sm p-5">
+                            <div class="w-full min-h-[400px] rounded-sm p-5">
 
                                 <!-- FOR PRODUCTS LISTING -->
                                 <div v-show="current_tab == 0" class="w-full ">
@@ -298,14 +296,14 @@ import Skeleton from 'primevue/skeleton';
                     this.loading_products = true;
                     const response = await axios.get(`/products/${shop_id}/shop`);
 
-                    setTimeout(()=>{
+                   /*  setTimeout(()=>{
                         this.products = response.data.products;
                         console.log("products: ", response)
                         this.loading_products = false;
-                    }, 5000)
-                    /* this.products = response.data.products;
+                    }, 5000) */
+                    this.products = response.data.products;
                     console.log("products: ", response)
-                    this.loading_products = false; */
+                    this.loading_products = false;
                 }catch(error){
                     console.log("error getting products..");
                     this.loading_products = false;

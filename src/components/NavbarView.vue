@@ -244,7 +244,7 @@
 
 
       <!-- NON AUTH NAVBAR -->
-      <div v-else class="w-full p-5 flex flex-col md:flex-row items-center h-full bg-app_light_green border-b border-gray-300">
+      <div v-else class="w-full p-5 flex flex-col md:flex-row items-center h-full  border-b border-gray-300">
         <div class=" border-red-500   md:w-fit w-full flex flex-row justify-between items-center">
             <LogoBlack/>
      
@@ -256,11 +256,11 @@
 
         <div :class="nav_open ? 'flex':'hidden md:flex'" class=" w-full flex-col gap-3 md:flex-row md:justify-between md:items-center  border-red-500">
             <div class="w-full md:w-fit md:p-0 mt-4 md:mt-0 flex-col md:flex-row gap-2 text-black flex  border-red-500 relative mx-auto my-0">
-                <RouterLink class="nav-link" to="#">About</RouterLink>
+                <!-- <RouterLink class="nav-link" to="#">About</RouterLink> -->
                 <RouterLink class="nav-link" to="#">Features</RouterLink>
                 <RouterLink class="nav-link" to="#">Pricing</RouterLink>
-                <RouterLink class="nav-link" to="#">Use Cases</RouterLink>
-                <RouterLink class="nav-link" to="#">Contact</RouterLink>
+                <!-- <RouterLink class="nav-link" to="#">Use Cases</RouterLink> -->
+                <!-- <RouterLink class="nav-link" to="#">Contact</RouterLink> -->
             </div>
 
             <div class="flex flex-row gap-3 font-bold  border-red-500  self-end align-bottom">
@@ -465,7 +465,7 @@ export default {
 
 
     .nav-link{
-        @apply hover:bg-gray-600 hover:text-white p-3 rounded-lg
+        @apply hover:bg-slate-200 p-3 rounded-lg
     }
 
 

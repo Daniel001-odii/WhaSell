@@ -101,52 +101,53 @@
                                 <button @click="current_tab = 1" :class="current_tab == 1 ? 'font-bold text-app_green':''" class="w-full p-3"><i class="bi bi-file-play mr-2"></i>Glips</button>
                             </div>
                             <div class="w-full bg-gray-50 min-h-[400px] rounded-sm p-5">
+
+                                <!-- FOR PRODUCTS LISTING -->
                                 <div v-show="current_tab == 0" class="w-full ">
-                                    <div v-if="loading_products">Loading products...</div>
-                                    <div v-else class="flex flex-wrap gap-5">
-                                        <ProductCard class="masonry-item" v-for="(product, index) in products" :key="index"
-                                            :id="product._id"
-                                            :product_slug="product.slug"
-                                            :views="product.views"
-                                            :posted="product.createdAt"
-                                            :product_price="product.price.toLocaleString()"
-                                            :shop_name="product.shop.name"
-                                            @like-product="addProductToLikes(product._id)"
-                                            :image_url="product.images[0]"
-                                        >
-                                    </ProductCard> 
+                                    <!-- <div v-if="loading_products">Loading products...</div> -->
+                                <div  class="flex flex-row flex-wrap gap-3">
+                                    <div v-if="loading_products" v-for="loader in 6" class=" flex flex-1 flex-col bg-gray-100 min-w-[150px] max-w-[200px] relative h-[220px] rounded-lg justify-end items-start">
+                                        <div class="flex flex-col gap-2 p-3">
+                                            <Skeleton width="120px" borderRadius="10px" height="15px"></Skeleton>
+                                            <Skeleton width="100px" borderRadius="10px" height="30px"></Skeleton>
+                                        </div>
                                     </div>
-                                    <div class="flex justify-center items-center p-8 text-gray-500" v-if="!products || products.length <= 0">
+                               
+                                    
+                                    <ProductCard v-else class=" w-[100px]" v-for="(product, index) in products" :key="index"
+                                        :id="product._id"
+                                        :product_slug="product.slug"
+                                        :views="product.views"
+                                        :posted="product.createdAt"
+                                        :product_price="product.price.toLocaleString()"
+                                        :shop_name="product.shop.name"
+                                        @like-product="addProductToLikes(product._id)"
+                                        :image_url="product.images[0]"
+                                    >
+                                    </ProductCard> 
+                                </div>
+                                    <!-- <div class="flex justify-center items-center p-8 text-gray-500" v-if="!loading_products || products.length == 0">
                                         <div class="flex flex-col justify-center items-center mt-12">
                                             <img src="../assets/images/no-products.png" class=" !size-52">
                                             <span class="mt-3">You have not posted any products yet</span>
                                         </div>
-                                    </div>
+                                    </div> -->
                                 </div>
 
 
 
                                 <!-- FOR GLIPS -->
                                 <div v-show="current_tab == 1" class="w-full p-3" >
-                                    <div v-if="loading_products">Loading glips...</div>
+                                    <div v-if="loading_glips">Loading glips...</div>
                                     <!-- {{glips}} -->
                                     <div v-if="glips.length > 0" class="flex flex-row flex-wrap gap-2">
-                                        <div v-for="glip in glips" class="relative">
-                                            <div @click="glipPreview(glip, index)" class=" w-[200px] h-[300px] bg-black rounded-lg flex justify-center items-center relative overflow-hidden">
-                                                <video>
-                                                    <source :src="glip.video_url">
-                                                    <!-- <source src="../assets/videos/glip_test.mp4"> -->
-                                                </video>
-                                                <div class="bg-black bg-opacity-40 text-white absolute p-3 rounded-md bottom-5 left-1/2 transform -translate-x-1/2 flex flex-row gap-3 text-sm w-[90%]">
-                                                    <button class="p-3 rounded-full bg-white text-app_green size-8 flex justify-center items-center"><i class="bi bi-hand-thumbs-up"></i></button>
-                                                    <div class="flex flex-col">
-                                                        <span class="font-bold">{{glip.name}}</span>
-                                                        <span class="text-[12px]">NGN {{glip.price}}</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        
-                                        </div>
+
+                                        <GlipVideoBox v-for="glip in glips"
+                                            :name="glip.name"
+                                            :price="glip.price"
+                                            :video_url="glip.video_url"
+                                            @fullscreen="glipPreview(glip, index)"
+                                        />
                                     </div>
                                     <div v-else class="flex flex-col justify-center items-center h-full">
                                     </div>
@@ -179,6 +180,8 @@ import Rating from 'primevue/rating';
 
 import router from '@/router';
 import { RouterLink } from 'vue-router';
+import GlipVideoBox from '@/components/GlipVideoBox.vue';
+import Skeleton from 'primevue/skeleton';
 
     export default {
         name: "ShopDetailView",
@@ -187,6 +190,8 @@ import { RouterLink } from 'vue-router';
             Rating,
             GlipComponent,
             FullPageLoader,
+            GlipVideoBox,
+            Skeleton,
         },
 
         data(){
@@ -292,9 +297,15 @@ import { RouterLink } from 'vue-router';
                 try{
                     this.loading_products = true;
                     const response = await axios.get(`/products/${shop_id}/shop`);
-                    this.products = response.data.products;
+
+                    setTimeout(()=>{
+                        this.products = response.data.products;
+                        console.log("products: ", response)
+                        this.loading_products = false;
+                    }, 5000)
+                    /* this.products = response.data.products;
                     console.log("products: ", response)
-                    this.loading_products = false;
+                    this.loading_products = false; */
                 }catch(error){
                     console.log("error getting products..");
                     this.loading_products = false;
@@ -303,14 +314,14 @@ import { RouterLink } from 'vue-router';
 
             async getShopGlips(shop_id){
                 try{
-                    this.loading_products = true;
+                    this.loading_glips = true;
                     const response = await axios.get(`/products/glips/${shop_id}/all`);
                     this.glips = response.data.glips;
                     console.log("glips: ", response)
-                    this.loading_products = false;
+                    this.loading_glips = false;
                 }catch(error){
                     console.log("error getting products..");
-                    this.loading_products = false;
+                    this.loading_glips = false;
                 }
             },
 

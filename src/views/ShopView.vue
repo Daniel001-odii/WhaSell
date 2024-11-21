@@ -224,7 +224,15 @@
             
             <!-- displays only if user is a buyer without a store.. -->
             <div v-if="user.account_type == 'buyer'" class="p-8 border flex flex-col rounded-lg gap-3">
-                <p v-if="!create_shop_option">No shop yet? create a shop to <br/><button class="btn bg-black text-white mt-3"  @click="create_shop_option = !create_shop_option">start selling</button></p>
+                <div v-if="!create_shop_option" class="p-8 flex flex-col rounded-lg text-center text-gray-400">
+                    <i class="bi bi-exclamation-circle-fill"></i>
+                    <span>Your Shop Details will be available when you have a shop</span>
+                    <div v-if="!create_shop_option" class="flex justify-center items-center flex-col">
+                        <span>Start Selling now</span>
+                        <button class="btn bg-black text-white mt-3"  @click="create_shop_option = !create_shop_option">Create My Shop</button>
+                    </div>
+                </div>
+                
                 
                 <form @submit.prevent="createNewShop" v-if="create_shop_option" class="flex flex-col gap-3">
                     <div>

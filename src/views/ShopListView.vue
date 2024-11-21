@@ -74,14 +74,14 @@
 
        
          <!-- BOOSTED SHOPS -->
-        <div class="p-3 flex flex-row items-center mt-8">
+        <div class="p-3 flex flex-row items-center mt-8 pb-4">
             <div class="flex flex-row items-center gap-3 text-[#00C1F6] justify-center">
                 <i class="bi bi-rocket-takeoff-fill"></i>
                 <span class="text-xl font-bold ">Boosted Shops</span>
             </div>
         </div>
 
-        <div class="flex flex-row !flex-wrap gap-3 pb-10">
+        <div class="flex flex-row !flex-wrap gap-3">
 
              <!-- LOADING BOOSTED SHOPS -->
              <div v-if="loading_shops['boosted']"  v-for="loader in 2" class="flex flex-1 relative min-w-[300px] h-[400px] bg-gray-50 rounded-lg flex-col justify-end items-start">
@@ -97,8 +97,6 @@
                 :category="shop.category"
                 :image_url="shop.profile.image_url"
             />
-
-            
         </div>
 
         <div v-if="!loading_shops['boosted'] && boosted_shops.length <= 0" class="p-5 py-8 text-center w-full bg-[#00c1f618] rounded-lg text-xl text-[#00C1F6]">There are limited slots available,<br/> be the first to take an available slot. <br/> 
@@ -107,7 +105,7 @@
                 <button class="rounded-full bg-[#00C1F6] text-white p-3 px-6 mt-6 font-bold">Boost Your Shop Now! <i class="bi bi-rocket-fill ml-3"></i></button>
             </RouterLink>
             
-            <RouterLink v-else>
+            <RouterLink v-else to="/account/shop">
                 <button class="rounded-full bg-black text-white p-3 px-6 mt-6 font-bold">Create Your shop</button>
             </RouterLink>
         </div>

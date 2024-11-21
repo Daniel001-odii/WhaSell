@@ -1,7 +1,9 @@
 <template>
     
         <div class="flex flex-col gap-3 h-fit py-3">
-            <div class="flex flex-row gap-3 flex-wrap">
+
+            <div v-if="user && user.account_type == 'seller'">
+                <div class="flex flex-row gap-3 flex-wrap">
 
                 <!-- SHOP VISITORS -->
                 <div class="stat-box">
@@ -42,10 +44,10 @@
                     </div>
                 </div>
 
-            </div>
+                </div>
 
-            <!-- GROUP 2 -->
-            <div class="flex flex-row flex-wrap gap-3 mt-12">
+                <!-- GROUP 2 -->
+                <div class="flex flex-row flex-wrap gap-3 mt-12">
                 <div class="stat-box-lg">
                     <div class="w-full flex justify-between">
                         <div>
@@ -91,7 +93,13 @@
                         <span class="text-gray-500">20pcs sold this week</span>
                     </div>
                 </div>
+                </div>
             </div>
+            <div v-else class="p-8 border flex flex-col rounded-lg text-center text-gray-400">
+                <i class="bi bi-exclamation-circle-fill"></i>
+                <span>Your Insights will be availanle when you create your shop</span>
+            </div>
+            
 
         </div>
     
@@ -165,6 +173,9 @@ ChartJS.register(
                 },
                 shop_analytics: {},
                 bubble_chat_loaded: false,
+
+                user: '',
+                create_shop_option: false,
             }
         },
 
@@ -190,6 +201,22 @@ ChartJS.register(
                     this.loading = false;
                 }   
             },
+
+            async getUser(){
+                try{
+                    this.loading = true;
+                    const response = await axios.get('/user');
+                    console.log("user: ", response);
+
+                    this.user = response.data.user;
+
+                    this.loading = false;
+                }catch(error){
+                    console.log("error getting user", error);
+                    this.loading = false;
+                }
+            },
+
             async getShopAnalytics(){
                 try{
                     const response = await axios.get("/shops/data/analytics");
@@ -212,6 +239,7 @@ ChartJS.register(
 
         },
         created(){
+            this.getUser();
             this.getShopAnalytics();
         }
     }

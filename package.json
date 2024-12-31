@@ -8,10 +8,13 @@
     "test:unit": "vue-cli-service test:unit"
   },
   "dependencies": {
+    "@unhead/vue": "^1.11.14",
     "axios": "^1.7.2",
     "bootstrap-icons": "^1.11.3",
     "chart.js": "^4.4.4",
     "date-fns": "^3.6.0",
+    "express": "^4.21.2",
+    "ll": "^1.2.0",
     "naija-state-local-government": "^1.1.2",
     "primeicons": "^7.0.0",
     "primevue": "^3.53.0",

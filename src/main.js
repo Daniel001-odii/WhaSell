@@ -38,7 +38,35 @@ import 'primeicons/primeicons.css';
 // import 'primevue/toast/toast.css';
 
 
-const app = createApp(App);
+/* 
+    SETUP VUE FOR SSR
+*/
+import { createSSRApp } from 'vue';
+import { createRouter, createWebHistory, createMemoryHistory } from 'vue-router';
+import { createHead } from '@unhead/vue';
+import routes from './router/index';
+
+/* export function createApp() {
+    const app = createSSRApp(App);
+    const router = createRouter({
+    //   history: import.meta.env.SSR ? createMemoryHistory() : createWebHistory(),
+      history: createWebHistory(),
+      routes,
+    });
+    const meta = createHead();
+  
+    app.use(router);
+    app.use(meta);
+  
+    return { app, router, meta };
+}
+ */
+
+const app = createSSRApp(App);
+const meta = createHead();
+app.use(meta);
+
+// const app = createApp(App);
 
 // declare global variable..
 app.config.globalProperties.$app_url = process.env.VUE_APP_ROOT_URL;

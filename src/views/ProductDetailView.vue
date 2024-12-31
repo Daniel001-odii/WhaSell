@@ -106,7 +106,7 @@
                         <RouterLink :to="`/shops/${shop.name}`">
                             <span class="text-xl font-bold">{{ shop.name }}</span>
                         </RouterLink>
-                        <Rating v-model="value" disabled />
+                        <!-- <Rating v-model="value" disabled /> -->
                         <span class="text-md">{{ shop.category }}</span>
                         <span class="text-sm">Joined {{ formatDistanceToNow(shop.createdAt) }} ago | {{ shop.followers.length }} followers</span>
                     </div>
@@ -216,6 +216,13 @@ import Skeleton from 'primevue/skeleton'
 import Dialog from 'primevue/dialog';
 import Rating from 'primevue/rating';
 
+/* 
+    SEO INTEGRATION
+*/
+import { useHead } from '@unhead/vue';
+import { useRoute } from 'vue-router';
+
+const route = useRoute();
 
     export default {
         name: "ProductDetailView",
@@ -354,6 +361,8 @@ import Rating from 'primevue/rating';
                     this.loading = true;
                     const response = await axios.get(`/products/${this.$route.params.product_id}`);
                     this.product = response.data.product;
+                    const product = response.data.product;
+                    console.log("product detail: ", product)
                     // this.shop = response.data.product.shop;
 
                     // get the shop for the product...
@@ -367,6 +376,20 @@ import Rating from 'primevue/rating';
                     console.log(this.product);
                     // check views...
                     this.check_views();
+
+                    /* 
+                        SEO INTEGRATION
+                    */
+                    useHead({
+                        title: product.name,
+                        meta: [
+                        { name: 'description', content: product.name },
+                        { property: 'og:title', content: product.name },
+                        { property: 'og:description', content: product.description },
+                        { property: 'og:image', content: product.images[0] },
+                        ],
+                    });
+  
                 }catch(error){
                     console.log('error getting product details: ', error);
                     this.loading = false;

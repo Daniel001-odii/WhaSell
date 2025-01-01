@@ -65,6 +65,13 @@ const routes = [
   },
 
   {
+    path: '/invite',
+    name: 'Whasell - Register reffered',
+    component: RegistrationDecideView,
+    meta: { title: 'Whasell - Register reffered' }
+  },
+
+  {
     path: '/register/seller',
     name: 'Whasell - Register Seller',
     component: SellerRegistrationView,
@@ -246,14 +253,14 @@ let redirectToLogin = false; // Initialize a flag to redirect to login after aut
 let requestedRoute = null; // Initialize a variable to store the requested route
 
 
-function checkUser(){
+/* function checkUser(){
   if(localStorage.getItem('is_authenticated')){
     return true
   } else {
     localStorage.clear();
     return false
   }
-}
+} */
 
 
 /* // this is ensured via the user roles present in the token...
@@ -295,7 +302,7 @@ router.beforeEach(async (to, from, next) => {
 
 // this is ensured via the user roles present in the token...
 
-router.beforeEach(async (to, from, next) => {
+/* router.beforeEach(async (to, from, next) => {
 
   checkUser();
 
@@ -307,7 +314,7 @@ router.beforeEach(async (to, from, next) => {
     // Otherwise, proceed with the navigation
     next();
   }
-}); 
+});  */
 
 
 
@@ -349,7 +356,7 @@ router.beforeEach(async (to, from, next) => {
 
 
 // navigation gaurd to allow only loggedin users to view certain pages..
-router.beforeEach(async (to, from, next) => {
+/* router.beforeEach(async (to, from, next) => {
   checkUser();
   if (to.meta.requiresAuth && !checkUser()) {
     // next('/login'); // Redirect to login for unauthorized access
@@ -357,7 +364,7 @@ router.beforeEach(async (to, from, next) => {
   } else {
     next(); // Proceed to the route
   }
-});
+}); */
 
 
 

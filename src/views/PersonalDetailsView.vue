@@ -153,6 +153,26 @@
             </form>
         </div>
 
+         <!-- REFER CODE AREA -->
+         <div class="divider-tab bg-white">
+            Refer and Earn
+        </div>
+
+        <!-- Refer and earn details -->
+        <div class="flex flex-col bg-white p-8 rounded-lg mt-3 border">
+            <div class="mt-3 text-blue-500">Invite a friend and earn 10 credits once your friend signs up with your referal link</div>
+            <div class="flex flex-col justify-center items-start gap-3 w-full mt-3">
+                <span class="font-bold test-md">Referal Link</span>
+                <div class=" flex flex-row gap-3 border p-3 rounded-lg">
+                    <input type="text" class="bg-slate-100 w-full p-3 rounded-md overflow-hidden outline-none" :value="refferal_link" disabled>
+                    <button class="bg-app_green p-3 rounded-md text-white" @click="copyRefferalCode">
+                        <i class="bi bi-copy"></i>
+                    </button>
+                </div>
+                
+            </div>
+        </div>
+
         
 
     </div>
@@ -207,6 +227,17 @@ import NaijaStates from 'naija-state-local-government';
         },
 
         methods:{
+
+            copyRefferalCode() {
+                navigator.clipboard.writeText(this.refferal_link).then(() => {
+                    this.$toast.open({
+                        message: `Refferal link copied to clipboard`,
+                        type: 'success',
+                    });
+                }).catch(err => {
+                    console.error('Failed to copy: ', err);
+                });
+            },
 
             onFileChange(event) {
                 const file = event.target.files[0];
@@ -320,6 +351,14 @@ import NaijaStates from 'naija-state-local-government';
                 }catch(error){
                     console.log("error updating user: ", error);
                     this.loading_socials = false;
+                }
+            }
+        },
+
+        computed:{
+            refferal_link(){
+                if(this.user){
+                    return `${window.origin}/invite?refferal_code=${this.user.refferal_code}`;
                 }
             }
         },

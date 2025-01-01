@@ -145,7 +145,8 @@
                             <span class="text-small font-light">{{ readableDate(items.date) }}</span>
                         </div>
                     </div>
-                    <span class="font-bold">₦{{ items.amount.toLocaleString() }}</span>
+                    <span v-if="items.narration"> {{ items.narration }}</span>
+                    <!-- <span class="font-bold">₦{{ items.amount.toLocaleString() }}</span> -->
                     <!-- <span :class="items.status == 'successful'?'text-green-600':'text-gray-500'">{{ items.status }}</span> -->
                     <!-- <span>{{ readableDate(items.date) }}</span> -->
                 </div>
@@ -210,7 +211,7 @@ import { format, formatDate } from 'date-fns';
 
         methods: {
             readableDate(dateString){
-                return format(new Date(dateString), 'dd/mm/yyyy');
+                return format(dateString, 'dd/mm/yyyy');
             },
 
             paymentAmount(no_of_coins){

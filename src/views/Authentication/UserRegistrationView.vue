@@ -10,15 +10,15 @@
 
                     <div class="flex flex-col gap-3">
                         <div>
-                            <input type="text" placeholder="username" v-model="form.username" class="form-input" :class="errors.username ? 'border-red-400':''" required>
+                            <input type="text" name="username" placeholder="username" v-model="form.username" class="form-input" :class="errors.username ? 'border-red-400':''" required>
                             <small v-if="errors.username || form.username == ''" class="text-red-500">{{ errors.username }}</small>
                         </div>
                         <div>
-                            <input type="email" placeholder="example@mail.com" v-model="form.email" class="form-input" :class="errors.email ? 'border-red-400':''" required>
+                            <input type="email" name="email" placeholder="example@mail.com" v-model="form.email" class="form-input" :class="errors.email ? 'border-red-400':''" required>
                             <small v-if="errors.email" class="text-red-500">{{ errors.email }}</small>
                         </div>
                         <div>
-                            <input type="tel" placeholder="+2341234567890" v-model="form.phone" class="form-input" :class="errors.phone ? 'border-red-400':''" required>
+                            <input type="tel" name="phone" placeholder="+2341234567890" v-model="form.phone" class="form-input" :class="errors.phone ? 'border-red-400':''" required>
                             <small v-if="errors.phone" class="text-red-500">{{ errors.phone }}</small>
                         </div>
                         <div>
@@ -51,7 +51,7 @@
                             </div>
                         </div>
                     </div>
-                    <button type="button" @click="register" :disabled="loading || passwordStrength.score < 5" class="bg-[#37B36E] text-white w-full rounded-md p-3 mt-6 hover:bg-opacity-80 font-bold disabled:cursor-not-allowed disabled:bg-gray-300">
+                    <button type="submit" :disabled="loading || passwordStrength.score < 5" class="bg-[#37B36E] text-white w-full rounded-md p-3 mt-6 hover:bg-opacity-80 font-bold disabled:cursor-not-allowed disabled:bg-gray-300">
                         <span v-if="loading">loading...</span>
                         <span v-else>Oya let's get started</span>
                     </button>
@@ -87,6 +87,7 @@ import axios from 'axios'
 
 
                 form:{
+                    refferal_code: '',
                     username: '',
                     email: '',
                     phone: '',
@@ -127,12 +128,22 @@ import axios from 'axios'
             async register() {
                 try {
                     this.loading = true;
+
+                    // check if user is reffered
+                    if(localStorage.getItem('refferal_code')){
+                        this.form.refferal_code = localStorage.getItem('refferal_code');
+                    };
+
                     const response = await axios.post('/register/primary', this.form, { withCredentials: true });
                     console.log("registration response: ", response);
                     this.$toast.open({
                         message: 'Registration successful',
                         type: 'success',
                     });
+
+                    // clear refferal code from localstorage
+                    localStorage.removeItem('refferal_code');
+
                     // localStorage.setItem("is_authenticated", true);
                     setTimeout(() => {
                         this.$router.push('/login');

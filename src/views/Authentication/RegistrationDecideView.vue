@@ -32,6 +32,7 @@
     <!-- </div> -->
 </template>
 
+
 <script>
 import router from '@/router';
 
@@ -44,14 +45,20 @@ import router from '@/router';
         },
         methods:{
             visitRegisterPage(){
-            
                 if(this.user_type == "buyer"){
-                    router.push('/register/buyer')
+                    router.push('/register/buyer');
                 } 
                 if(this.user_type == "seller"){
                     router.push('/register/seller')
                 }
             }
+        },
+
+        mounted(){
+            if(this.$route.query.refferal_code){
+                alert('refferal code found')
+                localStorage.setItem('refferal_code', this.$route.query.refferal_code)
+            };
         }
     }
 </script>

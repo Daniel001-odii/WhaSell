@@ -1,6 +1,8 @@
 import express from 'express';
 import { createServer as createViteServer } from 'vite';
-import { render } from './entry-server';
+import { render } from './entry-client.js';
+import fetch from 'node-fetch';
+
 
 async function createServer() {
   const app = express();
@@ -11,12 +13,16 @@ async function createServer() {
   app.use(vite.middlewares);
 
   app.get('/api/product/:id', async (req, res) => {
-    // Mocked product data. Replace with actual DB/API calls as needed.
-    const products = {
-      1: { title: 'Product 1', description: 'Description of Product 1', image: '/images/product1.jpg' },
-      2: { title: 'Product 2', description: 'Description of Product 2', image: '/images/product2.jpg' },
-    };
-    res.json(products[req.params.id]);
+
+    const product_id = req.params.id;
+    try{
+        const response = await fetch(`${this.process.env.VUE_APP_API_URL}/products/${product_id}`);
+        const product = await response.json();
+        res.json(product);
+    }catch(error){
+        console.error('Error fetching product data:', error);
+        res.status(500).json({ error: 'Failed to fetch product data' });
+    }
   });
 
   app.get('*', async (req, res) => {

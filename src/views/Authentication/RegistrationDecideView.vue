@@ -56,7 +56,6 @@ import router from '@/router';
 
         mounted(){
             if(this.$route.query.refferal_code){
-                alert('refferal code found')
                 localStorage.setItem('refferal_code', this.$route.query.refferal_code)
             };
         }

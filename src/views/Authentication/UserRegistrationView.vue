@@ -10,15 +10,20 @@
 
                     <div class="flex flex-col gap-3">
                         <div>
-                            <input type="text" name="username" placeholder="username" v-model="form.username" class="form-input" :class="errors.username ? 'border-red-400':''" required>
+                            <input @input="validateUsername" id="username" type="text" name="username" placeholder="username" v-model="form.username" class="form-input" :class="errors.username ? 'border-red-400':''" required>
                             <small v-if="errors.username || form.username == ''" class="text-red-500">{{ errors.username }}</small>
                         </div>
                         <div>
-                            <input type="email" name="email" placeholder="example@mail.com" v-model="form.email" class="form-input" :class="errors.email ? 'border-red-400':''" required>
+                            <div class="flex flex-row relative">
+                                <SpinnerComponent v-if="loading_email" class="absolute top-[50%] right-[5%]"/>
+                                <input id="email" type="email" @change="checkEmail" name="email" placeholder="example@mail.com" v-model="form.email" class="form-input" :class="errors.email ? 'border-red-400':''" required>
+                            </div>
+                            
                             <small v-if="errors.email" class="text-red-500">{{ errors.email }}</small>
                         </div>
-                        <div>
-                            <input type="tel" name="phone" placeholder="+2341234567890" v-model="form.phone" class="form-input" :class="errors.phone ? 'border-red-400':''" required>
+                        <div class="relative">
+                            <SpinnerComponent v-if="loading_phone" class="absolute top-[35%] right-[5%]"/>
+                            <input type="tel" @change="checkPhone" name="phone" placeholder="081234567890" v-model="form.phone" class="form-input" :class="errors.phone ? 'border-red-400':''" required>
                             <small v-if="errors.phone" class="text-red-500">{{ errors.phone }}</small>
                         </div>
                         <div>
@@ -51,7 +56,7 @@
                             </div>
                         </div>
                     </div>
-                    <button type="submit" :disabled="loading || passwordStrength.score < 5" class="bg-[#37B36E] text-white w-full rounded-md p-3 mt-6 hover:bg-opacity-80 font-bold disabled:cursor-not-allowed disabled:bg-gray-300">
+                    <button type="submit" :disabled="loading || passwordStrength.score < 5 || form_error" class="bg-[#37B36E] text-white w-full rounded-md p-3 mt-6 hover:bg-opacity-80 font-bold disabled:cursor-not-allowed disabled:bg-gray-300">
                         <span v-if="loading">loading...</span>
                         <span v-else>Oya let's get started</span>
                     </button>
@@ -67,11 +72,14 @@
 
 <script>
 import axios from 'axios'
-
+import SpinnerComponent from '@/components/SpinnerComponent.vue';
 
 
     export default {
         name: "UserRegistrationView",
+        components: {
+            SpinnerComponent
+        },
         data(){
             return{
                 user_type: "",
@@ -98,11 +106,30 @@ import axios from 'axios'
                     email: '',
                     phone: '',
                     password: '',
-                }
+                },
+                form_error: false,
+
+                loading_email: false,  
+                loading_phone: false,
+                
             }
         },
 
         methods:{
+
+            validateUsername() {
+                // Remove invalid characters and set the valid value
+                const validUsername = this.form.username.replace(/[^a-zA-Z]/g, "").slice(0,15);
+                if(this.form.username.length >= 15){
+                    // this.errors.username = "Username must not exceed 15 characters.";
+                }
+                else if (this.form.username !== validUsername) {
+                    // this.errors.username = "Only alphabets are allowed.";
+                } else {
+                    this.errors.username  = "";
+                }
+                this.form.username = validUsername;
+            },
 
             evaluatePasswordStrength(password) {
                 let score = 0;
@@ -123,6 +150,43 @@ import axios from 'axios'
                 }
 
                 this.passwordStrength = { score, label };
+            },
+
+            async checkEmail(){
+                try{
+                    this.loading_email = true;
+                    const response = await axios.post(`/user/email_check`, { email: this.form.email});
+                    console.log("email response: ", response);
+
+                    this.errors.email = '';
+                    this.loading_email = false;
+                    this.form_error = false;
+                }catch(error){
+                    console.log("error checking email: ", error);
+                    this.errors.email = error.response.data.message;
+
+                    this.loading_email = true;
+                    this.form_error = true;
+                }
+            },
+
+            async checkPhone(){
+                try{
+                    this.loading_phone = true;
+                    const response = await axios.get(`/user/phone_check/${this.form.phone}`);
+                    console.log("phone response: ", response);
+
+
+                    this.form_error = false;
+                    this.errors.phone = '';
+                    this.loading_phone = false;
+                }catch(error){
+                    console.log("error checking phone: ", error);
+                    this.errors.phone = error.response.data.message;
+
+                    this.loading_phone = true;
+                    this.form_error = true;
+                }
             },
             
             async register() {
@@ -147,7 +211,7 @@ import axios from 'axios'
                     // localStorage.setItem("is_authenticated", true);
                     setTimeout(() => {
                         this.$router.push('/login');
-                    }, 2000);
+                    }, 1000);
                     // this.loading = false;
                 } catch (error) {
                     

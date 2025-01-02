@@ -1,12 +1,15 @@
 <template>
     <div class="min-h-screen flex flex-col md:flex-row">
-        <div class="w-full md:w-[50%] min-h-screen flex justify-center items-center p-3 md:p-12">
-            <div class="p-3 w-full max-w-lg">
+        <div class="w-full md:w-[50%] flex justify-center items-center p-3 md:p-12">
+            <div class="p-3 w-full max-w-lg flex flex-col gap-3">
+                
+                
                 <form @submit.prevent="register" class="flex flex-col">
                     <h1 class="text-4xl font-bold text-app_green mb-3">Sign Up Seller</h1>
                     <p class="my-3">Start your journey today! Buying made easy.</p>
 
-                    <span class="text-red-500 my-3">{{ error_message }}</span>
+                    <!-- <span class="text-red-500 my-3">{{ error_message }}</span> -->
+                   
 
                     <!-- {{  form  }} -->
 
@@ -29,23 +32,43 @@
                         <!-- Centered dashed border line -->
                         <div class="border border-dashed absolute w-[80%] -z-10 top-5 left-0 right-0 mx-auto"></div>
                     </div>
+
+                   
                     <!-- END OF PROGRESS BAR -->
 
-
+<!-- {{ form_error }} -->
 
                     <!-- FORM SLIDES... -->
                      <!-- FORM SLIDE 1 -->
                     <div v-show="slide == 0" class="flex flex-col gap-3">
                         <div>
-                            <input type="text" placeholder="username" v-model="form.username" class="form-input" :class="errors.username ? 'border-red-400':''" required>
+                            <input
+                                class="form-input"
+                                id="username"
+                                type="text"
+                                v-model="form.username"
+                                @input="validateUsername"
+                                placeholder="your username"
+                            />
+                            
+                            <!-- <input type="text" placeholder="username" v-model="form.username" class="form-input" :class="errors.username ? 'border-red-400':''" required> -->
                             <small v-if="errors.username || form.username == ''" class="text-red-500">{{ errors.username }}</small>
                         </div>
                         <div>
-                            <input type="email" placeholder="example@mail.com" v-model="form.email" class="form-input" :class="errors.email ? 'border-red-400':''" required>
+                            <input @change="checkEmail" type="email" placeholder="example@mail.com" v-model="form.email" class="form-input" :class="errors.email ? 'border-red-400':''" required>
                             <small v-if="errors.email" class="text-red-500">{{ errors.email }}</small>
                         </div>
                         <div>
-                            <input type="tel" placeholder="+2341234567890" v-model="form.phone" class="form-input" :class="errors.phone ? 'border-red-400':''" required>
+                            <input
+                                class="form-input"
+                                id="phone"
+                                type="text"
+                                v-model="form.phone"
+                                @input="validatePhone"
+                                @change="checkPhone"
+                                placeholder="08123456789"
+                            />
+                            <!-- <input type="tel" placeholder="08123456789" v-model="form.phone" class="form-input" :class="errors.phone ? 'border-red-400':''" required> -->
                             <small v-if="errors.phone" class="text-red-500">{{ errors.phone }}</small>
                         </div>
                         <div>
@@ -78,7 +101,7 @@
                             </div>
                         </div>
 
-                        <button type="button" @click="slide += 1" :disabled="loading || passwordStrength.score < 5" class="bg-[#37B36E] text-white w-full rounded-md p-3 mt-6 hover:bg-opacity-80 font-bold disabled:cursor-not-allowed disabled:bg-gray-300">
+                        <button type="button" @click="slide += 1" :disabled="loading || passwordStrength.score < 5 || form_error || form.email == '' || form.username == '' || form.phone == '' || form.password == ''" class="bg-[#37B36E] text-white w-full rounded-md p-3 mt-6 hover:bg-opacity-80 font-bold disabled:cursor-not-allowed disabled:bg-gray-300">
                             <span v-if="loading">loading...</span>
                             <span v-else>Next</span>
                         </button>
@@ -87,13 +110,13 @@
                     <!-- FORM SLIDE 2 -->
                     <div v-show="slide == 1" class="flex flex-col gap-3">
                         <div>
-                            <input type="text" placeholder="Shop name" v-model="form.shop_name" class="form-input" :class="errors.shop_name ? 'border-red-400':''" required>
+                            <input type="text" @input="validateShopName" @change="checkShopName()" placeholder="Shop name" v-model="form.shop_name" class="form-input" :class="errors.shop_name ? 'border-red-400':''" required>
                             <small v-if="errors.shop_name || form.shop_name == ''" class="text-red-500">{{ errors.shop_name }}</small>
                         </div>
                         
                         <div>
                             <select class="form-input" v-model="form.shop_category">
-                                <option>Select Category</option>
+                                <option value="">Select Category</option>
                                 <option v-for="Category in shop_categories" :value="Category">{{ Category }}</option>
                             </select>
                         </div>
@@ -102,13 +125,14 @@
                             <textarea type="textarea" placeholder="Shop Bio" v-model="form.shop_description" class="form-input max-h-[100px] min-h-[100px]" :class="errors.shop_name ? 'border-red-400':''"></textarea>
                             <small v-if="errors.shop_name || form.shop_name == ''" class="text-red-500">{{ errors.shop_name }}</small>
                         </div>
+                        
 
                         <div class="flex flex-row gap-3">
                             <button type="button" @click="slide -= 1" class="bg-gray-600 text-white w-fit rounded-md p-3 px-5 mt-6 hover:bg-opacity-80 font-bold disabled:cursor-not-allowed disabled:bg-gray-300">
                                 Prev
                             </button>
 
-                            <button type="button" @click="slide += 1" :disabled="form.shop_name == '' || form.shop_category == '' || form.shop_description == ''" class="bg-[#37B36E] text-white w-full rounded-md p-3 mt-6 hover:bg-opacity-80 font-bold disabled:cursor-not-allowed disabled:bg-gray-300">
+                            <button type="button" @click="slide += 1" :disabled="form.shop_name == '' || form.shop_category == '' || form.shop_description == '' || form_error" class="bg-[#37B36E] text-white w-full rounded-md p-3 mt-6 hover:bg-opacity-80 font-bold disabled:cursor-not-allowed disabled:bg-gray-300">
                                 Next
                             </button>
                         </div>
@@ -117,6 +141,11 @@
 
                     <!-- FORM SLIDE 3 -->
                     <div v-show="slide == 2" class="flex flex-col gap-3">
+                        <!-- <div class="w-full flex flex-col gap-2" v-for="error in errors">
+                            <span v-if="error.length > 0" class="text-red-700 p-3 bg-red-500 bg-opacity-10 rouded-sm">{{ error }}</span>
+                        </div> -->
+
+
                         <div class=" flex flex-col justify-center items-center gap-3">
                             <div class=" h-40 w-40 bg-gray-200 rounded-full relative flex justify-center items-center">
                                 <i class="bi bi-shop text-4xl text-gray-400"></i>
@@ -131,13 +160,15 @@
                             <span class=" bg-app_light_green text-app_green px-3 p-2 rounded-md">{{ form.shop_category }}</span>
                         </div>
 
+                       
                         <div class="flex flex-row gap-3">
                             <button type="button" @click="slide -= 1" class="bg-gray-600 text-white w-fit rounded-md p-3 px-5 mt-6 hover:bg-opacity-80 font-bold disabled:cursor-not-allowed disabled:bg-gray-300">
                                 Prev
                             </button>
 
-                            <button type="button" @click="register" class="bg-[#37B36E] text-white w-full rounded-md p-3 mt-6 hover:bg-opacity-80 font-bold disabled:cursor-not-allowed disabled:bg-gray-300">
-                                Create account jorr!
+                            <button type="submit" :disabled="form_error || loading" class="bg-[#37B36E] text-white w-full rounded-md p-3 mt-6 hover:bg-opacity-80 font-bold disabled:cursor-not-allowed disabled:bg-gray-300">
+                                <span v-if="loading">loading...</span>
+                                <span v-else>Create account jorr!</span>
                             </button>
                         </div>
 
@@ -215,11 +246,51 @@ import ToastBox from '@/components/ToastBox.vue'
                     email: '',
                     phone: '',
                     password: '',
-                }
+                },
+                form_error: false,
             }
         },
 
         methods:{
+
+            validatePhone() {
+                // Remove invalid characters and set the valid value
+                const validPhone = this.form.phone.replace(/[^0-9]/g, "").slice(0,11);
+                if (this.form.phone !== validPhone || validPhone.length > 11) {
+                    // this.errors.phone = "Only numbers are allowed, and must not exceed 11 digits.";
+                } else {
+                    this.errors.phone = "";
+                }
+                this.form.phone = validPhone;
+            },
+
+            validateUsername() {
+                // Remove invalid characters and set the valid value
+                const validUsername = this.form.username.replace(/[^a-zA-Z]/g, "").slice(0,15);
+                if(this.form.username.length >= 15){
+                    // this.errors.username = "Username must not exceed 15 characters.";
+                }
+                else if (this.form.username !== validUsername) {
+                    this.errors.username = "Only alphabets are allowed.";
+                } else {
+                    this.errors.username  = "";
+                }
+                this.form.username = validUsername;
+            },
+
+            validateShopName() {
+                // Remove invalid characters and set the valid value
+                const validUsername = this.form.shop_name.replace(/[^a-zA-Z]/g, "").slice(0,15);
+                if(this.form.shop_name.length >= 15){
+                    // this.errors.username = "Username must not exceed 15 characters.";
+                }
+                else if (this.form.shop_name !== validUsername) {
+                    // this.errors.shop_name = "Only alphabets are allowed.";
+                } else {
+                    this.errors.shop_name  = "";
+                }
+                this.form.shop_name = validUsername;
+            },
 
             evaluatePasswordStrength(password) {
                 let score = 0;
@@ -241,6 +312,46 @@ import ToastBox from '@/components/ToastBox.vue'
 
                 this.passwordStrength = { score, label };
             },
+
+            async checkEmail(){
+                try{
+                    const response = await axios.post(`/user/email_check`, { email: this.form.email});
+                    console.log("email response: ", response);
+                    this.form_error = false;
+                    this.errors.email = '';
+                }catch(error){
+                    console.log("error checking email: ", error);
+                    this.errors.email = error.response.data.message;
+                    this.form_error = true;
+                }
+            },
+
+            async checkPhone(){
+                try{
+                    const response = await axios.get(`/user/phone_check/${this.form.phone}`);
+                    console.log("phone response: ", response);
+                    this.form_error = false;
+                    this.errors.phone = '';
+                }catch(error){
+                    console.log("error checking phone: ", error);
+                    this.errors.phone = error.response.data.message;
+                    this.form_error = true;
+                }
+            },
+
+            async checkShopName(){
+                try{
+                    const response = await axios.get(`/shops/name_check/${this.form.shop_name}`);
+                    console.log("shop name response: ", response);
+                    this.form_error = false;
+                    this.errors.shop_name = '';
+                }catch(error){
+                    console.log("error checking shop name: ", error);
+                    this.errors.shop_name = error.response.data.message;
+                    this.form_error = true;
+                }
+            },
+            
             
             async register() {
                 try {
@@ -256,9 +367,9 @@ import ToastBox from '@/components/ToastBox.vue'
                     // localStorage.setItem("is_authenticated", true);
                     setTimeout(() => {
                         this.$router.push('/market');
-                    }, 2000);
-                    
-                    // this.loading = false;
+                    }, 1000);
+
+                    this.form_error = false;
                 } catch (error) {
                     
                     if (error.response && error.response.data && error.response.data.error && error.response.data.error.errors) {
@@ -268,9 +379,9 @@ import ToastBox from '@/components/ToastBox.vue'
                         this.errors.phone = backendErrors.phone ? backendErrors.phone.message : '';
                         this.errors.password = backendErrors.password ? backendErrors.password.message : '';
                     } else {
-                        // this.error_message = error.response.data.message;
-                        this.errors.phone = error.response.data.error.keyValue.phone ? 'phone already registered':'';
-                        this.errors.email = error.response.data.error.keyValue.email ? 'email already registered':'';
+                        this.error_message = error.response.data.message;
+                        // this.errors.phone = error.response.data.error.keyValue.phone ? 'phone already registered':'';
+                        // this.errors.email = error.response.data.error.keyValue.email ? 'email already registered':'';
                     }
                     console.log("error registering user: ", error);
                     this.loading = false;

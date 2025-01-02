@@ -11,8 +11,8 @@
 
                     <div class="flex flex-col gap-3">
                         <div>
-                            <input type="text" name="email" placeholder="username, email or phone" v-model="form.usernameOrEmailOrPhone" class="form-input" :class="errors.username ? 'border-red-400':''" required>
-                            <small v-if="errors.username || form.usernameOrEmailOrPhone == ''" class="text-red-500">{{ errors.username }}</small>
+                            <input type="text" name="email" placeholder="email or phone" v-model="form.emailOrPhone" class="form-input" :class="errors.username ? 'border-red-400':''" required>
+                            <small v-if="errors.username || form.emailOrPhone == ''" class="text-red-500">{{ errors.username }}</small>
                         </div>
                         <div>
                             <div class="relative">
@@ -36,7 +36,13 @@
 
                             
                         </div>
+
+                        <RouterLink to="/password_reset" class=" text-green-500">
+                            Forgot password
+                        </RouterLink>
                     </div>
+
+                    
                     
                     <button type="submit" :disabled="loading" class="bg-[#37B36E] text-white w-full rounded-md p-3 mt-6 hover:bg-opacity-80 font-bold disabled:cursor-not-allowed disabled:bg-gray-300">
                         <span v-if="loading">loading...</span>
@@ -82,7 +88,7 @@ import Button from 'primevue/button'
 
 
                 form:{
-                    usernameOrEmailOrPhone: '',
+                    emailOrPhone: '',
                     password: '',
                 },
 

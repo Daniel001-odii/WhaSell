@@ -200,6 +200,9 @@
                         <span v-else>Next</span>
                     </button> -->
                 </form>
+                <div class="mt-3 text-gray-400">
+                        <p>Already a member? <RouterLink class="text-app_green underline" to="/login">Login</RouterLink></p>
+                    </div>
             </div>
         </div>
         <div class="hidden md:flex bg-app_green w-[50%] min-h-screen justify-center items-center">

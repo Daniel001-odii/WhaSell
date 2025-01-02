@@ -35,6 +35,11 @@ import PageNotFoundView from '@/views/PageNotFoundView.vue'
 
 import CategoriesView from '@/views/CategoriesView.vue'
 
+import axios from 'axios'
+import GlipsPageView from '@/views/GlipsPageView.vue'
+import ResetPasswordView from '@/views/ResetPasswordView.vue'
+
+
 const routes = [
   {
     path: '',
@@ -83,6 +88,13 @@ const routes = [
     name: 'Whasell - Register Buyer',
     component: UserRegistrationView,
     meta: { title: 'Whasell - Register Buyer' }
+  },
+
+  
+  {
+    path: '/password_reset',
+    component: ResetPasswordView,
+    meta: { title: 'Whasell - Reset password' }
   },
 
   {
@@ -244,8 +256,7 @@ router.beforeEach((to, from, next) => {
   next();
 });
 
-import axios from 'axios'
-import GlipsPageView from '@/views/GlipsPageView.vue'
+
 axios.defaults.withCredentials = true;
 axios.defaults.baseURL = process.env.VUE_APP_API_URL
 

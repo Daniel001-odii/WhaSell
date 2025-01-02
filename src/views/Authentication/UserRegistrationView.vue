@@ -56,6 +56,9 @@
                             </div>
                         </div>
                     </div>
+                    <div class="mt-3 text-gray-400">
+                        <p>Already a member? <RouterLink class="text-app_green underline" to="/login">Login</RouterLink></p>
+                    </div>
                     <button type="submit" :disabled="loading || passwordStrength.score < 5 || form_error" class="bg-[#37B36E] text-white w-full rounded-md p-3 mt-6 hover:bg-opacity-80 font-bold disabled:cursor-not-allowed disabled:bg-gray-300">
                         <span v-if="loading">loading...</span>
                         <span v-else>Oya let's get started</span>

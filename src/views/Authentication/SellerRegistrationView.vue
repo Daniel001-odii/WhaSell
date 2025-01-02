@@ -55,20 +55,28 @@
                             <small v-if="errors.username || form.username == ''" class="text-red-500">{{ errors.username }}</small>
                         </div>
                         <div>
-                            <input @change="checkEmail" type="email" placeholder="example@mail.com" v-model="form.email" class="form-input" :class="errors.email ? 'border-red-400':''" required>
+                            <div class="flex flex-row gap-2 relative">
+                                <input @change="checkEmail" type="email" placeholder="example@mail.com" v-model="form.email" class="form-input" :class="errors.email ? 'border-red-400':''" required>
+                                <SpinnerComponent class="absolute right-5 top-[50%]" v-if="email_loading"/>
+                            </div>
+                            
+                            
                             <small v-if="errors.email" class="text-red-500">{{ errors.email }}</small>
                         </div>
                         <div>
-                            <input
-                                class="form-input"
-                                id="phone"
-                                type="text"
-                                v-model="form.phone"
-                                @input="validatePhone"
-                                @change="checkPhone"
-                                placeholder="08123456789"
-                            />
-                            <!-- <input type="tel" placeholder="08123456789" v-model="form.phone" class="form-input" :class="errors.phone ? 'border-red-400':''" required> -->
+                            <div class="flex flex-row gap-2 relative">
+                                    <input
+                                    class="form-input"
+                                    id="phone"
+                                    type="text"
+                                    v-model="form.phone"
+                                    @input="validatePhone"
+                                    @change="checkPhone"
+                                    placeholder="08123456789"
+                                />
+                                <SpinnerComponent class="absolute right-5 top-[50%]" v-if="phone_loading"/>
+                                
+                            </div>
                             <small v-if="errors.phone" class="text-red-500">{{ errors.phone }}</small>
                         </div>
                         <div>
@@ -101,7 +109,13 @@
                             </div>
                         </div>
 
-                        <button type="button" @click="slide += 1" :disabled="loading || passwordStrength.score < 5 || form_error || form.email == '' || form.username == '' || form.phone == '' || form.password == ''" class="bg-[#37B36E] text-white w-full rounded-md p-3 mt-6 hover:bg-opacity-80 font-bold disabled:cursor-not-allowed disabled:bg-gray-300">
+                        <button type="button" @click="slide += 1" :disabled="
+                        loading || 
+                        email_loading ||
+                        phone_loading ||
+                        passwordStrength.score < 5 || 
+                        form_error || 
+                        form.email == '' || form.username == '' || form.phone == '' || form.password == ''" class="bg-[#37B36E] text-white w-full rounded-md p-3 mt-6 hover:bg-opacity-80 font-bold disabled:cursor-not-allowed disabled:bg-gray-300">
                             <span v-if="loading">loading...</span>
                             <span v-else>Next</span>
                         </button>
@@ -110,7 +124,10 @@
                     <!-- FORM SLIDE 2 -->
                     <div v-show="slide == 1" class="flex flex-col gap-3">
                         <div>
-                            <input type="text" @input="validateShopName" @change="checkShopName()" placeholder="Shop name" v-model="form.shop_name" class="form-input" :class="errors.shop_name ? 'border-red-400':''" required>
+                            <div class="flex flex-row gap-2 relative">
+                                <input type="text" @input="validateShopName" @change="checkShopName()" placeholder="Shop name" v-model="form.shop_name" class="form-input" :class="errors.shop_name ? 'border-red-400':''" required>
+                                <SpinnerComponent class="absolute right-5 top-[50%]" v-if="shop_name_loading"/>
+                            </div>
                             <small v-if="errors.shop_name || form.shop_name == ''" class="text-red-500">{{ errors.shop_name }}</small>
                         </div>
                         
@@ -194,11 +211,13 @@
 
 <script>
 import axios from 'axios'
-import ToastBox from '@/components/ToastBox.vue'
-
+import SpinnerComponent from '@/components/SpinnerComponent.vue';
 
     export default {
         name: "SellerRegistrationView",
+        components: {
+            SpinnerComponent,
+        },
         data(){
             return{
                 user_type: "",
@@ -249,6 +268,10 @@ import ToastBox from '@/components/ToastBox.vue'
                     password: '',
                 },
                 form_error: false,
+
+                email_loading: false,
+                phone_loading: false,
+                shop_name_loading: false,
             }
         },
 
@@ -316,39 +339,52 @@ import ToastBox from '@/components/ToastBox.vue'
 
             async checkEmail(){
                 try{
+                    this.email_loading = true;
                     const response = await axios.post(`/user/email_check`, { email: this.form.email});
                     console.log("email response: ", response);
+
+                    this.email_loading = false;
                     this.form_error = false;
                     this.errors.email = '';
                 }catch(error){
                     console.log("error checking email: ", error);
                     this.errors.email = error.response.data.message;
+
+                    this.email_loading = true;
                     this.form_error = true;
                 }
             },
 
             async checkPhone(){
                 try{
+                    this.phone_loading = true;
                     const response = await axios.get(`/user/phone_check/${this.form.phone}`);
                     console.log("phone response: ", response);
                     this.form_error = false;
                     this.errors.phone = '';
+                    this.phone_loading = false;
                 }catch(error){
                     console.log("error checking phone: ", error);
                     this.errors.phone = error.response.data.message;
+
+                    this.phone_loading = true;
                     this.form_error = true;
                 }
             },
 
             async checkShopName(){
                 try{
+                    this.shop_name_loading = true;
                     const response = await axios.get(`/shops/name_check/${this.form.shop_name}`);
                     console.log("shop name response: ", response);
                     this.form_error = false;
                     this.errors.shop_name = '';
+                    this.shop_name_loading = false;
                 }catch(error){
                     console.log("error checking shop name: ", error);
                     this.errors.shop_name = error.response.data.message;
+
+                    this.shop_name_loading = true;
                     this.form_error = true;
                 }
             },

@@ -196,6 +196,10 @@ import SpinnerComponent from '@/components/SpinnerComponent.vue';
                     // check if user is reffered
                     if(localStorage.getItem('refferal_code')){
                         this.form.refferal_code = localStorage.getItem('refferal_code');
+                        this.$toast.open({
+                            message: 'You have been reffered!',
+                            type: 'success',
+                        });
                     };
 
                     const response = await axios.post('/register/primary', this.form, { withCredentials: true });

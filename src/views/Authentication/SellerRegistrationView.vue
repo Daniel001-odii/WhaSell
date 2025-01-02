@@ -233,6 +233,7 @@ import ToastBox from '@/components/ToastBox.vue'
 
 
                 form:{
+                    refferal_code: '',
                     username: '',
                     email: '',
                     phone: '',
@@ -356,15 +357,29 @@ import ToastBox from '@/components/ToastBox.vue'
             async register() {
                 try {
                     this.loading = true;
+                    // check if user is reffered
+                    if(localStorage.getItem('refferal_code')){
+                        this.form.refferal_code = localStorage.getItem('refferal_code');
+                        this.$toast.open({
+                            message: 'You have been reffered!',
+                            type: 'success',
+                        });
+                    };
+
                     const response = await axios.post('/register/secondary', this.form, { withCredentials: true });
                     console.log("registration response: ", response);
-                    // alert("registration successful!");
+                    
+                    
                     // show toast alert...
                     this.$toast.open({
                         message: 'Registration successful',
                         type: 'success',
                     });
-                    // localStorage.setItem("is_authenticated", true);
+
+                    // clear refferal code from localstorage
+                    localStorage.removeItem('refferal_code');
+                     
+
                     setTimeout(() => {
                         this.$router.push('/market');
                     }, 1000);

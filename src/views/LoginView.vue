@@ -3,7 +3,7 @@
     <div class="min-h-screen flex flex-col md:flex-row">
         <div class="w-full md:w-[50%] min-h-screen flex justify-center items-center md:p-12">
             <div class="p-3 w-full md:max-w-lg">
-                <form @submit.prevent="login" class="m-3">
+                <form @submit.prevent="login" class="m-3" v-if="email_verified">
                     <h1 class="text-4xl font-bold text-app_green mb-3">Login</h1>
                     <p class="my-6">Welcome back!!, Oya let’s get back to it...</p>
 
@@ -45,14 +45,27 @@
                     
                     
                     <button type="submit" :disabled="loading" class="bg-[#37B36E] text-white w-full rounded-md p-3 mt-6 hover:bg-opacity-80 font-bold disabled:cursor-not-allowed disabled:bg-gray-300">
-                        <span v-if="loading">loading...</span>
-                        <span v-else>Looogin</span>
+                        <span v-if="loading" class=" app_spinner"></span>
+                        <span>Looogin</span>
                     </button>
 
                     <div class="mt-3 text-gray-400">
                         <p>Not yet a member? <RouterLink class="text-app_green" to="/register">join us</RouterLink></p>
                     </div>
                 </form>
+
+                <!-- FOR EMAIL NOT VERIFIED -->
+                <div class="flex flex-col" v-if="!email_verified">
+                <!-- <div class="flex flex-col" > -->
+                    <h1 class="text-4xl font-bold text-app_green mb-3">Verify your email</h1>
+                    <p class="my-6">Youre just a step away from enjoying all whatsell's benefit 
+                        <br/>click the link below to resend verification email
+                    </p>
+                    <button type="button" @click="resendVerificationMail" :disabled="loading || verification_mail_sent" class="bg-[#37B36E] text-white w-full rounded-md p-3 mt-6 hover:bg-opacity-80 font-bold disabled:cursor-not-allowed disabled:bg-gray-300">
+                        <span v-if="loading">loading...</span>
+                        <span v-else>Resend verification email<span v-if="verification_mail_sent"> in {{ time }}s</span></span>
+                    </button>
+                </div>
             </div>
         </div>
         <div class="hidden md:flex bg-app_green w-[50%] min-h-screen justify-center items-center">
@@ -97,11 +110,30 @@ import Button from 'primevue/button'
                     email: '',
                     phone: '',
                     password: '',
-                }
+                },
+
+                email_verified: true,
+                verification_mail_sent: false,
+                time: 0,
             }
         },
 
         methods:{
+
+            countDown(){
+                this.verification_mail_sent = true;
+                let seconds = 60
+                const time = setInterval(()=>{
+                    if(seconds > 0){
+                        seconds -= 1;
+                        console.log("seconds: ", seconds);
+                        this.time = seconds;
+                    } else {
+                        clearInterval(time);
+                        this.verification_mail_sent = false;
+                    }
+                }, 1000);
+            },
             
             async login() {
                 try {
@@ -128,6 +160,9 @@ import Button from 'primevue/button'
 
                     this.loading = true;
                 } catch (error) {
+                    if(error.response.status == 400){
+                        this.email_verified = false;
+                    }
                     // console.log("error in login user: ", error);
                     this.$toast.open({
                         message: `${error.response.data.message}`,
@@ -137,8 +172,55 @@ import Button from 'primevue/button'
                     this.loading = false;
 
                 }
+            },
+
+            async verifyEmail(token){
+                try{
+                    const response = await axios.post('/email_verify', { token });
+                    this.$toast.open({
+                        message: `${response.data.message}`,
+                        type: 'success',
+                    });
+                }catch(error){
+                    this.$toast.open({
+                        message: `${error.response.data.message}`,
+                        type: 'error',
+                    });
+                }
+            },
+
+            async resendVerificationMail(){
+                try{
+                    this.loading = true;
+                    const response = await axios.post('/email_verification/send', { email: this.form.emailOrPhone });
+                    console.log("response from verifying mail: ", response);
+                    this.verification_mail_sent = true;
+                    this.loading = false;
+                    this.$toast.open({
+                        message: `${response.data.message}`,
+                        type: 'success',
+                    });
+                    this.countDown();
+                }catch(error){
+                    this.$toast.open({
+                        message: `${error.response.data.message}`,
+                        type: 'error',
+                    });
+                    this.loading = false;
+                    console.log("error resending mail: ", error)
+                }
             }
 
+        },
+
+        created(){
+            if(this.$route.query.token){
+                this.verifyEmail(this.$route.query.token);
+            }
+        },
+
+        computed: {
+            
         }
     }
 </script>

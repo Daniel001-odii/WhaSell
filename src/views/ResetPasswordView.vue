@@ -17,9 +17,9 @@
                             <input type="email" placeholder="email" v-model="form.email" class="form-input" :class="errors.email ? 'border-red-400':''" required>   
                         </div>
                     </div>
-                    <button type="submit" :disabled="loading || form.password != form.password_confirmation" class="bg-[#37B36E] text-white w-full rounded-md p-3 mt-6 hover:bg-opacity-80 font-bold disabled:cursor-not-allowed disabled:bg-gray-300">
-                        <span v-if="loading">loading...</span>
-                        <span v-else>Send Reset Link</span>
+                    <button type="submit" :disabled="loading || form.password != form.password_confirmation || reset_link_sent" class="bg-[#37B36E] text-white w-full rounded-md p-3 mt-6 hover:bg-opacity-80 font-bold disabled:cursor-not-allowed disabled:bg-gray-300">
+                        <span v-if="loading" class=" app_spinner"></span>
+                        <span>Send reset link <span v-if="reset_link_sent">in {{ time }}s</span></span>
                     </button>
                 </form>
                 <form v-if="next_step" @submit.prevent="resetPassword" class="m-3">
@@ -74,8 +74,8 @@
                     <!-- {{ form }} -->
                     
                     <button type="submit" :disabled="loading || form.password != form.password_confirmation" class="bg-[#37B36E] text-white w-full rounded-md p-3 mt-6 hover:bg-opacity-80 font-bold disabled:cursor-not-allowed disabled:bg-gray-300">
-                        <span v-if="loading">loading...</span>
-                        <span v-else>Reset Password</span>
+                        <span v-if="loading" class=" app_spinner"></span>
+                        <span>Reset Password</span>
                     </button>
 
                     <div class="mt-3 text-gray-400">
@@ -94,7 +94,7 @@
 <script>
 import axios from 'axios'
 import ToastBox from '../components/ToastBox.vue'
-
+import router from '@/router';
 import Button from 'primevue/button'
     export default {
         name: "ResetPasswordView",
@@ -127,6 +127,9 @@ import Button from 'primevue/button'
                     password: '',
                 },
                 next_step: false,
+
+                reset_link_sent: false,
+                time: 60,
             }
         },
 
@@ -162,6 +165,9 @@ import Button from 'primevue/button'
                         message: 'password reset link successfully sent!',
                         type: 'success',
                     });
+                    
+                    this.countDown();
+                    this.loading = false;
                 }catch(error){
                     console.error("send reset link error: ", error);
                     this.error_message = error.response.data.message;
@@ -184,7 +190,7 @@ import Button from 'primevue/button'
                     });
 
                     setTimeout(() => {
-                        this.$router.push('/login');
+                        router.push('/login');
                     }, 2000);
                 } catch (error) {
                     this.$toast.open({
@@ -196,7 +202,23 @@ import Button from 'primevue/button'
                 } finally {
                     this.loading = false;
                 }
-            }
+            },
+
+
+            countDown(){
+                this.reset_link_sent = true;
+                let seconds = 60
+                const time = setInterval(()=>{
+                    if(seconds > 0){
+                        seconds -= 1;
+                        console.log("seconds: ", seconds);
+                        this.time = seconds;
+                    } else {
+                        clearInterval(time);
+                        this.reset_link_sent = false;
+                    }
+                }, 1000);
+            },
         },
 
         mounted(){

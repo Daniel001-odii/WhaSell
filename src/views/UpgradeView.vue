@@ -154,7 +154,7 @@
             </div>
             <div class="border rounded-lg flex flex-col gap-3 p-3  px-8 mt-1 bg-white">
                 <h2 class="font-bold text-lg mt-3">Debits</h2>
-                <div v-if="wallet_debit_transactions && wallet_debit_transactions.length > 0" v-for="items in wallet_debit_transactions.slice(0, 3)" class="flex flex-row justify-between">
+                <div v-if="wallet_debit_transactions && wallet_debit_transactions.length > 0" v-for="items in wallet_debit_transactions.slice(0,5)" class="flex flex-row justify-between">
                     <!-- <span class="">₦{{ items.amount.toLocaleString() }}</span> -->
                     <span class="flex flex-row gap-1 justify-center items-center">
                         <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -278,8 +278,8 @@ import { format, formatDate } from 'date-fns';
             async getUserWallet(){
                 try{
                     const response = await axios.get("/user/wallet");
-                    this.wallet_transactions = response.data.wallet.transactions;
-                    this.wallet_debit_transactions = response.data.wallet.debit_transactions;
+                    this.wallet_transactions = response.data.wallet.transactions.reverse();
+                    this.wallet_debit_transactions = response.data.wallet.debit_transactions.reverse();
                 }catch(error){
                     console.log("error getting user wallet: ", error)
                 }

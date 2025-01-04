@@ -11,6 +11,39 @@
     </div>
  </div>
 
+ <!-- BOOST SHOP? MODAL -->
+ <div v-if="boost_shop_modal" class="flex justify-center min-h-screen items-center fixed bg-[rgba(0,0,0,0.8)] w-full left-0 top-0 z-10">
+    <div class="bg-white rounded-lg md:w-[700px] p-12 text-center flex flex-col justify-center items-center">
+        <div class=" size-40 rounded-full border-4 border-[#00C1F6] relative p-2 flex justify-center items-center">
+            <img :src="shop_image" class=" rounded-full h-[100%]" v-if="shop_image"/>
+            <i class=" bi bi-rocket-takeoff-fill text-white absolute -bottom-0 right-0 bg-[#00C1F6] p-4 rounded-full size-12 flex justify-center items-center border-4 border-white"></i>
+        </div>
+        <div class=" mt-3">
+            <h1 class=" text-xl">Boost <b>{{ shop.name }}</b> Shop</h1>
+            <span class=" ">Proceed to select your desired timeline and make payment</span>
+        </div>
+        <div class=" mt-6 flex flex-row gap-6 text-left items-center bg-[#00C1F6] bg-opacity-10 text-[#00C1F6] p-4 rounded-md">
+            <i class="  bi bi-rocket-takeoff-fill text-3xl"></i>
+            <span>This transaction is slot-based, once all slots are booked you have to wait till a slot is available before you can boost your shop.</span>
+        </div>
+        <form @submit.prevent="boostShop()">
+            <div class=" flex flex-row flex-wrap gap-4 justify-start items-center py-3">
+                
+                <button type="button" :class="shop_boost_duration == coin ? 'border-app_green bg-app_green ':'border-transparent bg-gray-100'" @click="shop_boost_duration = coin" v-for="coin in 7" class=" bg-opacity-15 px-12 py-3 rounded-lg  font-bold flex-1 text-nowrap border ">{{ coin }}D</button>
+            </div>
+            <div class=" flex flex-row justify-between items-center">
+                <span>{{ shop_boost_duration }}D</span>
+                <span>=</span>
+                <input class=" border-b p-3 outline-none w-[85%]" placeholder="XXX" disabled :value="`${shop_boost_duration * 10} Coins`">
+            </div>
+            <div class=" flex flex-row gap-3 mt-12 justify-end">
+                <button type="button" @click="openBoostModal(true)" class="btn bg-gray-100">Cancel</button>
+                <button class="btn bg-app_green text-white" type="submit">Boost Now</button>
+            </div>
+        </form>
+    </div>
+ </div>
+
 
  <!-- DELETE PRODUCT MODAL -->
 <ModalComponent :show="delete_product_modal">
@@ -122,9 +155,7 @@
                 </div>
 
                 
-
-
-
+                <!-- INVENTORY AREA -->
                 <div class="relative overflow-x-auto mt-3" v-if="shop_products.length > 0">
                     <table class="w-full text-sm text-left rtl:text-right text-gray-500">
                         <thead class="text-xs text-gray-700 uppercase bg-gray-50 ">
@@ -219,6 +250,49 @@
                     
                 </div>
                 <!-- ************************** -->
+
+                <div class=" p-3 mt-12 rounded-lg border bg-white text-green-800 font-bold" v-if="shop_products.length > 0">
+                    Special Actions
+                </div>
+                <div class="flex flex-row flex-wrap bg-white border p-8 mt-3 items-start gap-12 rounded-lg" v-if="shop_products.length > 0">
+                    <div class=" bg-[#2F985E] text-white flex flex-row gap-3 p-5 rounded-md items-center">
+                        <i class="bi bi-tools text-2xl"></i>
+                        <div>By toggling any of these special actions you can perform the listed transactions. Follow the steps carefully to carry out each action successfully.</div>
+                    </div>
+
+                    <!-- settings -->
+                    <div class="flex flex-col gap-5 w-full">
+
+                        <!-- BOOST YOUR SHOP -->
+                        <div class=" flex flex-row justify-between items-center">
+                            <div class=" flex flex-col">
+                                <h3 class=" font-bold  text-lg">Boost your shop</h3>
+                                <span>increase your shop visibility for a specific time frame</span>
+                            </div>
+                            <div>
+                                <label class="switch scale-75">
+                                    <input type="checkbox" @click="openBoostModal(false)" :checked="shop.is_boosted">
+                                    <span class="slider round"></span>
+                                </label>
+                            </div>
+                        </div>
+
+                         <!-- ADVERT -->
+                         <div class=" flex flex-row justify-between items-center">
+                            <div class=" flex flex-col">
+                                <h3 class=" font-bold  text-lg">Advertise a service/event</h3>
+                                <span>Expand reach with front row billboard access, pay per ad click</span>
+                            </div>
+                            <div>
+                                <label class="switch scale-75">
+                                    <input type="checkbox">
+                                    <span class="slider round"></span>
+                                </label>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
             </div>
 
             
@@ -303,6 +377,7 @@ import ModalComponent from '../components/ModalComponent.vue'
                         LGA: '',
                         address: '',
                     },
+                    is_boosted: null,
                 },
                 selected_product: '',
                 new_shop: {
@@ -323,6 +398,11 @@ import ModalComponent from '../components/ModalComponent.vue'
                 shop_products: [],
                 delete_product_modal: false,
                 selected_product_id: '',
+
+                boost_shop_modal: false,
+                shop_boost_duration: 1,
+                shop_is_boosted: false,
+                real_boost: false,
             }
         },
         methods:{
@@ -444,7 +524,7 @@ import ModalComponent from '../components/ModalComponent.vue'
                         this.shop_image = response.data.user.shop.profile.image_url;
                         this.shop_name = response.data.user.shop.name;
                         this.shop_category = response.data.user.shop.category;
-                        
+                        // this.shop.is_boosted = response.data.user.shop.is_boosted;
                         // get shop products if any..
                         this.getShopProducts();
                     }
@@ -539,10 +619,50 @@ import ModalComponent from '../components/ModalComponent.vue'
                     this.delete_product_modal = false;
                 }
             },
+
+            openBoostModal(close){
+               if(this.shop.is_boosted){
+                    this.boost_shop_modal = false;
+                    this.boostShop();
+               } else {
+                // this.boostShop();
+                this.boost_shop_modal = true;
+               }
+               if(close){
+                // this.shop.is_boosted = 
+                this.getUser()
+                this.boost_shop_modal = false;
+                // this.shop_is_boosted = 
+               }
+            },
+
+            async boostShop(){
+                try{
+                    const response = await axios.post("/shops/boost_shop", { duration:  this.shop_boost_duration});
+                    console.log("boosting shop: ", response);
+                    this.$toast.open({
+                        message: `${response.data.message}`,
+                        type: 'success',
+                    });
+                    window.location.reload();
+                }catch(error){
+                    console.log("error boosting shop: ", error);
+                    this.$toast.open({
+                        message: `${error.response.data.message}`,
+                        type: 'error',
+                    });
+                }
+            }
         },
         created(){
             this.getUser();
             this.getAllCategories();
+        },
+
+        mounted(){
+            if(!this.real_boost){
+                this.shop_is_boosted = false;
+            }
         }
     }
 </script>

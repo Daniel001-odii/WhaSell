@@ -24,14 +24,14 @@
             
                 <div class="w-full flex flex-col gap-3">
                     <div class="flex flex-col justify-center items-start gap-3 w-full">
-                        <span class="font-bold test-md">Full Name<span class="text-red-500 ml-1">*</span></span>
-                        <input type="text" name="username" class="bg-slate-100 w-full p-3 rounded-md overflow-hidden outline-none" v-model="user.username">
+                        <span class="font-bold test-md">Email Address<span class="text-red-500 ml-1">*</span></span>
+                        <input disabled type="email" name="email" class="bg-slate-100 text-gray-400 w-full p-3 rounded-md overflow-hidden outline-none" v-model="user.email">
                     </div>
 
                     <div class="flex flex-col justify-center items-start gap-3 w-full">
-                        <span class="font-bold test-md">Email Address<span class="text-red-500 ml-1">*</span></span>
-                        <input type="email" name="email" class="bg-slate-100 w-full p-3 rounded-md overflow-hidden outline-none" v-model="user.email">
-                    </div>
+                        <span class="font-bold test-md">Full Name<span class="text-red-500 ml-1">*</span></span>
+                        <input type="text" name="username" class="bg-slate-100 w-full p-3 rounded-md overflow-hidden outline-none" v-model="user.username">
+                    </div>                   
 
                     <div class="flex flex-col justify-center items-start gap-3 w-full">
                         <span class="font-bold test-md">Phone Number<span class="text-red-500 ml-1">*</span></span>

@@ -79,10 +79,6 @@ import mitt from 'mitt'
 import { VueMasonryPlugin } from "vue-masonry";
 
 import MasonryWall from '@yeger/vue-masonry-wall'
-
-import VueMasonry from 'vue-masonry-css';
-
-app.use(VueMasonry);
 app.use(MasonryWall);
 
 

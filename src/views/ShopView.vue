@@ -12,9 +12,9 @@
  </div>
 
  <!-- BOOST SHOP? MODAL -->
- <div v-if="boost_shop_modal" class="flex justify-center min-h-screen items-center fixed bg-[rgba(0,0,0,0.8)] w-full left-0 top-0 z-10">
-    <div class="bg-white rounded-lg md:w-[700px] p-12 text-center flex flex-col justify-center items-center">
-        <div class=" size-40 rounded-full border-4 border-[#00C1F6] relative p-2 flex justify-center items-center">
+ <div v-if="boost_shop_modal" class="flex justify-center min-h-screen items-center fixed bg-[rgba(0,0,0,0.8)] w-full left-0 top-0 z-10 p-5">
+    <div class="bg-white rounded-lg md:w-[700px] p-12 text-center flex flex-col justify-start items-center max-h-[85vh] overflow-y-auto">
+        <div class=" !size-40 min-h-40 rounded-full border-4 border-[#00C1F6] relative p-2 flex justify-center items-center">
             <img :src="shop_image" class=" rounded-full h-[100%]" v-if="shop_image"/>
             <i class=" bi bi-rocket-takeoff-fill text-white absolute -bottom-0 right-0 bg-[#00C1F6] p-4 rounded-full size-12 flex justify-center items-center border-4 border-white"></i>
         </div>

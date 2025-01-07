@@ -1,5 +1,5 @@
 <template>
-    <div class="">
+ 
         <NavbarView/>
         <!-- <div class=" flex mt-6 h-screen max-h-[700px] w-full bg-green-800 justify-start p-12 text-left items-center text-white rounded-xl rounded-b-[10%]" style="clip-path: ellipse(98% 98% at 50% 0%); background: linear-gradient(135deg, #1F633D 0%, #16492D 46.219%, #FFBD00 100%);"> -->
             <div class=" flex mt-6 h-screen max-h-[700px] w-full bg-green-800 justify-start p-12 text-left items-center text-white rounded-xl" style=" background: linear-gradient(135deg, #1F633D 0%, #16492D 46.219%, #FFBD00 100%);">
@@ -11,52 +11,7 @@
         </div>
 
 
-
-     
-        <!-- <div class="text-center h-[500px] flex flex-col justify-center items-center p-12 hero">
-            <h1 class="font-bold text-5xl text-white">
-                <span class="text-app_green">Discover </span>
-                new products from shops around <span class="text-app_green">you!</span></h1>
-            <div class="bg-[#E0F6EA80] rounded-full w-full mt-10 flex flex-row overflow-hidden relative max-w-[500px]">
-                <input type="text" placeholder="Search anything here..." class=" bg-transparent p-3 text-white outline-none w-full pl-10 placeholder-white">
-                <div class="flex flex-row gap-3 text-white absolute right-5 top-3">
-                    <button>
-                        <i class="bi bi-funnel"></i>
-                    </button>
-                    <button>
-                        <i class="bi bi-search"></i>
-                    </button>
-                </div>
-            </div>
-        </div> -->
-<!-- 
-        <div>
-            <button class="btn bg-red-500 text-white" @click="getLocation">Get Location</button>
-            <p v-if="state">You are in: {{ state }}</p>
-            <p v-if="error">{{ error }}</p>
-        </div> -->
-
-        <!-- CATEGORIES AREA -->
-        <!--  <div class="flex flex-col md:flex-row gap-3 items-center justify-start md:justify-center sticky top-0 z-20 bg-white p-3">
-            <div class="p-3 flex flex-row overflow-x-auto gap-2  items-start bg-white w-full md:w-[50%] overflow-auto">
-                <button class="border p-2 rounded-md bg-app_light_green text-sm border-app_green text-app_green">All</button>
-                <button class="border p-2 py-2 rounded-md bg-gray-100 text-sm text-app_gree" v-for="category in 6">Phones</button>
-            </div>
-            <div class="border rounded-full w-full md:w-[50%] flex flex-row overflow-hidden relative md:max-w-[500px]">
-                <input type="text" placeholder="Search anything here..." class=" bg-transparent p-3 outline-none w-full pl-10">
-                <div class="flex flex-row gap-3 absolute right-5 top-3">
-                    <button>
-                        <i class="bi bi-funnel"></i>
-                    </button>
-                    <button>
-                        <i class="bi bi-search"></i>
-                    </button>
-                </div>
-            </div>
-         </div> -->
-
-        
-         
+<div class=" p-8 bg-slate-100">
     
          <!-- BEST SELLING -->
          <div class="divider">
@@ -64,29 +19,67 @@
                 <span>Top Selling</span>
             </div>
         </div>
+        
 
         <!-- PRODUCT DISPLAY AREA -->
         <div class="flex flex-row flex-wrap gap-3 w-full p-5">
             <!-- loading states -->
-            <div class="flex flex-col gap-2" v-for="loader in 6" v-if="loading_products">
-                <Skeleton width="200px" borderRadius="10px" height="100px"></Skeleton>
-                <Skeleton width="200px" borderRadius="10px" height="15px"></Skeleton>
-                <Skeleton width="200px" borderRadius="10px" height="30px"></Skeleton>
-            </div>
-            <ProductCard v-else class="" v-for="(product, index) in products" :key="index"
-                :id="product._id"
-                :product_slug="product.slug"
-                :views="product.views"
-                :posted="product.createdAt"
-                :product_price="product.price.toLocaleString()"
-                :shop_name="product.shop.name"
-                :is_liked="checkLikes(product._id)"
-                @like-product="addProductToLikes(product._id)"
-                :image_url="product.images[0]"
+          <!--   <MasonryWall :items="items" :ssr-columns="1" :column-width="210" :gap="10">
+                <template #default="{ item, index }">
+                    <div class="flex flex-col gap-2 relative border">
+                        <Skeleton class=" inline-block" width="200px" borderRadius="10px" :height="`${item + 50}px`"></Skeleton>
+                        <Skeleton width="200px" borderRadius="10px" height="15px"></Skeleton>
+                        <Skeleton width="200px" borderRadius="10px" height="30px"></Skeleton>
+                    </div>
+                </template>
+            </MasonryWall> -->
+           
+        </div>
+        <MasonryWall  v-if="loading_products"  
+        :items="items" 
+        :ssr-columns="1" 
+        :column-width="150" 
+        :gap="10">
+            <template #default="{ item, index }">
+                <div class="flex flex-col gap-2 rounded-3xl"
+                    :style="{ height: `${item + 100}px`}"
+                    style="background: url('../assets/images/whaLogo.svg');">
+                        <div class="rounded-md h-[100%] bg-gray-200"></div>
+                        <div class="rounded-md h-[15px] bg-gray-200"></div>
+                        <div class="rounded-md h-[30px] bg-gray-200"></div>
+                </div>
+            </template>
+        </MasonryWall>
+        <MasonryWall v-else 
+        :items="products"
+        :ssr-columns="1"
+        :column-width="150" 
+        :gap="10">
+            <template #default="{ item, index }">
+            <ProductCard class=" -mt-[15px]"
+                :id="item._id"
+                :product_slug="item.slug"
+                :views="item.views"
+                :posted="item.createdAt"
+                :product_price="item.price.toLocaleString()"
+                :shop_name="item.shop.name"
+                :is_liked="checkLikes(item._id)"
+                @like-product="addProductToLikes(item._id)"
+                :image_url="item.images[0]"
             >
            </ProductCard> 
-        </div>
+            </template>
+        </MasonryWall>
 
+
+        <!-- TRYING MASONRY -->
+        <!-- <div class="flex flex-col gap-2" v-for="loader in 6">
+            <Skeleton width="200px" borderRadius="10px" height="100px"></Skeleton>
+            <Skeleton width="200px" borderRadius="10px" height="15px"></Skeleton>
+            <Skeleton width="200px" borderRadius="10px" height="30px"></Skeleton>
+        </div> -->
+         
+       
       
 
         <!-- SHOP CARD -->
@@ -128,11 +121,23 @@
                 </div>
             </div>
 
+            
             <BoostedShopCard v-else v-for="shop in boosted_shops"
                 :name="shop.name"
                 :category="shop.category"
                 :image_url="shop.profile.image_url"
-            />            
+            />
+            
+            <!-- <Carousel v-bind="carouselConfig">
+                <Slide v-for="slide in 10" :key="slide">
+                <div class="carousel__item">{{ slide }}</div>
+                </Slide>
+
+                <template #addons>
+                <Navigation />
+                <Pagination />
+                </template>
+            </Carousel> -->
         </div>
 
         <div v-if=" boosted_shops.length == 0" class="p-5 py-8 text-center w-full bg-[#00c1f618] rounded-lg text-xl text-[#00C1F6]">There are limited slots available,<br/> be the first to take an available slot. <br/> 
@@ -206,6 +211,12 @@ import { RouterLink } from 'vue-router';
 import Skeleton from 'primevue/skeleton'
 
 import BoostedShopCard from '@/components/BoostedShopCard.vue';
+import MasonryLayout from '@/components/MasonryLayout.vue';
+
+import MasonryWall from '@yeger/vue-masonry-wall';
+
+import 'vue3-carousel/carousel.css'
+import { Carousel, Slide, Pagination, Navigation } from 'vue3-carousel'
 
 
     export default {
@@ -218,9 +229,20 @@ import BoostedShopCard from '@/components/BoostedShopCard.vue';
             TheFooter,
             Skeleton,
             BoostedShopCard,
+            MasonryLayout,
+            MasonryWall,
+            Carousel,
+            Slide,
+            Pagination,
+            Navigation,
         },
         data() {
             return {
+                carouselConfig: {
+                    itemsToShow: 2.5,
+                    wrapAround: true
+                },
+                items: [50, 75, 75, 100, 50, 50, 75, 150, 125, 175, 50, 100, 125],
                 height: 0,
                 shops: [],
                 products: [],

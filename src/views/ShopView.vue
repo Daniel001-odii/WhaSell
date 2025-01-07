@@ -97,7 +97,7 @@
                 </div>
 
 
-                <form @submit.prevent="updateShop" v-if="edit_shop" class="border rounded-lg flex flex-col justify-center items-center gap-3 p-8 mt-1 bg-white">
+                <div v-if="edit_shop" class="border rounded-lg flex flex-col justify-center items-center gap-3 p-8 mt-1 bg-white">
 
                     <!-- <div class=" h-28 w-28 text-white rounded-full bg-gray-600 mb-5 flex justify-center items-center hover:bg-gray-300 cursor-pointer">
                         <i class="bi bi-shop text-3xl"></i>
@@ -123,29 +123,31 @@
                         Shop location has been copied from user location
                     </span>
 
-                    <div class="flex md:flex-row gap-3 w-full">
-                        <div class="flex flex-col justify-center items-start gap-3 w-full">
-                            <span class="font-bold test-md">Shop or business name<span class="text-red-500 ml-1">*</span></span>
-                            <input disabled type="text" class="bg-slate-100 text-gray-400 w-full p-3 rounded-md overflow-hidden outline-none" placeholder="Fortune and sons telecoms" v-model="shop.name">
+                    <form  @submit.prevent="updateShop">
+                        <div class="flex md:flex-row gap-3 w-full">
+                            <div class="flex flex-col justify-center items-start gap-3 w-full">
+                                <span class="font-bold test-md">Shop or business name<span class="text-red-500 ml-1">*</span></span>
+                                <input disabled type="text" class="bg-slate-100 text-gray-400 w-full p-3 rounded-md overflow-hidden outline-none" placeholder="Fortune and sons telecoms" v-model="shop.name">
+                            </div>
                         </div>
-                    </div>
 
-                
-                    <div class="flex flex-col justify-center items-start gap-3 w-full mt-3">
-                        <span class="font-bold test-md">Shop category<span class="text-red-500 ml-1">*</span></span>
-                        <select class="border bg-slate-100 p-3 w-full rounded-md" v-model="shop.category">
-                            <option disabled value="">Select category</option>
-                            <option v-for="category in categories">{{ category.name }}</option>
-                        </select>
-                    </div>
-                    <div class="flex flex-row gap-3 self-end">
-                        <button type="button" class="btn bg-gray-100" @click="edit_shop = !edit_shop">cancel</button>
-                
-                        <button type="submit" class="bg-app_green btn text-white">
-                            Save edit
-                        </button>
-                    </div>
-                </form>
+                    
+                        <div class="flex flex-col justify-center items-start gap-3 w-full mt-3">
+                            <span class="font-bold test-md">Shop category<span class="text-red-500 ml-1">*</span></span>
+                            <select class="border bg-slate-100 p-3 w-full rounded-md" v-model="shop.category">
+                                <option disabled value="">Select category</option>
+                                <option v-for="category in categories">{{ category.name }}</option>
+                            </select>
+                        </div>
+                        <div class="flex flex-row gap-3 self-end">
+                            <button type="button" class="btn bg-gray-100" @click="edit_shop = !edit_shop">cancel</button>
+                    
+                            <button type="submit" class="bg-app_green btn text-white">
+                                Save edit
+                            </button>
+                        </div>
+                    </form>
+                </div>
 
               
 

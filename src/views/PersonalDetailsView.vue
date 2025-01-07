@@ -7,7 +7,7 @@
                 </div> -->
                 <!-- {{ user }} -->
 
-                <form @submit.prevent="changeUserImage" class="relative">
+                <div class="relative">
                     <!-- <div v-if="user" class="min-w-28 w-28 h-28 relative rounded-full border border-gray-300 overflow-hidden"> -->
                         <!-- <img :src="user_image" alt="Product Photo" class="w-full h-full object-cover"> -->
                         <div class=" uppercase font-bold flex justify-center items-center rounded-full !size-28 bg-gray-200 text-gray-500"> {{ user.username[0] }} {{ user.username[1] }}</div>
@@ -19,7 +19,7 @@
                         <i class="bi bi-camera-fill text-white"></i>
                     </label> -->
                     <!-- <button v-if="shop_image_edit" type="submit">save image</button> -->
-                </form>
+                </div>
 
             
                 <div class="w-full flex flex-col gap-3">

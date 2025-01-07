@@ -73,6 +73,26 @@ app.use(meta);
 app.config.globalProperties.$app_url = process.env.VUE_APP_ROOT_URL;
 app.config.globalProperties.$api_url = process.env.VUE_APP_API_URL;
 
+// MASONRY
+import mitt from 'mitt'
+
+import { VueMasonryPlugin } from "vue-masonry";
+
+import MasonryWall from '@yeger/vue-masonry-wall'
+
+import VueMasonry from 'vue-masonry-css';
+
+app.use(VueMasonry);
+app.use(MasonryWall);
+
+
+const emitter = mitt()
+app.config.globalProperties.emitter = emitter
+app.use(VueMasonryPlugin)
+
+
+
+
 app.use(PrimeVue);
 app.use(ToastService);
 app.use(router);

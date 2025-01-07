@@ -1,46 +1,31 @@
 <template>
-    <!-- <div> -->
-        <div class=" flex flex-1 flex-col overflow-hidden min-w-[150px] max-w-[200px] relative">
-        <!-- <div class=" flex flex-1 relative min-w-[150px] md:max-w-[200px] md:min-w-[200px] flex-col overflow-hidden"> -->
-            <div class=" relative">
-                <RouterLink :to="`/products/${id}/${product_slug}`">
-                    <div class=" prod-alt-image rounded-md overflow-hidden">
-                        <!-- <slot name="product_image"></slot> -->
-                        <img :src="image_url" class=" !size-full rounded-md transition-transform duration-300 transform hover:scale-125 peer">
-                        <!-- <div class=""></div> -->
-                    </div>
-                </RouterLink>
-            </div>
-            
-            <div class="flex flex-col mt-3">
-                <RouterLink v-if="product_slug" :to="`/products/${id}/${product_slug}`" class="text-sm clamp-4">
-                    {{ product_slug }}
-                </RouterLink>
-                <div class="flex flex-row justify-between">
-                <!-- <slot name="product-price"> -->
-                    <span class=" text-lg font-bold">NGN {{ product_price }}</span>
-                <!-- </slot> -->
+    <div class=" relative group">
+        <!-- IMAGE -->
+        <div class="overflow-hidden rounded-3xl">
+            <img :src="image_url" class=" w-auto  transition-transform duration-300 transform group-hover:scale-125 peer">
+        </div>
+
+        <!-- TEXT AND WRITE UPS -->
+        <div class="hidden flex-col border p-2 h-full bg-black bg-opacity-50 absolute z-10 w-full top-0 rounded-3xl items-start justify-end text-white group-hover:flex">
+            <RouterLink v-if="product_slug" :to="`/products/${id}/${product_slug}`" class="text-sm clamp-4">
+                {{ product_slug }}
+            </RouterLink>
+            <div class="flex flex-row justify-between">
+                <span class=" text-lg font-bold">NGN {{ product_price }}</span>
                 <button @click="addLike()" class="h-8 w-8 rounded-full bg-white flex justify-center items-center border absolute top-3 right-3" :class="is_liked ? 'border-green-500':''">
                     <i class="bi bi-hand-thumbs-up-fill text-green-500" v-if="is_liked"></i>
                     <i class="bi bi-hand-thumbs-up" v-else></i>
                 </button>
             </div>
-            <div class="mt-1 text-gray-400 text-[12px] flex justify-between">
+            <div class="text-gray-400 text-[12px] flex justify-between">
                 <span>
                     <i class="bi bi-eye-fill" ></i>
                     {{ views }} views 
                 </span>
-                <!-- <span v-if="posted">listed {{ formatDistanceToNow(posted) }} ago</span> -->
-                
-            </div>
-
-           <!--  <div>
-                <button class="bg-[#37B36E] text-white btn w-full mt-3 font-bold text-sm">Buy</button>
-            </div> -->
-                
             </div>
         </div>
-    <!-- </div> -->
+    </div>
+    
 </template>
 
 <script>

@@ -57,6 +57,7 @@
 
 
     </div>  
+    <TheFooter/>
 </template>
 
 <script>
@@ -64,12 +65,15 @@ import GlipComponent from '@/components/GlipComponent.vue';
 import ReelsComponent from '@/components/ReelsComponent.vue';
 import { ref, onMounted, onUnmounted } from "vue";
 import axios from 'axios';
+import TheFooter from '@/components/TheFooter.vue';
+
 
     export default {
         name: "GlipsPageView",
         components: {
             ReelsComponent,
-            GlipComponent
+            GlipComponent,
+            TheFooter
         },
 
         data(){

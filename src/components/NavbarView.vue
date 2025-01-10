@@ -63,7 +63,7 @@
 
             </div>
 
-            <div class="flex flex-row items-center justify-center gap-3 md:gap-8 relative">
+            <div class="flex flex-row items-center justify-center gap-3 relative">
                 <RouterLink :to="{ path: '/account/subscriptions', hash: '#coins' }">
                     <span class="flex flex-row items-center font-bold text-xl" v-if="user"> <img src="../assets/images/coins_group.png" class=" h-[30px] mr-1"> {{formattedCoins}}</span>
                 </RouterLink>
@@ -75,10 +75,10 @@
 
                 <!-- <button v-if="premium" class="bg-orange-400 text-white rounded-lg px-8 p-2 text-sm hover:bg-orange-500">Upgrade</button> -->
                 
-                <div class="flex flex-row items-center gap-6">
-                    <div class="flex flex-row gap-3 pr-4 border-r border-gray-300">
+                <div class="flex flex-row items-center gap-3">
+                    <div class="flex flex-row gap-3 border-r border-gray-300">
                         
-                        <CustomDropdown>
+                       <!--  <CustomDropdown>
                             <template #trigger>
                                 <button class="relative ">
                                     <i class="bi bi-bell-fill text-2xl"></i>
@@ -113,8 +113,9 @@
                                     </div>
                                 </div>
                             </template>
-                        </CustomDropdown>
+                        </CustomDropdown> -->
                     </div>
+
                     <CustomDropdown v-if="user">
                         <template #trigger>
                            <!--  <div class=" uppercase font-bold flex justify-center items-center rounded-full !size-10 bg-green-500 text-white"> {{ user.username[0] }}{{ user.username[1] }}</div> -->

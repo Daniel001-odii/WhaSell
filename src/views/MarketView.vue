@@ -13,29 +13,16 @@
 
 <div class=" p-8 bg-slate-100">
     
-         <!-- BEST SELLING -->
-         <div class="divider">
+         <!-- BEST DEALS FOR YOU TODAY -->
+        <div class="divider">
             <div class="divider-item">
-                <span>Top Selling</span>
+                <i class="bi bi-stars"></i>
+                <span>Best Deals for you today</span>
             </div>
         </div>
         
 
-        <!-- PRODUCT DISPLAY AREA -->
-        <div class="flex flex-row flex-wrap gap-3 w-full p-5">
-            <!-- loading states -->
-         <!--    <MasonryWall :items="items" :ssr-columns="1" :column-width="210" :gap="10">
-                <template #default="{ item, index }">
-                    <div class="flex flex-col gap-2 relative border">
-                        <Skeleton class=" inline-block" width="200px" borderRadius="10px" :height="`${item + 50}px`"></Skeleton>
-                        <Skeleton width="200px" borderRadius="10px" height="15px"></Skeleton>
-                        <Skeleton width="200px" borderRadius="10px" height="30px"></Skeleton>
-                    </div>
-                </template>
-            </MasonryWall> -->
-           
-        </div>
-        <div  v-if="loading_products">
+        <div v-if="loading_products">
             <MasonryWall 
             :items="items" 
             :ssr-columns="1" 
@@ -52,6 +39,7 @@
                 </template>
             </MasonryWall> 
         </div>
+
         <div v-if="products.length > 0">
             <MasonryWall 
             :items="products"
@@ -73,21 +61,19 @@
                 </template>
             </MasonryWall>
         </div>
-      
-
-
-        <!-- TRYING MASONRY -->
-        <!-- <div class="flex flex-col gap-2" v-for="loader in 6">
-            <Skeleton width="200px" borderRadius="10px" height="100px"></Skeleton>
-            <Skeleton width="200px" borderRadius="10px" height="15px"></Skeleton>
-            <Skeleton width="200px" borderRadius="10px" height="30px"></Skeleton>
-        </div> -->
          
-       
       
 
+        <!-- SHOPS NEAR YOU -->
+        <div class="divider">
+            <div class="divider-item">
+                <i class="bi bi-geo-alt-fill"></i>
+                <span>Discover Shops Near your location</span>
+            </div>
+        </div>
+        
         <!-- SHOP CARD -->
-        <div class="flex flex-row gap-3 p-3 pb-10 overflow-x-auto">
+        <div class="flex flex-row gap-3 pb-10 px-5">
 
              <!-- LOADING SHOPS -->
              <div v-if="loading_shops" v-for="loader in 4" class=" flex flex-1 relative lg:max-w-[300px] min-w-[300px] h-[260px] bg-gray-50 rounded-lg x justify-start items-end">
@@ -98,24 +84,45 @@
                 </div>
             </div>
 
-            <ShopCard v-else v-for="(shop, index) in shops"
+            <Carousel
+                class=" relative w-[95%] mx-auto"
+                :opts="{
+                align: 'start',
+                }"
+            >
+            <CarouselContent>
+                <!-- class="md:basis-1/2 lg:basis-1/3"> -->
+            <CarouselItem v-for="(shop, index) in shops" :key="index" 
+            class="md:basis-1/2 lg:basis-1/3">
+                <ShopCard
+                    :name="shop.name"
+                    :category="shop.category"
+                    :image_url="shop.profile.image_url"
+                />
+            </CarouselItem>
+            </CarouselContent>
+            <CarouselPrevious />
+            <CarouselNext />
+            </Carousel>
+
+
+            <!-- <ShopCard v-else v-for="(shop, index) in shops"
                 :name="shop.name"
                 :category="shop.category"
                 :image_url="shop.profile.image_url"
-            />
+            /> -->
         </div>
 
-        <!-- {{ user.shop }} -->
 
         <!-- BOOSTED SHOPS -->
         <div class="p-3 flex flex-row items-center mt-8">
             <div class="flex flex-row items-center gap-3 text-[#00C1F6] justify-center">
                 <i class="bi bi-rocket-takeoff-fill"></i>
-                <span class="text-xl font-bold ">Boosted Shops</span>
+                <span class="text-2xl font-bold ">Boosted Shops</span>
             </div>
         </div>
 
-        <div class="flex flex-row !flex-wrap gap-3 pb-10">
+        <div class="flex flex-row flex-wrap gap-3 pb-10">
              <!-- LOADING BOOSTED SHOPS -->
              <div v-if="loading_shops['boosted']"  v-for="loader in 2" class="flex flex-1 relative min-w-[300px] h-[400px] bg-gray-50 rounded-lg flex-col justify-end items-start">
                 <div class="flex flex-col gap-2 p-8">
@@ -129,10 +136,23 @@
                 :name="shop.name"
                 :category="shop.category"
                 :image_url="shop.profile.image_url"
-            />            
+            />
+            
+            <div v-if=" boosted_shops.length < 4" class="block md:flex p-5 py-8 text-center flex-1 bg-[#00c1f618] rounded-lg text-xl text-[#00C1F6] flex-col justify-center items-center border border-[#00C1F6]">
+                <span>There are still slots available,<br/> take an available slot now. <br/> </span>
+
+                <RouterLink v-if="user.shop" :to="`/shops/${user.shop.name}?boost_shop=true`">
+                    <button class="rounded-full bg-[#00C1F6] text-white p-3 px-6 mt-6 font-bold">Boost Your Shop Now! <i class="bi bi-rocket-fill ml-3"></i></button>
+                </RouterLink>
+
+                <RouterLink v-else to="/account">
+                    <button class="rounded-full bg-black text-white p-3 px-6 mt-6 font-bold">Create Your shop</button>
+                </RouterLink>
+            </div>
         </div>
 
-        <div v-if=" boosted_shops.length == 0" class="p-5 py-8 text-center w-full bg-[#00c1f618] rounded-lg text-xl text-[#00C1F6]">There are limited slots available,<br/> be the first to take an available slot. <br/> 
+        <div v-if=" boosted_shops.length == 0" class="p-5 py-8 text-center w-full bg-[#00c1f618] rounded-lg text-xl text-[#00C1F6]">
+            <span>There are limited slots available,<br/> be the first to take an available slot. <br/> </span>
 
             <RouterLink v-if="user.shop" :to="`/shops/${user.shop.name}?boost_shop=true`">
                 <button class="rounded-full bg-[#00C1F6] text-white p-3 px-6 mt-6 font-bold">Boost Your Shop Now! <i class="bi bi-rocket-fill ml-3"></i></button>
@@ -145,9 +165,10 @@
 
 
 
-          <!-- BEST SELLING -->
+        <!-- SERVICES TO HLEP YOU SHOP -->
         <div class="divider">
             <div class="divider-item">
+                <i class="bi bi-info-circle-fill"></i>
                 <span>Services to help you Shop</span>
             </div>
         </div>
@@ -156,36 +177,36 @@
 
         <!-- FAQ SECTION -->
         <div class="flex flex-row !flex-wrap gap-3 pb-10 p-5">
-                <div class="flex flex-col justify-between items-center flex-1 rounded-md overflow-hidden h-[300px] min-w-[300px]">
-                    <div class="flex flex-col gap-3 bg-gray-100 h-[50%] p-5 w-full">
-                        <span class="font-bold text-xl">Frequently Asked Questions</span>
-                        <p class="mt-2 text-sm">Updates on safe Shopping in our shops</p>
-                    </div>
-                    <div class=" h-[50%] bg-yellow-400 w-full question"></div>
+            <div class="flex flex-col justify-between items-center flex-1 rounded-md overflow-hidden h-[300px] min-w-[300px]">
+                <div class="flex flex-col gap-3 bg-white h-[50%] p-5 w-full">
+                    <span class="font-bold text-xl">Frequently Asked Questions</span>
+                    <p class="mt-2 text-sm">Updates on safe Shopping in our shops</p>
                 </div>
+                <div class=" h-[50%] bg-yellow-400 w-full question"></div>
+            </div>
 
-                <div class="flex flex-col justify-between items-center flex-1 rounded-md overflow-hidden h-[300px] min-w-[300px]">
-                    <div class="flex flex-col gap-3 bg-gray-100 h-[50%] p-5 w-full">
-                        <span class="font-bold text-xl">Navigate WhatSell With Ease</span>
-                        <p class="mt-2 text-sm">Updates how you can navigate WhatSell easily</p>
-                    </div>
-                    <div class=" h-[50%] bg-green-400 w-full coins"></div>
+            <div class="flex flex-col justify-between items-center flex-1 rounded-md overflow-hidden h-[300px] min-w-[300px]">
+                <div class="flex flex-col gap-3 bg-white h-[50%] p-5 w-full">
+                    <span class="font-bold text-xl">Navigate WhatSell With Ease</span>
+                    <p class="mt-2 text-sm">Updates how you can navigate WhatSell easily</p>
                 </div>
+                <div class=" h-[50%] bg-green-400 w-full coins"></div>
+            </div>
 
-                <div class="flex flex-col justify-between items-center flex-1 rounded-md overflow-hidden h-[300px] min-w-[300px]">
-                    <div class="flex flex-col gap-3 bg-gray-100 h-[50%] p-5 w-full">
-                        <span class="font-bold text-xl">Safety Tips for Secure Purchasing</span>
-                        <p class="mt-2 text-sm">Get full insight on how to safely buy products on WhatSell</p>
-                    </div>
-                    <div class=" h-[50%] bg-green-800 w-full gaurd"></div>
+            <div class="flex flex-col justify-between items-center flex-1 rounded-md overflow-hidden h-[300px] min-w-[300px]">
+                <div class="flex flex-col gap-3 bg-white h-[50%] p-5 w-full">
+                    <span class="font-bold text-xl">Safety Tips for Secure Purchasing</span>
+                    <p class="mt-2 text-sm">Get full insight on how to safely buy products on WhatSell</p>
                 </div>
+                <div class=" h-[50%] bg-green-800 w-full gaurd"></div>
+            </div>
         </div>
 </div> 
         
     <!-- </div> -->
 
 
-    <!-- <TheFooter/> -->
+    <TheFooter/>
 
 
 </template>
@@ -207,6 +228,14 @@ import BoostedShopCard from '@/components/BoostedShopCard.vue';
 import MasonryWall from '@yeger/vue-masonry-wall';
 
 
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from '@/components/ui/carousel'
+
     export default {
         name: "MarketView",
         components: {
@@ -218,6 +247,12 @@ import MasonryWall from '@yeger/vue-masonry-wall';
             Skeleton,
             BoostedShopCard,
             MasonryWall,
+
+            Carousel,
+            CarouselContent,
+            CarouselItem,
+            CarouselNext,
+            CarouselPrevious,
         },
         data() {
             return {
@@ -240,52 +275,52 @@ import MasonryWall from '@yeger/vue-masonry-wall';
             }
         },
         methods:{
-    getLocation() {
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(this.showPosition, this.showError);
-        } else {
-            this.error = "Geolocation is not supported by this browser.";
-        }
-    },
-    showPosition(position) {
-      const lat = position.coords.latitude;
-      const lon = position.coords.longitude;
+            getLocation() {
+                if (navigator.geolocation) {
+                    navigator.geolocation.getCurrentPosition(this.showPosition, this.showError);
+                } else {
+                    this.error = "Geolocation is not supported by this browser.";
+                }
+            },
+            showPosition(position) {
+            const lat = position.coords.latitude;
+            const lon = position.coords.longitude;
 
-      // Use the OpenCage Geocoding API to get the location details
-      const apiKey = 'e99cb79bd180409b8eed5d463de070d1'; // Replace with your OpenCage API key
-      const apiUrl = `https://api.opencagedata.com/geocode/v1/json?q=${lat}+${lon}&key=${apiKey}`;
+            // Use the OpenCage Geocoding API to get the location details
+            const apiKey = 'e99cb79bd180409b8eed5d463de070d1'; // Replace with your OpenCage API key
+            const apiUrl = `https://api.opencagedata.com/geocode/v1/json?q=${lat}+${lon}&key=${apiKey}`;
 
-      fetch(apiUrl)
-        .then(response => response.json())
-        .then(data => {
-          if (data.results && data.results.length > 0) {
-            // Extract the state from the result
-            this.state = data.results[0].components.state;
-          } else {
-            this.error = "Unable to retrieve state information.";
-          }
-        })
-        .catch(error => {
-          console.error('Error:', error);
-          this.error = "An error occurred while fetching location details.";
-        });
-    },
-    showError(error) {
-      switch (error.code) {
-        case error.PERMISSION_DENIED:
-          this.error = "User denied the request for Geolocation.";
-          break;
-        case error.POSITION_UNAVAILABLE:
-          this.error = "Location information is unavailable.";
-          break;
-        case error.TIMEOUT:
-          this.error = "The request to get user location timed out.";
-          break;
-        case error.UNKNOWN_ERROR:
-          this.error = "An unknown error occurred.";
-          break;
-      }
-    },
+            fetch(apiUrl)
+                .then(response => response.json())
+                .then(data => {
+                if (data.results && data.results.length > 0) {
+                    // Extract the state from the result
+                    this.state = data.results[0].components.state;
+                } else {
+                    this.error = "Unable to retrieve state information.";
+                }
+                })
+                .catch(error => {
+                console.error('Error:', error);
+                this.error = "An error occurred while fetching location details.";
+                });
+            },
+            showError(error) {
+            switch (error.code) {
+                case error.PERMISSION_DENIED:
+                this.error = "User denied the request for Geolocation.";
+                break;
+                case error.POSITION_UNAVAILABLE:
+                this.error = "Location information is unavailable.";
+                break;
+                case error.TIMEOUT:
+                this.error = "The request to get user location timed out.";
+                break;
+                case error.UNKNOWN_ERROR:
+                this.error = "An unknown error occurred.";
+                break;
+            }
+            },
 
             randomHeightInPx(){
                 this.height = Math.floor(Math.random(40, 100) * 100);

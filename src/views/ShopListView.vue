@@ -26,7 +26,7 @@
                         <RouterLink :to="`/shops/${user.shop.name}`">
                             <span class="text-xl font-bold">{{ user.shop.name }}</span>
                         </RouterLink>
-                        <Rating v-model="value" disabled />
+                        <!-- <Rating v-model="value" disabled /> -->
                         <span class="text-md">{{ user.shop.category }}</span>
                         <span class="text-sm">Joined {{ formatDistanceToNow(user.shop.createdAt) }} ago | {{ user.shop.followers.length }} followers</span>
                     </div>
@@ -43,12 +43,13 @@
         <!-- SHOPS YOU FOLLOW -->
         <div class="divider">
             <div class="divider-item">
+                <i class="bi bi-person-fill-check"></i>
                 <span>Shops You Follow</span>
             </div>
         </div>
 
 
-        <div class="flex flex-row gap-3 p-3 pb-10 overflow-x-auto">
+        <div class="flex flex-row gap-3 p-3 pb-10">
 
             <!-- LOADING SHOPS -->
             <div v-if="this.loading_shops['followed']"  v-for="loader in 4" class=" flex flex-1 relative lg:max-w-[300px] min-w-[300px] h-[260px] bg-gray-50 rounded-lg x justify-start items-end">
@@ -59,11 +60,26 @@
                 </div>
             </div>
 
-            <ShopCard v-for="(shop, index) in followed_shops" v-else
-                :name="shop.name"
-                :category="shop.category"
-                :image_url="shop.profile.image_url"
-            />
+            <Carousel
+                class=" relative w-[95%] mx-auto"
+                :opts="{
+                align: 'start',
+                }"
+            >
+            <CarouselContent>
+                <!-- class="md:basis-1/2 lg:basis-1/3"> -->
+            <CarouselItem v-for="(shop, index) in followed_shops" :key="index" 
+            class="md:basis-1/2 lg:basis-1/3">
+                <ShopCard
+                    :name="shop.name"
+                    :category="shop.category"
+                    :image_url="shop.profile.image_url"
+                />
+            </CarouselItem>
+            </CarouselContent>
+            <CarouselPrevious />
+            <CarouselNext />
+            </Carousel>
 
             <div class="h-[200px] justify-center items-center flex flex-col text-center w-full text-gray-500" v-if="followed_shops.length <= 0">
                 <i class="bi bi-exclamation-circle-fill "></i>
@@ -113,12 +129,13 @@
         <!-- BEST SELLING -->
         <div class="divider">
             <div class="divider-item">
+                <i class="bi bi-geo-alt-fill"></i>
                 <span>Shops Near You</span>
             </div>
         </div>
 
 
-        <div class="flex flex-row gap-3 p-3 pb-10 overflow-x-auto">
+        <div class="flex flex-row gap-3 p-3 pb-10">
             <!-- LOADING SHOPS -->
             <div v-if="loading_shops['followed']" v-for="loader in 4" class=" flex flex-1 relative lg:max-w-[300px] min-w-[300px] h-[260px] bg-gray-50 rounded-lg x justify-start items-end">
                 <div class="flex flex-col gap-2 p-5">
@@ -127,11 +144,32 @@
                     <Skeleton width="100px" borderRadius="10px" height="15px"></Skeleton>
                 </div>
             </div>
-            <ShopCard v-for="(shop, index) in all_shops"
+
+            <Carousel
+                class=" relative w-[95%] mx-auto"
+                :opts="{
+                align: 'start',
+                }"
+            >
+            <CarouselContent>
+                <!-- class="md:basis-1/2 lg:basis-1/3"> -->
+            <CarouselItem v-for="(shop, index) in shops_near_me" :key="index" 
+            class="md:basis-1/2 lg:basis-1/3">
+                <ShopCard
+                    :name="shop.name"
+                    :category="shop.category"
+                    :image_url="shop.profile.image_url"
+                />
+            </CarouselItem>
+            </CarouselContent>
+            <CarouselPrevious />
+            <CarouselNext />
+            </Carousel>
+           <!--  <ShopCard v-for="(shop, index) in all_shops"
                 :name="shop.name"
                 :category="shop.category"
                 :image_url="shop.profile.image_url"
-            />
+            /> -->
         </div>
 
 
@@ -139,12 +177,12 @@
          <!-- BEST SELLING -->
         <div v-if="followed_shops.length > 0" class="divider">
             <div class="divider-item">
+                <i class="bi bi-stars"></i>
                 <span>Best Selling Shops</span>
             </div>
-        </div>
+        </div>   
 
-
-        <div class="flex flex-row gap-3 p-3 pb-10 overflow-x-auto">
+        <div class="flex flex-row gap-3 p-3 pb-10">
             <!-- LOADING SHOPS -->
             <div v-if="loading_shops['followed']" v-for="loader in 4" class=" flex flex-1 relative lg:max-w-[300px] min-w-[300px] h-[260px] bg-gray-50 rounded-lg x justify-start items-end">
                 <div class="flex flex-col gap-2 p-5">
@@ -153,27 +191,38 @@
                     <Skeleton width="100px" borderRadius="10px" height="15px"></Skeleton>
                 </div>
             </div>
-            <ShopCard v-for="(shop, index) in followed_shops"
-                :name="shop.name"
-                :category="shop.category"
-                :image_url="shop.profile.image_url"
-            />
+
+
+            <Carousel
+                class=" relative w-[95%] mx-auto"
+                :opts="{
+                align: 'start',
+                }"
+            >
+            <CarouselContent>
+                <!-- class="md:basis-1/2 lg:basis-1/3"> -->
+            <CarouselItem v-for="(shop, index) in followed_shops" :key="index" 
+            class="md:basis-1/2 lg:basis-1/3">
+                <ShopCard
+                    :name="shop.name"
+                    :category="shop.category"
+                    :image_url="shop.profile.image_url"
+                />
+            </CarouselItem>
+            </CarouselContent>
+            <CarouselPrevious />
+            <CarouselNext />
+            </Carousel>
         </div>
-
-       
-    
-
-        
-
-
     </div>
+    <TheFooter/>
 </template>
 
 <script>
 import BoostedShopCard from '@/components/BoostedShopCard.vue';
 import PageTitle from '@/components/PageTitle.vue'
 import ShopCard from '@/components/ShopCard.vue'
-
+import TheFooter from '@/components/TheFooter.vue';
 import axios from 'axios'
 import { formatDistanceToNow } from 'date-fns'
 import Rating from 'primevue/rating';
@@ -181,14 +230,30 @@ import Skeleton from 'primevue/skeleton';
 import { RouterLink } from 'vue-router';
 
 
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from '@/components/ui/carousel'
+
+
     export default {
         name: "ShopListView",
         components:{
+            TheFooter,
             PageTitle,
             ShopCard,
             Rating,
             Skeleton,
-            BoostedShopCard
+            BoostedShopCard,
+
+            Carousel,
+            CarouselContent,
+            CarouselItem,
+            CarouselNext,
+            CarouselPrevious,
         },
         data(){
             return{
@@ -263,7 +328,7 @@ import { RouterLink } from 'vue-router';
                     this.getting_nearby_shops = true;
                     const response = await axios.get(`/shops/near_me/${current_state}/all`);
                     this.shops_near_me = response.data.nearby_stores;
-                    // console.log("shops near me: ", response);
+                    console.log("shops near me: ", response);
                     this.getting_nearby_shops = false;
                 }catch(error){
                     console.log("error getting nearby states: ", error);
@@ -299,27 +364,9 @@ import { RouterLink } from 'vue-router';
                 };
 
                  // Use the OpenCage Geocoding API to get the location details
-                const apiKey = 'e99cb79bd180409b8eed5d463de070d1'; // Replace with your OpenCage API key
+                const apiKey = '9c37d543078e4fbeb7d968fdb8893f2e'; // Replace with your OpenCage API key
                 const apiUrl = `https://api.opencagedata.com/geocode/v1/json?q=${lat}+${lon}&key=${apiKey}`;
 
-               /*  const getttt = async()=>{
-                    try{
-                        const response = await axios.get(apiUrl);
-                        if(response.data.result && response.data.results.length > 0){
-                                // Extract the state from the result
-                                this.state = data.results[0].components.state;
-
-                                // call request from backend..
-                                this.getShopsNearMe(this.state);
-                            } else {
-                            this.error = "Unable to retrieve state information.";
-                        }
-                    }catch(error){
-                        console.error('Error:', error);
-                        this.error = "An error occurred while fetching location details.";
-                    }
-                    
-                }; */
                 const getttt =()=>{
                     fetch(apiUrl)
                         .then(response => response.json())
@@ -327,6 +374,8 @@ import { RouterLink } from 'vue-router';
                         if (data.results && data.results.length > 0) {
                             // Extract the state from the result
                             this.state = data.results[0].components.state;
+
+                            console.log("got shop from geo location: ", this.state)
 
                             // call request from backend..
                             this.getShopsNearMe(this.state);
@@ -423,7 +472,7 @@ import { RouterLink } from 'vue-router';
             this.getAllShops();
             
             // get user's location..
-            // this.getLocation();
+            this.getLocation();
         }
     }
 </script>

@@ -1,11 +1,12 @@
 <template>
-  <footer class="bg-transparent py-8 pt-24 border-t">
-  <div class="mx-auto px-4">
-    <div class="flex flex-row flex-wrap justify-between">
+  <footer class=" bg-white pt-24 border-t p-6">
+
+    <div class="flex flex-row flex-wrap justify-between container mx-auto gap-6 py-6">
       
       <!-- Logo and Description Section -->
-      <div class="w-full md:w-1/4 mb-8 md:mb-0 pr-12">
-        <h2 class="text-2xl font-bold text-green-700">WhatSell</h2>
+      <div class="flex flex-col gap-3 w-full md:w-[35%]">
+        <!-- <h2 class="text-2xl font-bold text-green-700">WhatSell</h2> -->
+        <img src="../assets/images/logo_black.svg" width="200px">
         <p class="text-gray-700 mt-4">
           WhatSell connects buyers and sellers seamlessly, bringing local shopping to your fingertips. Discover, buy, and sell effortlessly within your community and support local businesses and enjoy a smarter shopping experience!
         </p>
@@ -23,63 +24,63 @@
         </div>
       </div>
 
-      <div class="flex flex-row">
-        <!-- Categories Section -->
-        <div class="w-full md:w-1/4 mb-8 md:mb-0">
-          <h3 class="text-lg font-semibold text-gray-800 mb-4">Categories</h3>
-          <ul class="text-gray-600 space-y-2">
-            <li>Electronics & Gadgets</li>
-            <li>Health & Beauty</li>
-            <li>Automotive</li>
-            <li>Office Supplies</li>
-            <li>Arts & Crafts Supplies</li>
-            <li>Fashion & Apparel</li>
-            <li>Books & Media</li>
-            <li>Toys & Games</li>
-            <li>Pet Supplies</li>
-            <li>Jewelry & Watches</li>
-            <li>Home & Kitchen</li>
-            <li>Sport & Outdoors</li>
-            <li>Grocery & Gourmet Food</li>
-            <li>Baby Products</li>
-            <li>Travel & Luggage</li>
-          </ul>
-        </div>
 
-        <!-- Quick Links Section -->
-        <div class="w-full md:w-1/4 mb-8 md:mb-0">
-          <h3 class="text-lg font-semibold text-gray-800 mb-4">Quick Links</h3>
-          <ul class="text-gray-600 space-y-2">
-            <li>Market</li>
-            <li>Shops</li>
-            <li>Categories</li>
-            <li>Wallet</li>
-            <li>Clips</li>
-            <li>Accounts</li>
-            <li>Terminologies</li>
-            <li>Safety Tips</li>
-            <li>FAQ's</li>
-            <li>Help</li>
-          </ul>
-        </div>
+      <!-- Categories Section -->
+      <div class="flex flex-col gap-3 flex-1">
+        <h3 class="text-lg font-semibold text-gray-800 mb-2">Categories</h3>
+        <ul class="text-gray-600 space-y-2">
+          <li>Electronics & Gadgets</li>
+          <li>Health & Beauty</li>
+          <li>Automotive</li>
+          <li>Office Supplies</li>
+          <li>Arts & Crafts Supplies</li>
+          <li>Fashion & Apparel</li>
+          <li>Books & Media</li>
+          <li>Toys & Games</li>
+          <li>Pet Supplies</li>
+          <li>Jewelry & Watches</li>
+          <li>Home & Kitchen</li>
+          <li>Sport & Outdoors</li>
+          <li>Grocery & Gourmet Food</li>
+          <li>Baby Products</li>
+          <li>Travel & Luggage</li>
+        </ul>
+      </div>  
 
-        <!-- Contact Us Section -->
-        <div class="w-full md:w-1/4">
-          <h3 class="text-lg font-semibold text-gray-800 mb-4">Contact Us</h3>
-          <ul class="text-gray-600 space-y-2">
-            <li>+234 706 789 5678</li>
-            <li>+234 802 789 5390</li>
-            <li>support@whatsell.com</li>
-            <li>HQ @ No 12, Alesa, Isarowiwa Road, Port Harcourt, Nigeria</li>
-          </ul>
-        </div>
+      <!-- Quick Links Section -->
+      <div class="flex flex-col gap-3 flex-1">
+        <h3 class="text-lg font-semibold text-gray-800 mb-2">Quick Links</h3>
+        <ul class="text-gray-600 space-y-2">
+          <li>Market</li>
+          <li>Shops</li>
+          <li>Categories</li>
+          <li>Wallet</li>
+          <li>Clips</li>
+          <li>Accounts</li>
+          <li>Terminologies</li>
+          <li>Safety Tips</li>
+          <li>FAQ's</li>
+          <li>Help</li>
+        </ul>
       </div>
+
+      <!-- Contact Us Section -->
+      <div class="flex flex-col gap-3 flex-1">
+        <h3 class="text-lg font-semibold text-gray-800 mb-2">Contact Us</h3>
+        <ul class="text-gray-600 space-y-2">
+          <li>+234 706 789 5678</li>
+          <li>+234 802 789 5390</li>
+          <li>support@whatsell.com</li>
+          <li>HQ @ No 12, Alesa, Isarowiwa Road, Port Harcourt, Nigeria</li>
+        </ul>
+      </div>
+
     </div>
 
     <!-- Social Media Icons and Footer Bottom -->
-    <div class="flex flex-wrap justify-between items-center mt-8 border-t pt-4">
+    <div class="container flex flex-row flex-wrap md:justify-between items-center border-t mx-auto py-8 gap-6 font-bold">
       <!-- Social Media Icons -->
-      <div class="flex space-x-4 text-green-700">
+      <div class="flex space-x-8 text-green-700">
         <a href="#"><i class="bi bi-whatsapp text-xl"></i></a>
         <a href="#"><i class="bi bi-facebook text-xl"></i></a>
         <a href="#"><i class="bi bi-instagram text-xl"></i></a>
@@ -87,7 +88,7 @@
       </div>
       
       <!-- Footer Links -->
-      <div class="flex space-x-6 text-gray-600">
+      <div class="flex text-gray-600 space-x-8">
         <a href="#">Terms of Use</a>
         <a href="#">Privacy Policy</a>
       </div>
@@ -95,7 +96,7 @@
       <!-- Copyright -->
       <p class="text-gray-600">&copy; All Rights reserved by WhatSell 2024</p>
     </div>
-  </div>
+
 </footer>
 
 </template>

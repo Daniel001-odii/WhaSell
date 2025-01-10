@@ -46,21 +46,11 @@ import { createRouter, createWebHistory, createMemoryHistory } from 'vue-router'
 import { createHead } from '@unhead/vue';
 import routes from './router/index';
 
-/* export function createApp() {
-    const app = createSSRApp(App);
-    const router = createRouter({
-    //   history: import.meta.env.SSR ? createMemoryHistory() : createWebHistory(),
-      history: createWebHistory(),
-      routes,
-    });
-    const meta = createHead();
-  
-    app.use(router);
-    app.use(meta);
-  
-    return { app, router, meta };
-}
- */
+
+/* 
+    import chadcn-css
+*/
+import '../src/assets/index.css';
 
 
 const app = createSSRApp(App);

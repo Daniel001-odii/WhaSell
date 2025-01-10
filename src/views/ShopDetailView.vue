@@ -10,7 +10,7 @@
     <!-- {{ $route.query }} -->
 
     <!-- BOOST SHOP MODAL -->
-    <div v-if="$route.query.boost_shop" class="fixed h-screen w-full z-50 top-0 right-0 bg-[rgba(0,0,0,0.8)] flex justify-center items-center">
+  <!--   <div v-if="$route.query.boost_shop" class="fixed h-screen w-full z-50 top-0 right-0 bg-[rgba(0,0,0,0.8)] flex justify-center items-center">
         <div class="bg-white justify-center items-center p-5 flex flex-col rounded-lg">
             <h1 class="font-bold text-xl mb-3">Boost your shop</h1>
             <div>Make your shop visible to more buyers</div>
@@ -22,7 +22,7 @@
                 <button class="btn bg-green-500 text-white">Boost</button>
             </div>
         </div>
-    </div>
+    </div> -->
 
 
 

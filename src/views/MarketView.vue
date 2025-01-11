@@ -40,11 +40,12 @@
             </MasonryWall> 
         </div>
 
+      
         <div v-if="products.length > 0">
             <MasonryWall 
             :items="products"
             :ssr-columns="1"
-            :column-width="150" :gap="10">
+            :column-width="200" :gap="10">
                 <template #default="{ item, index }">
                 <ProductCard class=" -mt-[15px]"
                     :id="item._id"
@@ -57,11 +58,12 @@
                     @like-product="addProductToLikes(item._id)"
                     :image_url="item.images[0]"
                 >
-            </ProductCard> 
+            </ProductCard>
                 </template>
             </MasonryWall>
         </div>
          
+        {{ liked_products }}
       
 
         <!-- SHOPS NEAR YOU -->
@@ -137,8 +139,8 @@
                 :category="shop.category"
                 :image_url="shop.profile.image_url"
             />
-            
-            <div v-if=" boosted_shops.length < 4" class="block md:flex p-5 py-8 text-center flex-1 bg-[#00c1f618] rounded-lg text-xl text-[#00C1F6] flex-col justify-center items-center border border-[#00C1F6]">
+            <!-- my shop is boosted{{ user_shop_is_boosted }} -->
+            <div v-if=" boosted_shops.length > 0 && boosted_shops.length < 4 && user_shop_is_boosted == false" class="block md:flex p-5 py-8 text-center flex-1 bg-[#00c1f618] rounded-lg text-xl text-[#00C1F6] flex-col justify-center items-center border border-[#00C1F6]">
                 <span>There are still slots available,<br/> take an available slot now. <br/> </span>
 
                 <RouterLink v-if="user.shop" :to="`/shops/${user.shop.name}?boost_shop=true`">
@@ -272,6 +274,9 @@ import {
 
                 boosted_shops: [],
                 loading_boosted_shops: false,
+                user_shop_is_boosted: false,
+
+
             }
         },
         methods:{
@@ -339,7 +344,9 @@ import {
                     const response = await axios.get('/user');
                     console.log("found user: ", response);
                     this.user = response.data.user;
-                    this.liked_products = response.data.user.liked_products;
+                    this.user_shop = response.data?.shop;
+                    this.user_shop_is_boosted = response.data?.shop?.is_boosted;
+                    this.liked_products = response.data.user?.liked_products;
                 }catch(error){
                     console.log("cant get user..", error);
                 }
@@ -359,6 +366,7 @@ import {
                     this.boosted_shops = response.data.shops;
                     console.log("boosted shops: ", this.boosted_shops);
                     this.loading_boosted_shops = false;
+                   
                 }catch(error){
                     this.loading_boosted_shops = false;
                     console.log(error);
@@ -419,15 +427,22 @@ import {
                 return height
             },
 
+            checkShopStatus(){
+                this.boosted_shops.forEach((shop)=>{
+                    shop.owner == this.user._id
+                    return shop
+                });
+            }
+
             
         },
 
         created() {
             // this.randomHeightInPx();
-
+            this.getUser();
             this.getAllProducts();
             this.getAllShops();
-            this.getUser();
+            
             this.getBoostedShops();
             
         },

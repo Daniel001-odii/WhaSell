@@ -12,12 +12,12 @@
                         <span>Shop Visitors</span>
                     </span>
                     <div class="font-bold text-3xl">{{ shop_analytics.views }}</div>
-                    <div class="flex flex-row gap-3">
+                    <div class="flex flex-row gap-3 opacity-30">
                         <span class="text-green-500">13%</span>
                         <span class="text-gray-500">+3.5k this week</span>
                     </div>
                 </div>
-
+                
                 <!-- PRODUCT VIEWS -->
                 <div class="stat-box">
                     <span class="text-sm font-bold">
@@ -25,7 +25,7 @@
                         <span>Follower count</span>
                     </span>
                     <div class="font-bold text-3xl">{{ shop_analytics.followers_count }}</div>
-                    <div class="flex flex-row gap-3">
+                    <div class="flex flex-row gap-3 opacity-30">
                         <span class="text-green-500">13%</span>
                         <span class="text-gray-500">+3.5k this week</span>
                     </div>
@@ -38,7 +38,7 @@
                         <span>Sold Products</span>
                     </span>
                     <div class="font-bold text-3xl">{{ shop_analytics.sold_products }}</div>
-                    <div class="flex flex-row gap-3">
+                    <div class="flex flex-row gap-3 opacity-30">
                         <span class="text-green-500">13%</span>
                         <span class="text-gray-500">+3.5k this week</span>
                     </div>

@@ -1,82 +1,158 @@
 <template>
-    <div class=" relative group">
+    <div class="relative group bg-white p-1 rounded-2xl hover:border-green-500 hover:shadow-md border border-transparent">
         <!-- IMAGE -->
-        <div class="overflow-hidden rounded-3xl">
-            <img :src="image_url" class=" w-auto  transition-transform duration-300 transform group-hover:scale-125 peer">
+        <div class="overflow-hidden rounded-2xl">
+            <RouterLink v-if="product_slug" :to="`/products/${id}/${product_slug}`" class="text-sm clamp-4">
+                <img :src="image_url" class="w-auto transition-transform duration-300 transform group-hover:scale-125 peer" />
+            </RouterLink>
         </div>
 
-        <!-- TEXT AND WRITE UPS -->
-        <div class="hidden flex-col border p-2 h-full bg-black bg-opacity-50 absolute z-10 w-full top-0 rounded-3xl items-start justify-end text-white group-hover:flex">
+        <!-- TEXT AND WRITE-UPS -->
+        <div class="p-2">
             <RouterLink v-if="product_slug" :to="`/products/${id}/${product_slug}`" class="text-sm clamp-4">
                 {{ product_slug }}
             </RouterLink>
-            <div class="flex flex-row justify-between">
-                <span class=" text-lg font-bold">NGN {{ product_price }}</span>
-                <button @click="addLike()" class="h-8 w-8 rounded-full bg-white flex justify-center items-center border absolute top-3 right-3" :class="is_liked ? 'border-green-500':''">
-                    <i class="bi bi-hand-thumbs-up-fill text-green-500" v-if="is_liked"></i>
-                    <i class="bi bi-hand-thumbs-up" v-else></i>
+            <div class="flex justify-between items-center">
+                <span class="text-lg font-bold">NGN {{ product_price }}</span>
+
+                <!-- Like Button -->
+                <button
+                    @click="toggleLike"
+                    :class="[
+                        'h-8 w-8 rounded-full bg-white flex justify-center items-center border absolute top-3 right-3',
+                        isLiked ? 'border-green-500' : 'border-gray-300'
+                    ]"
+                >
+                    <i :class="isLiked ? 'bi bi-hand-thumbs-up-fill text-green-500' : 'bi bi-hand-thumbs-up'"></i>
                 </button>
             </div>
             <div class="text-gray-400 text-[12px] flex justify-between">
                 <span>
-                    <i class="bi bi-eye-fill" ></i>
-                    {{ views }} views 
+                    <i class="bi bi-eye-fill"></i>
+                    {{ views }} views
                 </span>
             </div>
         </div>
     </div>
-    
 </template>
 
 <script>
-import Routerlink from 'vue'
-import { formatDistanceToNow } from 'date-fns'
+import { formatDistanceToNow } from "date-fns";
+import axios from 'axios';
 
 
-    export default {
-        name: "ProductCard",
-        props:{
-            id: String,
-            product_slug: String,
-            product_price: String,
-            product_image: String,
-            views: Number,
-            posted: String,
-            shop: String,
-            is_liked: Boolean,
-            shop_name: String,
-            image_url: String,
+export default {
+    name: "ProductCard",
+    props: {
+        id: {
+            type: String,
+            required: true,
+        },
+        product_slug: {
+            type: String,
+            required: true,
+        },
+        product_price: {
+            type: String,
+            required: true,
+        },
+        product_image: {
+            type: String,
+            default: "",
+        },
+        views: {
+            type: Number,
+            default: 0,
+        },
+        is_liked: {
+            type: Boolean,
+            default: false,
+        },
+        image_url: {
+            type: String,
+            required: true,
+        },
+    },
+
+    data() {
+        return {
+            isLiked: this.is_liked, // Local reactive state for like button
+        };
+    },
+
+    methods: {
+        async toggleLike(){
+                try{
+
+                    this.isLiked = !this.isLiked;
+                    const response = await axios.post(`/products/${this.id}/like`);
+                    console.log("likes: ", response);
+                    this.$toast.open({
+                        message: `${response.data.message}`,
+                        type: 'default',
+                    });
+
+                    // Example: Emit to parent for API call
+                    this.$emit("update-like", {
+                        productId: this.id,
+                        isLiked: this.isLiked,
+                    });
+
+                    this.isLiked = response.data.is_liked;
+
+                }catch(error){
+                    this.$toast.open({
+                        message: `${response.data.message}`,
+                        type: 'default',
+                    });
+                }
         },
 
-        data(){
-            return{
-                formatDistanceToNow,
+        async toggleLike11() {
+            try {
+                // Emit the like/unlike event to the parent or handle API logic here
+                this.isLiked = !this.isLiked;
+
+                // Example: Emit to parent for API call
+                this.$emit("update-like", {
+                    productId: this.id,
+                    isLiked: this.isLiked,
+                });
+
+                // Example API call logic
+                // await axios.post(`/products/${this.id}/like`, { isLiked: this.isLiked });
+
+            } catch (error) {
+                console.error("Error toggling like:", error);
+                // Revert the state if the API call fails
+                this.isLiked = !this.isLiked;
             }
         },
+    },
 
-        methods: {
-            addLike(){
-                this.$emit('like-product');
-            }
-        }
-    }
+    watch: {
+        // Ensure reactivity if the `is_liked` prop changes externally
+        is_liked(newVal) {
+            this.isLiked = newVal;
+        },
+    },
+};
 </script>
 
 <style scoped>
-    .product-image{
-        filter: grayscale();
-        background-size: cover;
-        background-position: center;
-        background-repeat: none;
-    }
+.product-image {
+    filter: grayscale();
+    background-size: cover;
+    background-position: center;
+    background-repeat: none;
+}
 
-    .prod-alt-image{
-        background-image: url('../assets/images/image_5.png');
-        background-size: cover;
-        background-position: center;
-        background-repeat: no-repeat;
-        background-blend-mode: saturation;
-        /* filter: grayscale(100%); */
-        min-height: 100px;
-    }
+.prod-alt-image {
+    background-image: url("../assets/images/image_5.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-blend-mode: saturation;
+    min-height: 100px;
+}
 </style>

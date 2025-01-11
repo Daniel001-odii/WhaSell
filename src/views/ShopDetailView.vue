@@ -7,31 +7,54 @@
         @close-glip="glips_modal = !glips_modal"
     />
 
-    <!-- {{ $route.query }} -->
-
-    <!-- BOOST SHOP MODAL -->
-  <!--   <div v-if="$route.query.boost_shop" class="fixed h-screen w-full z-50 top-0 right-0 bg-[rgba(0,0,0,0.8)] flex justify-center items-center">
-        <div class="bg-white justify-center items-center p-5 flex flex-col rounded-lg">
-            <h1 class="font-bold text-xl mb-3">Boost your shop</h1>
-            <div>Make your shop visible to more buyers</div>
-            <div>Select your preffered plan</div>
-            <div class="flex flex-row gap-5 mt-6">
-                <RouterLink to="/shops">
-                    <button class="btn border bg-gray-100">cancel</button>
-                </RouterLink>
-                <button class="btn bg-green-500 text-white">Boost</button>
-            </div>
+ <!-- BOOST SHOP? MODAL -->
+ <div v-if="boost_shop_modal" class="flex justify-center min-h-screen items-center fixed bg-[rgba(0,0,0,0.8)] w-full left-0 top-0 z-50 p-5">
+    <div class="bg-white rounded-lg md:w-[700px] p-12 text-center flex flex-col justify-start items-center max-h-[85vh] overflow-y-auto">
+        <div class=" !size-40 min-h-40 rounded-full border-4 border-[#00C1F6] relative p-2 flex justify-center items-center">
+            <img :src="shop_image" class=" rounded-full h-[100%]" v-if="shop_image"/>
+            <i class=" bi bi-rocket-takeoff-fill text-white absolute -bottom-0 right-0 bg-[#00C1F6] p-4 rounded-full size-12 flex justify-center items-center border-4 border-white"></i>
         </div>
-    </div> -->
+        <div class=" mt-3">
+            <h1 class=" text-xl">Boost <b>{{ shop.name }}</b> Shop</h1>
+            <span class=" ">Proceed to select your desired timeline and make payment</span>
+        </div>
+        <div class=" mt-6 flex flex-row gap-6 text-left items-center bg-[#00C1F6] bg-opacity-10 text-[#00C1F6] p-4 rounded-md">
+            <i class="  bi bi-rocket-takeoff-fill text-3xl"></i>
+            <span>This transaction is slot-based, once all slots are booked you have to wait till a slot is available before you can boost your shop.</span>
+        </div>
+        <form @submit.prevent="boostShop()">
+            <div class=" flex flex-row flex-wrap gap-4 justify-start items-center py-3">
+                
+                <button type="button" :class="shop_boost_duration == coin ? 'border-app_green text-app_green':'border-transparent bg-gray-100'" @click="shop_boost_duration = coin" v-for="coin in 7" class=" bg-opacity-15 px-12 py-3 rounded-lg  font-bold flex-1 text-nowrap border ">{{ coin }}D</button>
+            </div>
+            <div class=" flex flex-row justify-between items-center">
+                <span>{{ shop_boost_duration }}D</span>
+                <span>=</span>
+                <input class=" border-b p-3 outline-none w-[85%]" placeholder="XXX" disabled :value="`${shop_boost_duration * 10} Coins`">
+            </div>
+            <div class=" flex flex-row gap-3 mt-12 justify-end">
+                <button type="button" @click="boost_shop_modal = !boost_shop_modal" class="btn bg-gray-100">Cancel</button>
+                <button class="btn bg-app_green text-white" type="submit">Boost Now</button>
+            </div>
+        </form>
+    </div>
+ </div>
 
 
 
     <div>
         <!-- {{ isAllowed() }} -->
         <div class="flex flex-col">
+            
+            
             <FullPageLoader v-if="loading"/>
-            <div v-else class=" w-full bg-app_green h-[200px] relative flex justify-center items-center">
-                <span class=" text-3xl font-bold text-green-100">{{ shop.category }}</span>
+            <div v-else :class=" shop.is_boosted ? 'bg-[#00C1F6]':'bg-app_green'" class=" w-full h-[200px] relative flex justify-center items-center">
+                <span class=" relative text-3xl font-bold text-green-100 flex flex-col justify-center items-center ">
+                    <div class=" absolute w-fit !left-0">
+                        <Vue3Lottie :animation-data="Rocket" :height="200" :width="200"/>
+                    </div>
+                    <span class="glitch_for_boost drop-shadow-2xl"> {{ shop.category }}</span>
+                </span>
                 <RouterLink to="/account/shop/true">
                     <button v-if="isAllowed()"class="rounded-full border border-black bg-white bg-opacity-50 px-5 py-2 absolute bottom-5 right-5 z-40 flex justify-center items-center gap-3">
                         <span class="hidden md:flex">edit profile</span>
@@ -112,17 +135,26 @@
                                     </div>
                                
                                     
-                                    <ProductCard v-else class=" w-[100px]" v-for="(product, index) in products" :key="index"
-                                        :id="product._id"
-                                        :product_slug="product.slug"
-                                        :views="product.views"
-                                        :posted="product.createdAt"
-                                        :product_price="product.price.toLocaleString()"
-                                        :shop_name="product.shop.name"
-                                        @like-product="addProductToLikes(product._id)"
-                                        :image_url="product.images[0]"
-                                    >
-                                    </ProductCard> 
+                                    <MasonryWall 
+                                    :items="products"
+                                    :ssr-columns="1"
+                                    :column-width="200" :gap="10">
+                                        <template #default="{ item, index }">
+                                        <ProductCard class=" -mt-[15px]"
+                                            :hasLikedButton="false"
+                                            :id="item._id"
+                                            :product_slug="item.slug"
+                                            :views="item.views"
+                                            :posted="item.createdAt"
+                                            :product_price="item.price.toLocaleString()"
+                                            :shop_name="item.shop.name"
+                                            :is_liked="checkLikes(item._id)"
+                                            @like-product="addProductToLikes(item._id)"
+                                            :image_url="item.images[0]"
+                                        >
+                                    </ProductCard>
+                                        </template>
+                                    </MasonryWall>
                                 </div>
                                     <!-- <div class="flex justify-center items-center p-8 text-gray-500" v-if="!loading_products || products.length == 0">
                                         <div class="flex flex-col justify-center items-center mt-12">
@@ -181,6 +213,11 @@ import { RouterLink } from 'vue-router';
 import GlipVideoBox from '@/components/GlipVideoBox.vue';
 import Skeleton from 'primevue/skeleton';
 
+import MasonryWall from '@yeger/vue-masonry-wall';
+
+import { Vue3Lottie } from 'vue3-lottie'
+import Rocket from '../assets/lottie/rocket.json';
+
     export default {
         name: "ShopDetailView",
         components:{
@@ -190,10 +227,18 @@ import Skeleton from 'primevue/skeleton';
             FullPageLoader,
             GlipVideoBox,
             Skeleton,
+
+            MasonryWall,
+            Vue3Lottie,
+            
         },
 
         data(){
             return{
+                Rocket,
+                shop_image: '',
+                shop_boost_duration: 1,
+
                 glips_modal: false,
                 loading: false,
                 current_tab: 0,
@@ -215,6 +260,7 @@ import Skeleton from 'primevue/skeleton';
                 progressPercentage: 0, // Progress in percentage (0 - 100)
 
                 boost_shop_modal: false,
+                liked_products: [],
             }
         },
 
@@ -223,6 +269,14 @@ import Skeleton from 'primevue/skeleton';
         },
 
         methods:{
+
+            checkLikes(product_id){
+                if(this.liked_products.includes(product_id)){
+                    return true;
+                } else {
+                    return false;
+                }
+            },
 
             userIsFollowingShop(followers, idToCheck) {
                 let exists = false; // Initialize a flag
@@ -258,7 +312,8 @@ import Skeleton from 'primevue/skeleton';
                     this.loading = true;
                     const response = await axios.get(`/shops/${this.$route.params.name}/full`);
                     this.shop = response.data.shop;
-                    console.log("shop: ", response)
+                    console.log("shop: ", response);
+                    this.shop_image = response.data.shop.profile.image_url;
                     this.shop_id = response.data.shop._id;
                     this.followers = response.data.shop.followers;
                     // this.products = response.data.shop.products;
@@ -350,6 +405,24 @@ import Skeleton from 'primevue/skeleton';
                 }
             },
 
+            async boostShop(){
+                try{
+                    const response = await axios.post("/shops/boost_shop", { duration:  this.shop_boost_duration});
+                    console.log("boosting shop: ", response);
+                    this.$toast.open({
+                        message: `${response.data.message}`,
+                        type: 'success',
+                    });
+                    window.location.reload();
+                }catch(error){
+                    console.log("error boosting shop: ", error);
+                    this.$toast.open({
+                        message: `${error.response.data.message}`,
+                        type: 'error',
+                    });
+                }
+            },
+
             glipPreview(glip, index){
                 this.current_glip = glip;
                 this.glips_modal = !this.glips_modal
@@ -409,4 +482,6 @@ import Skeleton from 'primevue/skeleton';
         background-size: cover;
     }
 
+
+ 
 </style>

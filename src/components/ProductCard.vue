@@ -3,7 +3,7 @@
         <!-- IMAGE -->
         <div class="overflow-hidden rounded-2xl">
             <RouterLink v-if="product_slug" :to="`/products/${id}/${product_slug}`" class="text-sm clamp-4">
-                <img :src="image_url" class="w-auto transition-transform duration-300 transform group-hover:scale-125 peer" />
+                <img :src="image_url" class="w-full transition-transform duration-300 transform group-hover:scale-125 peer" />
             </RouterLink>
         </div>
 
@@ -16,7 +16,7 @@
                 <span class="text-lg font-bold">NGN {{ product_price }}</span>
 
                 <!-- Like Button -->
-                <button
+                <button v-if="hasLikedButton"
                     @click="toggleLike"
                     :class="[
                         'h-8 w-8 rounded-full bg-white flex justify-center items-center border absolute top-3 right-3',
@@ -44,6 +44,10 @@ import axios from 'axios';
 export default {
     name: "ProductCard",
     props: {
+        hasLikedButton: {
+            type: Boolean,
+            default: true,
+        },
         id: {
             type: String,
             required: true,

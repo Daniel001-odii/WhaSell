@@ -8,6 +8,7 @@
     "test:unit": "vue-cli-service test:unit"
   },
   "dependencies": {
+    "@lottiefiles/lottie-player": "^2.0.12",
     "@unhead/vue": "^1.11.14",
     "@vueuse/core": "^12.4.0",
     "@yeger/vue-masonry-wall": "^5.0.16",
@@ -36,6 +37,7 @@
     "vue-slick-carousel": "^1.0.6",
     "vue-toast-notification": "^3.1.2",
     "vue3-carousel": "^0.12.0",
+    "vue3-lottie": "^3.3.1",
     "vuex": "^4.0.0"
   },
   "devDependencies": {

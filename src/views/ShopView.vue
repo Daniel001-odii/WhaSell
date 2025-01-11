@@ -29,7 +29,7 @@
         <form @submit.prevent="boostShop()">
             <div class=" flex flex-row flex-wrap gap-4 justify-start items-center py-3">
                 
-                <button type="button" :class="shop_boost_duration == coin ? 'border-app_green bg-app_green ':'border-transparent bg-gray-100'" @click="shop_boost_duration = coin" v-for="coin in 7" class=" bg-opacity-15 px-12 py-3 rounded-lg  font-bold flex-1 text-nowrap border ">{{ coin }}D</button>
+                <button type="button" :class="shop_boost_duration == coin ? 'border-app_green text-app_green':'border-transparent bg-gray-100'" @click="shop_boost_duration = coin" v-for="coin in 7" class=" bg-opacity-15 px-12 py-3 rounded-lg  font-bold flex-1 text-nowrap border ">{{ coin }}D</button>
             </div>
             <div class=" flex flex-row justify-between items-center">
                 <span>{{ shop_boost_duration }}D</span>

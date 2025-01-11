@@ -153,97 +153,145 @@
 
                 <!-- PRODUCTS & PRODUCT DETAIL -->
                 <div id="inventory" class=" p-3 mt-12 rounded-lg border bg-white text-green-800 font-bold">
-                    My products ({{ shop_products.length }})
+                    My products ({{ total_products }})
                 </div>
 
+                <!-- {{ edited_product }} -->
                 
                 <!-- INVENTORY AREA -->
                 <div class="relative overflow-x-auto mt-3" v-if="shop_products.length > 0">
                     <table class="w-full text-sm text-left rtl:text-right text-gray-500">
                         <thead class="text-xs text-gray-700 uppercase bg-gray-50 ">
                             <tr>
-                                <th scope="col" class="px-6 py-3">Items</th>
+                                <th scope="col" class="px-6 py-3 text-left">Items</th>
                                 <th scope="col" class="px-6 py-3">Category</th>
                                 <!-- <th scope="col" class="px-6 py-3">QTY Left</th> -->
-                                <th scope="col" class="px-6 py-3">Status</th>
+                                <!-- <th scope="col" class="px-6 py-3">Status</th> -->
                                 <!-- <th scope="col" class="px-6 py-3">Variants</th> -->
-                                <th scope="col" class="px-6 py-3">Price/pdt</th>
+                                <th scope="col" class="px-6 py-3 text-right">Price/pdt</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr class="bg-white border-b hover:bg-gray-50 cursor-pointer" v-for="(product, index) in shop_products" :key="index">
-                                <td @click="selected_product = index" class="px-6 py-4 flex flex-row gap-2 items-center">
-                                    <!-- <div class="bg-red-400 rounded-xl overflow-hidden"> -->
-                                        <img :src="product.images[0]" class="!size-[30px] rounded-lg">
-                                    <!-- </div> -->
+                                <td @click="selectProduct(product)" class="px-6 py-4 flex flex-row gap-2 items-center">
+                                    <img :src="product.images[0]" class="!size-[30px] rounded-lg">
                                     <span class=" line-clamp-3">{{ product.name }}</span>
                                 </td>
                                 <td class="px-6 py-4">{{ product.category }}</td>
                                 <!-- <td class="px-6 py-4">Null</td> -->
                                 <!-- <td class="px-6 py-4">Null</td> -->
-                                <td class="px-6 py-4">Null</td>
-                                <td class="px-6 py-4">NGN {{ product.price.toLocaleString() }}</td>
+                                <!-- <td class="px-6 py-4">Null</td> -->
+                                <td class="px-6 py-4 text-right">NGN {{ product.price.toLocaleString() }}</td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
 
+                
+
                 <!-- IF THERE ARE NO PRODUCTS IN USER SHOP --> 
-               <!--  <div class="no-products w-full h-[300px] flex items-end  justify-center text-xl pb-4 text-gray-400" v-else>
-                    <p>You have no products yet <RouterLink class="text-green-500 underline" to="/products/new">Sell Now!</RouterLink></p>
-                </div> -->
                 <div class="flex flex-col justify-center items-center mt-12" v-else>
                     <img src="../assets/images/no-products.png" class=" !size-52">
                     <p class="mt-3">You have no products yet <RouterLink class="text-green-500 underline" to="/products/new">Sell Now!</RouterLink></p>
                 </div>
 
+                <!-- current: {{ current_product_page }} | total: {{ total_product_page }} -->
+
+                <!-- PAGINATION AREA -->
+                <div class="flex flex-row items-center gap-2 mt-4">
+                    <button :disabled="current_product_page == 0" @click="{ current_product_page -= 1, getShopProducts(); }" class="btn" ><i class="bi bi-caret-left-fill"></i></button>
+                    <span>{{ current_product_page }} of {{ total_product_page }}</span>
+                    <button :disabled="current_product_page == total_product_page" @click="{ current_product_page += 1, getShopProducts(); }" class="btn"><i class="bi bi-caret-right-fill"></i></button>
+                </div>
+
                 <!-- PRODUCT DETAIL PREVIEW -->
-                <div class=" p-3 mt-12 rounded-lg border bg-white text-green-800 font-bold" v-if="shop_products.length > 0">
+                <div class=" p-3 mt-12 rounded-lg border bg-white text-green-800 font-bold" v-if="selected_product">
                     Product
                 </div>
-                <div class="flex flex-row flex-wrap bg-white border p-8 mt-3 items-start gap-12 rounded-lg" v-if="shop_products.length > 0">
+                <div class="flex flex-col bg-white border p-8 mt-3 items-start gap-12 rounded-lg" v-if="selected_product">
 
-                    <div class="flex flex-row flex-wrap gap-3 items-center" >
+                    <div v-if="selected_product" class="flex flex-row flex-wrap gap-3 items-center w-full" >
                         
                         <!-- <div class="!size-40 bg-gray-100 rounded-lg overflow-hidden h-full w-full flex justify-center items-center"> -->
-                            <img :src="shop_products[selected_product].images[0]" class="!size-40 bg-gray-100 rounded-lg ">
+                        <img v-if="selected_product.images" :src="selected_product.images[0]" class="!size-40 bg-gray-100 rounded-lg ">
                         <!-- </div> -->
                         <div class="flex flex-col gap-3">
-                            <h2 class="font-bold text-xl"> {{ shop_products[selected_product].name.substring(0,20) }}...</h2>
-                            <div class=" bg-green-100 text-green-700 text-sm p-1 rounded-lg text-center w-fit">{{ shop_products[selected_product].category }}</div>
+                            <h2 class="font-bold text-xl"> {{ selected_product.name }}</h2>
+                            <div class=" bg-green-100 text-green-700 text-sm p-1 rounded-lg text-center w-fit">{{ selected_product.category }}</div>
                             <div class="flex flex-row overflow-x-auto gap-1">
-                                <!-- {{ shop_products[selected_product].images }} -->
-                                <img :src="image" class=" size-10 bg-gray-100 rounded-md" v-for="image in shop_products[selected_product].images"></img>
+                                <!-- {{ selected_product.images }} -->
+                                <img :src="image" class=" size-10 bg-gray-100 rounded-md" v-for="image in selected_product.images"></img>
                             </div>
                         </div>
                     </div>
 
                     <!-- PRODUCT DESCRIPTIONS -->
-                    <div class="flex flex-col gap-3 mt-8 md:mt-0 ">
-                       <span>
-                        <b>Variants:</b> Black, White, Sky Blue</span>
-                       <span><b>Bulk price:</b></span>
-                       <div>
-                            <b>Product Description:</b><br/>
-                            <p>
-                                {{ shop_products[selected_product].description }}
-                            </p>
-                        </div>
-                        <span><b>Total Qty:</b> 138pcs</span>
-                        <span><b>Qty sold:</b> 14pcs</span>
-                        <div class="flex flex-row justify-between items-center">
-                            <span><b>Qty left:</b> 123pcs</span>
-                            <div class=" gap-3 flex items-center">
-                                <span class="  inline-block !size-3 bg-blue-500 rounded-full"></span>
-                                <span class="text-blue-500">In stock</span>
+                    <div v-if="selected_product" class="flex flex-col gap-3 mt-4 w-full">
+                        <!-- NORMAL DISPLAY -->
+                        <div v-if="!edit_product_menu" class="flex flex-col gap-3">
+                            <span><b>Variants:</b> Black, White, Sky Blue</span>
+                            <span><b>Bulk price:</b></span>
+                            <div>
+                                <b>Product Description:</b><br/>
+                                <p v-html="selected_product.description"></p>
+                            </div>
+                            <div class=" flex flex-row gap-4">
+                                <span><b>Total Qty:</b> 138pcs</span>
+                                <span><b>Qty sold:</b> 14pcs</span>
+                                <div class="flex flex-row gap-3 justify-between items-center">
+                                    <span><b>Qty left:</b> 123pcs</span>
+                                    <div class=" gap-3 flex items-center">
+                                        <span class="  inline-block !size-3 bg-blue-500 rounded-full"></span>
+                                        <span class="text-blue-500">In stock</span>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        <div class="flex flex-row  gap-4 justify-between mt-8">
-                            <button @click="delete_selected(shop_products[selected_product]._id)" class="bg-red-700 text-white p-3 btn">
+
+                        <!-- {{ edited_product }} -->
+                        <!-- EDIT DISPLAY -->
+                        <form v-if="edit_product_menu" @subbmit.prevent="editProduct(selected_product._id)" class=" w-full flex flex-col gap-3">
+                            <div class=" flex flex-row gap-3 w-full">
+                                <div class=" flex flex-col flex-1">
+                                    <span class=" font-bold">Product Name*</span>
+                                    <input type="text" class=" form_input !w-full" v-model="edited_product.name"/>
+                                </div>
+                                <div class=" flex flex-col flex-1">
+                                    <span class=" font-bold">Product Category</span>
+                                    <select class=" form_input !w-full" v-model="edited_product.category">
+                                        <option disabled value="">Select Category</option>
+                                        <option v-for="item in categories">{{ item.name }}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class=" flex flex-col flex-1">
+                                <span class=" font-bold">Product Price</span>
+                                <input type="number" class=" form_input" v-model="edited_product.price"/>
+                            </div>
+                            <div>
+                                <span class=" font-bold">Product Description</span>
+                                <textarea class=" form_input" v-model="edited_product.description"></textarea>
+                            </div>
+                            <!-- FORM ACTION BUTTONS -->
+                            <div class=" flex flex-row gap-3 w-full">
+                                <button type="button" class="btn bg-red-800 text-white">Cancel</button>
+                                <button 
+                                :disabled="editing" 
+                                type="button"  
+                                @click="editProduct(selected_product._id)" 
+                                class="btn bg-app_green text-white">
+                                <span class="app_spinner" v-if="editing"></span>
+                                Save Edit</button>
+                            </div>
+                        </form>
+
+                        <!-- ACTION BUTTONS -->
+                        <div v-if="!edit_product_menu" class="flex flex-row  gap-4 justify-between mt-8">
+                            <button @click="delete_selected(selected_product._id)" class="bg-red-700 text-white p-3 btn">
                                 <i class="bi bi-trash mr-2"></i>
                                 Delete
                             </button>
-                            <button class="btn bg-blue-100 text-blue-500">
+                            <button  @click="edit_product_menu = !edit_product_menu" class="btn bg-app_green text-white">
                                 <i class="bi bi-pen mr-2"></i>
                                 Edit Product
                             </button>
@@ -349,8 +397,23 @@ import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
 
 import AmountInput from '../components/AmountInput.vue';
-
 import ModalComponent from '../components/ModalComponent.vue'
+
+import {
+  Button,
+} from '@/components/ui/button'
+
+import {
+  Pagination,
+  PaginationEllipsis,
+  PaginationFirst,
+  PaginationLast,
+  PaginationList,
+  PaginationListItem,
+  PaginationNext,
+  PaginationPrev,
+} from '@/components/ui/pagination'
+
 
     export default {
         name: "ShopView",
@@ -359,11 +422,24 @@ import ModalComponent from '../components/ModalComponent.vue'
             DataTable,
             Column,
             AmountInput,
-            ModalComponent
+            ModalComponent,
+
+            Button,
+            Pagination,
+            PaginationEllipsis,
+            PaginationFirst,
+            PaginationLast,
+            PaginationList,
+            PaginationListItem,
+            PaginationNext,
+            PaginationPrev,
         },
 
         data(){
             return{
+                editing: false,
+                edit_product_menu: false,
+
                 NaijaStates,
                 state: '',
                 user: '',
@@ -381,7 +457,7 @@ import ModalComponent from '../components/ModalComponent.vue'
                     },
                     is_boosted: null,
                 },
-                selected_product: '',
+                selected_product: {},
                 new_shop: {
                     image: null,
                     name: '',
@@ -405,9 +481,26 @@ import ModalComponent from '../components/ModalComponent.vue'
                 shop_boost_duration: 1,
                 shop_is_boosted: false,
                 real_boost: false,
+
+                current_product_page: 1,
+                total_product_page: '',
+                total_products: '',
+
+                edited_product: {
+                    name: '',
+                    category: '',
+                    price: '',
+                    description: '',
+                }
+
             }
         },
         methods:{
+
+            selectProduct(product){
+                this.selected_product = product;
+                this.edited_product = product;
+            },
 
             getLocation() {
                 if (navigator.geolocation) {
@@ -591,9 +684,13 @@ import ModalComponent from '../components/ModalComponent.vue'
 
             async getShopProducts(){
                 try{
-                    const response = await axios.get(`/products/${this.shop._id}/shop`);
+                    const response = await axios.get(`/products/${this.shop._id}/shop?page=${this.current_product_page}`);
                     this.shop_products = response.data.products;
+                    this.total_product_page = response.data.totalPages;
+                    this.current_product_page = response.data.currentPage;
                     this.selected_product = 0;
+                    this.total_products = response.data.totalProducts;
+                    console.log("products in shop: ", response)
                 }catch(error){
                     console.log("error getting shop products: ", error)
                 }
@@ -621,6 +718,24 @@ import ModalComponent from '../components/ModalComponent.vue'
                     this.delete_product_modal = false;
                 }
             },
+
+            async editProduct(ID){
+                try{
+                    this.editing = true;
+                    const response = await axios.put(`/products/${ID}/edit`, this.edited_product );
+                    console.log('response product editing: ', response);
+                    this.editing = false;
+                    this.edit_product_menu = false;
+                    this.getShopProducts();
+                }catch(error){
+                    this.editing = false;
+                    this.$toast.open({
+                        message: `${error.response.data.message}`,
+                        type: 'error',
+                    });
+                    console.log("error deleting product: ", error)
+                }
+            },  
 
             openBoostModal(close){
                if(this.shop.is_boosted){
@@ -654,7 +769,12 @@ import ModalComponent from '../components/ModalComponent.vue'
                         type: 'error',
                     });
                 }
-            }
+            },
+
+            async handlePageChange(page) {
+                this.current_product_page = page;
+                await this.getShopProducts();
+            },
         },
         created(){
             this.getUser();
@@ -680,5 +800,9 @@ import ModalComponent from '../components/ModalComponent.vue'
         background-repeat: no-repeat;
         background-position: center;
 
+    }
+
+    .form_input{
+        @apply bg-slate-200 border-none p-2 rounded-md outline-none w-full
     }
 </style>

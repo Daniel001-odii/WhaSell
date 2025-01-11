@@ -1,5 +1,5 @@
 <template>
- 
+ <!-- <SearchComponent apiEndpoint="/products/search/product" resultsPage="/search-results" /> -->
         <NavbarView/>
         <!-- <div class=" flex mt-6 h-screen max-h-[700px] w-full bg-green-800 justify-start p-12 text-left items-center text-white rounded-xl rounded-b-[10%]" style="clip-path: ellipse(98% 98% at 50% 0%); background: linear-gradient(135deg, #1F633D 0%, #16492D 46.219%, #FFBD00 100%);"> -->
        <!--  <div class=" flex mt-6 h-screen max-h-[700px] w-full bg-green-800 justify-start p-12 text-left items-center text-white rounded-xl" style=" background: linear-gradient(135deg, #1F633D 0%, #16492D 46.219%, #FFBD00 100%);">
@@ -230,7 +230,7 @@
 
     <TheFooter/>
 
-
+    <ScrollToTop/>
 </template>
 
 <script>
@@ -251,6 +251,7 @@ import MasonryWall from '@yeger/vue-masonry-wall';
 
 import Autoplay from 'embla-carousel-autoplay'
 
+import ScrollToTop from '@/components/ScrollToTop.vue';
 
 import {
   Carousel,
@@ -277,6 +278,8 @@ import {
             CarouselItem,
             CarouselNext,
             CarouselPrevious,
+
+            ScrollToTop,
         },
         data() {
             return {

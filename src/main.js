@@ -53,6 +53,7 @@ import routes from './router/index';
 import '../src/assets/index.css';
 
 
+
 const app = createSSRApp(App);
 const meta = createHead();
 app.use(meta);
@@ -72,9 +73,10 @@ import MasonryWall from '@yeger/vue-masonry-wall'
 app.use(MasonryWall);
 
 
-import GlobalComponent from './components/GlobalComponent.vue';
 
-app.use(GlobalComponent);
+// custom search component..
+import SearchComponent from "@/components/SearchComponent.vue";
+app.component("SearchComponent", SearchComponent);
 
 const emitter = mitt()
 app.config.globalProperties.emitter = emitter

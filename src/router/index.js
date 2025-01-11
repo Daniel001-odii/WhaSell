@@ -40,6 +40,8 @@ import GlipsPageView from '@/views/GlipsPageView.vue'
 import ResetPasswordView from '@/views/ResetPasswordView.vue'
 
 
+import SearchResultsPageView from '@/views/SearchResultsPageView.vue'
+
 const routes = [
   {
     path: '',
@@ -110,6 +112,12 @@ const routes = [
   },
 
   {
+    path: '/search-results',
+    name: 'Search',
+    component: SearchResultsPageView,
+  },
+
+  {
     path: '/',
     component: TemplatePageView,
     children: [
@@ -140,6 +148,8 @@ const routes = [
         component: CategoriesView,
         meta: { title: 'Sub categories' }
       },
+
+     
 
       /* {
         path: 'market',

@@ -273,6 +273,24 @@
         </div>
       
     </div>
+
+    <!-- SEARCH BAR AREA -->
+     <div class=" flex flex-col p-3 border-b w-full justify-center items-center sticky top-0 bg-inherit z-20 backdrop-blur-2xl">
+        <form @submit.prevent="handleSearch()" class=" flex flex-row w-full md:w-[600px] rounded-full overflow-hidden gap-1 bg-white border">
+            <input 
+            v-model="searchQuery"
+            @keyup.enter="handleSearch"
+            class=" px-5 p-3 outline-none w-full" type="text" placeholder=" Search for shops, foods,cloths, drinks..."/>
+            <div class=" flex flex-row-reverse justify-between gap-6 flex-1 px-4">
+                <button @click="openFilter" type="button " class="flex md:hidden">
+                    <i class="bi bi-filter"></i>
+                </button>
+                <button type="submit">
+                    <i class="bi bi-search"></i>
+                </button>
+            </div>
+        </form>
+    </div>
 </template>
 
 <script>
@@ -282,6 +300,7 @@ import axios from 'axios'
 
 import FullPageModal from '../components/FullPageModal.vue';
 import { RouterLink } from 'vue-router';
+import { Handshake } from 'lucide-vue-next';
 
 export default {
     name: "NavbarView",
@@ -292,6 +311,7 @@ export default {
     },
     data(){
         return{
+            searchQuery:'',
             nav_open: false,
             authenticated: false,
             premium: false,
@@ -332,6 +352,11 @@ export default {
         // toggleNotificationMenu (e) {
         //     this.notifications_menu = !this.notifications_menu;
         // },
+
+        openFilter(){
+            this.$emit('open-filter');
+        },
+
         toggleNotificationMenu (e) {
             this.flip = !this.flip
         },
@@ -397,6 +422,32 @@ export default {
 
             this.PreviousSrollPos = currentSrollPos;
         },
+
+        async handleSearch(){
+        if (!this.searchQuery.trim()) return;
+  
+        try {
+            console.log("searching...")
+          /* loading.value = true;
+  
+          // Example API Call (replace with actual API implementation)
+          const response = await axios.get(`${props.apiEndpoint}?keyword=${searchQuery.value}`);
+          console.log("search results: ", response);
+          const results = response.data; */
+  
+          // Navigate to the results page with query and results as route params
+          this.$router.push({
+            path: 'search-results',
+            query: { find: this.searchQuery }, // Passing results through state (optional, depending on your use case)
+          });
+        //   window.location.reload();
+  
+        } catch (error) {
+          console.error("Error fetching search results:", error);
+        } finally {
+          
+        }
+      },
     },
 
     computed:{
@@ -445,6 +496,10 @@ export default {
         document.addEventListener('click', this.close);
         this.checkAuthenticationState();    
         this.getUserDetails();
+
+        if(this.$route.query.find){
+            this.searchQuery = this.$route.query.find;
+        }
     },
     beforeDestroy () {
         document.removeEventListener('click',this.close)

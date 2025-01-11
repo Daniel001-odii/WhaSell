@@ -2,13 +2,20 @@
     <div class=" p-5">
         <h2 v-if="fl_shop_glips.length > 0" class="font-bold">From Shops you follow </h2>
         <div v-if="fl_shop_glips.length > 0" class="flex flex-row gap-3 w-full overflow-x-auto mt-6 py-2">
-            <div v-for="glip in fl_shop_glips" class="flex justify-center relative items-center h-[150px] min-w-[120px] rounded-lg bg-gray-800">
-                <div class=" size-[60px] bg-green-200 border-2 border-white text-green-600 rounded-full flex justify-center items-center">
+            <div 
+            :style="`background: url(${glip?.shop.profile?.image_url}); `"
+            style="background-position: center; background-size: cover;" 
+            v-for="glip in fl_shop_glips" class="flex justify-center relative items-center h-[200px] w-[150px] rounded-lg  bg-opacity-10 overflow-hidden">
+                <div class=" z-10 size-[60px] bg-green-200 border-2 border-white text-green-600 rounded-full flex justify-center items-center">
                     <i class="bi bi-shop"></i>
                 </div>
-                <div class=" text-white text-shadow-lg absolute bottom-3 text-sm">{{ glip.name }}</div>
+                <div class=" text-white text-shadow-lg absolute bottom-3 text-sm z-10">{{ glip?.shop?.name }}</div>
+                <div class=" h-full w-full absolute bg-black bg-opacity-50 "></div>
+               
             </div>
         </div>
+
+        <!-- {{ fl_shop_glips }} -->
 
          <!-- GLIPS MODAL HERE -->
 
@@ -29,7 +36,19 @@
         <!-- BEST DEALS FOR YOU TODAY -->
         <h2 class="font-bold mt-12">Best Deals for You Today!</h2>
         <div class="flex flex-row flex-wrap gap-3 w-full mt-6 py-2">
-            <div v-for="glips in 17" class=" flex-1 h-[260px] min-w-[220px] bg-gray-300 rounded-md relative">
+            <div 
+            :style="`background: url(${glip?.shop.profile?.image_url}); `"
+            style="background-position: center; background-size: cover;" 
+            v-for="glip in all_glips" class="flex justify-center relative items-center h-[300px] w-[250px] rounded-lg  bg-opacity-10 overflow-hidden">
+                <div class=" z-10 size-[60px] text-white rounded-full flex justify-center items-center">
+                    <i class="bi bi-play-circle-fill text-4xl"></i>
+                </div>
+                <div class=" text-white text-shadow-lg absolute bottom-3 text-sm z-10">{{ glip?.shop?.name }}</div>
+                <div class=" h-full w-full absolute bg-black bg-opacity-50 "></div>
+               
+            </div>
+
+            <!-- <div v-for="glip in all_glips" class=" flex-1 h-[260px] min-w-[220px] bg-gray-300 rounded-md relative">
                 <button class="absolute top-5 right-5 bg-white rounded-full size-[30px]">
                     <i class="bi bi-hand-thumbs-up-fill"></i>
                 </button>
@@ -37,12 +56,12 @@
                     <span>Product Name</span>
                     <span class="font-bold text-md">NGN Product Price</span>
                 </div>
-            </div>
+            </div> -->
         </div>
 
          <!-- DISCOVER NEW PRODUCTS -->
-         <h2 class="font-bold mt-12">Discover New products</h2>
-        <div class="flex flex-row flex-wrap gap-3 w-full mt-6 py-2">
+         <!-- <h2 class="font-bold mt-12">Discover New products</h2> -->
+       <!--  <div class="flex flex-row flex-wrap gap-3 w-full mt-6 py-2">
             <div v-for="glips in 17" class=" flex-1 h-[260px] min-w-[220px] bg-gray-300 rounded-md relative">
                 <button class="absolute top-5 right-5 bg-white rounded-full size-[30px]">
                     <i class="bi bi-hand-thumbs-up-fill"></i>
@@ -53,7 +72,7 @@
                 </div>
             </div>
         </div>
-
+ -->
 
 
     </div>  
@@ -88,6 +107,7 @@ import TheFooter from '@/components/TheFooter.vue';
                 loading_shops: [],
 
                 fl_shop_glips: [],
+                all_glips: [],
             }
         },
 
@@ -106,10 +126,22 @@ import TheFooter from '@/components/TheFooter.vue';
                 }
             },  
 
+            async getAllGlips(){
+                try{
+                    this.loading = true;
+                    const response = await axios.get("/shops/glips/all");
+                    this.all_glips = response.data.glips;
+                    this.loading = false;
+                }catch(error){
+                    console.log("error loading all glips: ", error);
+                }
+            }
+
         },
 
         created(){
-            this.getFollowedShops()
+            this.getFollowedShops();
+            this.getAllGlips();
         }
 
 

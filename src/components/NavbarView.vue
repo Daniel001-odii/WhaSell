@@ -241,6 +241,24 @@
                 </button>
             </RouterLink>
         </div>
+
+        <!-- SEARCH BAR AREA -->
+        <div class=" flex flex-col p-3 border-b w-full justify-center items-center sticky top-0 bg-inherit z-20 backdrop-blur-2xl">
+            <form @submit.prevent="handleSearch()" class=" flex flex-row w-full md:w-[600px] rounded-full overflow-hidden gap-1 bg-white border">
+                <input 
+                v-model="searchQuery"
+                @keyup.enter="handleSearch"
+                class=" px-5 p-3 outline-none w-full" type="text" placeholder=" Search for shops, foods,cloths, drinks..."/>
+                <div class=" flex flex-row-reverse justify-between gap-6 flex-1 px-4">
+                    <button @click="openFilter" type="button " class="flex md:hidden">
+                        <i class="bi bi-filter"></i>
+                    </button>
+                    <button type="submit">
+                        <i class="bi bi-search"></i>
+                    </button>
+                </div>
+            </form>
+        </div>
     </div>
 
 
@@ -256,41 +274,34 @@
         </div>
 
         <div :class="nav_open ? 'flex':'hidden md:flex'" class=" w-full flex-col gap-3 md:flex-row md:justify-between md:items-center  border-red-500">
-            <div class="w-full md:w-fit md:p-0 mt-4 md:mt-0 flex-col md:flex-row gap-2 text-black flex  border-red-500 relative mx-auto my-0">
-                <!-- <RouterLink class="nav-link" to="#">About</RouterLink> -->
-                <RouterLink class="nav-link" to="#">Features</RouterLink>
-                <RouterLink class="nav-link" to="#">Pricing</RouterLink>
-                <!-- <RouterLink class="nav-link" to="#">Use Cases</RouterLink> -->
-                <!-- <RouterLink class="nav-link" to="#">Contact</RouterLink> -->
+            <div class=" flex flex-col w-full justify-center items-center mt-6 md:mt-0">
+                <form @submit.prevent="handleSearch()" class=" flex flex-row w-full md:w-[600px] rounded-full overflow-hidden gap-1 bg-white border">
+                    <input 
+                    v-model="searchQuery"
+                    @keyup.enter="handleSearch"
+                    class=" px-5 p-3 outline-none w-full" type="text" placeholder=" Search for shops, foods,cloths, drinks..."/>
+                    <div class=" flex flex-row-reverse justify-between gap-6 flex-1 px-4">
+                        <button @click="openFilter" type="button " class="flex md:hidden">
+                            <i class="bi bi-filter"></i>
+                        </button>
+                        <button type="submit">
+                            <i class="bi bi-search"></i>
+                        </button>
+                    </div>
+                </form>
             </div>
 
-            <div class="flex flex-row gap-3 font-bold  border-red-500  self-end align-bottom">
+            <div class="flex flex-row gap-3 font-bold   self-end align-bottom flex-nowrap ">
                 <RouterLink to="/login" class="text-black hover:bg-slate-200 bg-opacity-20 px-8 rounded-md flex justify-center items-center">Login</RouterLink>
                 <RouterLink to="/register">
-                    <button class="text-white bg-black px-8 py-3 rounded-md">Sign Up</button>
+                    <button class="text-white bg-black px-8 py-3 rounded-md text-nowrap">Sign Up</button>
                 </RouterLink>
             </div>
         </div>
       
     </div>
 
-    <!-- SEARCH BAR AREA -->
-     <div class=" flex flex-col p-3 border-b w-full justify-center items-center sticky top-0 bg-inherit z-20 backdrop-blur-2xl">
-        <form @submit.prevent="handleSearch()" class=" flex flex-row w-full md:w-[600px] rounded-full overflow-hidden gap-1 bg-white border">
-            <input 
-            v-model="searchQuery"
-            @keyup.enter="handleSearch"
-            class=" px-5 p-3 outline-none w-full" type="text" placeholder=" Search for shops, foods,cloths, drinks..."/>
-            <div class=" flex flex-row-reverse justify-between gap-6 flex-1 px-4">
-                <button @click="openFilter" type="button " class="flex md:hidden">
-                    <i class="bi bi-filter"></i>
-                </button>
-                <button type="submit">
-                    <i class="bi bi-search"></i>
-                </button>
-            </div>
-        </form>
-    </div>
+    
 </template>
 
 <script>

@@ -40,6 +40,23 @@
     </div>
  </div>
 
+<!--  <AlertDialog>
+    <AlertDialogTrigger>Open Alert</AlertDialogTrigger>
+    <AlertDialogContent>
+      <AlertDialogHeader>
+        <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+        <AlertDialogDescription>
+          This action cannot be undone. This will permanently delete your account
+          and remove your data from our servers.
+        </AlertDialogDescription>
+      </AlertDialogHeader>
+      <AlertDialogFooter>
+        <AlertDialogCancel>Cancel</AlertDialogCancel>
+        <AlertDialogAction>Continue</AlertDialogAction>
+      </AlertDialogFooter>
+    </AlertDialogContent>
+  </AlertDialog>
+ -->
 
 
     <div>
@@ -48,12 +65,12 @@
             
             
             <FullPageLoader v-if="loading"/>
-            <div v-else :class=" shop.is_boosted ? 'bg-[#00C1F6]':'bg-app_green'" class=" w-full h-[200px] relative flex justify-center items-center">
-                <span class=" relative text-3xl font-bold text-green-100 flex flex-col justify-center items-center ">
+            <div v-else :class=" shop.is_boosted ? 'bg-[#00C1F6]':'bg-app_green'" class=" w-full h-[200px] relative flex justify-center items-center ">
+                <span class="  text-3xl font-bold text-green-100 flex flex-col justify-center items-center">
                     <div class=" absolute w-fit !left-0">
-                        <Vue3Lottie :animation-data="Rocket" :height="200" :width="200"/>
+                        <Vue3Lottie v-if="shop.is_boosted" :animation-data="Rocket" :height="200" :width="200"/>
                     </div>
-                    <span class="glitch_for_boost drop-shadow-2xl"> {{ shop.category }}</span>
+                    <span class="glitch_for_boost drop-shadow-2xl text-[60px]"> {{ shop.category }}</span>
                 </span>
                 <RouterLink to="/account/shop/true">
                     <button v-if="isAllowed()"class="rounded-full border border-black bg-white bg-opacity-50 px-5 py-2 absolute bottom-5 right-5 z-40 flex justify-center items-center gap-3">
@@ -91,6 +108,8 @@
                                 <span><i class="bi bi-arrow-clockwise mr-1"></i>joined {{ formatDistanceToNow(shop.createdAt)}} ago</span>
                                 
                             </div>
+
+                            
                            
                             <div v-if="isAllowed()" class="flex flex-row flex-wrap gap-3 w-full mt-4 justify-center md:justify-start">
                                 <RouterLink to="/products/new">
@@ -101,8 +120,7 @@
                                     <i class="bi bi-rocket-fill"></i>
                                 </button>
                             </div>
-                            <div v-else class="w-full flex flex-wrap gap-3">
-                            <!-- <div class="w-full flex gap-3"> -->
+                            <div v-if="!isAllowed() && user" class="w-full flex flex-wrap gap-3">
                                 <button :class="shop && userIsFollowingShop(followers, user) ? 'bg-green-600 text-white border-none':''" @click="followShop(shop._id)" class="border text-green-500 rounded-md p-3 grow md:min-w-[180px]">
                                     <span v-if="!userIsFollowingShop(followers, user)"><i class="bi bi-plus mr-1"></i>follow</span>
                                     <span v-else>following</span>
@@ -112,9 +130,38 @@
                                     <div class=" border-r border-app_green"></div>
                                     <button class="bg-app_light_green text-app_green rounded-md p-1"><i class="bi bi-whatsapp"></i></button>
                                 </div>
-                               <!--  <button class="bg-app_light_green text-app_green rounded-md px-6 py-2"><i class="bi bi-telephone"></i></button>
-                                <button class="bg-app_light_green text-app_green rounded-md px-6 py-2"><i class="bi bi-whatsapp"></i></button> -->
                             </div>
+
+                            <!-- FOR NON AUTH USERS -->
+                            <Dialog v-if="!user">
+                                <DialogTrigger >
+                                    <div class="w-full flex flex-wrap gap-3">
+                                        <button :class="shop && userIsFollowingShop(followers, user) ? 'bg-green-600 text-white border-none':''" @click="followShop(shop._id)" class="border text-green-500 rounded-md p-3 grow md:min-w-[180px]">
+                                            <span v-if="!userIsFollowingShop(followers, user)"><i class="bi bi-plus mr-1"></i>follow</span>
+                                            <span v-else>following</span>
+                                        </button>
+                                        <div class="bg-app_light_green text-app_green rounded-md p-2 flex flex-row gap-3 px-3">
+                                            <button class="bg-app_light_green text-app_green rounded-md p-1 "><i class="bi bi-telephone"></i></button>
+                                            <div class=" border-r border-app_green"></div>
+                                            <button class="bg-app_light_green text-app_green rounded-md p-1"><i class="bi bi-whatsapp"></i></button>
+                                        </div>
+                                    </div>
+                                </DialogTrigger>
+                                <DialogContent>
+                                <DialogHeader>
+                                    <DialogTitle>Create an account</DialogTitle>
+                                    <DialogDescription>Please create an account or <RouterLink to="/login" class="underline text-blue-500"> log in.</RouterLink> This will allow you to follow shops, boost your shop, and enjoy other exclusive features.
+                                    </DialogDescription>
+                                </DialogHeader>
+
+                                <DialogFooter>
+                                    <RouterLink to="/login">
+                                        <button class="btn bg-app_green text-white">Register</button>
+                                    </RouterLink>
+                                </DialogFooter>
+                                </DialogContent>
+                            </Dialog>
+
                         </div>
                         <div class="flex flex-col mt-6 md:mt-0 md:w-[70%] border-red-400 w-full p-3 mb-3">
                             <div class="flex flex-row justify-stretch items-stretch w-full text-lg  bg-gray-100 rounded-lg p-3">
@@ -156,12 +203,6 @@
                                         </template>
                                     </MasonryWall>
                                 </div>
-                                    <!-- <div class="flex justify-center items-center p-8 text-gray-500" v-if="!loading_products || products.length == 0">
-                                        <div class="flex flex-col justify-center items-center mt-12">
-                                            <img src="../assets/images/no-products.png" class=" !size-52">
-                                            <span class="mt-3">You have not posted any products yet</span>
-                                        </div>
-                                    </div> -->
                                 </div>
 
 
@@ -217,6 +258,18 @@ import MasonryWall from '@yeger/vue-masonry-wall';
 
 import { Vue3Lottie } from 'vue3-lottie'
 import Rocket from '../assets/lottie/rocket.json';
+import GlobalComponent from '@/components/GlobalComponent.vue';
+
+
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog'
 
     export default {
         name: "ShopDetailView",
@@ -230,6 +283,15 @@ import Rocket from '../assets/lottie/rocket.json';
 
             MasonryWall,
             Vue3Lottie,
+
+
+            Dialog,
+            DialogContent,
+            DialogDescription,
+            DialogFooter,
+            DialogHeader,
+            DialogTitle,
+            DialogTrigger,
             
         },
 
@@ -290,8 +352,7 @@ import Rocket from '../assets/lottie/rocket.json';
 
 
             isAllowed(){
-                this.user = localStorage.getItem('user');
-                return this.user == this.shop.owner._id;
+                return this.user._id == this.shop.owner._id;
             },
 
            
@@ -393,8 +454,9 @@ import Rocket from '../assets/lottie/rocket.json';
                 } catch (error) {
                     console.log("error folowing shop: ", error.response);
                     // if error is unauthorized display login-popup for user to sign-in..
-                    if(error.response.status == 500){
+                    if(error.response.status == 400){
                         this.unauthorized_action = true;
+                        this.$router.push("/login");
                         // alert("You need to be signed-in to follow a shop");
                     } else {
                         this.$toast.open({
@@ -423,6 +485,17 @@ import Rocket from '../assets/lottie/rocket.json';
                 }
             },
 
+            async getUserDetails(){
+                try{
+                    const response = await axios.get('/user');
+                    this.user = response.data.user;
+                    this.user.credits = response.data.credits;
+                    localStorage.setItem('user', response.data.user._id);
+                        // console.log("user :", response);
+                    }catch(error){
+                }
+            },
+
             glipPreview(glip, index){
                 this.current_glip = glip;
                 this.glips_modal = !this.glips_modal
@@ -430,6 +503,7 @@ import Rocket from '../assets/lottie/rocket.json';
         },
 
         created(){
+            this.getUserDetails();
             this.getShopByName();
            /*  if(this.shop_id){
                 this.addViewsToShop();

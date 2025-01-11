@@ -18,9 +18,11 @@
           <!-- {{ user }} -->
          <div v-if="user.account_type == 'seller' && user.shop" class=" m-3 bg-app_gree border rounded-lg p-3 flex flex-row items-end justify-between gap-5 flex-wrap shadow-sm">
             <div class="flex flex-row items-center gap-3 w-full flex-wrap" >
-                <div class=" min-w-28 w-full md:!w-[200px] h-28 relative rounded-xl border border-gray-300 overflow-hidden">
-                    <img :src="user.shop.profile.image_url" alt="shop Photo" class="w-full h-full object-cover">
-                </div>
+                <RouterLink :to="`/shops/${user.shop.name}`">
+                    <div class=" min-w-28 w-full md:!w-[200px] h-28 relative rounded-xl border border-gray-300 overflow-hidden">
+                        <img :src="user.shop.profile.image_url" alt="shop Photo" class="w-full h-full object-cover">
+                    </div>
+                </RouterLink>
                 <div class="flex flex-row flex-wrap gap-3 justify-between border-green-30">
                     <div class="flex flex-col" v-if="user.shop.followers">
                         <RouterLink :to="`/shops/${user.shop.name}`">

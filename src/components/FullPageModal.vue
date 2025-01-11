@@ -7,8 +7,8 @@
                 </span>
                 <p><b class="text-2xl">Hey, your session has expired</b><br/> Do you want to logout or continue using the app?</p>
                 <div class="flex flex-row-reverse gap-3">
-                    <button @click="getNewRefreshToken()" class="bg-app_green text-white w-fit rounded-md mt-4 px-6 py-2 font-bold hover:bg-opacity-90">continue</button>
-                    <button @click="logout()" class="bg-gray-400 text-white w-fit rounded-md mt-4 px-6 py-2 font-bold hover:bg-opacity-90">Logout</button>
+                    <button @click="logout()" class="bg-app_green text-white w-fit rounded-md mt-4 px-6 py-2 font-bold hover:bg-opacity-90">continue</button>
+                    <!-- <button @click="logout()" class="bg-gray-400 text-white w-fit rounded-md mt-4 px-6 py-2 font-bold hover:bg-opacity-90">Logout</button> -->
                 </div>
             </slot>
         </div>

@@ -38,6 +38,8 @@
 import { RouterLink } from 'vue-router';
 import NavbarView from '../components/NavbarView'
 import PageTitle from '../components/PageTitle'
+import axios from 'axios';
+
 
     export default {
         name: "AccountTemplateView",
@@ -52,7 +54,24 @@ import PageTitle from '../components/PageTitle'
             }
         },
 
+        methods: {
+            async getUserDetails(){
+                try{
+                
+                    const response = await axios.get('/user');
+                    this.user = response.data.user;
+                    this.user.credits = response.data.credits;
+                    console.log("user :", response);
+                }catch(error){
+                    if(error.response.status == 401){
+                        this.$router.push('/login')
+                    };
+                }
+            },
+        },
+
         mounted(){
+            this.getUserDetails();
             if(this.$route.params.is_open){
                 this.page_visible = true;
             }

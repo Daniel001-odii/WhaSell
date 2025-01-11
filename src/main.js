@@ -72,6 +72,10 @@ import MasonryWall from '@yeger/vue-masonry-wall'
 app.use(MasonryWall);
 
 
+import GlobalComponent from './components/GlobalComponent.vue';
+
+app.use(GlobalComponent);
+
 const emitter = mitt()
 app.config.globalProperties.emitter = emitter
 app.use(VueMasonryPlugin)

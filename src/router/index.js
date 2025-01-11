@@ -273,8 +273,8 @@ let requestedRoute = null; // Initialize a variable to store the requested route
   }
 } */
 
-
-/* // this is ensured via the user roles present in the token...
+/* 
+// this is ensured via the user roles present in the token...
 router.beforeEach(async (to, from, next) => {
 
   let user;
@@ -331,8 +331,8 @@ router.beforeEach(async (to, from, next) => {
 
 
 
-/* // navigation gaurd to allow only loggedin users to view certain pages..
-router.beforeEach(async (to, from, next) => {
+// navigation gaurd to allow only loggedin users to view certain pages..
+/* router.beforeEach(async (to, from, next) => {
   let user;
 
   // Asynchronously fetch the user
@@ -341,11 +341,13 @@ router.beforeEach(async (to, from, next) => {
       const response = await axios.get('/user');
       if (response.data.user) {
         user = 'authorised';
+      } else{
+        user = "unauthorised"
       }
       console.log("user from routes: ", response);
     } catch (error) {
       console.log("error getting user from routes: ", error);
-      if (error.response && error.response.status === 500) {
+      if (error.response && error.response.status === 400) {
         user = 'unauthorised';
       }
     }

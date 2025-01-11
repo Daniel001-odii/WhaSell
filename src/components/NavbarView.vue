@@ -355,17 +355,10 @@ export default {
                 this.authenticated = false;
                 
                 if(error.response.status == 401){
-                    this.unauthorized = true;
+                    // this.unauthorized = true;
                     // window.location.reload();
                     // alert('session expired please login!');
                 };
-
-                /*
-                this.$toast.open({
-                    message: `${error.response.data.message}`,
-                    type: 'error',
-                });
-                */
             }
         },
 

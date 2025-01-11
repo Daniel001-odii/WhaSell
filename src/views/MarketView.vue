@@ -2,16 +2,37 @@
  
         <NavbarView/>
         <!-- <div class=" flex mt-6 h-screen max-h-[700px] w-full bg-green-800 justify-start p-12 text-left items-center text-white rounded-xl rounded-b-[10%]" style="clip-path: ellipse(98% 98% at 50% 0%); background: linear-gradient(135deg, #1F633D 0%, #16492D 46.219%, #FFBD00 100%);"> -->
-            <div class=" flex mt-6 h-screen max-h-[700px] w-full bg-green-800 justify-start p-12 text-left items-center text-white rounded-xl" style=" background: linear-gradient(135deg, #1F633D 0%, #16492D 46.219%, #FFBD00 100%);">
+       <!--  <div class=" flex mt-6 h-screen max-h-[700px] w-full bg-green-800 justify-start p-12 text-left items-center text-white rounded-xl" style=" background: linear-gradient(135deg, #1F633D 0%, #16492D 46.219%, #FFBD00 100%);">
             <div class="flex flex-col gap-5">
                 <h1 class="text-5xl font-bold">We bring local Shopping<br/> to your door step</h1>
                 <p class="text-xl">Buy with ease, sell to a larger audience, all from the comfort of our home</p>
                 <button class=" bg-app_green w-fit btn">Shop now</button>
             </div>
+        </div> -->
+<div class=" p-8">
+        <!-- HERO CAROUSEL -->
+         <div class=" mt-6 w-[95%] mx-auto">
+            <Carousel 
+            :plugins="[plugin]"
+            @mouseenter="plugin.stop"
+            @mouseleave="[plugin.reset(), plugin.play(), console.log('Running')];"
+            v-slot="{ canScrollNext }" class="relative ">
+                <CarouselContent>
+                <CarouselItem v-for="(_, index) in 5" :key="index">
+                    <div class="p-1 h-[300px] flex justify-center items-center bg-white rounded-lg">
+                        <div>
+                            <p class=" text-4xl font-bold">Advert Space</p>
+                        </div>
+                    </div>
+                </CarouselItem>
+                </CarouselContent>
+                <CarouselPrevious />
+                <CarouselNext v-if="canScrollNext" />
+            </Carousel>
         </div>
 
 
-<div class=" p-8 bg-slate-100">
+
     
          <!-- BEST DEALS FOR YOU TODAY -->
         <div class="divider">
@@ -62,8 +83,6 @@
                 </template>
             </MasonryWall>
         </div>
-         
-        {{ liked_products }}
       
 
         <!-- SHOPS NEAR YOU -->
@@ -98,6 +117,7 @@
             class="md:basis-1/2 lg:basis-1/3">
                 <ShopCard
                     :name="shop.name"
+                    :location="`${shop?.owner?.location?.state} | ${shop?.owner?.location?.LGA}`"
                     :category="shop.category"
                     :image_url="shop.profile.image_url"
                 />
@@ -229,6 +249,8 @@ import BoostedShopCard from '@/components/BoostedShopCard.vue';
 
 import MasonryWall from '@yeger/vue-masonry-wall';
 
+import Autoplay from 'embla-carousel-autoplay'
+
 
 import {
   Carousel,
@@ -258,6 +280,14 @@ import {
         },
         data() {
             return {
+                plugin: 
+                    Autoplay({
+                        delay: 3000,
+                        stopOnMouseEnter: true,
+                        stopOnInteraction: false,
+                    })
+                ,
+                Autoplay,
                 items: [50, 75, 75, 100, 50, 50, 75, 150, 125, 175, 50, 100, 125],
                 height: 0,
                 shops: [],

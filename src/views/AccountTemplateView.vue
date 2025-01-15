@@ -1,6 +1,6 @@
 <template>
     <NavbarView/>
-    <div class="container mx-auto min-h-screen bg-">
+    <div class="container mx-auto min-h-screen">
         <!-- <PageTitle>Settings</PageTitle> -->
          <RouterLink to="/market">
             <button class="flex flex-row gap-1 font-medium text-xl p-3">
@@ -8,7 +8,7 @@
                 Settings
             </button>
         </RouterLink>
-        <div  class="flex md:flex-row gap-5 p-5 relative flex-col">
+        <div  class="flex md:flex-row gap-5 relative flex-col">
             <!-- sticky top-5 -->
             <div class="p-3  md:sticky top-5  flex flex-col gap-3 border rounded-xl w-full md:w-64 min-w-64 h-fit bg-white">
                 <RouterLink to="/account" class="nav-items"  :class="{'active-nav': isUserPage }" @click="page_visible = !page_visible">Personal details</RouterLink>
@@ -102,8 +102,11 @@ import axios from 'axios';
         @apply p-3 rounded-md hover:bg-slate-100
     }
 
-    .active-nav{
+   /*  .active-nav{
         @apply bg-app_green text-white hover:bg-app_green
-        /* @apply text-app_green font-bold */
+    } */
+
+    .active-nav{
+        @apply hover:text-app_green text-app_green font-bold border-r-[5px] border-app_green rounded-none
     }
 </style>

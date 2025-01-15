@@ -1,8 +1,9 @@
 <template>
-    <NavbarView @openFilter="filter_menu = !filter_menu"/>
-    <div class="flex flex-col md:flex-row gap-3 min-h-screen relative container mx-auto">
+    <NavbarView @open-filter="filter_menu = !filter_menu"/>
+    <div class="flex flex-col md:flex-row gap-3 min-h-screen relative  mx-auto p-5">
         <!-- FILTERS -->
-         <div :class="filter_menu ? ' flex':'hidden md:flex'" class="flex-col gap-4 sticky top-10 mt-6">
+         <div :class="filter_menu ? ' flex':'hidden md:flex'" class="flex-col gap-4 md:sticky md:top-10 mt-6 bg-inherit">
+        <!-- <div  class="flex-col gap-4 md:sticky md:top-10 mt-6 bg-inherit"> -->
             <h1 class=" font-bold text-2xl">Filters</h1>
             <div class=" flex flex-col gap-6 md:w-[300px] w-full">
 
@@ -100,7 +101,7 @@
 
 
          <!-- SEARCH RESULTS -->
-          <div class=" flex flex-col gap-3 w-full p-3">
+          <div class=" flex flex-col gap-3 w-full md:p-3">
         <!-- Display Search Results -->
             <div v-if="loading_products" class=" flex flex-col gap-4">
                 <div class=" flex flex-row gap-3 overflow-x-auto bg-white rounded-md p-3">
@@ -137,7 +138,7 @@
 
                 <div class=" flex flex-row flex-wrap justify-between items-center">
                     <p class=" font-bold">Search Results for "{{ $route.query.find }}" -
-                        <span class=" text-sm bg-gray-300 p-1 font-thin px-4"> {{ results.length }} product 
+                        <span class=" text-sm bg-gray-300 p-1 font-thin px-4 text-nowrap"> {{ results.length }} product 
                             <span v-if="results.length > 1">s</span> found
                         </span>
                     </p>
@@ -176,7 +177,7 @@
 
                 <div class=" flex flex-row flex-wrap justify-between items-center">
                     <p class=" font-bold text-orange-400">couldnt find exact match for "{{ $route.query.find }}" -
-                        <span class=" text-sm bg-gray-300 p-1 font-thin px-4 text-black">  found other similar products  </span>
+                        <span class=" text-sm bg-gray-300 p-1 font-thin px-4 text-black text-nowrap">  found other similar products  </span>
                     </p>
                 </div>
 

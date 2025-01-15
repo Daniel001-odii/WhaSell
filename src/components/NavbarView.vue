@@ -45,7 +45,7 @@
      </div>
 
     <!-- NAVBAR FOR AUTHENTICATED USERS -->
-    <div v-if="authenticated" class="bg-gray-20 border-b ">
+    <div v-if="authenticated" class="bg-gray-20 border-b flex flex-col gap-3">
         <div class="container mx-auto flex flex-row p-3 items-center justify-between">
             <div class="flex flex-row gap-12 items-center">
                 <RouterLink to="/">
@@ -243,14 +243,14 @@
         </div>
 
         <!-- SEARCH BAR AREA -->
-        <div class=" flex flex-col p-3 border-b w-full justify-center items-center sticky top-0 bg-inherit z-20 backdrop-blur-2xl">
+        <div class=" flex flex-col p-3 border-b w-full justify-center items-center sticky top-0 bg-inherit z-20 backdrop-blur-2xl border-t">
             <form @submit.prevent="handleSearch()" class=" flex flex-row w-full md:w-[600px] rounded-full overflow-hidden gap-1 bg-white border">
                 <input 
                 v-model="searchQuery"
                 @keyup.enter="handleSearch"
                 class=" px-5 p-3 outline-none w-full" type="text" placeholder=" Search for shops, foods,cloths, drinks..."/>
-                <div class=" flex flex-row-reverse justify-between gap-6 flex-1 px-4">
-                    <button @click="openFilter" type="button " class="flex md:hidden">
+                <div class=" flex flex-row-reverse justify-between gap-4 flex-1 px-3 items-center">
+                    <button @click="openFilter" type="button" class="flex md:hidden">
                         <i class="bi bi-filter"></i>
                     </button>
                     <button type="submit">

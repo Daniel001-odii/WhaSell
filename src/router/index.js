@@ -143,7 +143,7 @@ const routes = [
       },
 
       {
-        path: '/categories/:name/all',
+        path: '/categories/:name',
         name: 'Sub categories',
         component: CategoriesView,
         meta: { title: 'Sub categories' }

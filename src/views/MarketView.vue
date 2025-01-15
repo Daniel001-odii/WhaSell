@@ -32,9 +32,41 @@
         </div>
 
 
+         <!-- EPXLORE OUR CATEGORIES -->
+         <div class="divider">
+            <div class="divider-item">
+                <i class="bi bi-grid"></i>
+                <span>Explore Our Categories</span>
+            </div>
+        </div>
+
+        <Carousel
+                class=" relative w-[95%] mx-auto"
+                :opts="{
+                align: 'start',
+                }"
+            >
+            <CarouselContent>
+                <!-- class="md:basis-1/2 lg:basis-1/3"> -->
+            <CarouselItem v-for="(item, index) in categories" :key="index" 
+             class="md:basis-1/2 lg:basis-1/3">
+                <RouterLink :to="`/categories/${item.category}`">
+                    <div :style="item?.firstImage ? `background: url('${item?.firstImage[0]}')`:''" class=" category relative overflow-hidden text-white w-auto min-h-[220px] rounded-lg flex flex-col items-center justify-start p-5 text-center bg-gray-400 bg-opacity-10">
+                        <div class=" absolute h-full w-full bg-black bg-opacity-40 top-0"></div>
+                        <span class=" z-10">{{ item.category }}</span>
+                    </div>
+                </RouterLink>
+            </CarouselItem>
+            </CarouselContent>
+            <CarouselPrevious />
+            <CarouselNext />
+        </Carousel>
+
+        
+
 
     
-         <!-- BEST DEALS FOR YOU TODAY -->
+        <!-- BEST DEALS FOR YOU TODAY -->
         <div class="divider">
             <div class="divider-item">
                 <i class="bi bi-stars"></i>
@@ -309,6 +341,8 @@ import {
                 loading_boosted_shops: false,
                 user_shop_is_boosted: false,
 
+                categories: [],
+
 
             }
         },
@@ -452,6 +486,25 @@ import {
                         type: 'default',
                     });
                 }
+            },
+
+            async getAllCategories(){
+                try{
+                    const response = await axios.get('categories_image');
+                    this.categories = response.data.data;
+                    console.log("categories with image: ", response);
+                }catch(error){
+                    console.log("error getting categgories..");
+                }
+            },
+
+            async getProductsByCategoryName(){
+                try{
+                    const response = await axios.get('/products/products_by_category/Office Supplies');
+                    console.log('products: ', response);
+                }catch(error){
+                    console.log('erro getting products: ', error);
+                }
             }
         },
         computed:{
@@ -477,7 +530,9 @@ import {
             this.getAllShops();
             
             this.getBoostedShops();
+            this.getAllCategories();
             
+            this.getProductsByCategoryName()
         },
     }
 </script>
@@ -520,5 +575,11 @@ import {
     border-bottom-left-radius: 25px; /* Simulate the curved bottom */
     border-bottom-right-radius: 25px;
     overflow: hidden;
+}
+
+.category{
+    background-position: center !important;
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
 }
 </style>

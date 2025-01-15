@@ -26,7 +26,7 @@
             </MasonryWall> 
     </div>
     <!-- {{ products }} -->
-    <div class=" flex flex-row flex-wrap gap-3 mt-12" v-for="(item, index) in products" :key="index">
+    <!-- <div class=" flex flex-row flex-wrap gap-3 mt-12" v-for="(item, index) in products" :key="index">
         <ProductCard class=" -mt-[15px]"
                 :hasLikedButton="false"
                 :id="item._id"
@@ -40,8 +40,8 @@
                 :image_url="item.images[0]"
             >
         </ProductCard>
-    </div>
-  <!--  <div v-if="products.length > 0">
+    </div> -->
+   <div v-if="products.length > 0" class=" mt-12">
             <MasonryWall 
             :items="products"
             :ssr-columns="1"
@@ -62,7 +62,7 @@
             </ProductCard>
                 </template>
             </MasonryWall>
-        </div> -->
+        </div>
 </div>
 </template>
 

@@ -69,8 +69,6 @@
         </div>
 
         <div v-else>
-
-
             <!-- IF USER IS A SELLER THEN USER HAS A SHOP... -->
             <div v-if="user.account_type == 'seller'">
 
@@ -165,9 +163,6 @@
                             <tr>
                                 <th scope="col" class="px-6 py-3 text-left">Items</th>
                                 <th scope="col" class="px-6 py-3">Category</th>
-                                <!-- <th scope="col" class="px-6 py-3">QTY Left</th> -->
-                                <!-- <th scope="col" class="px-6 py-3">Status</th> -->
-                                <!-- <th scope="col" class="px-6 py-3">Variants</th> -->
                                 <th scope="col" class="px-6 py-3 text-right">Price/pdt</th>
                             </tr>
                         </thead>
@@ -335,7 +330,7 @@
                             </div>
                             <div>
                                 <label class="switch scale-75">
-                                    <input type="checkbox">
+                                    <input type="checkbox" disabled>
                                     <span class="slider round"></span>
                                 </label>
                             </div>

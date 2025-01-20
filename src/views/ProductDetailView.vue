@@ -170,7 +170,7 @@
                        
                     </div>
                     
-                    <div v-html="product.description.substring(0, 500)"></div>
+                    <div v-html="product.description.substring(0, 500)" class=" min-h-[100px]"></div>
                     <div class="flex flex-col gap-3 flew-wrap text-sm text-gray-400">
                         <span><i class="bi bi-tag mr-1"></i>{{ product.category }}</span>
                         <span v-if="shop_location"><i class="bi bi-geo-alt mr-1"></i>{{ shop_location.address }}, {{  shop_location.state }}</span>

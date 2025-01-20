@@ -18,18 +18,22 @@
             @mouseleave="[plugin.reset(), plugin.play(), console.log('Running')];"
             v-slot="{ canScrollNext }" class="relative ">
                 <CarouselContent>
-                <CarouselItem v-for="(_, index) in 5" :key="index">
-                    <div class="p-1 h-[300px] flex justify-center items-center bg-white rounded-lg">
-                        <div>
-                            <p class=" text-4xl font-bold">Advert Space</p>
+                    <CarouselItem v-for="(image, index) in images" :key="index">
+                        <div
+                            class="p-12 h-[300px] flex justify-end items-center text-right bg-white rounded-lg text-white"
+                            style="background-position: center; background-size: contain;"
+                            :style="`background: url('${image}')`"
+                        >
+                            <div>
+                            <p class="text-4xl font-bold">Advert Space {{ index + 1 }}</p>
+                            </div>
                         </div>
-                    </div>
-                </CarouselItem>
+                        </CarouselItem>
                 </CarouselContent>
                 <CarouselPrevious />
                 <CarouselNext v-if="canScrollNext" />
             </Carousel>
-        </div>
+        </div> 
 
 
          <!-- EPXLORE OUR CATEGORIES -->
@@ -51,7 +55,7 @@
             <CarouselItem v-for="(item, index) in categories" :key="index" 
              class="md:basis-1/2 lg:basis-1/3">
                 <RouterLink :to="`/categories/${item.category}`">
-                    <div :style="item?.firstImage ? `background: url('${item?.firstImage[0]}')`:''" class=" category relative overflow-hidden text-white w-auto min-h-[220px] rounded-lg flex flex-col items-center justify-start p-5 text-center bg-gray-400 bg-opacity-10">
+                    <div :style="item?.firstImage ? `background: url('${item?.firstImage[0]}')`:`background: url(${require('../assets/images/logo/whatsell_gray.png')}); background-size: contain;`" class=" category relative overflow-hidden text-white w-auto min-h-[220px] rounded-lg flex flex-col items-center justify-start p-5 text-center bg-gray-400 bg-opacity-10">
                         <div class=" absolute h-full w-full bg-black bg-opacity-40 top-0"></div>
                         <span class=" z-10">{{ item.category }}</span>
                     </div>
@@ -231,7 +235,7 @@
 
         <!-- FAQ SECTION -->
         <div class="flex flex-row !flex-wrap gap-3 pb-10 p-5">
-            <div class="flex flex-col justify-between items-center flex-1 rounded-md overflow-hidden h-[300px] min-w-[300px]">
+            <div class="flex flex-col justify-between items-center flex-1 rounded-md overflow-hidden h-[300px] min-w-[300px] border">
                 <div class="flex flex-col gap-3 bg-white h-[50%] p-5 w-full">
                     <span class="font-bold text-xl">Frequently Asked Questions</span>
                     <p class="mt-2 text-sm">Updates on safe Shopping in our shops</p>
@@ -239,7 +243,7 @@
                 <div class=" h-[50%] bg-yellow-400 w-full question"></div>
             </div>
 
-            <div class="flex flex-col justify-between items-center flex-1 rounded-md overflow-hidden h-[300px] min-w-[300px]">
+            <div class="flex flex-col justify-between items-center flex-1 rounded-md overflow-hidden h-[300px] min-w-[300px] border">
                 <div class="flex flex-col gap-3 bg-white h-[50%] p-5 w-full">
                     <span class="font-bold text-xl">Navigate WhatSell With Ease</span>
                     <p class="mt-2 text-sm">Updates how you can navigate WhatSell easily</p>
@@ -247,7 +251,7 @@
                 <div class=" h-[50%] bg-green-400 w-full coins"></div>
             </div>
 
-            <div class="flex flex-col justify-between items-center flex-1 rounded-md overflow-hidden h-[300px] min-w-[300px]">
+            <div class="flex flex-col justify-between items-center flex-1 rounded-md overflow-hidden h-[300px] min-w-[300px] border">
                 <div class="flex flex-col gap-3 bg-white h-[50%] p-5 w-full">
                     <span class="font-bold text-xl">Safety Tips for Secure Purchasing</span>
                     <p class="mt-2 text-sm">Get full insight on how to safely buy products on WhatSell</p>
@@ -315,6 +319,12 @@ import {
         },
         data() {
             return {
+                images: [
+                    require('../assets/images/market/download (1).png'),
+                    require('../assets/images/market/download (2).png'),
+                    require('../assets/images/market/download (3).png'),
+                    // Add more images as needed
+                ],
                 plugin: 
                     Autoplay({
                         delay: 3000,
@@ -579,7 +589,7 @@ import {
 
 .category{
     background-position: center !important;
-    background-size: cover !important;
+    background-size: cover;
     background-repeat: no-repeat !important;
 }
 </style>

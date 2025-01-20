@@ -4,6 +4,7 @@
         <div class="overflow-hidden rounded-2xl">
             <RouterLink v-if="product_slug" :to="`/products/${id}/${product_slug}`" class="text-sm clamp-4">
                 <img :src="image_url" class="w-full transition-transform duration-300 transform group-hover:scale-125 peer" />
+                <img v-if="!image_url" src="../assets/images/logo/whatsell_gray.png" class="w-full transition-transform duration-300 transform group-hover:scale-125 peer" />
             </RouterLink>
         </div>
 

@@ -55,8 +55,6 @@
                 
                 <div class="hidden md:flex flex-row gap-10 font-bold">
                     <RouterLink to="/market">Home</RouterLink>
-                    
-                    
                     <RouterLink to="/shops">Shops</RouterLink>
                     <RouterLink to="/glips">Glips</RouterLink>
                 </div>
@@ -275,13 +273,13 @@
 
         <div :class="nav_open ? 'flex':'hidden md:flex'" class=" w-full flex-col gap-3 md:flex-row md:justify-between md:items-center  border-red-500">
             <div class=" flex flex-col w-full justify-center items-center mt-6 md:mt-0">
-                <form @submit.prevent="handleSearch()" class=" flex flex-row w-full md:w-[600px] rounded-full overflow-hidden gap-1 bg-white border">
+                <form @submit.prevent="handleSearch()" class=" flex flex-row w-full md:w-[600px] rounded-full overflow-hidden gap-1 bg-white border items-center">
                     <input 
                     v-model="searchQuery"
                     @keyup.enter="handleSearch"
                     class=" px-5 p-3 outline-none w-full" type="text" placeholder=" Search for shops, foods,cloths, drinks..."/>
-                    <div class=" flex flex-row-reverse justify-between gap-6 flex-1 px-4">
-                        <button @click="openFilter" type="button " class="flex md:hidden">
+                    <div class=" flex flex-row-reverse justify-between items-center gap-6 flex-1 px-4">
+                        <button @click="openFilter" type="button" class="flex md:hidden">
                             <i class="bi bi-filter"></i>
                         </button>
                         <button type="submit">

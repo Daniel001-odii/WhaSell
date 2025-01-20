@@ -2,35 +2,50 @@
     <div>
         <!-- PRODCUT DISPLAY AREA -->
         <FullPageLoader v-if="loading"/>
-        <div v-else class="flex flex-row flex-wrap gap-5 p-5">
-            <ProductCard class="masonry-item" v-for="(product, index) in products" :key="index"
-                :id="product._id"
-                :product_slug="product.slug"
-                :views="product.views"
-                :posted="product.createdAt"
-                :product_price="product.price.toLocaleString()"
-                :shop_name="product.shop.name"
-                :is_liked="checkLikes(product._id)"
-                @like-product="addProductToLikes(product._id)"
-                :image_url="product.images[0]"
-            >
-           </ProductCard> 
+      
+        <div v-else class="flex flex-row flex-wrap gap-5 py-5">
+        <MasonryWall 
+            :items="products"
+            :ssr-columns="1"
+            :column-width="200" :gap="10">
+                <template #default="{ item, index }">
+                <ProductCard class=" -mt-[15px]"
+                    :hasLikedButton="false"
+                    :id="item._id"
+                    :product_slug="item.slug"
+                    :views="item.views"
+                    :posted="item.createdAt"
+                    :product_price="item.price.toLocaleString()"
+                    :shop_name="item.shop.name"
+                    :is_liked="checkLikes(item._id)"
+                    @like-product="addProductToLikes(item._id)"
+                    :image_url="item.images[0]"
+                >
+            </ProductCard>
+                </template>
+        </MasonryWall>
            <!-- {{ products }} -->
         </div>
         <div v-if="!loading && products.length == 0" class="w-full p-12 text-center text-gray-400">Nothing to see here :)</div>
     </div>
+    <TheFooter/>
 </template>
 
 <script>
 import FullPageLoader from '@/components/fullPageLoader.vue';
 import ProductCard from '../components/ProductCard';
 import axios from 'axios';
+import MasonryWall from '@yeger/vue-masonry-wall';
+import TheFooter from '@/components/TheFooter.vue';
+
 
     export default {
         name: "LikesView",
         components:{
             ProductCard,
-            FullPageLoader
+            FullPageLoader,
+            MasonryWall,
+            TheFooter,
         },
         data(){
             return{

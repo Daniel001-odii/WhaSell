@@ -40,24 +40,6 @@
     </div>
  </div>
 
-<!--  <AlertDialog>
-    <AlertDialogTrigger>Open Alert</AlertDialogTrigger>
-    <AlertDialogContent>
-      <AlertDialogHeader>
-        <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-        <AlertDialogDescription>
-          This action cannot be undone. This will permanently delete your account
-          and remove your data from our servers.
-        </AlertDialogDescription>
-      </AlertDialogHeader>
-      <AlertDialogFooter>
-        <AlertDialogCancel>Cancel</AlertDialogCancel>
-        <AlertDialogAction>Continue</AlertDialogAction>
-      </AlertDialogFooter>
-    </AlertDialogContent>
-  </AlertDialog>
- -->
-
 
     <div>
         <!-- {{ isAllowed() }} -->
@@ -77,7 +59,7 @@
                     <!-- <span class="glitch_for_boost drop-shadow-2xl text-[60px]"> {{ shop.category }}</span> -->
                 </span>
                 <RouterLink to="/account/shop/true">
-                    <button v-if="isAllowed()"class="rounded-full border border-black bg-white bg-opacity-50 px-5 py-2 absolute bottom-5 right-5 z-40 flex justify-center items-center gap-3">
+                    <button v-if="isAllowed()" class="rounded-full border border-black bg-white bg-opacity-50 px-5 py-2 absolute bottom-5 right-5 z-40 flex justify-center items-center gap-3">
                         <span class="hidden md:flex">edit profile</span>
                         <i class="bi bi-pencil"></i>
                     </button>
@@ -149,7 +131,7 @@
                             </div>
 
                             <!-- SHOP PROFILE STATS -->
-                            <div class=" bg-[#F7F1FF] p-5 rounded-lg mt-3 w-full">
+                            <div v-if="isAllowed()" class=" bg-[#F7F1FF] p-5 rounded-lg mt-3 w-full">
                                 <!-- HEADE -->
                                  <div class="flex flex-row justify-between">
                                     <div class="flex flex-row gap-6">

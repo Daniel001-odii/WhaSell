@@ -104,11 +104,11 @@
           <div class=" flex flex-col gap-3 w-full md:p-3">
         <!-- Display Search Results -->
             <div v-if="loading_products" class=" flex flex-col gap-4">
-                <div class=" flex flex-row gap-3 overflow-x-auto bg-white rounded-md p-3">
+               <!--  <div class=" flex flex-row gap-3 overflow-x-auto bg-white rounded-md p-3">
                     <div class="btn bg-gray-200 w-[120px] h-12"></div>
                     <div class="btn bg-gray-200 w-[120px] h-12"></div>
                     <div class="btn bg-gray-200 w-[120px] h-12"></div>
-                </div>
+                </div> -->
                 <div class=" mt-3">
                     <MasonryWall 
                     :items="items" 
@@ -132,10 +132,10 @@
         
             <div v-if="results?.length > 0" class="flex flex-col mt-4 gap-4">
 
-                <div class=" flex flex-row gap-3 overflow-x-auto bg-white rounded-md p-3">
+              <!--   <div class=" flex flex-row gap-3 overflow-x-auto bg-white rounded-md p-3">
                     <button class=" btn bg-app_green text-white">Categories</button>
                 </div>
-
+ -->
                 <div class=" flex flex-row flex-wrap justify-between items-center">
                     <p class=" font-bold">Search Results for "{{ $route.query.find }}" -
                         <span class=" text-sm bg-gray-300 p-1 font-thin px-4 text-nowrap"> {{ results.length }} product 
@@ -171,9 +171,9 @@
             <!-- ALTERNATE alternate_results FOR SEARCH -->
             <div v-else class="flex flex-col mt-4 gap-4">
 
-                <div class=" flex flex-row gap-3 overflow-x-auto bg-white rounded-md p-3">
+               <!--  <div class=" flex flex-row gap-3 overflow-x-auto bg-white rounded-md p-3">
                     <button class=" btn bg-app_green text-white" disabled>Categories</button>
-                </div>
+                </div> -->
 
                 <div class=" flex flex-row flex-wrap justify-between items-center">
                     <p class=" font-bold text-orange-400">couldnt find exact match for "{{ $route.query.find }}" -

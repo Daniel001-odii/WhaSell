@@ -49,7 +49,7 @@
             <FullPageLoader v-if="loading"/>
             <div v-else 
             style="background-size: contain !important; background-position: center; background-repeat: no-repeat;"
-            :style="true ? `background: url('${require('../assets/images/verified_shop.png')}')`
+            :style="shop.is_verified ? `background: url('${require('../assets/images/verified_shop.png')}')`
             :`background: url('${require('../assets/images/non_verified_shop.png')}')`"
             class=" w-full h-[200px] relative flex justify-center items-center shop_header">
                 <span class="  text-3xl font-bold text-green-100 flex flex-col justify-center items-center">
@@ -68,7 +68,7 @@
                     <div class="w-full relative h-[150px] flex md:block justify-center items-center ">
                         <div class=" w-fit absolute md:left-[100px]">
                             <div class=" relative">
-                                <svg v-if="true" class="absolute bottom-0 -right-3" xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 86 86" fill="none">
+                                <svg v-if="shop.is_verified" class="absolute bottom-0 -right-3" xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 86 86" fill="none">
                                     <path d="M41.2258 6.35437C42.0789 5.26974 43.7218 5.26974 44.5749 6.35437L50.9961 14.5215C51.53 15.2004 52.4207 15.4898 53.2514 15.2543L63.2468 12.4213C64.5745 12.0451 65.904 13.011 65.9562 14.3897L66.3506 24.7715C66.3836 25.6344 66.9338 26.3921 67.7447 26.6899L77.4962 30.2732C78.7912 30.7491 79.2992 32.3119 78.531 33.4582L72.748 42.089C72.2674 42.8065 72.2674 43.743 72.748 44.4604L78.531 53.0912C79.2992 54.2375 78.7912 55.8002 77.4962 56.2762L67.7447 59.8596C66.9338 60.1575 66.3836 60.915 66.3506 61.778L65.9562 72.1597C65.904 73.5385 64.5745 74.5044 63.2468 74.1281L53.2514 71.2952C52.4207 71.0595 51.53 71.3492 50.9961 72.0279L44.5749 80.1951C43.7218 81.2796 42.0789 81.2796 41.2258 80.1951L34.8045 72.0279C34.2708 71.3492 33.3801 71.0595 32.5493 71.2952L22.5537 74.1281C21.2263 74.5044 19.8968 73.5385 19.8445 72.1597L19.45 61.778C19.4172 60.915 18.8667 60.1575 18.0562 59.8596L8.30442 56.2762C7.00935 55.8002 6.50156 54.2375 7.2696 53.0912L13.0527 44.4604C13.5334 43.743 13.5334 42.8065 13.0527 42.089L7.2696 33.4582C6.50156 32.3119 7.00935 30.7491 8.30442 30.2732L18.0562 26.6899C18.8667 26.3921 19.4172 25.6344 19.45 24.7715L19.8445 14.3897C19.8968 13.011 21.2263 12.0451 22.5538 12.4213L32.5493 15.2543C33.3801 15.4898 34.2708 15.2004 34.8045 14.5215L41.2258 6.35437Z" fill="#2585E9"/>
                                     <path d="M32.251 43.2748L39.351 50.3748L53.551 36.1748" fill="#2585E9"/>
                                     <path d="M32.251 43.2748L39.351 50.3748L53.551 36.1748" stroke="white" stroke-width="5.325" stroke-linecap="round" stroke-linejoin="round"/>

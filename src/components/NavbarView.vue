@@ -49,7 +49,8 @@
         <div class="container mx-auto flex flex-row p-3 items-center justify-between">
             <div class="flex flex-row gap-12 items-center">
                 <RouterLink to="/">
-                    <img src="../assets/images/logo_black.svg"/>
+                    <!-- <img src="../assets/images/logo_black.svg"/> -->
+                    <img src="../assets/images/logo/whatsell_logo.png"/>
                 </RouterLink>
                 
                 
@@ -263,7 +264,8 @@
       <!-- NON AUTH NAVBAR -->
       <div v-else class="w-full p-5 flex flex-col md:flex-row items-center h-full  border-b border-gray-300">
         <div class=" border-red-500   md:w-fit w-full flex flex-row justify-between items-center">
-            <LogoBlack/>
+            <!-- <LogoBlack/> -->
+            <img src="../assets/images/logo/whatsell_logo_black.png" class=" w-[200px]"/>
      
 
             <button @click="nav_open = !nav_open" class="text-black text-2xl font-bold inline-block md:hidden">

@@ -75,7 +75,7 @@
                                 </svg>
 
                                 <img :src="shop.profile.image_url" alt="Product Photo" 
-                                :class="true ?' outline outline-[#2585E9] outline-offset-2':''"
+                                :class="shop.is_verified ?' outline outline-[#2585E9] outline-offset-2':''"
                                 class="rounded-full size-[150px] object-cover">
                             </div>
                         </div>
@@ -94,7 +94,12 @@
                                 </span>
                             </div>
                             <p class="mt-2">
-                                {{ shop.description }}
+                                {{ displayText }} 
+                                 <!-- Toggle button -->
+                                <button @click="toggleSeemore" class=" text-blue-500 underline">
+                                    {{ is_expanded ? 'See Less' : 'See More' }}
+                                </button>
+                                <!-- <span class=" underline text-blue-500 cursor-pointer">see more</span> -->
                             </p>
                             <div class="text-gray-400 flex flex-col gap-4 text-[12px]">
                                 <span v-if="shop.owner.location" class=" whitespace-nowrap">
@@ -131,7 +136,7 @@
                             </div>
 
                             <!-- SHOP PROFILE STATS -->
-                            <div v-if="isAllowed()" class=" bg-[#F7F1FF] p-5 rounded-lg mt-3 w-full">
+                            <div v-if="false" class=" bg-[#F7F1FF] p-5 rounded-lg mt-3 w-full">
                                 <!-- HEADE -->
                                  <div class="flex flex-row justify-between">
                                     <div class="flex flex-row gap-6">
@@ -329,6 +334,7 @@ import {
 
         data(){
             return{
+                is_expanded: false,
                 Rocket,
                 shop_image: '',
                 shop_boost_duration: 1,
@@ -531,7 +537,21 @@ import {
             glipPreview(glip, index){
                 this.current_glip = glip;
                 this.glips_modal = !this.glips_modal
+            },
+
+            toggleSeemore(){
+                this.is_expanded = !this.is_expanded;
             }
+        },
+
+        computed:{
+            displayText(){
+                if(this.is_expanded){
+                    return this.shop.description;
+                } else {
+                    return this.shop.description.slice(0, 200) + '...';
+                }
+            },
         },
 
         created(){

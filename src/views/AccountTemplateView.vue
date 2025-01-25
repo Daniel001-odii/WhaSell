@@ -142,7 +142,7 @@ import { onMounted } from 'vue';
             
             completeOnboarding(){
                 console.log("onboarding 1 complete");
-                localStorage.setItem('onboarding1_complete', true);
+                localStorage.setItem('onboarding2_complete', true);
             },
             async getUserDetails(){
                 try{

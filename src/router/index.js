@@ -41,6 +41,7 @@ import ResetPasswordView from '@/views/ResetPasswordView.vue'
 
 
 import SearchResultsPageView from '@/views/SearchResultsPageView.vue'
+import TestView from '@/views/TestView.vue'
 
 const routes = [
   {
@@ -147,6 +148,13 @@ const routes = [
         name: 'Sub categories',
         component: CategoriesView,
         meta: { title: 'Sub categories' }
+      },
+
+      {
+        path: '/test',
+        name: 'onboard test',
+        component: TestView,
+        meta: { title: 'test' }
       },
 
      

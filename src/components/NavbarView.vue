@@ -63,7 +63,7 @@
             </div>
 
             <div class="flex flex-row items-center justify-center gap-3 relative">
-                <RouterLink :to="{ path: '/account/subscriptions', hash: '#coins' }">
+                <RouterLink :to="{ path: '/account/subscriptions', hash: '#coins' }" id="coins">
                     <span class="flex flex-row items-center font-bold text-xl" v-if="user"> <img src="../assets/images/coins_group.png" class=" h-[30px] mr-1"> {{formattedCoins}}</span>
                 </RouterLink>
                 <RouterLink to="/likes" class="hidden md:block">
@@ -74,7 +74,7 @@
 
                 <!-- <button v-if="premium" class="bg-orange-400 text-white rounded-lg px-8 p-2 text-sm hover:bg-orange-500">Upgrade</button> -->
                 
-                <div class="flex flex-row items-center gap-3">
+                <div class="flex flex-row items-center gap-3" id="user_menu">
                     <div class="flex flex-row gap-3 border-r border-gray-300">
                         
                        <!--  <CustomDropdown>
@@ -119,7 +119,7 @@
                         <template #trigger>
                            <!--  <div class=" uppercase font-bold flex justify-center items-center rounded-full !size-10 bg-green-500 text-white"> {{ user.username[0] }}{{ user.username[1] }}</div> -->
                            <!--  <i class="bi bi-person-circle text-4xl text-gray-400"></i> -->
-                            <img src="../assets/images/avatar.png" class=" size-10 rounded-full">
+                            <img src="../assets/images/avatar.png" class=" size-10 rounded-full" >
                         </template>
                         <template #menu>
                             <div class="text-black bg-white rounded-xl relative top-5 border w-[350px] p-3">
@@ -175,10 +175,10 @@
         </div>
 
         <!-- FOR MOBILE -->
-        <div v-if="true"  :class="isHidden ? '-bottom-20':'bottom-2'" class=" md:hidden bg-white text-gray-400 flex flex-row w-[95%] justify-around fixed left-0 right-0  border-t shadow-xl z-50 p-3 text-[10px] rounded-xl mx-auto items-center mobile-nav">
+        <div v-if="true"  :class="isHidden ? '-bottom-20':'bottom-2'" class=" md:hidden bg-white text-gray-400 flex flex-row w-[95%] justify-around fixed left-0 right-0  border-t shadow-xl z-10 p-3 text-[10px] rounded-xl mx-auto items-center mobile-nav">
         <!-- <div :class="isHidden ? '-bottom-20':'bottom-0'" class="mobile-nav"> -->
 
-            <RouterLink to="/market">
+            <RouterLink to="/market" id="home">
                 <button :class="isHome ? 'text-green-500  ':''" class="flex flex-col justify-center items-center">
                     <svg width="30" height="30" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <g clip-path="url(#clip0_470_61039)">
@@ -193,41 +193,36 @@
                     </svg>
                     <span>Market</span>
                 </button>
-
-              <!--   <button :class="isHome ? 'text-green-500  ':''" class="flex flex-col justify-center items-center">
-                    <i class="bi bi-house-door-fill mobile-menu-icon"></i>
-                    <span>Home</span>
-                </button> -->
             </RouterLink>
 
            
-            <RouterLink to="/likes">
+            <RouterLink to="/likes"  id="likes">
                 <button :class="isLikes ? 'text-green-500  ':''" class="flex flex-col justify-center items-center gap-3">
                     <i class="bi bi-hand-thumbs-up-fill mobile-menu-icon size-[20px]"></i>
                     <span>Likes</span>
                 </button>
             </RouterLink>
 
-            <RouterLink to="/products/new" v-if="user && user.account_type == 'seller'">
+            <RouterLink to="/products/new" v-if="user && user.account_type == 'seller'" id="new_product">
                 <button :class="isNewProduct ? 'text-green-500':''" class="flex flex-col justify-center items-center gap-3">
                     <i class="bi bi-plus-square-fill mobile-menu-icon size-[20px]"></i>
                     <span>New Product</span>
                 </button>
             </RouterLink>
             
-            <RouterLink to="/shops">
+            <RouterLink to="/shops"  id="shops">
                 <button :class="isShops ? 'text-green-500':''" class="flex flex-col justify-center items-center">
                     <!-- <i class="bi bi-bag-fill mobile-menu-icon"></i> -->
                     <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M22.9998 21.5H22.4373C22.3876 21.5 22.3399 21.4803 22.3047 21.4451C22.2696 21.41 22.2498 21.3623 22.2498 21.3125V13.3208C22.2502 13.291 22.2436 13.2615 22.2303 13.2348C22.217 13.208 22.1976 13.1849 22.1735 13.1672C22.1495 13.1495 22.1216 13.1378 22.0922 13.133C22.0627 13.1283 22.0326 13.1306 22.0042 13.1399C21.5741 13.2751 21.1274 13.3505 20.6767 13.364C20.6214 13.364 20.5689 13.3663 20.5173 13.3663C19.6505 13.3683 18.7976 13.1482 18.04 12.7269C17.9826 12.695 17.9181 12.6783 17.8525 12.6783C17.7869 12.6783 17.7223 12.695 17.665 12.7269C16.9076 13.1482 16.0548 13.3683 15.1881 13.3663C14.3263 13.3675 13.4789 13.1448 12.729 12.7199C12.6712 12.6871 12.6059 12.6699 12.5394 12.6699C12.473 12.6699 12.4077 12.6871 12.3498 12.7199C11.5887 13.1464 10.7304 13.3692 9.85795 13.3668C8.99031 13.3673 8.1376 13.1411 7.38435 12.7105C7.32607 12.6773 7.26016 12.6599 7.1931 12.6599C7.12604 12.6599 7.06014 12.6773 7.00185 12.7105C6.24861 13.1411 5.39589 13.3673 4.52826 13.3668C4.47717 13.3668 4.4256 13.3668 4.37029 13.3644H4.36748C3.90097 13.3504 3.43884 13.2701 2.99498 13.1258C2.96687 13.1167 2.93701 13.1144 2.90784 13.1191C2.87867 13.1237 2.85101 13.1352 2.82711 13.1526C2.80321 13.1699 2.78375 13.1927 2.77032 13.219C2.75689 13.2453 2.74987 13.2744 2.74982 13.304V21.3125C2.74982 21.3623 2.73007 21.41 2.6949 21.4451C2.65974 21.4803 2.61205 21.5 2.56232 21.5H2.02326C1.61826 21.5 1.26857 21.8113 1.25076 22.2163C1.2462 22.3175 1.2622 22.4186 1.29778 22.5135C1.33337 22.6083 1.3878 22.695 1.45781 22.7682C1.52781 22.8415 1.61193 22.8998 1.70509 22.9396C1.79824 22.9795 1.8985 23 1.99982 23H22.9764C23.3814 23 23.7311 22.6888 23.7489 22.2838C23.7534 22.1826 23.7374 22.0815 23.7019 21.9866C23.6663 21.8918 23.6118 21.8051 23.5418 21.7319C23.4718 21.6586 23.3877 21.6003 23.2946 21.5605C23.2014 21.5206 23.1011 21.5001 22.9998 21.5ZM10.9998 18.3125C10.9998 18.3623 10.9801 18.41 10.9449 18.4451C10.9097 18.4803 10.8621 18.5 10.8123 18.5H6.68732C6.63759 18.5 6.5899 18.4803 6.55474 18.4451C6.51958 18.41 6.49982 18.3623 6.49982 18.3125V15.3125C6.49982 15.1634 6.55909 15.0203 6.66458 14.9148C6.77006 14.8093 6.91314 14.75 7.06232 14.75H10.4373C10.5865 14.75 10.7296 14.8093 10.8351 14.9148C10.9406 15.0203 10.9998 15.1634 10.9998 15.3125V18.3125ZM18.3123 21.5H14.9373C14.8876 21.5 14.8399 21.4803 14.8047 21.4451C14.7696 21.41 14.7498 21.3623 14.7498 21.3125V15.3125C14.7498 15.1634 14.8091 15.0203 14.9146 14.9148C15.0201 14.8093 15.1631 14.75 15.3123 14.75H17.9373C18.0865 14.75 18.2296 14.8093 18.3351 14.9148C18.4406 15.0203 18.4998 15.1634 18.4998 15.3125V21.3125C18.4998 21.3623 18.4801 21.41 18.4449 21.4451C18.4097 21.4803 18.3621 21.5 18.3123 21.5Z" fill="currentColor"/>
-<path d="M23.5891 8.48187L21.5772 3.86516C21.0504 2.73219 19.8471 2 18.5116 2H6.48582C5.15035 2 3.94707 2.73219 3.4202 3.86516L1.40832 8.48187C0.986446 9.39172 1.54379 10.3259 1.54426 10.3264L1.55738 10.3475C1.58035 10.3841 1.62113 10.4412 1.64598 10.4778C1.64832 10.4806 1.6502 10.4839 1.65254 10.4872L1.88692 10.7708C1.89568 10.7815 1.90507 10.7917 1.91504 10.8012L2.14941 11.0277L2.1691 11.0445C2.30674 11.1625 2.45397 11.2688 2.60926 11.3623V11.3647C3.1194 11.6737 3.70061 11.846 4.29676 11.8648C4.3352 11.8648 4.37363 11.8648 4.41254 11.8648C5.31454 11.8665 6.18368 11.5263 6.84488 10.9128L6.86035 10.8983C6.92941 10.8332 7.02071 10.797 7.11559 10.797C7.21047 10.797 7.30177 10.8332 7.37082 10.8983L7.38629 10.9128C8.05454 11.5253 8.92809 11.8651 9.83457 11.8651C10.741 11.8651 11.6146 11.5253 12.2829 10.9128C12.3522 10.8486 12.4432 10.813 12.5376 10.813C12.6321 10.813 12.7231 10.8486 12.7924 10.9128C13.4587 11.5234 14.329 11.8629 15.2327 11.8649C16.1364 11.8669 17.0083 11.5312 17.6772 10.9236C17.7455 10.8603 17.8352 10.8252 17.9282 10.8252C18.0213 10.8252 18.111 10.8603 18.1793 10.9236C18.8489 11.5349 19.7246 11.871 20.6313 11.8648H20.748C21.3292 11.8431 21.8947 11.6703 22.3886 11.3633C22.4332 11.3366 22.4758 11.3084 22.5189 11.2803C22.8521 11.0557 23.142 10.7729 23.3749 10.4455L23.4564 10.3222C23.4646 10.3097 23.4721 10.2966 23.4789 10.2828C23.5568 10.1244 23.9739 9.30969 23.5891 8.48187Z" fill="currentColor"/>
-</svg>
+                        <path d="M22.9998 21.5H22.4373C22.3876 21.5 22.3399 21.4803 22.3047 21.4451C22.2696 21.41 22.2498 21.3623 22.2498 21.3125V13.3208C22.2502 13.291 22.2436 13.2615 22.2303 13.2348C22.217 13.208 22.1976 13.1849 22.1735 13.1672C22.1495 13.1495 22.1216 13.1378 22.0922 13.133C22.0627 13.1283 22.0326 13.1306 22.0042 13.1399C21.5741 13.2751 21.1274 13.3505 20.6767 13.364C20.6214 13.364 20.5689 13.3663 20.5173 13.3663C19.6505 13.3683 18.7976 13.1482 18.04 12.7269C17.9826 12.695 17.9181 12.6783 17.8525 12.6783C17.7869 12.6783 17.7223 12.695 17.665 12.7269C16.9076 13.1482 16.0548 13.3683 15.1881 13.3663C14.3263 13.3675 13.4789 13.1448 12.729 12.7199C12.6712 12.6871 12.6059 12.6699 12.5394 12.6699C12.473 12.6699 12.4077 12.6871 12.3498 12.7199C11.5887 13.1464 10.7304 13.3692 9.85795 13.3668C8.99031 13.3673 8.1376 13.1411 7.38435 12.7105C7.32607 12.6773 7.26016 12.6599 7.1931 12.6599C7.12604 12.6599 7.06014 12.6773 7.00185 12.7105C6.24861 13.1411 5.39589 13.3673 4.52826 13.3668C4.47717 13.3668 4.4256 13.3668 4.37029 13.3644H4.36748C3.90097 13.3504 3.43884 13.2701 2.99498 13.1258C2.96687 13.1167 2.93701 13.1144 2.90784 13.1191C2.87867 13.1237 2.85101 13.1352 2.82711 13.1526C2.80321 13.1699 2.78375 13.1927 2.77032 13.219C2.75689 13.2453 2.74987 13.2744 2.74982 13.304V21.3125C2.74982 21.3623 2.73007 21.41 2.6949 21.4451C2.65974 21.4803 2.61205 21.5 2.56232 21.5H2.02326C1.61826 21.5 1.26857 21.8113 1.25076 22.2163C1.2462 22.3175 1.2622 22.4186 1.29778 22.5135C1.33337 22.6083 1.3878 22.695 1.45781 22.7682C1.52781 22.8415 1.61193 22.8998 1.70509 22.9396C1.79824 22.9795 1.8985 23 1.99982 23H22.9764C23.3814 23 23.7311 22.6888 23.7489 22.2838C23.7534 22.1826 23.7374 22.0815 23.7019 21.9866C23.6663 21.8918 23.6118 21.8051 23.5418 21.7319C23.4718 21.6586 23.3877 21.6003 23.2946 21.5605C23.2014 21.5206 23.1011 21.5001 22.9998 21.5ZM10.9998 18.3125C10.9998 18.3623 10.9801 18.41 10.9449 18.4451C10.9097 18.4803 10.8621 18.5 10.8123 18.5H6.68732C6.63759 18.5 6.5899 18.4803 6.55474 18.4451C6.51958 18.41 6.49982 18.3623 6.49982 18.3125V15.3125C6.49982 15.1634 6.55909 15.0203 6.66458 14.9148C6.77006 14.8093 6.91314 14.75 7.06232 14.75H10.4373C10.5865 14.75 10.7296 14.8093 10.8351 14.9148C10.9406 15.0203 10.9998 15.1634 10.9998 15.3125V18.3125ZM18.3123 21.5H14.9373C14.8876 21.5 14.8399 21.4803 14.8047 21.4451C14.7696 21.41 14.7498 21.3623 14.7498 21.3125V15.3125C14.7498 15.1634 14.8091 15.0203 14.9146 14.9148C15.0201 14.8093 15.1631 14.75 15.3123 14.75H17.9373C18.0865 14.75 18.2296 14.8093 18.3351 14.9148C18.4406 15.0203 18.4998 15.1634 18.4998 15.3125V21.3125C18.4998 21.3623 18.4801 21.41 18.4449 21.4451C18.4097 21.4803 18.3621 21.5 18.3123 21.5Z" fill="currentColor"/>
+                        <path d="M23.5891 8.48187L21.5772 3.86516C21.0504 2.73219 19.8471 2 18.5116 2H6.48582C5.15035 2 3.94707 2.73219 3.4202 3.86516L1.40832 8.48187C0.986446 9.39172 1.54379 10.3259 1.54426 10.3264L1.55738 10.3475C1.58035 10.3841 1.62113 10.4412 1.64598 10.4778C1.64832 10.4806 1.6502 10.4839 1.65254 10.4872L1.88692 10.7708C1.89568 10.7815 1.90507 10.7917 1.91504 10.8012L2.14941 11.0277L2.1691 11.0445C2.30674 11.1625 2.45397 11.2688 2.60926 11.3623V11.3647C3.1194 11.6737 3.70061 11.846 4.29676 11.8648C4.3352 11.8648 4.37363 11.8648 4.41254 11.8648C5.31454 11.8665 6.18368 11.5263 6.84488 10.9128L6.86035 10.8983C6.92941 10.8332 7.02071 10.797 7.11559 10.797C7.21047 10.797 7.30177 10.8332 7.37082 10.8983L7.38629 10.9128C8.05454 11.5253 8.92809 11.8651 9.83457 11.8651C10.741 11.8651 11.6146 11.5253 12.2829 10.9128C12.3522 10.8486 12.4432 10.813 12.5376 10.813C12.6321 10.813 12.7231 10.8486 12.7924 10.9128C13.4587 11.5234 14.329 11.8629 15.2327 11.8649C16.1364 11.8669 17.0083 11.5312 17.6772 10.9236C17.7455 10.8603 17.8352 10.8252 17.9282 10.8252C18.0213 10.8252 18.111 10.8603 18.1793 10.9236C18.8489 11.5349 19.7246 11.871 20.6313 11.8648H20.748C21.3292 11.8431 21.8947 11.6703 22.3886 11.3633C22.4332 11.3366 22.4758 11.3084 22.5189 11.2803C22.8521 11.0557 23.142 10.7729 23.3749 10.4455L23.4564 10.3222C23.4646 10.3097 23.4721 10.2966 23.4789 10.2828C23.5568 10.1244 23.9739 9.30969 23.5891 8.48187Z" fill="currentColor"/>
+                    </svg>
                     <span>Shops</span>
                 </button>
             </RouterLink>
 
 
-            <RouterLink to="/glips" >
+            <RouterLink to="/glips" id="glips">
                 <button class="flex flex-col justify-center items-center" :class="isGlips ? 'text-green-500':''">
                     <!-- <i class="bi bi-play-btn-fill mobile-menu-icon"></i> -->
                     <svg width="25" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -242,7 +237,7 @@
         </div>
 
         <!-- SEARCH BAR AREA -->
-        <div class=" flex flex-col p-3 border-b w-full justify-center items-center sticky top-0 bg-inherit z-20 backdrop-blur-2xl border-t">
+        <div class=" flex flex-col p-3 border-b w-full justify-center items-center sticky top-0 bg-inherit backdrop-blur-2xl border-t">
             <form @submit.prevent="handleSearch()" class=" flex flex-row w-full md:w-[600px] rounded-full overflow-hidden gap-1 bg-white border">
                 <input 
                 v-model="searchQuery"
@@ -301,7 +296,33 @@
       
     </div>
 
-    
+
+    <!-- ONBOARDING STOPS -->
+    <VOnboardingWrapper ref="wrapper" :steps="steps" @finish="completeOnboarding()">
+      <template #default="{ previous, next, step, exit, isFirst, isLast, index }">
+        <VOnboardingStep>
+          <div class="bg-white shadow sm:rounded-lg">
+            <div class="px-4 py-5 sm:p-6">
+              <div class="sm:flex sm:items-center sm:justify-between">
+                <div v-if="step.content">
+                  <h3 v-if="step.content.title" class="text-lg font-medium leading-6 text-gray-900">{{ step.content.title }}</h3>
+                  <div v-if="step.content.description" class="mt-2 max-w-xl text-sm text-gray-500">
+                    <p>{{ step.content.description }}</p>
+                  </div>
+                </div>
+                <div class="mt-5 space-x-4 sm:mt-0 sm:ml-6 sm:flex sm:flex-shrink-0 sm:items-center relative">
+                  <span class="absolute right-0 bottom-full mb-2 mr-2 text-gray-600 font-medium text-xs">{{ `${index + 1}/${steps.length}` }}</span>
+                  <template v-if="!isFirst">
+                    <button @click="previous" type="button" class="inline-flex items-center justify-center rounded-md border border-transparent bg-yellow-100 px-4 py-2 font-medium text-yellow-700 hover:bg-yellow-200 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:ring-offset-2 sm:text-sm">Previous</button>
+                  </template>
+                  <button @click="next" type="button" class="inline-flex items-center rounded-md border border-transparent bg-app_green px-4 py-2 font-medium text-white shadow-sm hover:bg-ap_green focus:outline-none focus:ring-2 focus:ring-app_green focus:ring-offset-2 sm:text-sm">{{ isLast ? 'Finish' : 'Next' }}</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </VOnboardingStep>
+      </template>
+    </VOnboardingWrapper>
 </template>
 
 <script>
@@ -313,13 +334,84 @@ import FullPageModal from '../components/FullPageModal.vue';
 import { RouterLink } from 'vue-router';
 import { Handshake } from 'lucide-vue-next';
 
+
+import { defineComponent, ref } from 'vue'
+import { VOnboardingWrapper, VOnboardingStep, useVOnboarding } from 'v-onboarding'
+import 'v-onboarding/dist/style.css'
+
+import { onMounted } from 'vue';
+
+
 export default {
     name: "NavbarView",
     components: {
         LogoBlack,
         CustomDropdown,
-        FullPageModal
+        FullPageModal,
+        VOnboardingWrapper,
+        VOnboardingStep,
     },
+
+    setup() {
+      const wrapper = ref(null)
+      const { start, goToStep, finish } = useVOnboarding(wrapper)
+      const steps = [
+       /*  { 
+            attachTo: { element: '#home' }, 
+            content: { 
+                title: "Market",
+                description: "Buy and sell products, and get to know the best shops and products."
+            } 
+        },
+        { 
+            attachTo: { element: '#shops' }, 
+            content: { 
+                title: "All Shops" ,
+                description: "View all shops here, including your shop, shops you follow, boosted shops and shops near you."
+            } 
+        },
+        { 
+            attachTo: { element: '#glips' }, 
+            content: { 
+                title: "Glips-video",
+                description: "Watch short-form videos AKA glips, and get to know the best shops and products."
+            } 
+        }, */
+        { 
+            attachTo: { element: '#coins' }, 
+            content: { 
+                title: "Your Coins Your Credit",
+                description: "Coins can be used to boost your shop, make listings (products and glips), and even buy products, Yes!"
+            } 
+        },
+        /* { 
+            attachTo: { element: '#likes' }, 
+            content: { 
+                title: "Your Likes!",
+                description: "No we dont call it cart, we call it likes, save your favorite products for later here." 
+            } 
+        }, */
+        { 
+            attachTo: { element: '#user_menu' }, 
+            content: { 
+                title: "Your Account",
+                description: "View your profile details, manage your shop view your insights and analytics, manage your subscriptions and more."
+            } 
+        },
+      ];
+
+    onMounted(() => {
+        if(!localStorage.getItem('onboarding1_complete')){   
+            start()
+        }
+    })
+  
+      return {
+        wrapper,
+        steps
+      }
+    },
+
     data(){
         return{
             searchQuery:'',
@@ -363,6 +455,11 @@ export default {
         // toggleNotificationMenu (e) {
         //     this.notifications_menu = !this.notifications_menu;
         // },
+
+        completeOnboarding(){
+            console.log("onboarding 1 complete");
+            localStorage.setItem('onboarding1_complete', true);
+        },
 
         openFilter(){
             this.$emit('open-filter');
@@ -425,7 +522,7 @@ export default {
             }
             this.lastScrollY = currentScrollY; */
             const currentSrollPos = window.scrollY;
-            if(this.PreviousSrollPos > currentSrollPos){
+            if(this.PreviousSrollPos > currentSrollPos && false){
                 this.isHidden = false;
             } else {
                 this.isHidden = true;

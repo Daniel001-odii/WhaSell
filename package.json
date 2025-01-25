@@ -30,6 +30,7 @@
     "register-service-worker": "^1.7.2",
     "tailwind-merge": "^2.6.0",
     "tailwindcss-animate": "^1.0.7",
+    "v-onboarding": "^2.9.0",
     "vue": "^3.2.13",
     "vue-chartjs": "^5.3.1",
     "vue-draggable-next": "^2.2.1",

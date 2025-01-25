@@ -1,6 +1,7 @@
 <template>
+ 
  <!-- <SearchComponent apiEndpoint="/products/search/product" resultsPage="/search-results" /> -->
-        <NavbarView/>
+    <NavbarView/>
         <!-- <div class=" flex mt-6 h-screen max-h-[700px] w-full bg-green-800 justify-start p-12 text-left items-center text-white rounded-xl rounded-b-[10%]" style="clip-path: ellipse(98% 98% at 50% 0%); background: linear-gradient(135deg, #1F633D 0%, #16492D 46.219%, #FFBD00 100%);"> -->
        <!--  <div class=" flex mt-6 h-screen max-h-[700px] w-full bg-green-800 justify-start p-12 text-left items-center text-white rounded-xl" style=" background: linear-gradient(135deg, #1F633D 0%, #16492D 46.219%, #FFBD00 100%);">
             <div class="flex flex-col gap-5">
@@ -67,9 +68,6 @@
         </Carousel>
 
         
-
-
-    
         <!-- BEST DEALS FOR YOU TODAY -->
         <div class="divider">
             <div class="divider-item">
@@ -296,6 +294,7 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from '@/components/ui/carousel'
+
 
     export default {
         name: "MarketView",
@@ -531,6 +530,9 @@ import {
             }
 
             
+        },
+        mounted(){
+            // this.start();
         },
 
         created() {

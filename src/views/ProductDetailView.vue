@@ -1,9 +1,9 @@
 <template>
 
     <!-- PRODUCT DETAIL DIALOG -->
-<Dialog v-model:visible="show_full_description" modal header="Product Description" :style="{ width: '50rem' }" :breakpoints="{ '1199px': '75vw', '575px': '90vw' }">
+<!-- <Dialog v-model:visible="show_full_description" modal header="Product Description" :style="{ width: '50rem' }" :breakpoints="{ '1199px': '75vw', '575px': '90vw' }">
     <div v-html="product.description"></div>
-</Dialog>
+</Dialog> -->
 
 <FullPageModal v-if="proceed_to_buy">
 <!-- <FullPageModal> -->
@@ -137,7 +137,31 @@
         <div class="flex flex-col md:flex-row gap-5 mt-8 flex-wra relative" v-if="product">
             <!-- <div class="flex flex-col md:flex-row gap-5 mt-8 flex-wra p-5 relative" v-if="product"> -->
             <div class="flex flex-row gap-4 absolute right-5 text-xl">
-                <button @click="addProductToLikes(product._id)" class="h-8 w-8 rounded-full bg-white flex justify-center items-center border" :class="checkLikes(product._id) ? 'border-green-500':''">
+                 <!-- FOR NON AUTH USERS -->
+                 <Dialog v-if="!user">
+                    <DialogTrigger >
+                        <button class="h-8 w-8 rounded-full bg-white flex justify-center items-center border" :class="checkLikes(product._id) ? 'border-green-500':''">
+                            <i class="bi bi-hand-thumbs-up-fill text-green-500" v-if="checkLikes(product._id)"></i>
+                            <i class="bi bi-hand-thumbs-up" v-else></i>
+                        </button>
+                    </DialogTrigger>
+                    <DialogContent>
+                    <DialogHeader>
+                        <DialogTitle>Create an account</DialogTitle>
+                        <DialogDescription>Please create an account or <RouterLink to="/login" class="underline text-blue-500"> log in.</RouterLink> 
+                            This will allow you to like like products you are interested in, follow shops, boost your shop, and enjoy other exclusive features.
+                        </DialogDescription>
+                    </DialogHeader>
+
+                    <DialogFooter>
+                        <RouterLink to="/register">
+                            <button class="btn bg-app_green text-white">Register</button>
+                        </RouterLink>
+                    </DialogFooter>
+                    </DialogContent>
+                </Dialog>
+
+                <button v-else @click="addProductToLikes(product._id)" class="h-8 w-8 rounded-full bg-white flex justify-center items-center border" :class="checkLikes(product._id) ? 'border-green-500':''">
                     <i class="bi bi-hand-thumbs-up-fill text-green-500" v-if="checkLikes(product._id)"></i>
                     <i class="bi bi-hand-thumbs-up" v-else></i>
                 </button>
@@ -199,6 +223,25 @@
             <span class="text-xl font-bold">Similar Items you may like</span>
         </div>
     </div>
+
+    <div class=" flex flex-row items-start">
+        <div class="flex flex-row gap-3 overflow-x-auto mt-3 pt-5">
+            <ProductCard v-for="(item, index) in similar_products" class=" -mt-[15px] w-[200px]"
+                    :hasLikedButton="false"
+                    :id="item._id"
+                    :product_slug="item.slug"
+                    :views="item.views"
+                    :posted="item.createdAt"
+                    :product_price="item.price.toLocaleString()"
+                    :shop_name="item.shop.name"
+                    :is_liked="checkLikes(item._id)"
+                    @like-product="addProductToLikes(item._id)"
+                    :image_url="item.images[0]"
+                >
+            </ProductCard>
+        </div>
+    </div>
+    <!-- {{  similar_products }} -->
 <!-- {{ product.images[0] }} -->
         <!-- PRODUCT DISPLAY FOR SIMILAR ITEMS -->
         <!-- PRODCUT DISPLAY AREA -->
@@ -213,13 +256,10 @@ import ProductCard from '../components/ProductCard'
 import axios from 'axios';
 
 import {  formatJoinedDate } from '../utils/dateUtil'
-
 import { formatDistanceToNow } from 'date-fns'
-
 import FullPageModal from '../components/FullPageModal.vue'
 
 import Skeleton from 'primevue/skeleton'
-import Dialog from 'primevue/dialog';
 import Rating from 'primevue/rating';
 import Footer from '@/components/TheFooter.vue'
 /* 
@@ -227,6 +267,17 @@ import Footer from '@/components/TheFooter.vue'
 */
 import { useHead } from '@unhead/vue';
 import { useRoute } from 'vue-router';
+
+
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog'
 
 const route = useRoute();
 
@@ -236,9 +287,16 @@ const route = useRoute();
             ProductCard,
             Skeleton,
             FullPageModal,
-            Dialog,
             Rating,
-            Footer
+            Footer,
+            Dialog,
+            DialogContent,
+            DialogDescription,
+            DialogFooter,
+            DialogHeader,
+            DialogTitle,
+            DialogTrigger,
+
         },
         data(){
             return{
@@ -259,6 +317,7 @@ const route = useRoute();
                 rating_value: 3,
                 image_switcher: null,
                 proceed_to_buy: false,
+                similar_products: [],  
                 wa_message_text: `${window.location.href} ${encodeURIComponent('\n')} ${encodeURIComponent('\n')} ${encodeURIComponent('\n')}${encodeURIComponent('Hello i am interested in this product and would love to buy it now')}`,
             }
         },
@@ -335,13 +394,15 @@ const route = useRoute();
                 }
             },
 
-           /*  async getSimilarProducts(){
+            async getSimilarProducts(){
                 try{
-                    const response = await axios.get(`/products/similar_ones?keywords=`, )
+                    const response = await axios.get(`/products/similar/all?keyword=${this.product.name}`, );
+                    console.log(" all similar products: ", response);
+                    this.similar_products = response.data.products;
                 }catch(error){
-
+                    console.log("error getting similar products: ", error);
                 }
-            }, */
+            },
 
 
 
@@ -399,6 +460,9 @@ const route = useRoute();
 
                     // start image switching...
                     this.switch_images();
+
+                    // get similar products...
+                    this.getSimilarProducts()
 
                     /* 
                         SEO INTEGRATION

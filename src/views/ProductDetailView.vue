@@ -94,8 +94,10 @@
     <!-- PRODUCT DETAILS -->
     <div v-if="!loading && product" class="flex md:flex-col flex-col-reverse">
         <!-- {{ product.shop }} -->
+
+
+
         <!-- SHOP DETAIL BANNER -->
-        
         <div v-if="shop" class=" mt-3 border rounded-lg p-3 flex flex-row items-start justify-between gap-5 flex-wrap shadow-sm">
             <!-- <div class="flex flex-row items-start gap-3 w-full flex-wrap justify-between"> -->
                 <!-- SJOP IMAGE -->
@@ -132,7 +134,7 @@
 
 
         <!-- FULL PRODUCT DESRIPTION AND DETAILS -->
-        <div class="flex flex-col md:flex-row gap-5 mt-8 flex-wra relative" v-if="user_data && product">
+        <div class="flex flex-col md:flex-row gap-5 mt-8 flex-wra relative" v-if="product">
             <!-- <div class="flex flex-col md:flex-row gap-5 mt-8 flex-wra p-5 relative" v-if="product"> -->
             <div class="flex flex-row gap-4 absolute right-5 text-xl">
                 <button @click="addProductToLikes(product._id)" class="h-8 w-8 rounded-full bg-white flex justify-center items-center border" :class="checkLikes(product._id) ? 'border-green-500':''">
@@ -275,11 +277,16 @@ const route = useRoute();
             },
 
             checkLikes(product_id){
-                if(this.user_data.liked_products.includes(product_id)){
-                    return true;
+                if(this.user_data){
+                    if(this.user_data.liked_products.includes(product_id)){
+                        return true;
+                    } else {
+                        return false;
+                    }
                 } else {
                     return false;
                 }
+              
             },
 
             switch_images(){
@@ -453,10 +460,12 @@ const route = useRoute();
                     this.getUserDetails();
                     this.isLiked();
                 }catch(error){
-                    this.$toast.open({
-                        message: `${response.data.message}`,
+                    // inform user to signup..
+                    this.unauthorized_action = true;
+                  /*   this.$toast.open({
+                        message: `${error.response.data.message}`,
                         type: 'default',
-                    });
+                    }); */
                 }
             },
 

@@ -21,12 +21,18 @@
                 <CarouselContent>
                     <CarouselItem v-for="(image, index) in images" :key="index">
                         <div
-                            class="p-12 h-[300px] flex justify-end items-center text-right bg-white rounded-lg text-white"
+                            class="p-12 h-[300px] flex justify-center items-center text-center bg-white rounded-lg"
                             style="background-position: center; background-size: contain;"
                             :style="`background: url('${image}')`"
                         >
                             <div>
-                            <p class="text-4xl font-bold">Advert Space {{ index + 1 }}</p>
+                                <div class=" flex flex-col gap-2 justify-center items-center">
+                                    <p v-if="index == 0" class="text-4xl">Get the best product deals<br/> From Stores near you!</p>
+                                    <p v-if="index == 1"  class="text-4xl">Check out the best deals<br/> From Vendors across Nigeria</p>
+                                    <p v-if="index == 2"  class="text-4xl">Exclusive Discounts<br/> From Stores across Nigeria</p>
+            
+                                </div>
+                         
                             </div>
                         </div>
                         </CarouselItem>
@@ -326,7 +332,7 @@ import {
                 ],
                 plugin: 
                     Autoplay({
-                        delay: 3000,
+                        delay: 5000,
                         stopOnMouseEnter: true,
                         stopOnInteraction: false,
                     })

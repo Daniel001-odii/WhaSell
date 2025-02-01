@@ -58,7 +58,7 @@
 
     <!-- {{ product }} -->
 
-<div class=" ">
+<div class=" mb-20">
 
     <!-- ERROR GETTING PRODUCT DETAILS -->
     <div v-if="error_getting_product" class=" h-64 items-center flex flex-col justify-center text-gray-400 text-2xl">
@@ -202,6 +202,7 @@
         <!-- PRODCUT DISPLAY AREA -->
        
     </div>
+    <Footer/>
 </template>
 
 <script>
@@ -218,7 +219,7 @@ import FullPageModal from '../components/FullPageModal.vue'
 import Skeleton from 'primevue/skeleton'
 import Dialog from 'primevue/dialog';
 import Rating from 'primevue/rating';
-
+import Footer from '@/components/TheFooter.vue'
 /* 
     SEO INTEGRATION
 */
@@ -234,7 +235,8 @@ const route = useRoute();
             Skeleton,
             FullPageModal,
             Dialog,
-            Rating
+            Rating,
+            Footer
         },
         data(){
             return{
@@ -334,7 +336,7 @@ const route = useRoute();
 
             isAllowed(){
                 const user = localStorage.getItem('user');
-                return user === this.shop.owner._id;
+                return user === this.shop?.owner?._id;
             },
 
             checkShopFollower(){
@@ -347,7 +349,7 @@ const route = useRoute();
                     const response = await axios.get(`/shops/${shop_id}`);
 
                     this.shop = response.data.shop;
-                    this.shop_location = response.data.shop.owner.location
+                    this.shop_location = response.data?.shop?.owner?.location;
                     console.log('shop: ', this.shop)
                 }catch(error){
                     console.log("error getting shop..", error)

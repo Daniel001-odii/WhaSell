@@ -1,12 +1,12 @@
 <template>
   <footer class=" bg-white pt-24 border-t md:p-6">
 
-    <div class="flex flex-row flex-wrap justify-between container mx-auto gap-6 py-6">
+    <div class="flex flex-row flex-wrap justify-between md:container mx-auto gap-6">
       
       <!-- Logo and Description Section -->
       <div class="flex flex-col gap-3 w-full md:w-[35%]">
         <!-- <h2 class="text-2xl font-bold text-green-700">WhatSell</h2> -->
-        <img src="../assets/images/logo_black.svg" width="200px">
+        <img src="../assets/images/logo/whatsell_logo_black.png" class=" w-[120px]"/>
         <p class="text-gray-700 mt-4">
           WhatSell connects buyers and sellers seamlessly, bringing local shopping to your fingertips. Discover, buy, and sell effortlessly within your community and support local businesses and enjoy a smarter shopping experience!
         </p>

@@ -260,7 +260,7 @@
       <div v-else class="w-full p-5 flex flex-col md:flex-row items-center h-full  border-b border-gray-300">
         <div class=" border-red-500   md:w-fit w-full flex flex-row justify-between items-center">
             <!-- <LogoBlack/> -->
-            <img src="../assets/images/logo/whatsell_logo_black.png" class=" w-[200px]"/>
+            <img src="../assets/images/logo/whatsell_logo_black.png" class=" w-[120px]"/>
      
 
             <button @click="nav_open = !nav_open" class="text-black text-2xl font-bold inline-block md:hidden">
@@ -298,7 +298,7 @@
 
 
     <!-- ONBOARDING STOPS -->
-    <VOnboardingWrapper ref="wrapper" :steps="steps" @finish="completeOnboarding()">
+    <VOnboardingWrapper v-if="user" ref="wrapper" :steps="steps" @finish="completeOnboarding()">
       <template #default="{ previous, next, step, exit, isFirst, isLast, index }">
         <VOnboardingStep>
           <div class="bg-white shadow sm:rounded-lg">

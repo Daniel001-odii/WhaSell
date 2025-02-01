@@ -284,13 +284,13 @@ const route = useRoute();
 
             switch_images(){
                 this.image_switcher = setInterval(() => {
-                    this.main_image = this.product.images[this.index];
+                    this.main_image = this.product?.images[this.index];
                     this.index++
-                    if(this.index >= this.product.images.length){
+                    if(this.index >= this.product?.images?.length){
                         this.index = 0
                     }
                     console.log('switching images: ', this.index)
-                }, 3000)},
+                }, 5000)},
 
             check_views() {
                 const current_product = this.product._id;
@@ -389,6 +389,9 @@ const route = useRoute();
                     console.log(this.product);
                     // check views...
                     this.check_views();
+
+                    // start image switching...
+                    this.switch_images();
 
                     /* 
                         SEO INTEGRATION
@@ -489,7 +492,7 @@ const route = useRoute();
             this.getUserDetails();
             this.getProduct();
             this.checkUser();
-            this.switch_images();
+         
 
             // this.updateMetaTags();
             

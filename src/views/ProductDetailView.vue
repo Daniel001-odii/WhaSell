@@ -225,7 +225,7 @@
     </div>
 
     <div class=" flex flex-row items-start">
-        <div class="flex flex-row gap-3 overflow-x-auto mt-3 pt-5">
+        <div class="flex flex-row gap-3 overflow-x-auto mt-3 pt-5 flex-wrap">
             <ProductCard v-for="(item, index) in similar_products" class=" -mt-[15px] w-[200px]"
                     :hasLikedButton="false"
                     :id="item._id"
